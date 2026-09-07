@@ -3,40 +3,111 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10244a">
 <title>Memories Unlocked</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;background:#faf8f2;color:#10244a;font-family:Arial,sans-serif}.app{max-width:720px;margin:auto;padding:25px 18px 100px}.logo{font:bold 25px Georgia;margin-bottom:42px}.logo b{color:#d6a52f}.welcome{color:#d6a52f;font-weight:bold;font-size:12px;letter-spacing:2px}h1{font:700 48px/1.02 Georgia;margin:14px 0}.intro{font-size:18px;line-height:1.5;color:#737985}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0}.card{border:0;border-radius:22px;min-height:135px;padding:20px;text-align:left;font-size:18px;font-weight:bold}.navy{background:#10244a;color:white}.gold{background:#d6a52f;color:#10244a}.blue{background:#68aeb7;color:white}.cream{background:#f4e6c4;color:#10244a}h2{font:700 30px Georgia}.journey{background:white;border-radius:24px;overflow:hidden;box-shadow:0 4px 15px #0001}.hero{height:220px;padding:24px;color:white;display:flex;flex-direction:column;justify-content:end;background:linear-gradient(145deg,#69adb7,#10244a)}.hero h3{font:700 28px Georgia;margin:0 0 6px}.body{padding:20px;color:#737985;line-height:1.5}.quote{margin-top:28px;background:#10244a;color:white;border-radius:24px;padding:25px}.quote h3{font:700 27px Georgia}.nav{position:fixed;bottom:0;left:0;right:0;height:75px;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;align-items:center}.nav button{border:0;background:none;color:#555}
+*{box-sizing:border-box}
+body{margin:0;background:#faf8f2;color:#10244a;font-family:Arial,sans-serif}
+.app{max-width:720px;margin:auto;padding:25px 18px 100px}
+.logo{font:bold 25px Georgia;margin-bottom:42px}
+.logo b{color:#d6a52f}
+.welcome{color:#d6a52f;font-weight:bold;font-size:12px;letter-spacing:2px}
+h1{font:700 48px/1.02 Georgia;margin:14px 0}
+.intro{font-size:18px;line-height:1.5;color:#737985}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0}
+.card{border:0;border-radius:22px;min-height:135px;padding:20px;text-align:left;font-size:18px;font-weight:bold}
+.navy{background:#10244a;color:white}
+.gold{background:#d6a52f;color:#10244a}
+.blue{background:#68aeb7;color:white}
+.cream{background:#f4e6c4;color:#10244a}
+
+h2{font:700 30px Georgia}
+.journey{background:white;border-radius:24px;overflow:hidden;box-shadow:0 4px 15px #0001;margin-bottom:16px}
+.hero{min-height:190px;padding:24px;color:white;display:flex;flex-direction:column;justify-content:end;background:linear-gradient(145deg,#69adb7,#10244a)}
+.hero h3{font:700 27px Georgia;margin:0 0 6px}
+.body{padding:20px;color:#737985;line-height:1.5}
+
+.empty{background:white;padding:22px;border-radius:20px;color:#737985}
+
+.quote{margin-top:28px;background:#10244a;color:white;border-radius:24px;padding:25px}
+.quote h3{font:700 27px Georgia}
+
+.nav{position:fixed;bottom:0;left:0;right:0;height:75px;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;align-items:center}
+.nav button{border:0;background:none;color:#555;font-size:13px}
+
+.modal{display:none;position:fixed;inset:0;background:#08142bbb;z-index:20;align-items:flex-end}
+.modal.open{display:flex}
+.sheet{width:100%;max-width:720px;margin:auto;background:white;border-radius:28px 28px 0 0;padding:22px;max-height:90vh;overflow:auto}
+.close{float:right;border:0;background:none;font-size:28px;color:#10244a}
+.sheet h2{margin-top:8px}
+label{display:block;font-weight:bold;margin:14px 0 6px}
+input,textarea,select{width:100%;padding:14px;border:1px solid #ddd5c8;border-radius:12px;font-size:16px;background:white}
+textarea{min-height:100px;resize:vertical}
+.save{width:100%;margin-top:18px;border:0;border-radius:999px;padding:15px;background:#d6a52f;color:#10244a;font-weight:bold;font-size:16px}
+.small{font-size:13px;color:#737985}
 </style>
 </head>
+
 <body>
+
 <div class="app">
+
 <div class="logo">🔒 Memories <b>Unlocked</b></div>
+
 <div class="welcome">✨ WELCOME BACK, DAN</div>
+
 <h1>Every place<br>has a story.</h1>
-<p class="intro">Follow the footsteps. Unlock the memories. Leave a trail worth following.</p>
+
+<p class="intro">
+Follow the footsteps. Unlock the memories.
+Leave a trail worth following.
+</p>
 
 <div class="grid">
-<button class="card navy" onclick="alert('Create Journey')">＋<br><br>Create Journey</button>
-<button class="card gold" onclick="alert('Add Memory')">📍<br><br>Add Memory</button>
-<button class="card blue" onclick="alert('Memory Map')">🗺️<br><br>Explore My Map</button>
-<button class="card cream" onclick="alert('Follow Journey')">👣<br><br>Follow a Journey</button>
+
+<button class="card navy" onclick="openJourney()">
+＋<br><br>Create Journey
+</button>
+
+<button class="card gold" onclick="alert('Add Memory comes next')">
+📍<br><br>Add Memory
+</button>
+
+<button class="card blue" onclick="alert('Interactive map comes next')">
+🗺️<br><br>Explore My Map
+</button>
+
+<button class="card cream" onclick="alert('Follow Journey comes next')">
+👣<br><br>Follow a Journey
+</button>
+
 </div>
 
 <h2>My Journeys</h2>
-<div class="journey">
-<div class="hero"><h3>Claire & Dan — Our Story</h3><span>1998 → 2026</span></div>
-<div class="body">The places that have shaped our life together — a trail of love, laughter and unforgettable moments.<br><br><b>📍 4 memories</b></div>
-</div>
+
+<div id="journeyList"></div>
 
 <h2>Recent Memories</h2>
-<div class="journey"><div class="body">
+
+<div class="journey">
+<div class="body">
 <b>🌴 Claire's 50th</b> — Miami · 2026<br><br>
 <b>❤️ Where it began</b> — Hastings · 1998<br><br>
 <b>🔒 Location Lock</b> — Paris · 2004<br><br>
 <b>🕒 Open this when...</b> — Nassau · 2030
-</div></div>
+</div>
+</div>
 
-<div class="quote"><h3>Some memories are worth travelling for.</h3><p>Create a journey, leave memories at the places that matter, and invite the people you love to follow your footsteps.</p></div>
+<div class="quote">
+<h3>Some memories are worth travelling for.</h3>
+<p>
+Create a journey, leave memories at the places that matter,
+and invite the people you love to follow your footsteps.
+</p>
+</div>
+
 </div>
 
 <div class="nav">
@@ -45,5 +116,28 @@
 <button>▣<br>Journeys</button>
 <button>👣<br>Follow</button>
 </div>
-</body>
-</html>
+
+<div id="journeyModal" class="modal">
+<div class="sheet">
+
+<button class="close" onclick="closeJourney()">×</button>
+
+<div class="welcome">NEW CHAPTER</div>
+<h2>Create Journey</h2>
+
+<label>Journey name</label>
+<input id="title" placeholder="e.g. Our Rome Wedding">
+
+<label>Story</label>
+<textarea id="story" placeholder="What makes this journey meaningful?"></textarea>
+
+<label>Start date</label>
+<input id="startDate" type="date">
+
+<label>End date</label>
+<input id="endDate" type="date">
+
+<label>Main location</label>
+<input id="location" placeholder="e.g. Rome, Italy">
+
+<label>Who can see this?</
