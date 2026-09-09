@@ -37,8 +37,11 @@ h2{font:700 30px Georgia}
 .nav{position:fixed;bottom:0;left:0;right:0;height:75px;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;align-items:center}
 .nav button{border:0;background:none;color:#555;font-size:13px}
 
-.modal{display:none;position:fixed;inset:0;background:#08142bbb;z-index:20;align-items:flex-end}
-.modal.open{display:flex}
+.modal{border:0;padding:0;background:transparent;width:100%;max-width:720px;max-height:90vh;color:inherit}
+.modal::backdrop{background:#08142bbb}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed;opacity:.65}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #10244a;outline-offset:3px}
 .sheet{width:100%;max-width:720px;margin:auto;background:white;border-radius:28px 28px 0 0;padding:22px;max-height:90vh;overflow:auto}
 .close{float:right;border:0;background:none;font-size:28px;color:#10244a}
 .sheet h2{margin-top:8px}
@@ -67,7 +70,7 @@ Leave a trail worth following.
 
 <div class="grid">
 
-<button class="card navy" onclick="document.getElementById('journeyModal').classList.add('open')">
+<button class="card navy" onclick="openJourney()">
 ＋<br><br>Create Journey
 </button>
 
@@ -87,9 +90,9 @@ Leave a trail worth following.
 
 <h2>My Journeys</h2>
 
-<div id="journeyList"></div>
+<div id="journeyList" class="empty">Connect journey saving to load your journeys.</div>
 
-<h2>Recent Memories</h2>
+<h2>Example Memories</h2>
 
 <div class="journey">
 <div class="body">
@@ -117,27 +120,43 @@ and invite the people you love to follow your footsteps.
 <button>👣<br>Follow</button>
 </div>
 
-<div id="journeyModal" class="modal">
+<dialog id="journeyModal" class="modal" aria-labelledby="journeyHeading">
 <div class="sheet">
 
-<button class="close" onclick="closeJourney()">×</button>
+<button class="close" aria-label="Close journey form" onclick="closeJourney()">×</button>
 
 <div class="welcome">NEW CHAPTER</div>
-<h2>Create Journey</h2>
+<h2 id="journeyHeading">Create Journey</h2>
 
-<label>Journey name</label>
+<label for="title">Journey name</label>
 <input id="title" placeholder="e.g. Our Rome Wedding">
 
-<label>Story</label>
+<label for="story">Story</label>
 <textarea id="story" placeholder="What makes this journey meaningful?"></textarea>
 
-<label>Start date</label>
+<label for="startDate">Start date</label>
 <input id="startDate" type="date">
 
-<label>End date</label>
+<label for="endDate">End date</label>
 <input id="endDate" type="date">
 
-<label>Main location</label>
+<label for="location">Main location</label>
 <input id="location" placeholder="e.g. Rome, Italy">
 
-<label>Who can see this?</
+<label for="visibility">Who can see this?</label>
+<select id="visibility" disabled aria-describedby="savingStatus"><option>Only me</option></select>
+<p id="savingStatus" class="small" role="status">Journey saving is not connected yet. Details entered here will not be saved or shared.</p>
+<button class="save" disabled>Saving unavailable</button>
+</div>
+</dialog>
+<script>
+function openJourney() {
+  document.getElementById('journeyModal').showModal();
+}
+function closeJourney() {
+  document.getElementById('journeyModal').close();
+}
+</script>
+</body>
+</html>
+
