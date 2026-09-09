@@ -4,159 +4,80 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#10244a">
+<meta name="description" content="Keep the journeys and memories that matter, ready for the people who may one day follow your footsteps.">
 <title>Memories Unlocked</title>
-
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#faf8f2;color:#10244a;font-family:Arial,sans-serif}
-.app{max-width:720px;margin:auto;padding:25px 18px 100px}
-.logo{font:bold 25px Georgia;margin-bottom:42px}
-.logo b{color:#d6a52f}
-.welcome{color:#d6a52f;font-weight:bold;font-size:12px;letter-spacing:2px}
-h1{font:700 48px/1.02 Georgia;margin:14px 0}
-.intro{font-size:18px;line-height:1.5;color:#737985}
-
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0}
-.card{border:0;border-radius:22px;min-height:135px;padding:20px;text-align:left;font-size:18px;font-weight:bold}
-.navy{background:#10244a;color:white}
-.gold{background:#d6a52f;color:#10244a}
-.blue{background:#68aeb7;color:white}
-.cream{background:#f4e6c4;color:#10244a}
-
-h2{font:700 30px Georgia}
-.journey{background:white;border-radius:24px;overflow:hidden;box-shadow:0 4px 15px #0001;margin-bottom:16px}
-.hero{min-height:190px;padding:24px;color:white;display:flex;flex-direction:column;justify-content:end;background:linear-gradient(145deg,#69adb7,#10244a)}
-.hero h3{font:700 27px Georgia;margin:0 0 6px}
-.body{padding:20px;color:#737985;line-height:1.5}
-
-.empty{background:white;padding:22px;border-radius:20px;color:#737985}
-
-.quote{margin-top:28px;background:#10244a;color:white;border-radius:24px;padding:25px}
-.quote h3{font:700 27px Georgia}
-
-.nav{position:fixed;bottom:0;left:0;right:0;height:75px;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;align-items:center}
-.nav button{border:0;background:none;color:#555;font-size:13px}
-
-.modal{border:0;padding:0;background:transparent;width:100%;max-width:720px;max-height:90vh;color:inherit}
-.modal::backdrop{background:#08142bbb}
-button{cursor:pointer}
-button:disabled{cursor:not-allowed;opacity:.65}
-button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #10244a;outline-offset:3px}
-.sheet{width:100%;max-width:720px;margin:auto;background:white;border-radius:28px 28px 0 0;padding:22px;max-height:90vh;overflow:auto}
-.close{float:right;border:0;background:none;font-size:28px;color:#10244a}
-.sheet h2{margin-top:8px}
-label{display:block;font-weight:bold;margin:14px 0 6px}
-input,textarea,select{width:100%;padding:14px;border:1px solid #ddd5c8;border-radius:12px;font-size:16px;background:white}
-textarea{min-height:100px;resize:vertical}
-.save{width:100%;margin-top:18px;border:0;border-radius:999px;padding:15px;background:#d6a52f;color:#10244a;font-weight:bold;font-size:16px}
-.small{font-size:13px;color:#737985}
-</style>
+<link rel="stylesheet" href="styles.css">
+<script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
+<script defer src="config.js"></script>
+<script defer src="data.js"></script>
+<script defer src="app.js"></script>
 </head>
-
 <body>
-
-<div class="app">
-
-<div class="logo">🔒 Memories <b>Unlocked</b></div>
-
-<div class="welcome">✨ WELCOME BACK, DAN</div>
-
+<main class="app" id="home">
+<header><div class="logo">🔒 Memories <b>Unlocked</b></div><button id="accountButton" class="outline" disabled>Account</button></header>
+<p class="eyebrow">YOUR PLACES. YOUR PEOPLE. YOUR STORY.</p>
 <h1>Every place<br>has a story.</h1>
-
-<p class="intro">
-Follow the footsteps. Unlock the memories.
-Leave a trail worth following.
-</p>
-
+<p class="intro">Keep the moments that matter. Leave a trail worth following.</p>
+<p id="connectionStatus" class="notice" role="status">Connecting to your account…</p>
+<noscript><p class="notice">Please enable JavaScript to sign in and save your journeys.</p></noscript>
 <div class="grid">
-
-<button class="card navy" onclick="openJourney()">
-＋<br><br>Create Journey
-</button>
-
-<button class="card gold" onclick="alert('Add Memory comes next')">
-📍<br><br>Add Memory
-</button>
-
-<button class="card blue" onclick="alert('Interactive map comes next')">
-🗺️<br><br>Explore My Map
-</button>
-
-<button class="card cream" onclick="alert('Follow Journey comes next')">
-👣<br><br>Follow a Journey
-</button>
-
+<button id="newJourney" class="card navy" disabled><span aria-hidden="true">＋</span>Create Journey</button>
+<button id="newMemory" class="card gold" disabled><span aria-hidden="true">📍</span>Add Memory</button>
+<button class="card blue" disabled><span aria-hidden="true">🗺️</span>Explore My Map<small>Coming later</small></button>
+<button class="card cream" disabled><span aria-hidden="true">👣</span>Follow a Journey<small>Coming later</small></button>
 </div>
-
-<h2>My Journeys</h2>
-
-<div id="journeyList" class="empty">Connect journey saving to load your journeys.</div>
-
-<h2>Example Memories</h2>
-
-<div class="journey">
-<div class="body">
-<b>🌴 Claire's 50th</b> — Miami · 2026<br><br>
-<b>❤️ Where it began</b> — Hastings · 1998<br><br>
-<b>🔒 Location Lock</b> — Paris · 2004<br><br>
-<b>🕒 Open this when...</b> — Nassau · 2030
-</div>
-</div>
-
-<div class="quote">
-<h3>Some memories are worth travelling for.</h3>
-<p>
-Create a journey, leave memories at the places that matter,
-and invite the people you love to follow your footsteps.
-</p>
-</div>
-
-</div>
-
-<div class="nav">
-<button>🏠<br>Home</button>
-<button>🗺️<br>Map</button>
-<button>▣<br>Journeys</button>
-<button>👣<br>Follow</button>
-</div>
-
-<dialog id="journeyModal" class="modal" aria-labelledby="journeyHeading">
-<div class="sheet">
-
-<button class="close" aria-label="Close journey form" onclick="closeJourney()">×</button>
-
-<div class="welcome">NEW CHAPTER</div>
-<h2 id="journeyHeading">Create Journey</h2>
-
-<label for="title">Journey name</label>
-<input id="title" placeholder="e.g. Our Rome Wedding">
-
-<label for="story">Story</label>
-<textarea id="story" placeholder="What makes this journey meaningful?"></textarea>
-
-<label for="startDate">Start date</label>
-<input id="startDate" type="date">
-
-<label for="endDate">End date</label>
-<input id="endDate" type="date">
-
-<label for="location">Main location</label>
-<input id="location" placeholder="e.g. Rome, Italy">
-
-<label for="visibility">Who can see this?</label>
-<select id="visibility" disabled aria-describedby="savingStatus"><option>Only me</option></select>
-<p id="savingStatus" class="small" role="status">Journey saving is not connected yet. Details entered here will not be saved or shared.</p>
-<button class="save" disabled>Saving unavailable</button>
-</div>
-</dialog>
-<script>
-function openJourney() {
-  document.getElementById('journeyModal').showModal();
-}
-function closeJourney() {
-  document.getElementById('journeyModal').close();
-}
-</script>
-</body>
-</html>
-
+<section id="journeys" aria-labelledby="journeysHeading">
+<div class="sectionHeading"><h2 id="journeysHeading">My Journeys</h2><button id="refreshJourneys" class="outline" disabled>Refresh</button></div>
+<div id="journeyList"><p class="empty">Sign in to see your journeys.</p></div>
+<button id="moreJourneys" class="outline" hidden>Load more journeys</button>
+</section>
+<section id="memories" aria-labelledby="memoriesHeading">
+<h2 id="memoriesHeading">Your memories</h2>
+<p id="memoryIntro">Choose a journey to open its story.</p>
+<div id="memoryList"></div>
+<button id="moreMemories" class="outline" hidden>Load more memories</button>
+</section>
+<aside class="quote"><h2>Some memories are worth travelling for.</h2><p>The places that shaped your life. The stories you want to keep. Start with one journey.</p></aside>
+</main>
+<nav class="nav" aria-label="Main navigation"><a href="#home">Home</a><a href="#journeys">Journeys</a><a href="#memories">Memories</a></nav>
+<dialog id="authModal" aria-labelledby="authHeading"><div class="sheet">
+<button type="button" class="close" data-close="authModal" aria-label="Close account">×</button>
+<p class="eyebrow">YOUR PERSONAL COLLECTION</p><h2 id="authHeading">Sign in</h2>
+<form id="authForm">
+<label for="email">Email address</label><input id="email" type="email" autocomplete="email" required maxlength="254">
+<label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required minlength="1" maxlength="128">
+<p class="small">Creating an account? Use at least 8 characters. We’ll ask you to confirm your email.</p>
+<button type="submit" id="signIn" class="save">Sign in</button>
+<button type="submit" id="signUp" class="outline wide">Create account</button>
+</form>
+<div id="signedInPanel" hidden><p id="accountEmail"></p><button id="signOut" class="outline">Sign out on this device</button></div>
+<p id="authStatus" role="status" class="notice" hidden></p>
+</div></dialog>
+<dialog id="journeyModal" aria-labelledby="journeyHeading"><div class="sheet">
+<button type="button" class="close" data-close="journeyModal" aria-label="Close journey form">×</button>
+<p class="eyebrow">NEW CHAPTER</p><h2 id="journeyHeading">Create Journey</h2>
+<form id="journeyForm">
+<label for="title">Journey name</label><input id="title" required maxlength="120" placeholder="e.g. Our Rome Wedding">
+<label for="story">Your story</label><textarea id="story" maxlength="10000" placeholder="What makes this journey meaningful?"></textarea>
+<div class="dateGrid"><div><label for="startDate">Start date</label><input id="startDate" type="date"></div><div><label for="endDate">End date</label><input id="endDate" type="date"></div></div>
+<p class="small">Past dates are welcome. Leave the end date empty for an ongoing journey.</p>
+<label for="location">Main location</label><input id="location" maxlength="200" placeholder="e.g. Rome, Italy">
+<p class="privacy">🔒 Only you can see this journey. Sharing will come later.</p>
+<button type="submit" id="saveJourney" class="save">Save journey</button>
+<p id="journeyStatus" role="status" class="notice" hidden></p>
+</form></div></dialog>
+<dialog id="memoryModal" aria-labelledby="memoryHeading"><div class="sheet">
+<button type="button" class="close" data-close="memoryModal" aria-label="Close memory form">×</button>
+<p class="eyebrow">A MOMENT TO KEEP</p><h2 id="memoryHeading">Add Memory</h2>
+<form id="memoryForm">
+<label for="memoryJourney">Journey</label><select id="memoryJourney" required></select>
+<p class="small">Choose from your loaded journeys. Use “Load more journeys” to find older ones.</p>
+<label for="memoryTitle">Memory name</label><input id="memoryTitle" required maxlength="120" placeholder="e.g. The moment we said yes">
+<label for="memoryStory">What do you want to remember?</label><textarea id="memoryStory" required maxlength="10000" placeholder="The little details. How it felt. Who was there."></textarea>
+<label for="memoryDate">Date of the memory</label><input id="memoryDate" type="date">
+<label for="memoryLocation">Place</label><input id="memoryLocation" maxlength="200" placeholder="e.g. Rome City Hall">
+<p class="privacy">🔒 This memory stays in your private collection.</p>
+<button type="submit" id="saveMemory" class="save">Save memory</button>
+<p id="memoryStatus" role="status" class="notice" hidden></p>
+</form></div></dialog>
+</body></html>

@@ -1,0 +1,37 @@
+// Optional isolated PostgreSQL check; does not contact the live Supabase project.
+const {PGlite}=require(process.env.MEMORIES_PGLITE_MODULE || '@electric-sql/pglite');
+const fs=require('node:fs');
+const path=require('node:path');
+const assert=require('node:assert/strict');
+(async()=>{
+ const db=new PGlite();
+ const a='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',b='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+ const j='11111111-1111-4111-8111-111111111111';
+ await db.exec(`create role anon nologin; create role authenticated nologin; create schema auth;
+ create table auth.users(id uuid primary key);
+ create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
+ grant usage on schema auth to anon,authenticated;
+ insert into auth.users values ('${a}'),('${b}');`);
+ const migration=fs.readFileSync(path.join(__dirname,'../supabase/001_private_collection.sql'),'utf8');
+ await db.exec(migration);
+ await db.exec(`set role authenticated; set request.jwt.claim.sub='${a}';`);
+ await db.query('insert into journeys(id,title,start_date,end_date) values ($1,$2,$3,$4)',[j,'Rome','1998-03-20','1998-03-21']);
+ assert.equal((await db.query('select * from journeys')).rows.length,1);
+ await assert.rejects(db.query('insert into journeys(title,owner_id) values ($1,$2)',['Spoof',b]),/row-level security/);
+ await assert.rejects(db.query("insert into journeys(title,start_date,end_date) values ('Bad dates','2026-02-02','2026-01-01')"),/check constraint/);
+ await db.query('insert into memories(journey_id,title,story) values ($1,$2,$3)',[j,'A moment','Our story']);
+ await db.exec(`set request.jwt.claim.sub='${b}';`);
+ assert.equal((await db.query('select * from journeys')).rows.length,0);
+ assert.equal((await db.query('select * from memories')).rows.length,0);
+ await assert.rejects(db.query('insert into memories(journey_id,title,story) values ($1,$2,$3)',[j,'Wrong owner','Should fail']),/foreign key/);
+ await db.exec('reset role; set role anon;');
+ await assert.rejects(db.query('select * from journeys'),/permission denied/);
+ await assert.rejects(db.query("insert into journeys(title) values ('Anonymous')"),/permission denied/);
+ await db.exec('reset role;');
+ await assert.rejects(db.exec(migration),/already exists/);
+ await db.exec('rollback;');
+ assert.equal((await db.query('select * from journeys')).rows.length,1);
+ assert.equal((await db.query('select * from memories')).rows.length,1);
+ await db.close();
+ console.log('PASS: migration, owned writes, owner isolation, spoof rejection, foreign ownership, date constraints, anonymous denial, safe rerun failure.');
+})().catch(error=>{console.error(error);process.exitCode=1;});
