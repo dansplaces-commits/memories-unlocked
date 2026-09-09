@@ -3,6 +3,9 @@
   const $ = id => document.getElementById(id);
   const status = (id,message,error=false) => {const el=$(id);el.textContent=message;el.hidden=!message;el.classList.toggle('error',error);};
   const errorMessage = error => {
+    if(error?.code === 'over_email_send_rate_limit' || /email.*rate limit/i.test(error?.message || '')) return 'Email sending is temporarily limited. Check your inbox and spam for an earlier email. Please wait before requesting another; signing in still works for confirmed accounts.';
+    if(error?.code === 'email_not_confirmed') return 'Confirm your email before signing in. Check your inbox and spam, or use Resend confirmation email once the email limit has reset.';
+    if(error?.code === 'reauthentication_needed') return 'For security, sign out and sign back in, then try changing your password again.';
     if(['PGRST205','42P01','42703'].includes(error?.code)) return 'Journey storage is not ready yet. Please try again after setup is complete. Your form has not been cleared.';
     if(error?.code === '42501') return 'Your account cannot access this record. Please sign in again or contact support.';
     if(error?.message === 'Failed to fetch' || error?.name === 'TypeError') return 'We could not reach your collection. Check your connection and try again.';
@@ -12,6 +15,7 @@
   const displayDate = value => value ? new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric'}).format(new Date(value+'T12:00:00')) : '';
   let client,repo,user=null,journeys=[],memories=[],selected=null,epoch=0,memoryRequest=0,journeyRequest=0;
   let journeyDraft=null,memoryDraft=null,saveBusy=false,authBusy=false;
+  let editing=null,recovery=false,emailNextAt=0;
   const open = id => {if(!$(id).open)$(id).showModal();};
   const requireUser = () => {if(user)return true;open('authModal');return false;};
   function controls() {
@@ -23,11 +27,13 @@
     $('authForm').hidden=!!user;
     $('signedInPanel').hidden=!user;
     $('accountEmail').textContent=user?.email || '';
+    $('authHeading').textContent=user?'My account':'Sign in';
   }
   function clearCollection() {
     journeys=[];memories=[];selected=null;journeyDraft=null;memoryDraft=null;
+    editing=null;recovery=false;$('editForm').reset();$('passwordForm').reset();
     $('journeyForm').reset();$('memoryForm').reset();$('password').value='';
-    for(const id of ['journeyModal','memoryModal']) $(id).close();
+    for(const id of ['journeyModal','memoryModal','editModal','passwordModal']) $(id).close();
     $('journeyList').replaceChildren(element('p','Sign in to see your journeys.','empty'));
     $('memoryList').replaceChildren();$('memoryIntro').textContent='Choose a journey to open its story.';
     $('memoryJourney').replaceChildren();$('moreJourneys').hidden=true;$('moreMemories').hidden=true;
@@ -42,7 +48,10 @@
       body.append(element('p',journey.story || 'A new chapter, ready for your memories.'));
       const button=element('button','Open journey','outline');button.type='button';
       button.addEventListener('click',()=>{selected=journey;loadMemories(false);$('memories').scrollIntoView();});
-      body.append(button);card.append(hero,body);list.append(card);
+      const edit=element('button','Edit journey','outline');edit.type='button';
+      edit.addEventListener('click',()=>openEditor('journey',journey));
+      const actions=element('div',undefined,'actions');actions.append(button,edit);
+      body.append(actions);card.append(hero,body);list.append(card);
     }
     const previous=$('memoryJourney').value;
     $('memoryJourney').replaceChildren(...journeys.map(j=>{const option=element('option',j.title);option.value=j.id;return option;}));
@@ -69,9 +78,91 @@
     for(const memory of memories) {
       const card=element('article',undefined,'memory');
       card.append(element('h3',memory.title),element('p',[displayDate(memory.memory_date),memory.location].filter(Boolean).join(' · '),'meta'),element('p',memory.story));
+      const edit=element('button','Edit memory','outline');edit.type='button';
+      edit.addEventListener('click',()=>openEditor('memory',memory));card.append(edit);
       $('memoryList').append(card);
     }
   }
+  function openEditor(kind,row) {
+    if(saveBusy || authBusy || !requireUser())return;
+    editing={kind,row:{...row}};$('editForm').reset();status('editStatus','');
+    $('editHeading').textContent=kind==='journey'?'Edit journey':'Edit memory';
+    for(const [id,key] of [['editTitle','title'],['editStory','story'],['editLocation','location'],['editStartDate','start_date'],['editEndDate','end_date'],['editMemoryDate','memory_date']])$(id).value=row[key] || '';
+    $('editStory').required=kind==='memory';
+    $('editJourneyDates').hidden=kind!=='journey';$('editMemoryDateGroup').hidden=kind!=='memory';
+    $('editStartDate').disabled=kind!=='journey';$('editEndDate').disabled=kind!=='journey';$('editMemoryDate').disabled=kind!=='memory';
+    open('editModal');
+  }
+  $('editModal').addEventListener('close',()=>{editing=null;$('editForm').reset();status('editStatus','');});
+  $('editForm').addEventListener('submit',async event=>{
+    event.preventDefault();if(saveBusy || authBusy || !editing || !requireUser())return;
+    const target=editing,stamp=epoch;
+    const input={title:$('editTitle').value,story:$('editStory').value,location:$('editLocation').value,start_date:$('editStartDate').value,end_date:$('editEndDate').value,memory_date:$('editMemoryDate').value};
+    saveBusy=true;$('saveEdit').disabled=true;status('editStatus','Saving changes…');
+    try {
+      const row=target.kind==='journey'?await repo.updateJourney(input,target.row):await repo.updateMemory(input,target.row);
+      if(stamp!==epoch)return;
+      if(target.kind==='journey'){
+        journeyRequest++;journeys=journeys.map(j=>j.id===row.id?row:j);renderJourneys();
+        if(selected?.id===row.id){selected=row;$('memoryIntro').textContent=row.title+' · Most recently added first';}
+        $('refreshJourneys').disabled=false;$('moreJourneys').disabled=false;
+      }else{
+        memoryRequest++;memories=memories.map(m=>m.id===row.id?row:m);renderMemories();$('moreMemories').disabled=false;
+      }
+      $('editModal').close();status('connectionStatus','Changes saved to your private collection.');
+    }catch(error){if(stamp===epoch)status('editStatus',error?.code==='42501'?'Editing is not enabled for this record yet. Your original is unchanged. Complete the owner-editing database setup, then retry.':errorMessage(error),true);}
+    finally{saveBusy=false;$('saveEdit').disabled=false;}
+  });
+  function openPassword(isRecovery=false) {
+    if(!user)return;
+    recovery=isRecovery;$('passwordForm').reset();status('passwordStatus','');
+    $('passwordHeading').textContent=isRecovery?'Set a new password':'Change password';
+    $('currentPasswordGroup').hidden=isRecovery;$('currentPassword').required=!isRecovery;
+    $('currentPassword').disabled=isRecovery;
+    $('authModal').close();open('passwordModal');
+  }
+  $('passwordModal').addEventListener('close',()=>{$('passwordForm').reset();recovery=false;status('passwordStatus','');});
+  $('changePassword').addEventListener('click',()=>{if(!saveBusy && !authBusy)openPassword();});
+  $('passwordForm').addEventListener('submit',async event=>{
+    event.preventDefault();if(authBusy || saveBusy || !requireUser())return;
+    const stamp=epoch,ownerId=user.id,isRecovery=recovery;
+    const password=$('newPassword').value;
+    if(password.length<12 || password.length>128){status('passwordStatus','Use between 12 and 128 characters.',true);return;}
+    if(password!==$('confirmPassword').value){status('passwordStatus','The new passwords do not match.',true);return;}
+    authBusy=true;$('savePassword').disabled=true;status('passwordStatus','Updating your password…');
+    try {
+      if(!isRecovery){
+        const {data,error}=await client.auth.signInWithPassword({email:user.email,password:$('currentPassword').value});
+        if(error)throw error;
+        if(data.user?.id!==ownerId)throw new Error('Your account changed. Please sign in again.');
+      }
+      if(stamp!==epoch || user?.id!==ownerId)return;
+      const {data:verified,error:verificationError}=await client.auth.getUser();
+      if(verificationError || verified?.user?.id!==ownerId)throw new Error('Your session expired or changed. Please sign in again or request a new reset link.');
+      const {error}=await client.auth.updateUser({password});if(error)throw error;
+      if(stamp!==epoch)return;
+      $('passwordModal').close();status('connectionStatus','Password updated. Update your password manager with the new password.');
+    }catch(error){if(stamp===epoch)status('passwordStatus',errorMessage(error),true);}
+    finally{authBusy=false;$('savePassword').disabled=false;$('currentPassword').value='';$('newPassword').value='';$('confirmPassword').value='';}
+  });
+  async function sendAccountEmail(kind) {
+    if(authBusy || saveBusy)return;
+    if(!$('email').reportValidity())return;
+    if(Date.now()<emailNextAt){status('authStatus','Please wait before requesting another email. Check your inbox and spam for the earlier message.',true);return;}
+    authBusy=true;emailNextAt=Date.now()+60000;
+    $('forgotPassword').disabled=true;$('resendConfirmation').disabled=true;
+    status('authStatus','Requesting your email…');
+    try {
+      const email=$('email').value.trim();
+      // Use the configured Supabase Site URL; never guess or accept an arbitrary redirect.
+      const {error}=kind==='reset'?await client.auth.resetPasswordForEmail(email):await client.auth.resend({type:'signup',email});
+      if(error)throw error;
+      status('authStatus',kind==='reset'?'If this address has an account, you will receive a password reset email. Check your inbox and spam.':'If confirmation is still needed, check your inbox and spam for the confirmation email.');
+    }catch(error){status('authStatus',errorMessage(error),true);}
+    finally{authBusy=false;$('forgotPassword').disabled=false;$('resendConfirmation').disabled=false;}
+  }
+  $('forgotPassword').addEventListener('click',()=>sendAccountEmail('reset'));
+  $('resendConfirmation').addEventListener('click',()=>sendAccountEmail('confirmation'));
   async function loadMemories(append=false) {
     if(!user || !selected)return;
     const request=++memoryRequest,stamp=epoch,journey=selected;
@@ -151,9 +242,11 @@
       client=window.supabase.createClient(MEMORIES_CONFIG.url,MEMORIES_CONFIG.publishableKey);
       repo=MemoriesData.createRepository(client);controls();
       // Defer SDK calls until after the auth callback releases its lock.
-      client.auth.onAuthStateChange((event,session)=>{setTimeout(()=>applySession(session),0);});
+      client.auth.onAuthStateChange((event,session)=>{setTimeout(()=>{applySession(session);if(event==='PASSWORD_RECOVERY' && session?.user)openPassword(true);},0);});
       const {data,error}=await client.auth.getSession();if(error)throw error;
       if(data.session)applySession(data.session);else status('connectionStatus','Sign in to keep your journeys and memories together across devices.');
+      const callbackError=new URLSearchParams(location.hash.slice(1)).get('error_description') || new URLSearchParams(location.search).get('error_description');
+      if(callbackError){status('connectionStatus','That email link is invalid or has expired. Sign in normally, or request a new email from the account screen.',true);history.replaceState(null,'',location.pathname);}
     }catch(error){status('connectionStatus',errorMessage(error),true);}
   }
   initialise();

@@ -36,3 +36,8 @@ For the optional SQL test, install `@electric-sql/pglite` in an isolated develop
 5. Use a preview deployment to create two test accounts, confirm email, save and reload each collection, then test account isolation before releasing.
 
 GitHub source writes and Supabase database administration are separate permissions. No database password or admin token is stored here. The publishable key does not grant database-administration access.
+# Latest draft update — 9 September 2026
+
+See `docs/PROJECT_STATUS.md` for the current handover. Dan has verified original sign-in, saving, refresh, cross-device access and sign-out behavior. The next draft slice adds password change/recovery and editing; those new flows still need live verification.
+
+To enable editing, run **only** `supabase/002_owner_editing.sql` after the existing initial setup. Do not rerun 001 or delete tables. The draft includes 16 focused tests (`node --test tests/data.test.cjs tests/app.test.cjs`) and an extended isolated schema test. Live second-account privacy testing remains blocked by email rate limits; confirmation must remain enabled. This update is not a production release.

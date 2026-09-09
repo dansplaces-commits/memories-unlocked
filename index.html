@@ -49,8 +49,11 @@
 <p class="small">Creating an account? Use at least 8 characters. We’ll ask you to confirm your email.</p>
 <button type="submit" id="signIn" class="save">Sign in</button>
 <button type="submit" id="signUp" class="outline wide">Create account</button>
+<button type="button" id="forgotPassword" class="outline wide">Forgot password?</button>
+<button type="button" id="resendConfirmation" class="outline wide">Resend confirmation email</button>
+<p class="small">Email delivery may be temporarily limited during testing. Please do not repeatedly request emails.</p>
 </form>
-<div id="signedInPanel" hidden><p id="accountEmail"></p><button id="signOut" class="outline">Sign out on this device</button></div>
+<div id="signedInPanel" hidden><p id="accountEmail"></p><button id="changePassword" class="outline wide">Change password</button><button id="signOut" class="outline wide">Sign out on this device</button></div>
 <p id="authStatus" role="status" class="notice" hidden></p>
 </div></dialog>
 <dialog id="journeyModal" aria-labelledby="journeyHeading"><div class="sheet">
@@ -79,5 +82,30 @@
 <p class="privacy">🔒 This memory stays in your private collection.</p>
 <button type="submit" id="saveMemory" class="save">Save memory</button>
 <p id="memoryStatus" role="status" class="notice" hidden></p>
+</form></div></dialog>
+<dialog id="passwordModal" aria-labelledby="passwordHeading"><div class="sheet">
+<button type="button" class="close" data-close="passwordModal" aria-label="Close password form">×</button>
+<p class="eyebrow">PROTECT YOUR COLLECTION</p><h2 id="passwordHeading">Change password</h2>
+<form id="passwordForm">
+<div id="currentPasswordGroup"><label for="currentPassword">Current password</label><input id="currentPassword" type="password" autocomplete="current-password" required maxlength="128"></div>
+<label for="newPassword">New password</label><input id="newPassword" type="password" autocomplete="new-password" required minlength="12" maxlength="128">
+<label for="confirmPassword">Confirm new password</label><input id="confirmPassword" type="password" autocomplete="new-password" required minlength="12" maxlength="128">
+<p class="small">Use at least 12 characters and a password you do not use elsewhere.</p>
+<button id="savePassword" type="submit" class="save">Save new password</button>
+<p id="passwordStatus" class="notice" role="status" hidden></p>
+</form></div></dialog>
+<dialog id="editModal" aria-labelledby="editHeading"><div class="sheet">
+<button type="button" class="close" data-close="editModal" aria-label="Cancel editing">×</button>
+<p class="eyebrow">YOUR STORY, IN YOUR WORDS</p><h2 id="editHeading">Edit journey</h2>
+<form id="editForm">
+<label for="editTitle">Name</label><input id="editTitle" required maxlength="120">
+<label for="editStory">Story</label><textarea id="editStory" maxlength="10000"></textarea>
+<label for="editLocation">Place</label><input id="editLocation" maxlength="200">
+<div id="editJourneyDates" class="dateGrid"><div><label for="editStartDate">Start date</label><input id="editStartDate" type="date"></div><div><label for="editEndDate">End date</label><input id="editEndDate" type="date"></div></div>
+<div id="editMemoryDateGroup"><label for="editMemoryDate">Memory date</label><input id="editMemoryDate" type="date"></div>
+<p class="privacy">Only your words, place and dates change. This record stays private and keeps its memories.</p>
+<button id="saveEdit" type="submit" class="save">Save changes</button>
+<button type="button" class="outline wide" data-close="editModal">Cancel</button>
+<p id="editStatus" class="notice" role="status" hidden></p>
 </form></div></dialog>
 </body></html>

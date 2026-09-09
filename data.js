@@ -52,7 +52,25 @@
       if(error) throw error;
       return data;
     }
-    return {listJourneys:offset=>list('journeys',offset),listMemories:(id,offset)=>list('memories',offset,id),saveJourney:(input,id)=>save('journeys',journeyInput(input),id),saveMemory:(input,id)=>save('memories',memoryInput(input),id)};
+    async function update(table, payload, original) {
+      if (!original?.id) throw new Error('Open the record again before editing.');
+      const ownerId = await owner();
+      let query = client.from(table).update(payload).eq('id',original.id).eq('owner_id',ownerId);
+      // Compare the editable snapshot so another device's changes are not silently lost.
+      for (const key of Object.keys(payload)) {
+        query = original[key] == null ? query.is(key,null) : query.eq(key,original[key]);
+      }
+      const {data,error} = await query.select().maybeSingle();
+      if(error) throw error;
+      if(!data) throw new Error('This record changed elsewhere or is no longer available. Close this form, refresh your collection and reopen it. Your changes have not been saved.');
+      return data;
+    }
+    return {
+      listJourneys:offset=>list('journeys',offset),listMemories:(id,offset)=>list('memories',offset,id),
+      saveJourney:(input,id)=>save('journeys',journeyInput(input),id),saveMemory:(input,id)=>save('memories',memoryInput(input),id),
+      updateJourney:(input,original)=>{const {visibility,...payload}=journeyInput(input);return update('journeys',payload,original);},
+      updateMemory:(input,original)=>{const {journey_id,...payload}=memoryInput({...input,journey_id:original.journey_id});return update('memories',payload,original);}
+    };
   }
   const api = {PAGE_SIZE,journeyInput,memoryInput,createRepository};
   if(typeof module !== 'undefined' && module.exports) module.exports = api;

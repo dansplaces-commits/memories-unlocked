@@ -36,3 +36,36 @@ test('retry after an already committed insert returns that same owned record',as
  const client={auth:{getUser:async()=>({data:{user:{id:'owner'}}})},from:()=>({insert:()=>({select:()=>({single:async()=>({error:{code:'23505'}})})}),select:()=>({eq:()=>({single:async()=>({data:row})})})})};
  assert.equal(await createRepository(client).saveJourney({title:'Rome'},journeyId),row);
 });
+function updateClient(result) {
+ const calls=[];
+ const query={eq:(...args)=>{calls.push(['eq',...args]);return query;},is:(...args)=>{calls.push(['is',...args]);return query;},select:()=>query,maybeSingle:async()=>result};
+ return {calls,auth:{getUser:async()=>({data:{user:{id:'owner'}}})},from:table=>({update:payload=>{calls.push(['update',table,payload]);return query;}})};
+}
+test('editing scopes to verified owner and record and compares original values',async()=>{
+ const original={id:journeyId,title:'Rome',story:'Old',location:'Italy',start_date:null,end_date:null};
+ const client=updateClient({data:{...original,title:'Updated'}});
+ const result=await createRepository(client).updateJourney({title:'Updated',owner_id:'spoofed',visibility:'public'},original);
+ assert.equal(result.title,'Updated');
+ assert.ok(client.calls.some(c=>c[0]==='eq' && c[1]==='owner_id' && c[2]==='owner'));
+ assert.ok(client.calls.some(c=>c[0]==='eq' && c[1]==='id' && c[2]===journeyId));
+ assert.ok(client.calls.some(c=>c[0]==='eq' && c[1]==='title' && c[2]==='Rome'));
+ assert.ok(client.calls.some(c=>c[0]==='is' && c[1]==='start_date' && c[2]===null));
+ assert.ok(!('owner_id' in client.calls[0][2]));assert.ok(!('visibility' in client.calls[0][2]));
+});
+test('memory edits cannot move the record to another journey',async()=>{
+ const original={id:journeyId,journey_id:journeyId,title:'Moment',story:'Story',location:'',memory_date:null};
+ const client=updateClient({data:original});
+ await createRepository(client).updateMemory({title:'Moment',story:'Changed',journey_id:'attacker'},original);
+ assert.ok(!('journey_id' in client.calls[0][2]));
+});
+test('conflicts and update permission failures never report success',async()=>{
+ const original={id:journeyId,title:'Rome'};
+ await assert.rejects(createRepository(updateClient({data:null})).updateJourney({title:'New'},original),/changed elsewhere/);
+ const error={code:'42501'};
+ await assert.rejects(createRepository(updateClient({error})).updateJourney({title:'New'},original),e=>e===error);
+});
+test('editing requires a verified user before issuing an update',async()=>{
+ const client=updateClient({data:{}});client.auth.getUser=async()=>({data:{user:null}});
+ await assert.rejects(createRepository(client).updateJourney({title:'New'},{id:journeyId}),/sign in/);
+ assert.equal(client.calls.length,0);
+});

@@ -17,7 +17,9 @@ A meaningful digital legacy app inspired by leaving padlocks at special places. 
 - Supabase project: `fdjzelcqilupxibqsqep`
 - Dashboard: https://supabase.com/dashboard/project/fdjzelcqilupxibqsqep
 - API URL: https://fdjzelcqilupxibqsqep.supabase.co
-- Hosting: Vercel installation observed in Dan's GitHub screenshots. Exact live URL and deployment configuration have not been verified.
+- Hosting: existing Vercel project; keep this host and GitHub repository, do not create a replacement Site.
+- Draft preview: https://memories-unlocked-git-fix-incomplete-jou-3a0a68-dansplaces-3897.vercel.app
+- Production URL: https://memories-unlocked.vercel.app (older main version; draft not merged).
 
 ## Confirmed progress
 
@@ -28,21 +30,32 @@ This development update adds email/password sign-up and sign-in, private journey
 ## Verification completed
 
 - Supabase authentication settings: HTTP 200 using the previously supplied public publishable key. Email sign-up enabled and email confirmation required.
-- Zero-row REST probe: `/rest/v1/journeys?select=*&limit=0` returned PGRST205 (table not found in schema cache). No personal records were retrieved. This does not establish the entire database's contents.
-- Seven Node tests: backdating/private defaults, date validity/range, required/length constraints, signed-out rejection, server-derived owner ID, failed persistence and duplicate retry reconciliation.
+- Earlier PGRST205 is resolved: later zero-row REST probes found both tables and returned 42501 permission denied for anonymous access, as intended.
+- Dan confirmed live account sign-in, journey and written-memory creation, persistence after full refresh, cross-device access, and clearing/restoring the collection on sign-out/sign-in. No private story content is copied into this public repository.
+- Dan changed Supabase Site URL from localhost to the draft preview above and confirmed saving it. A fresh confirmation round-trip remains untested.
+- Eleven Node data tests cover creation plus owner-scoped editing, immutable relationship/ownership fields, stale-edit conflicts, signed-out update rejection and permission failures.
+- Five isolated UI-controller tests cover email-request cooldown, rate-limit messaging, password confirmation/current-password verification, recovery events and session loss (16 focused tests total). These use fake elements/services, not browser automation.
+- Extended isolated PostgreSQL/PGlite checks passed for migration 002: own-record edits work; cross-owner updates return no rows; ownership, visibility and journey reparenting writes are denied; invalid dates are rejected; rerunning 002 preserves data.
 - Isolated PostgreSQL/PGlite: schema applied; owner writes allowed; another owner cannot read rows; spoofed owner writes rejected; foreign-owned journey memory rejected; date constraints enforced; anonymous select/insert denied; rerun fails without removing existing records.
 - JavaScript syntax and static HTML/local-asset checks passed.
 
+## Current development slice
+
+- Added password change under My account with current-password verification, new-password confirmation and 12-character minimum. Recovery sessions open a dedicated new-password form.
+- Added Forgot password and Resend confirmation with a shared in-page cooldown and clear email-limit guidance. Requests use the configured Supabase Site URL. No emails are sent until the user explicitly requests one.
+- Added Edit journey and Edit memory. Edits compare original field values before updating, report conflicts, and retain form input on failure. No delete, reparenting or ownership changes are exposed.
+- New migration `supabase/002_owner_editing.sql` grants only editable columns and adds owner-only UPDATE policies. It preserves all existing rows and is rerunnable. It is NOT applied to live Supabase by this code update.
+
 ## Still pending - do not claim complete
 
-- Apply the SQL migration to the actual Supabase project through an authorised administration route. No Supabase management connector or admin credential is available in this session.
-- Confirm the application's preview/live URL and configure Supabase email-confirmation Site URL.
-- Live confirmed-email signup/sign-in, save, reload and second-account privacy checks. No real accounts were created and no emails sent during automated tests.
-- Browser/mobile interaction testing and deployment checks. The Sites workflow did not permit unsolicited browser QA; it was not performed.
+- Apply ONLY `supabase/002_owner_editing.sql` in the live project's SQL Editor, then test editing and refreshing. Do not rerun 001 or delete existing tables.
+- Test new password change and full reset-email round trip; secure-password settings may require additional reauthentication. Never request the user's password or confirmation links in chat.
+- Second-account live privacy check is blocked by the project's email sending rate limit. Keep confirmation enabled. Custom SMTP/service setup is needed before wider sign-ups; this requires owner setup, not a code-only fix.
+- Fresh confirmation redirect verification and independent browser/mobile QA of this slice remain pending. Automated tests do not create real accounts, send emails or modify live memories.
 - Review and merge the development update, then verify the existing host's deployment. Main/live app has not been changed by this update.
 
 ## Next session
 
-Read this file and the latest PR state first. Do not repeat account installation. Guide Dan through applying the supplied SQL migration; check for existing tables first. Verify configuration and live behaviour, then review release readiness. Preserve the current brand and legacy purpose.
+Read this file and the latest PR state first. Do not repeat account installation or initial database setup. Help Dan apply migration 002 and verify new edit/password flows, then review release readiness. Preserve the current brand and legacy purpose.
 
-After reliable private saving: password recovery and account lifecycle, edit/delete and export/backup workflows, photographs with private storage rules, real map/location pins, invitations and revocable family access, then optional clue/time/location unlocking. Treat each as a separate tested phase; do not imply these are already available.
+After this slice is verified: remaining account lifecycle, delete and export/backup workflows, photographs with private storage rules, real map/location pins, invitations and revocable family access, then optional clue/time/location unlocking. Treat each as a separate tested phase; do not imply these are already available.
