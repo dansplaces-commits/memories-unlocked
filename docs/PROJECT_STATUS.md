@@ -56,6 +56,13 @@ This development update adds email/password sign-up and sign-in, private journey
 
 ## Next session
 
+### 10 September 2026 — visual layout update
+
+- Added a navy desktop sidebar, wider four-action workspace, two-column journey archive, refined cream/gold/teal styling, and retained the mobile bottom navigation.
+- Source changes are limited to HTML/CSS; account, persistence and database rules are unchanged. Future map/follow actions remain explicitly unavailable.
+- All 16 existing Node tests and JavaScript syntax/whitespace checks pass after the layout update. These do not establish visual quality or live security; desktop/mobile browser verification remains pending.
+- This update uses recovered design notes, not a direct visual comparison against the original Base44 screenshots. No umbrella brand is selected yet.
+
 Read this file and the latest PR state first. Do not repeat account installation or initial database setup. Help Dan apply migration 002 and verify new edit/password flows, then review release readiness. Preserve the current brand and legacy purpose.
 
 After this slice is verified: remaining account lifecycle, delete and export/backup workflows, photographs with private storage rules, real map/location pins, invitations and revocable family access, then optional clue/time/location unlocking. Treat each as a separate tested phase; do not imply these are already available.
