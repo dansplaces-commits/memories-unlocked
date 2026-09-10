@@ -10,6 +10,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
 <script defer src="config.js"></script>
 <script defer src="data.js"></script>
+<script defer src="book.js"></script>
 <script defer src="app.js"></script>
 </head>
 <body>
@@ -120,11 +121,13 @@
 <dialog id="exportModal" aria-labelledby="exportHeading"><div class="sheet">
 <button type="button" class="close" data-close="exportModal" aria-label="Close download">×</button>
 <p class="eyebrow">KEEP A COPY OF YOUR STORY</p><h2 id="exportHeading">Download your collection</h2>
-<p>A readable JSON file of your saved journeys, stories, places and dates—including records you have not loaded on screen.</p>
+<p>Prepare your saved journeys, stories, places and dates—including records you have not loaded on screen. Then choose a readable memory book or a JSON data copy.</p>
 <p class="privacy">This file is <strong>not encrypted</strong>. Anyone with the file can read your memories. Download only on a trusted device and keep it somewhere private.</p>
 <p class="small">Photos and account credentials are not included. Restoring a file into the app is not available yet. Please finish saving and pause edits on other devices while preparing your copy. Up to 2,000 journeys and 2,000 memories are supported.</p>
 <button type="button" id="prepareExport" class="save">Prepare my download</button>
 <a id="downloadExport" class="outline wide downloadLink" hidden>Download JSON copy</a>
+<button id="openBook" type="button" class="outline wide" hidden>View memory book / Save as PDF</button>
 <p id="exportStatus" class="notice" role="status" hidden></p>
 </div></dialog>
+<dialog id="bookModal" aria-label="Your memory book"><div class="bookToolbar"><button id="printBook" type="button" class="outline">Print / Save as PDF</button><button type="button" class="outline" data-close="bookModal">Close book</button><p id="bookPrintStatus" role="status">Choose Save as PDF in your device’s print options, if available. A file is only saved when you complete those steps. For a clean copy, turn off browser headers and footers.</p></div><div id="bookContent"></div></dialog>
 </body></html>

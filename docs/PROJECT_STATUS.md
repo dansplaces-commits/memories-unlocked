@@ -56,6 +56,13 @@ This development update adds email/password sign-up and sign-in, private journey
 
 ## Next session
 
+### 10 September 2026 — readable memory book
+
+- Added View memory book / Save as PDF after preparing a collection. The book uses the same owner-checked export data and groups dated journeys/memories into chronological chapters; undated records follow dated records.
+- Book text uses DOM textContent, with no external fonts/assets/services. Closing the book or changing account clears its content. Existing JSON export remains available.
+- Print / Save as PDF invokes the device browser print dialog, with A4 portrait print styles. It does not directly generate a PDF or confirm that a file was saved. Save as PDF availability depends on the browser/device. No private user data was downloaded during development.
+- 27 automated tests pass, including chronological grouping, untruncated text, HTML-like story safety, print action and clearing on sign-out. Actual multi-page print layout and mobile print behavior remain unverified; do not claim visual QA has passed.
+
 ### 10 September 2026 — downloadable collection copy
 
 - My account → Download my collection prepares an unencrypted JSON copy of all saved journeys and written memories, not just loaded cards. It is an export, not a transactional database backup or a restore/import feature. No live data or database permissions were changed.

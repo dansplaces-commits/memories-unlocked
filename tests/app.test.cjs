@@ -28,7 +28,7 @@ async function setup(initialUser=null) {
  };
  const repo={listJourneys:async()=>[],listMemories:async()=>[]};
  const context={document:{getElementById:id=>{assert.ok(nodes.has(id),'Unknown id '+id);return nodes.get(id);},createElement:node,querySelectorAll:()=>[]},
- window:{supabase:{createClient:()=>({auth})},MEMORIES_CONFIG:{},MemoriesData:{createRepository:()=>repo}},
+ window:{supabase:{createClient:()=>({auth})},MEMORIES_CONFIG:{},MemoriesData:{createRepository:()=>repo},MemoriesBook:require('../book.js'),print:()=>calls.push(['print'])},
  MemoriesData:{PAGE_SIZE:50,createRepository:()=>repo},MEMORIES_CONFIG:{},
  Intl,Date,URLSearchParams,Blob,URL:{createObjectURL:()=>{calls.push(['createBlob']);return 'blob:test';},revokeObjectURL:url=>calls.push(['revokeBlob',url])},location:{hash:'',search:'',pathname:'/'},history:{replaceState(){}},crypto:{randomUUID:()=> 'test-id'},
  setTimeout:fn=>timers.push(fn)
@@ -100,4 +100,16 @@ test('closing an in-flight export or a fetch failure never creates a download',a
  s.repo.exportCollection=async()=>{throw new Error('Offline');};
  await s.nodes.get('openExport').fire('click');await s.nodes.get('prepareExport').fire('click');
  assert.match(s.nodes.get('exportStatus').textContent,/No file was prepared/);assert.equal(s.nodes.get('downloadExport').hidden,true);
+});
+test('memory book uses prepared collection and clears private content on sign-out',async()=>{
+ const s=await setup({id:'owner',email:'test@example.com'});
+ s.repo.exportCollection=async()=>({exported_at:'2026-09-10T12:00:00Z',journeys:[{id:'j1',title:'Private chapter'}],memories:[]});
+ await s.nodes.get('openExport').fire('click');await s.nodes.get('prepareExport').fire('click');
+ assert.equal(s.nodes.get('openBook').hidden,false);
+ await s.nodes.get('openBook').fire('click');assert.equal(s.nodes.get('bookModal').open,true);
+ assert.equal(s.nodes.get('bookContent').children.length,1);
+ await s.nodes.get('printBook').fire('click');assert.equal(s.calls.filter(c=>c[0]==='print').length,1);
+ await s.emit('SIGNED_OUT',null);
+ assert.equal(s.nodes.get('bookModal').open,false);assert.equal(s.nodes.get('bookContent').children.length,0);
+ await s.nodes.get('printBook').fire('click');assert.equal(s.calls.filter(c=>c[0]==='print').length,1);
 });

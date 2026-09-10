@@ -3,6 +3,16 @@
 
 /* Collection layout: wide desktop workspace, compact mobile companion. */
 .downloadLink{display:block;text-align:center;text-decoration:none}
+#bookModal{width:calc(100% - 24px);max-width:860px;background:#fff;border-radius:16px;overflow:auto;padding:0}
+.bookToolbar{padding:20px;background:#f2efe7;border-bottom:1px solid #ddd;display:flex;flex-wrap:wrap;gap:12px}.bookToolbar p{width:100%;font-size:.875rem;margin:0;color:#46505e}
+.memoryBook{padding:clamp(24px,6vw,64px);color:#10244a;font:16px/1.7 Georgia,serif}.bookCover{padding:36px 0 60px;border-bottom:2px solid #d6a52f;margin-bottom:48px}.bookCover h1{font-weight:400;font-size:clamp(36px,6vw,56px);max-width:600px}.bookSubtitle{font-size:24px}.bookKicker{font:700 13px/1.5 Arial,sans-serif;letter-spacing:2px;color:#866018}.bookMeta{font:14px/1.6 Arial,sans-serif;color:#566170}.bookChapter{padding:24px 0 36px}.bookChapter h2{font-size:32px;overflow-wrap:anywhere}.bookMoment{margin-top:32px;padding-top:20px;border-top:1px solid #ddd}.bookMoment h3{font-size:24px;font-weight:400;overflow-wrap:anywhere}.bookStory{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8}
+@media print{
+ @page{size:A4 portrait;margin:18mm}
+ body:has(#bookModal[open]){background:white;color:#172033}
+ body:has(#bookModal[open])>*:not(#bookModal){display:none!important}
+ #bookModal[open]{position:static!important;inset:auto!important;display:block!important;width:auto!important;max-width:none!important;height:auto!important;max-height:none!important;margin:0!important;padding:0!important;overflow:visible!important;border:0!important;border-radius:0;box-shadow:none}
+ #bookModal::backdrop{display:none}.bookToolbar{display:none!important}.memoryBook{padding:0;font-size:11pt;line-height:1.6}.bookCover{break-after:page;padding:35mm 0 12mm;margin:0;border-bottom:1pt solid #866018}.bookCover h1{font-size:38pt}.bookChapter{break-before:page;padding:0}.bookChapter h2{font-size:26pt}.bookMoment h3{font-size:17pt}.bookMeta{font-size:10pt}.bookStory{orphans:3;widows:3}.bookChapter h2,.bookMoment h3,.bookKicker,.bookMeta{break-after:avoid}.bookMoment{break-inside:auto}.bookChapter,.bookMoment{overflow:visible}.memoryBook p{max-height:none}
+}
 :root{--navy:#10244a;--gold:#d6a52f;--cream:#faf8f2;--line:#e4e1d8}
 .skipLink{position:fixed;top:8px;left:8px;transform:translateY(-160%);z-index:10;background:white;color:var(--navy);padding:12px;border-radius:8px}.skipLink:focus{transform:none}
 .sidebar{display:none}.app{max-width:900px}.app>header{padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:28px}.logo{font-size:23px}

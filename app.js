@@ -16,11 +16,12 @@
   let client,repo,user=null,journeys=[],memories=[],selected=null,epoch=0,memoryRequest=0,journeyRequest=0;
   let journeyDraft=null,memoryDraft=null,saveBusy=false,authBusy=false;
   let editing=null,recovery=false,emailNextAt=0;
-  let exportRequest=0,exportUrl=null;
+  let exportRequest=0,exportUrl=null,preparedBook=null;
   function clearExport() {
     exportRequest++;
     if(exportUrl){URL.revokeObjectURL(exportUrl);exportUrl=null;}
     $('downloadExport').hidden=true;$('downloadExport').removeAttribute('href');
+    preparedBook=null;$('openBook').hidden=true;
     $('prepareExport').disabled=false;status('exportStatus','');
   }
   const open = id => {if(!$(id).open)$(id).showModal();};
@@ -41,7 +42,8 @@
     editing=null;recovery=false;$('editForm').reset();$('passwordForm').reset();
     $('journeyForm').reset();$('memoryForm').reset();$('password').value='';
     clearExport();
-    for(const id of ['journeyModal','memoryModal','editModal','passwordModal','exportModal']) $(id).close();
+    $('bookContent').replaceChildren();
+    for(const id of ['journeyModal','memoryModal','editModal','passwordModal','exportModal','bookModal']) $(id).close();
     $('journeyList').replaceChildren(element('p','Sign in to see your journeys.','empty'));
     $('memoryList').replaceChildren();$('memoryIntro').textContent='Choose a journey to open its story.';
     $('memoryJourney').replaceChildren();$('moreJourneys').hidden=true;$('moreMemories').hidden=true;
@@ -189,9 +191,23 @@
       exportUrl=URL.createObjectURL(blob);
       $('downloadExport').href=exportUrl;$('downloadExport').download='memories-unlocked-'+collection.exported_at.slice(0,10)+'.json';
       $('downloadExport').hidden=false;
-      status('exportStatus',`${collection.journeys.length} journeys and ${collection.memories.length} memories ready. Tap Download JSON copy, then check your device’s downloads. The file has not been saved yet.`);
+      if(window.MemoriesBook){preparedBook=collection;$('openBook').hidden=false;}
+      status('exportStatus',`${collection.journeys.length} journeys and ${collection.memories.length} memories ready. Choose your memory book or JSON copy. A file has not been saved yet.`);
     }catch(error){if(current())status('exportStatus','No file was prepared. '+errorMessage(error),true);}
     finally{if(current())$('prepareExport').disabled=false;}
+  });
+  $('openBook').addEventListener('click',()=>{
+    if(!preparedBook || !user || !window.MemoriesBook)return;
+    try{
+      const content=window.MemoriesBook.render(document,preparedBook);
+      $('bookContent').replaceChildren(content);$('exportModal').close();open('bookModal');
+    }catch(error){$('bookContent').replaceChildren();status('exportStatus','The memory book could not be prepared. Your JSON copy is still available.',true);}
+  });
+  $('bookModal').addEventListener('close',()=>{$('bookContent').replaceChildren();});
+  $('printBook').addEventListener('click',()=>{
+    if(!user || !$('bookModal').open)return;
+    if(typeof window.print!=='function'){status('bookPrintStatus','Printing is unavailable here. Open the app in your device’s main browser and try again.',true);return;}
+    try{window.print();}catch(error){status('bookPrintStatus','Printing could not open. Try your browser’s Print option or open the app in your main browser.',true);}
   });
   async function loadMemories(append=false) {
     if(!user || !selected)return;
