@@ -13,7 +13,7 @@ async function setup(initialUser=null) {
  async fire(type,event={}){return this.handlers[type]?.({preventDefault(){},...event});},
  reset(){for(const n of nodes.values())if(n.form===this)n.value='';},
  close(){this.open=false;this.handlers.close?.();},showModal(){this.open=true;},
- reportValidity(){return this.value.includes('@');},append(...items){this.children.push(...items);},replaceChildren(...items){this.children=items;},scrollIntoView(){}
+ removeAttribute(name){delete this[name];},reportValidity(){return this.value.includes('@');},append(...items){this.children.push(...items);},replaceChildren(...items){this.children=items;},scrollIntoView(){}
  });
  for(const id of html.matchAll(/\bid="([^"]+)"/g))nodes.set(id[1],node());
  for(const form of html.matchAll(/<form id="([^"]+)"[^>]*>([\s\S]*?)<\/form>/g))for(const id of form[2].matchAll(/\bid="([^"]+)"/g))nodes.get(id[1]).form=nodes.get(form[1]);
@@ -30,13 +30,13 @@ async function setup(initialUser=null) {
  const context={document:{getElementById:id=>{assert.ok(nodes.has(id),'Unknown id '+id);return nodes.get(id);},createElement:node,querySelectorAll:()=>[]},
  window:{supabase:{createClient:()=>({auth})},MEMORIES_CONFIG:{},MemoriesData:{createRepository:()=>repo}},
  MemoriesData:{PAGE_SIZE:50,createRepository:()=>repo},MEMORIES_CONFIG:{},
- Intl,Date,URLSearchParams,location:{hash:'',search:'',pathname:'/'},history:{replaceState(){}},crypto:{randomUUID:()=> 'test-id'},
+ Intl,Date,URLSearchParams,Blob,URL:{createObjectURL:()=>{calls.push(['createBlob']);return 'blob:test';},revokeObjectURL:url=>calls.push(['revokeBlob',url])},location:{hash:'',search:'',pathname:'/'},history:{replaceState(){}},crypto:{randomUUID:()=> 'test-id'},
  setTimeout:fn=>timers.push(fn)
  };
  vm.runInNewContext(source,context);
  const flush=async()=>{for(let i=0;i<12;i++){await Promise.resolve();while(timers.length)timers.shift()();}};
  await flush();
- return {nodes,calls,auth,flush,emit:async(event,user)=>{current=user;authCallback(event,user?{user}:null);await flush();}};
+ return {nodes,calls,auth,repo,flush,emit:async(event,user)=>{current=user;authCallback(event,user?{user}:null);await flush();}};
 }
 test('reset uses email only and repeated requests are held locally',async()=>{
  const s=await setup();s.nodes.get('email').value='test@example.com';
@@ -79,4 +79,25 @@ test('recovery event opens password form; session loss clears it and prevents up
  await s.emit('SIGNED_OUT',null);
  assert.equal(s.nodes.get('passwordModal').open,false);
  await s.nodes.get('passwordForm').fire('submit');assert.equal(s.calls.length,1);
+});
+test('prepared export is downloadable but never claims a completed save; sign-out revokes it',async()=>{
+ const s=await setup({id:'owner',email:'test@example.com'});
+ s.repo.exportCollection=async()=>({exported_at:'2026-09-10T12:00:00Z',journeys:[],memories:[]});
+ await s.nodes.get('openExport').fire('click');await s.nodes.get('prepareExport').fire('click');
+ assert.equal(s.nodes.get('downloadExport').href,'blob:test');
+ assert.equal(s.nodes.get('downloadExport').hidden,false);
+ assert.match(s.nodes.get('exportStatus').textContent,/not been saved yet/);
+ await s.emit('SIGNED_OUT',null);
+ assert.equal(s.nodes.get('downloadExport').href,undefined);assert.equal(s.nodes.get('downloadExport').hidden,true);
+ assert(s.calls.some(c=>c[0]==='revokeBlob'));
+});
+test('closing an in-flight export or a fetch failure never creates a download',async()=>{
+ const s=await setup({id:'owner',email:'test@example.com'});let resolve;
+ s.repo.exportCollection=()=>new Promise(r=>resolve=r);
+ await s.nodes.get('openExport').fire('click');const pending=s.nodes.get('prepareExport').fire('click');
+ s.nodes.get('exportModal').close();resolve({exported_at:'2026-09-10',journeys:[],memories:[]});await pending;
+ assert(!s.calls.some(c=>c[0]==='createBlob'));
+ s.repo.exportCollection=async()=>{throw new Error('Offline');};
+ await s.nodes.get('openExport').fire('click');await s.nodes.get('prepareExport').fire('click');
+ assert.match(s.nodes.get('exportStatus').textContent,/No file was prepared/);assert.equal(s.nodes.get('downloadExport').hidden,true);
 });

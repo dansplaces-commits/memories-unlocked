@@ -2,6 +2,7 @@
 .actions{display:flex;flex-wrap:wrap;gap:10px}.memory h3{overflow-wrap:anywhere}
 
 /* Collection layout: wide desktop workspace, compact mobile companion. */
+.downloadLink{display:block;text-align:center;text-decoration:none}
 :root{--navy:#10244a;--gold:#d6a52f;--cream:#faf8f2;--line:#e4e1d8}
 .skipLink{position:fixed;top:8px;left:8px;transform:translateY(-160%);z-index:10;background:white;color:var(--navy);padding:12px;border-radius:8px}.skipLink:focus{transform:none}
 .sidebar{display:none}.app{max-width:900px}.app>header{padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:28px}.logo{font-size:23px}

@@ -16,6 +16,13 @@
   let client,repo,user=null,journeys=[],memories=[],selected=null,epoch=0,memoryRequest=0,journeyRequest=0;
   let journeyDraft=null,memoryDraft=null,saveBusy=false,authBusy=false;
   let editing=null,recovery=false,emailNextAt=0;
+  let exportRequest=0,exportUrl=null;
+  function clearExport() {
+    exportRequest++;
+    if(exportUrl){URL.revokeObjectURL(exportUrl);exportUrl=null;}
+    $('downloadExport').hidden=true;$('downloadExport').removeAttribute('href');
+    $('prepareExport').disabled=false;status('exportStatus','');
+  }
   const open = id => {if(!$(id).open)$(id).showModal();};
   const requireUser = () => {if(user)return true;open('authModal');return false;};
   function controls() {
@@ -33,7 +40,8 @@
     journeys=[];memories=[];selected=null;journeyDraft=null;memoryDraft=null;
     editing=null;recovery=false;$('editForm').reset();$('passwordForm').reset();
     $('journeyForm').reset();$('memoryForm').reset();$('password').value='';
-    for(const id of ['journeyModal','memoryModal','editModal','passwordModal']) $(id).close();
+    clearExport();
+    for(const id of ['journeyModal','memoryModal','editModal','passwordModal','exportModal']) $(id).close();
     $('journeyList').replaceChildren(element('p','Sign in to see your journeys.','empty'));
     $('memoryList').replaceChildren();$('memoryIntro').textContent='Choose a journey to open its story.';
     $('memoryJourney').replaceChildren();$('moreJourneys').hidden=true;$('moreMemories').hidden=true;
@@ -163,6 +171,28 @@
   }
   $('forgotPassword').addEventListener('click',()=>sendAccountEmail('reset'));
   $('resendConfirmation').addEventListener('click',()=>sendAccountEmail('confirmation'));
+  $('openExport').addEventListener('click',()=>{
+    if(saveBusy || authBusy || !requireUser())return;
+    clearExport();$('authModal').close();open('exportModal');
+  });
+  $('exportModal').addEventListener('close',clearExport);
+  $('prepareExport').addEventListener('click',async()=>{
+    if(saveBusy || authBusy || $('prepareExport').disabled || !requireUser())return;
+    clearExport();const request=exportRequest,stamp=epoch;
+    const current=()=>request===exportRequest && stamp===epoch && !!user;
+    $('prepareExport').disabled=true;status('exportStatus','Preparing and checking your saved collection…');
+    try {
+      const collection=await repo.exportCollection(current);
+      if(!current())return;
+      const blob=new Blob([JSON.stringify(collection,null,2)],{type:'application/json;charset=utf-8'});
+      if(blob.size>20*1024*1024)throw new Error('This collection is too large for the current download tool. No partial file was created.');
+      exportUrl=URL.createObjectURL(blob);
+      $('downloadExport').href=exportUrl;$('downloadExport').download='memories-unlocked-'+collection.exported_at.slice(0,10)+'.json';
+      $('downloadExport').hidden=false;
+      status('exportStatus',`${collection.journeys.length} journeys and ${collection.memories.length} memories ready. Tap Download JSON copy, then check your device’s downloads. The file has not been saved yet.`);
+    }catch(error){if(current())status('exportStatus','No file was prepared. '+errorMessage(error),true);}
+    finally{if(current())$('prepareExport').disabled=false;}
+  });
   async function loadMemories(append=false) {
     if(!user || !selected)return;
     const request=++memoryRequest,stamp=epoch,journey=selected;

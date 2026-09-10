@@ -56,6 +56,14 @@ This development update adds email/password sign-up and sign-in, private journey
 
 ## Next session
 
+### 10 September 2026 — downloadable collection copy
+
+- My account → Download my collection prepares an unencrypted JSON copy of all saved journeys and written memories, not just loaded cards. It is an export, not a transactional database backup or a restore/import feature. No live data or database permissions were changed.
+- Exact counts, stable ID ordering, explicit field allowlists, owner checks, two matching reads and parent-journey validation reject detected incomplete/changing collections. Users should pause edits on other devices; this is not a snapshot-isolated transaction. Limits: 2,000 rows per table and 20 MiB download size; exceeding a limit fails without a partial file.
+- A prepared download link is revoked when the dialog closes or the account changes. Interrupted/failed preparation never exposes a partial file. Exported content is handled as JSON, not HTML, and excludes account credentials.
+- All 24 Node tests pass, including eight new data/UI export tests. Live browser download behavior (especially mobile) still needs verification. Preparing a link is not confirmation that a file was saved on the user's device.
+- Next: Dan should try a download on a trusted device, then verify migration 002/editing and recovery flows. Private photo storage is a separate forthcoming phase; do not claim photos, maps, restore or live multi-account isolation are complete.
+
 ### 10 September 2026 — visual layout update
 
 - Added a navy desktop sidebar, wider four-action workspace, two-column journey archive, refined cream/gold/teal styling, and retained the mobile bottom navigation.

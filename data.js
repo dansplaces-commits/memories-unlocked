@@ -65,7 +65,46 @@
       if(!data) throw new Error('This record changed elsewhere or is no longer available. Close this form, refresh your collection and reopen it. Your changes have not been saved.');
       return data;
     }
+    async function exportCollection(isCurrent = () => true) {
+      const ownerId = await owner();
+      const fields = {
+        journeys:'id,owner_id,title,story,location,start_date,end_date,visibility,created_at',
+        memories:'id,owner_id,journey_id,title,story,location,memory_date,created_at'
+      };
+      async function checkOwner() {
+        if (!isCurrent() || await owner() !== ownerId || !isCurrent()) throw new Error('Download cancelled because your account or request changed.');
+      }
+      async function collect(table) {
+        const rows=[];let total=null;
+        do {
+          await checkOwner();
+          const {data,error,count}=await client.from(table).select(fields[table],{count:'exact'})
+            .eq('owner_id',ownerId).order('id',{ascending:true}).range(rows.length,rows.length+PAGE_SIZE-1);
+          if(error)throw error;
+          if(!Number.isInteger(count) || count<0 || !Array.isArray(data))throw new Error('Could not verify the full collection. Please retry.');
+          if(count>2000)throw new Error('This collection is too large for the current download tool. No partial file was created.');
+          if(total!==null && total!==count)throw new Error('Your collection changed during preparation. Pause edits on other devices and retry.');
+          total=count;
+          if(data.length!==Math.min(PAGE_SIZE,total-rows.length) || data.some(row=>row.owner_id!==ownerId))throw new Error('Could not verify the full collection. Please retry.');
+          rows.push(...data);
+        }while(rows.length<total);
+        if(new Set(rows.map(row=>row.id)).size!==rows.length)throw new Error('Your collection changed during preparation. Please retry.');
+        return rows.map(row=>Object.fromEntries(fields[table].split(',').filter(key=>key!=='owner_id').map(key=>[key,row[key]])));
+      }
+      async function read() {
+        const journeys=await collect('journeys'),memories=await collect('memories');
+        const ids=new Set(journeys.map(row=>row.id));
+        if(memories.some(row=>!ids.has(row.journey_id)))throw new Error('Your collection changed during preparation. Please retry.');
+        return {journeys,memories};
+      }
+      const first=await read(),second=await read();
+      await checkOwner();
+      if(JSON.stringify(first)!==JSON.stringify(second))throw new Error('Your collection changed during preparation. Pause edits on other devices and retry.');
+      return {format:'memories-unlocked-collection',version:1,exported_at:new Date().toISOString(),
+        note:'Unencrypted copy of saved journeys and written memories. No photos, passwords or tokens. Import/restore is not yet supported. Avoid editing on other devices while preparing a copy; this is not a transactional database backup.',...second};
+    }
     return {
+      exportCollection,
       listJourneys:offset=>list('journeys',offset),listMemories:(id,offset)=>list('memories',offset,id),
       saveJourney:(input,id)=>save('journeys',journeyInput(input),id),saveMemory:(input,id)=>save('memories',memoryInput(input),id),
       updateJourney:(input,original)=>{const {visibility,...payload}=journeyInput(input);return update('journeys',payload,original);},

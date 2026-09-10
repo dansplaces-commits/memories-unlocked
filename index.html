@@ -62,7 +62,7 @@
 <button type="button" id="resendConfirmation" class="outline wide">Resend confirmation email</button>
 <p class="small">Email delivery may be temporarily limited during testing. Please do not repeatedly request emails.</p>
 </form>
-<div id="signedInPanel" hidden><p id="accountEmail"></p><button id="changePassword" class="outline wide">Change password</button><button id="signOut" class="outline wide">Sign out on this device</button></div>
+<div id="signedInPanel" hidden><p id="accountEmail"></p><button id="openExport" class="outline wide">Download my collection</button><button id="changePassword" class="outline wide">Change password</button><button id="signOut" class="outline wide">Sign out on this device</button></div>
 <p id="authStatus" role="status" class="notice" hidden></p>
 </div></dialog>
 <dialog id="journeyModal" aria-labelledby="journeyHeading"><div class="sheet">
@@ -117,4 +117,14 @@
 <button type="button" class="outline wide" data-close="editModal">Cancel</button>
 <p id="editStatus" class="notice" role="status" hidden></p>
 </form></div></dialog>
+<dialog id="exportModal" aria-labelledby="exportHeading"><div class="sheet">
+<button type="button" class="close" data-close="exportModal" aria-label="Close download">×</button>
+<p class="eyebrow">KEEP A COPY OF YOUR STORY</p><h2 id="exportHeading">Download your collection</h2>
+<p>A readable JSON file of your saved journeys, stories, places and dates—including records you have not loaded on screen.</p>
+<p class="privacy">This file is <strong>not encrypted</strong>. Anyone with the file can read your memories. Download only on a trusted device and keep it somewhere private.</p>
+<p class="small">Photos and account credentials are not included. Restoring a file into the app is not available yet. Please finish saving and pause edits on other devices while preparing your copy. Up to 2,000 journeys and 2,000 memories are supported.</p>
+<button type="button" id="prepareExport" class="save">Prepare my download</button>
+<a id="downloadExport" class="outline wide downloadLink" hidden>Download JSON copy</a>
+<p id="exportStatus" class="notice" role="status" hidden></p>
+</div></dialog>
 </body></html>
