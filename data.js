@@ -16,15 +16,32 @@
     }
     return d;
   }
+  function coordinate(value,name,min,max) {
+    if(value === '' || value == null) return null;
+    const number=Number(value);
+    if(!Number.isFinite(number) || number<min || number>max) throw new Error(`${name} must be a valid map coordinate.`);
+    return Math.round(number*1000000)/1000000;
+  }
+  const journeyStatuses = new Set(['visited','planned','dream']);
+  function journeyStatus(value) {
+    const clean=String(value || 'visited');
+    if(!journeyStatuses.has(clean)) throw new Error('Choose a valid journey type.');
+    return clean;
+  }
+  function coordinates(input) {
+    const latitude=coordinate(input.latitude,'Latitude',-90,90),longitude=coordinate(input.longitude,'Longitude',-180,180);
+    if((latitude===null)!==(longitude===null)) throw new Error('Choose both map coordinates, or leave the map pin empty.');
+    return {latitude,longitude};
+  }
   function journeyInput(input) {
     const start = date(input.start_date), end = date(input.end_date);
     if (end && !start) throw new Error('Add a start date before setting an end date.');
     if (start && end && end < start) throw new Error('The end date must be on or after the start date.');
-    return {title:text(input.title,'Journey name',120,true),story:text(input.story,'Story',10000),location:text(input.location,'Location',200),start_date:start,end_date:end,visibility:'private'};
+    return {title:text(input.title,'Journey name',120,true),story:text(input.story,'Story',10000),location:text(input.location,'Location',200),start_date:start,end_date:end,...coordinates(input),journey_status:journeyStatus(input.journey_status),visibility:'private'};
   }
   function memoryInput(input) {
     if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(input.journey_id || '')) throw new Error('Choose a journey.');
-    return {journey_id:input.journey_id,title:text(input.title,'Memory name',120,true),story:text(input.story,'Memory story',10000,true),location:text(input.location,'Location',200),memory_date:date(input.memory_date)};
+    return {journey_id:input.journey_id,title:text(input.title,'Memory name',120,true),story:text(input.story,'Memory story',10000,true),clue:text(input.clue,'Clue',5000),location:text(input.location,'Location',200),memory_date:date(input.memory_date),...coordinates(input)};
   }
   function createRepository(client) {
     async function owner() {
@@ -68,8 +85,8 @@
     async function exportCollection(isCurrent = () => true) {
       const ownerId = await owner();
       const fields = {
-        journeys:'id,owner_id,title,story,location,start_date,end_date,visibility,created_at',
-        memories:'id,owner_id,journey_id,title,story,location,memory_date,created_at'
+        journeys:'id,owner_id,title,story,location,start_date,end_date,visibility,journey_status,latitude,longitude,created_at',
+        memories:'id,owner_id,journey_id,title,story,clue,location,memory_date,latitude,longitude,created_at'
       };
       async function checkOwner() {
         if (!isCurrent() || await owner() !== ownerId || !isCurrent()) throw new Error('Download cancelled because your account or request changed.');
@@ -105,7 +122,7 @@
     }
     return {
       exportCollection,
-      listJourneys:offset=>list('journeys',offset),listMemories:(id,offset)=>list('memories',offset,id),
+      listJourneys:offset=>list('journeys',offset),listMemories:(id,offset)=>list('memories',offset,id),listAllMemories:offset=>list('memories',offset),
       saveJourney:(input,id)=>save('journeys',journeyInput(input),id),saveMemory:(input,id)=>save('memories',memoryInput(input),id),
       updateJourney:(input,original)=>{const {visibility,...payload}=journeyInput(input);return update('journeys',payload,original);},
       updateMemory:(input,original)=>{const {journey_id,...payload}=memoryInput({...input,journey_id:original.journey_id});return update('memories',payload,original);}

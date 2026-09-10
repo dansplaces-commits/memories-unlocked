@@ -68,7 +68,7 @@ Pending: the actual Supabase API cannot currently find the journeys table. Run t
 
 The migration is stored at supabase/001_private_collection.sql. The detailed handover is docs/PROJECT_STATUS.md. Future sessions should start with that handover and the latest PR rather than repeat installation steps.
 
-Planned later: account recovery, editing/deletion and exports, photographs, map pins, family invitations, shared legacy journeys and clue/time/location unlocking. These are roadmap items, not delivered features.
+Completed in the current local draft: account recovery, editing, exports, photographs with owner-only deletion (using separate storage migrations), owner-scoped map pins, future-trip states, linked timeline navigation, validated pin-pack import/export and owner-only legacy clues. Still planned: journey/memory deletion controls, family invitations, shared legacy journeys and time/location unlocking. Treat each as a separately verified phase.
 
 ## 6. Reuse this process for the next app
 

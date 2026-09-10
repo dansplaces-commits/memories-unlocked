@@ -10,10 +10,25 @@ test('invalid calendar dates and reversed ranges are rejected',()=>{
  for(const input of [{start_date:'2025-02-29'},{end_date:'2026-01-02'},{start_date:'2026-01-02',end_date:'2026-01-01'}])assert.throws(()=>journeyInput({title:'Rome',...input}));
  assert.equal(journeyInput({title:'Leap day',start_date:'2024-02-29'}).start_date,'2024-02-29');
 });
+test('journey types and paired map coordinates are validated and normalised',()=>{
+ const result=journeyInput({title:'Future Tokyo',journey_status:'dream',latitude:'35.6894872',longitude:'139.6917064'});
+ assert.equal(result.journey_status,'dream');assert.equal(result.latitude,35.689487);assert.equal(result.longitude,139.691706);
+ assert.equal(journeyInput({title:'Past',journey_status:'visited'}).journey_status,'visited');
+ assert.throws(()=>journeyInput({title:'Unknown',journey_status:'maybe'}),/valid journey type/);
+ assert.throws(()=>journeyInput({title:'Half pin',latitude:51.5}),/both map coordinates/);
+ assert.throws(()=>journeyInput({title:'Outside',latitude:91,longitude:0}),/valid map coordinate/);
+});
+test('memories accept a complete map pin but reject a half pin',()=>{
+ const result=memoryInput({journey_id:journeyId,title:'Lookout',story:'A view',clue:'Look under the arch',latitude:51.5,longitude:-0.12});
+ assert.equal(result.latitude,51.5);assert.equal(result.longitude,-0.12);
+ assert.equal(result.clue,'Look under the arch');
+ assert.throws(()=>memoryInput({journey_id:journeyId,title:'Half pin',story:'A view',longitude:-0.12}),/both map coordinates/);
+});
 test('blank and overlong fields are rejected; memory needs real journey ID',()=>{
  assert.throws(()=>journeyInput({title:'   '}));assert.throws(()=>journeyInput({title:'x'.repeat(121)}));
  assert.throws(()=>memoryInput({journey_id:'other',title:'Day one',story:'Story'}));
  assert.throws(()=>memoryInput({journey_id:journeyId,title:'Day one',story:'   '}));
+ assert.throws(()=>memoryInput({journey_id:journeyId,title:'Clue',story:'Story',clue:'x'.repeat(5001)}),/Clue must be 5000 characters or fewer/);
 });
 test('repository refuses writes without a verified user',async()=>{
  const repo=createRepository({auth:{getUser:async()=>({data:{user:null}})},from:()=>{return {insert:()=>{throw Error('Unexpected write');}};}});

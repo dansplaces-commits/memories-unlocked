@@ -7,10 +7,16 @@
 <meta name="description" content="Keep the journeys and memories that matter, ready for the people who may one day follow your footsteps.">
 <title>Memories Unlocked</title>
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js" integrity="sha384-iLddHTLokph6Omwoyid4XKxHaWa6w41BnoEj0q5oOrzmYPpHIKt1wyjReA7s//pP" crossorigin="anonymous"></script>
 <script defer src="config.js"></script>
 <script defer src="data.js"></script>
 <script defer src="book.js"></script>
+<script defer src="photos.js"></script>
+<script defer src="timeline.js"></script>
+<script defer src="pin-packs.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+<script defer src="map.js"></script>
 <script defer src="app.js"></script>
 </head>
 <body>
@@ -18,7 +24,7 @@
 <aside class="sidebar" aria-label="Memories Unlocked">
 <a class="brand" href="#home"><span class="brandMark" aria-hidden="true">◇</span><span>Memories<br><b>Unlocked</b></span></a>
 <p class="sidebarLabel">YOUR COLLECTION</p>
-<nav aria-label="Desktop navigation"><a href="#home">Home <span aria-hidden="true">↗</span></a><a href="#journeys">My journeys</a><a href="#memories">My memories</a></nav>
+<nav aria-label="Desktop navigation"><a href="#home">Home <span aria-hidden="true">↗</span></a><a href="#journeys">My journeys</a><a href="#memories">My memories</a><a href="#map">Map</a><a href="#timeline">Timeline</a></nav>
 <div class="sidebarNote"><p>A life of moments.<br>A legacy of stories.</p><small>Keep the places and people that matter close.</small></div>
 </aside>
 <main class="app" id="home">
@@ -33,7 +39,7 @@
 <div class="grid">
 <button id="newJourney" class="card navy" disabled><span aria-hidden="true">＋</span>Create Journey</button>
 <button id="newMemory" class="card gold" disabled><span aria-hidden="true">📍</span>Add Memory</button>
-<button class="card blue" disabled><span aria-hidden="true">🗺️</span>Explore My Map<small>Coming later</small></button>
+<button id="exploreMap" class="card blue" disabled><span aria-hidden="true">🗺️</span>Explore My Map<small id="mapPinCount">Your pinned memories</small></button>
 <button class="card cream" disabled><span aria-hidden="true">👣</span>Follow a Journey<small>Coming later</small></button>
 </div>
 <section id="journeys" aria-labelledby="journeysHeading">
@@ -47,9 +53,11 @@
 <div id="memoryList"></div>
 <button id="moreMemories" class="outline" hidden>Load more memories</button>
 </section>
+<section id="map" aria-labelledby="mapHeading"><div class="sectionHeading"><div><p class="eyebrow">PLACES THAT MATTER</p><h2 id="mapHeading">Memory map</h2></div><button id="refreshMap" class="outline" disabled>Refresh map</button></div><p id="mapStatus">Choose a pin on a journey or memory to see it here.</p><div class="mapTools"><div><label for="pinPackSelect">Pin style</label><select id="pinPackSelect"></select></div><div class="mapToolButtons"><a id="downloadPinPack" class="outline" hidden>Download this pin pack</a><button id="importPinPack" type="button" class="outline">Import a pin pack</button><input id="pinPackFile" type="file" accept="application/json,.json" hidden></div></div><p class="small">Pin packs only change map colours, symbols and labels. Import JSON from a source you trust.</p><p id="pinPackStatus" class="small" role="status" hidden></p><div id="mapLegend" class="mapLegend" aria-label="Map pin key"></div><div id="memoryMap" class="memoryMap" role="application" aria-label="Private map of your pinned memories"></div><div id="mapList" class="mapList"></div></section>
+<section id="timeline" aria-labelledby="timelineHeading"><div class="sectionHeading"><div><p class="eyebrow">YOUR STORY, IN ORDER</p><h2 id="timelineHeading">Journey timeline</h2></div><button id="refreshTimeline" class="outline" disabled>Refresh timeline</button></div><p id="timelineIntro">Your journeys and memories will appear here in date order.</p><div id="timelineList"><p class="empty">Sign in to see your timeline.</p></div></section>
 <aside class="quote"><h2>Some memories are worth travelling for.</h2><p>The places that shaped your life. The stories you want to keep. Start with one journey.</p></aside>
 </main>
-<nav class="nav" aria-label="Main navigation"><a href="#home">Home</a><a href="#journeys">Journeys</a><a href="#memories">Memories</a></nav>
+<nav class="nav" aria-label="Main navigation"><a href="#home">Home</a><a href="#journeys">Journeys</a><a href="#memories">Memories</a><a href="#map">Map</a><a href="#timeline">Timeline</a></nav>
 <dialog id="authModal" aria-labelledby="authHeading"><div class="sheet">
 <button type="button" class="close" data-close="authModal" aria-label="Close account">×</button>
 <p class="eyebrow">YOUR PERSONAL COLLECTION</p><h2 id="authHeading">Sign in</h2>
@@ -72,9 +80,11 @@
 <form id="journeyForm">
 <label for="title">Journey name</label><input id="title" required maxlength="120" placeholder="e.g. Our Rome Wedding">
 <label for="story">Your story</label><textarea id="story" maxlength="10000" placeholder="What makes this journey meaningful?"></textarea>
+<label for="journeyType">Journey type</label><select id="journeyType"><option value="visited">Visited journey</option><option value="planned">Planned trip</option><option value="dream">Dream destination</option></select>
 <div class="dateGrid"><div><label for="startDate">Start date</label><input id="startDate" type="date"></div><div><label for="endDate">End date</label><input id="endDate" type="date"></div></div>
 <p class="small">Past dates are welcome. Leave the end date empty for an ongoing journey.</p>
 <label for="location">Main location</label><input id="location" maxlength="200" placeholder="e.g. Rome, Italy">
+<input id="latitude" type="hidden"><input id="longitude" type="hidden"><button id="pickJourneyLocation" type="button" class="outline wide">Choose this place on the map</button><p id="journeyPinSummary" class="small">No map pin chosen yet.</p>
 <p class="privacy">🔒 Only you can see this journey. Sharing will come later.</p>
 <button type="submit" id="saveJourney" class="save">Save journey</button>
 <p id="journeyStatus" role="status" class="notice" hidden></p>
@@ -87,8 +97,10 @@
 <p class="small">Choose from your loaded journeys. Use “Load more journeys” to find older ones.</p>
 <label for="memoryTitle">Memory name</label><input id="memoryTitle" required maxlength="120" placeholder="e.g. The moment we said yes">
 <label for="memoryStory">What do you want to remember?</label><textarea id="memoryStory" required maxlength="10000" placeholder="The little details. How it felt. Who was there."></textarea>
+<label for="memoryClue">Clue for someone following later <span class="optional">(optional)</span></label><textarea id="memoryClue" maxlength="5000" placeholder="A hint about what to notice, where to look or why this place matters."></textarea><p class="small">This stays private for now and can become part of a shared legacy journey later.</p>
 <label for="memoryDate">Date of the memory</label><input id="memoryDate" type="date">
 <label for="memoryLocation">Place</label><input id="memoryLocation" maxlength="200" placeholder="e.g. Rome City Hall">
+<input id="memoryLatitude" type="hidden"><input id="memoryLongitude" type="hidden"><button id="pickMemoryLocation" type="button" class="outline wide">Choose this place on the map</button><p id="memoryPinSummary" class="small">No map pin chosen yet.</p>
 <p class="privacy">🔒 This memory stays in your private collection.</p>
 <button type="submit" id="saveMemory" class="save">Save memory</button>
 <p id="memoryStatus" role="status" class="notice" hidden></p>
@@ -110,7 +122,10 @@
 <form id="editForm">
 <label for="editTitle">Name</label><input id="editTitle" required maxlength="120">
 <label for="editStory">Story</label><textarea id="editStory" maxlength="10000"></textarea>
+<div id="editClueGroup"><label for="editClue">Clue for someone following later <span class="optional">(optional)</span></label><textarea id="editClue" maxlength="5000"></textarea><p class="small">Kept private until sharing is enabled.</p></div>
 <label for="editLocation">Place</label><input id="editLocation" maxlength="200">
+<input id="editLatitude" type="hidden"><input id="editLongitude" type="hidden"><button id="pickEditLocation" type="button" class="outline wide">Change map pin</button><p id="editPinSummary" class="small">No map pin chosen yet.</p>
+<div id="editJourneyStatusGroup"><label for="editJourneyStatus">Journey type</label><select id="editJourneyStatus"><option value="visited">Visited journey</option><option value="planned">Planned trip</option><option value="dream">Dream destination</option></select></div>
 <div id="editJourneyDates" class="dateGrid"><div><label for="editStartDate">Start date</label><input id="editStartDate" type="date"></div><div><label for="editEndDate">End date</label><input id="editEndDate" type="date"></div></div>
 <div id="editMemoryDateGroup"><label for="editMemoryDate">Memory date</label><input id="editMemoryDate" type="date"></div>
 <p class="privacy">Only your words, place and dates change. This record stays private and keeps its memories.</p>
@@ -130,4 +145,19 @@
 <p id="exportStatus" class="notice" role="status" hidden></p>
 </div></dialog>
 <dialog id="bookModal" aria-label="Your memory book"><div class="bookToolbar"><button id="printBook" type="button" class="outline">Print / Save as PDF</button><button type="button" class="outline" data-close="bookModal">Close book</button><p id="bookPrintStatus" role="status">Choose Save as PDF in your device’s print options, if available. A file is only saved when you complete those steps. For a clean copy, turn off browser headers and footers.</p></div><div id="bookContent"></div></dialog>
+<dialog id="photoModal" aria-labelledby="photoHeading"><div class="sheet">
+<button type="button" class="close" data-close="photoModal" aria-label="Close photo">×</button>
+<p class="eyebrow">A MOMENT, IN PICTURES</p><h2 id="photoHeading">Memory photo</h2>
+<p id="photoMemoryTitle"></p>
+<img id="photoPreview" class="photoPreview" alt="Photo for this memory" hidden>
+<label for="photoFile">Choose a photo</label><input id="photoFile" type="file" accept="image/jpeg,image/png,image/webp">
+<p class="small">One photo per saved memory in this version. JPEG, PNG or WebP, up to 8 MB. We save a resized JPEG copy; keep your original. Photo replacement is not available yet.</p>
+<p class="privacy">Only your account can view the stored photo. Photos are not yet included in downloaded collections or memory books.</p>
+<button id="uploadPhoto" type="button" class="save" disabled>Save photo</button>
+<button id="deletePhoto" type="button" class="outline wide" disabled>Delete saved photo</button>
+<p id="photoStatus" class="notice" role="status"></p>
+</div></dialog>
+<dialog id="mapPickerModal" aria-labelledby="mapPickerHeading"><div class="sheet mapPickerSheet">
+<button type="button" class="close" data-close="mapPickerModal" aria-label="Close map picker">×</button><p class="eyebrow">PIN A MEANINGFUL PLACE</p><h2 id="mapPickerHeading">Choose on the map</h2><p class="small">Tap the map where this journey or memory belongs. The pin is saved with your private record.</p><div id="pickerMap" class="pickerMap"></div><p id="pickerCoordinates" class="small">No place selected yet.</p><button id="saveMapPin" type="button" class="save" disabled>Use this pin</button>
+</div></dialog>
 </body></html>

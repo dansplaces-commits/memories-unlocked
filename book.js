@@ -26,6 +26,7 @@
       for(const memory of memories){
         const moment=node('section',undefined,'bookMoment');
         moment.append(node('h3',memory.title),node('p',[date(memory.memory_date),memory.location].filter(Boolean).join(' · '),'bookMeta'),node('p',memory.story,'bookStory'));
+        if(memory.clue)moment.append(node('p','Clue for later: '+memory.clue,'bookClue'));
         chapter.append(moment);
       }
       book.append(chapter);

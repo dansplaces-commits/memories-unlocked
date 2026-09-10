@@ -2,7 +2,7 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const {createRepository}=require('../data.js');
 function fixture() {
- const rows={journeys:Array.from({length:51},(_,i)=>({id:String(i).padStart(4,'0'),owner_id:'owner',title:'Journey '+i,story:'<script>private text</script>',secret:'must not export'})),memories:[{id:'m1',owner_id:'owner',journey_id:'0000',title:'Moment',story:'Remember this'}]};
+ const rows={journeys:Array.from({length:51},(_,i)=>({id:String(i).padStart(4,'0'),owner_id:'owner',title:'Journey '+i,story:'<script>private text</script>',secret:'must not export'})),memories:[{id:'m1',owner_id:'owner',journey_id:'0000',title:'Moment',story:'Remember this',clue:'Notice the old arch'}]};
  const calls=[];let user={id:'owner'},onPage=null;
  const client={auth:{getUser:async()=>({data:{user}})},from:table=>{
   let filter;return {select(fields,options){assert.equal(options.count,'exact');return this;},eq(key,value){assert.equal(key,'owner_id');filter=value;return this;},order(key,options){assert.equal(key,'id');assert.equal(options.ascending,true);return this;},async range(start,end){calls.push({table,start,filter});if(onPage)return onPage({table,start,end,rows,calls});return {data:rows[table].slice(start,end+1),count:rows[table].length};}};
@@ -14,6 +14,7 @@ test('export reads every page twice, scopes to owner and strips unlisted fields'
  assert.equal(result.journeys.length,51);assert.equal(result.memories.length,1);
  assert.equal(s.calls.length,6);assert(s.calls.every(c=>c.filter==='owner'));
  assert.equal(result.journeys[0].story,'<script>private text</script>');
+ assert.equal(result.memories[0].clue,'Notice the old arch');
  assert(!('secret' in result.journeys[0]));assert(!('owner_id' in result.journeys[0]));
  assert.equal(result.version,1);
 });
