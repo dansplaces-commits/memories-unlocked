@@ -36,3 +36,8 @@ test('storage failures are never reported as saved and account switches discard 
  const t=fixture();t.client.storage.from=()=>({download:async()=>{t.user(null);return {data:jpeg};}});
  await assert.rejects(t.service.download(memory),/account or photo request changed/);
 });
+test('an empty delete response is treated as unconfirmed',async()=>{
+ const s=fixture();
+ s.client.storage.from=()=>({remove:async()=>({data:[],error:null})});
+ await assert.rejects(s.service.remove(memory),/could not be confirmed/);
+});

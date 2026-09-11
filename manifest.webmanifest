@@ -1,0 +1,17 @@
+{
+  "name": "Memories Unlocked",
+  "short_name": "Memories",
+  "description": "Keep the journeys and memories that matter.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#10244a",
+  "theme_color": "#10244a",
+  "icons": [
+    {
+      "src": "/assets/memories-unlocked-app-icon.png",
+      "sizes": "1254x1254",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

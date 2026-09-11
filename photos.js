@@ -58,6 +58,7 @@
     const {data,error}=await client.storage.from(BUCKET).remove([target.name]);
     if(error)throw error;
     await verify(target.owner,isCurrent);
+    if(!Array.isArray(data)||!data.length)throw new Error('The photo deletion could not be confirmed. Reopen the memory and try again.');
     return data;
    }
   };

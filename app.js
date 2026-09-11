@@ -20,6 +20,34 @@
   let photoRequest=0,photoMemory=null,photoBlob=null,photoUrl=null,photoHasSaved=false;
   let mapView=null,pickerMap=null,pickerTarget=null,pickerCoords=null;
   let pinPacks=[],selectedPinPack=null,pinPackUrl=null;
+  const welcomeSteps=[
+    {image:'assets/memories-unlocked-launch-screen.png',alt:'Memories Unlocked globe and open lock emblem over a mountain journey route',kicker:'PRIVATE MEMORY COLLECTION',title:'Every place has a story.',copy:'Keep the moments that matter and leave a trail worth following.'},
+    {image:'assets/memories-unlocked-onboarding-capture.png',alt:'Travel photographs and a camera connected to the Memories Unlocked globe and route',kicker:'CAPTURE WHAT MATTERS',title:'Keep the moments that shaped you.',copy:'Save the places, people and details you never want to lose.'},
+    {image:'assets/memories-unlocked-onboarding-map.png',alt:'A glowing world map with visited, planned and dream destination pins',kicker:'MAP YOUR JOURNEY',title:'See your story take shape.',copy:'Connect journeys, memories and future dreams on one private map.'},
+    {image:'assets/memories-unlocked-onboarding-share.png',alt:'Private memories connected around the Memories Unlocked globe and open lock',kicker:'A LEGACY TO KEEP',title:'Your memories, kept close.',copy:'Your collection is private. Family sharing is a future chapter.'}
+  ];
+  let welcomeIndex=0;
+  const welcomeStorageKey='memories-unlocked-welcome-v1';
+  function welcomeStorage(){try{return window.localStorage || null;}catch(error){return null;}}
+  function welcomeSeen(){const storage=welcomeStorage();try{return storage?.getItem(welcomeStorageKey)==='seen';}catch(error){return false;}}
+  function markWelcomeSeen(){const storage=welcomeStorage();try{storage?.setItem(welcomeStorageKey,'seen');}catch(error){/* Private browsing can deny storage; closing still works. */}}
+  function renderWelcome(){
+    const step=welcomeSteps[welcomeIndex],artwork=$('welcomeArtwork');
+    artwork.src=step.image;artwork.alt=step.alt;$('welcomeKicker').textContent=step.kicker;$('welcomeHeading').textContent=step.title;$('welcomeCopy').textContent=step.copy;
+    $('welcomeStepLabel').textContent=welcomeIndex===0?'Welcome':`Step ${welcomeIndex} of ${welcomeSteps.length-1}`;
+    $('welcomeIndicators').replaceChildren(...welcomeSteps.map((item,index)=>{const dot=element('span',undefined,'welcomeDot'+(index===welcomeIndex?' active':''));dot.setAttribute?.('aria-hidden','true');return dot;}));
+    $('welcomeBack').hidden=welcomeIndex===0;$('welcomeNext').textContent=welcomeIndex===welcomeSteps.length-1?'Start my collection':welcomeIndex===0?'Start exploring':'Continue';
+  }
+  function finishWelcome(startCollection=false){
+    markWelcomeSeen();$('welcomeModal').close();
+    if(startCollection&&!user&&client)open('authModal');
+  }
+  function showWelcome(){welcomeIndex=0;renderWelcome();if(!$('welcomeModal').open)$('welcomeModal').showModal();}
+  function showWelcomeIfNeeded(){
+    const params=[new URLSearchParams(location.search),new URLSearchParams(location.hash.slice(1))];
+    const accountLink=params.some(part=>['code','access_token','token_hash','type','error','error_description'].some(key=>part.has(key)));
+    if(!welcomeSeen()&&!accountLink)showWelcome();
+  }
   function clearPhoto(){
     photoRequest++;photoMemory=null;photoBlob=null;photoHasSaved=false;
     if(photoUrl){URL.revokeObjectURL(photoUrl);photoUrl=null;}
@@ -92,8 +120,9 @@
   const journeyLabels={visited:'Visited',planned:'Planned',dream:'Dream'};
   function pinTheme(){return selectedPinPack || pinPacks[0] || {styles:{visited:{color:'#10244a',symbol:'✓',label:'Visited'},planned:{color:'#328997',symbol:'→',label:'Planned'},dream:{color:'#7251a3',symbol:'★',label:'Dream'},memory:{color:'#d6a52f',symbol:'♥',label:'Memory'}}};}
   function pinCoordinates(row){
+    if([row?.latitude,row?.longitude].some(value=>value==null||String(value).trim()===''))return null;
     const latitude=Number(row?.latitude),longitude=Number(row?.longitude);
-    return Number.isFinite(latitude)&&Number.isFinite(longitude)?{latitude,longitude}:null;
+    return Number.isFinite(latitude)&&Math.abs(latitude)<=90&&Number.isFinite(longitude)&&Math.abs(longitude)<=180?{latitude,longitude}:null;
   }
   function formatPin(coords){return coords?`Pinned at ${coords.latitude.toFixed(5)}, ${coords.longitude.toFixed(5)}`:'No map pin chosen yet.';}
   function updatePinLegend(){
@@ -138,8 +167,7 @@
   }
   function coordinatesFor(target){
     const fields=target==='journey'?['latitude','longitude']:target==='memory'?['memoryLatitude','memoryLongitude']:['editLatitude','editLongitude'];
-    const latitude=Number($(fields[0]).value),longitude=Number($(fields[1]).value);
-    return Number.isFinite(latitude)&&Number.isFinite(longitude)?{latitude,longitude}:null;
+    return pinCoordinates({latitude:$(fields[0]).value,longitude:$(fields[1]).value});
   }
   function pickerFields(target){return target==='journey'?['latitude','longitude','journeyPinSummary']:target==='memory'?['memoryLatitude','memoryLongitude','memoryPinSummary']:['editLatitude','editLongitude','editPinSummary'];}
   function updatePickerSummary(target,coords){const fields=pickerFields(target);$(fields[2]).textContent=formatPin(coords);}
@@ -306,6 +334,7 @@
   });
   function openPassword(isRecovery=false) {
     if(!user)return;
+    if($('welcomeModal').open)$('welcomeModal').close();
     recovery=isRecovery;$('passwordForm').reset();status('passwordStatus','');
     $('passwordHeading').textContent=isRecovery?'Set a new password':'Change password';
     $('currentPasswordGroup').hidden=isRecovery;$('currentPassword').required=!isRecovery;
@@ -475,6 +504,11 @@
   }
   $('journeyForm').addEventListener('submit',event=>{event.preventDefault();saveForm('journey',{title:$('title').value,story:$('story').value,journey_status:$('journeyType').value,start_date:$('startDate').value,end_date:$('endDate').value,location:$('location').value,latitude:$('latitude').value,longitude:$('longitude').value});});
   $('memoryForm').addEventListener('submit',event=>{event.preventDefault();saveForm('memory',{journey_id:$('memoryJourney').value,title:$('memoryTitle').value,story:$('memoryStory').value,clue:$('memoryClue').value,memory_date:$('memoryDate').value,location:$('memoryLocation').value,latitude:$('memoryLatitude').value,longitude:$('memoryLongitude').value});});
+  $('welcomeNext').addEventListener('click',()=>{if(welcomeIndex<welcomeSteps.length-1){welcomeIndex++;renderWelcome();}else finishWelcome(true);});
+  $('welcomeBack').addEventListener('click',()=>{if(welcomeIndex>0){welcomeIndex--;renderWelcome();}});
+  $('welcomeSkip').addEventListener('click',()=>finishWelcome());
+  $('welcomeModal').addEventListener('cancel',event=>{if(saveBusy||authBusy)return;event.preventDefault();finishWelcome();});
+  $('replayWelcome').addEventListener('click',()=>{if(saveBusy||authBusy)return;$('authModal').close();showWelcome();});
   async function initialise() {
     try {
       if(!window.supabase || !window.MEMORIES_CONFIG || !window.MemoriesData)throw new Error('The app could not finish loading. Refresh the page or check your connection.');
@@ -488,5 +522,6 @@
       if(callbackError){status('connectionStatus','That email link is invalid or has expired. Sign in normally, or request a new email from the account screen.',true);history.replaceState(null,'',location.pathname);}
     }catch(error){status('connectionStatus',errorMessage(error),true);}
   }
+  showWelcomeIfNeeded();
   initialise();
 })();

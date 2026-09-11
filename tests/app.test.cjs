@@ -6,7 +6,7 @@ const vm=require('node:vm');
 const path=require('node:path');
 const html=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
 const source=fs.readFileSync(path.join(__dirname,'../app.js'),'utf8');
-async function setup(initialUser=null) {
+async function setup(initialUser=null,fixtures={}) {
  const nodes=new Map(),calls=[],timers=[];let authCallback;
  const node=()=>({value:'',textContent:'',hidden:false,disabled:false,open:false,handlers:{},children:[],classList:{toggle(){}},
  addEventListener(type,fn){this.handlers[type]=fn;},
@@ -26,11 +26,11 @@ async function setup(initialUser=null) {
  resetPasswordForEmail:async email=>{calls.push(['reset',email]);return {};},
  resend:async input=>{calls.push(['resend',input]);return {};}
  };
- const repo={listJourneys:async()=>[],listMemories:async()=>[]};
+ const repo={listJourneys:async()=>fixtures.journeys||[],listMemories:async()=>[],listAllMemories:async()=>fixtures.memories||[]};
  const context={document:{getElementById:id=>{assert.ok(nodes.has(id),'Unknown id '+id);return nodes.get(id);},createElement:node,querySelectorAll:()=>[]},
- window:{supabase:{createClient:()=>({auth})},MEMORIES_CONFIG:{},MemoriesData:{createRepository:()=>repo},MemoriesBook:require('../book.js'),print:()=>calls.push(['print'])},
+ window:{localStorage:fixtures.storage,supabase:{createClient:()=>({auth})},MEMORIES_CONFIG:{},MemoriesData:{createRepository:()=>repo},MemoriesBook:require('../book.js'),MemoriesMap:fixtures.map,print:()=>calls.push(['print'])},
  MemoriesData:{PAGE_SIZE:50,createRepository:()=>repo},MEMORIES_CONFIG:{},
- Intl,Date,URLSearchParams,Blob,URL:{createObjectURL:()=>{calls.push(['createBlob']);return 'blob:test';},revokeObjectURL:url=>calls.push(['revokeBlob',url])},location:{hash:'',search:'',pathname:'/'},history:{replaceState(){}},crypto:{randomUUID:()=> 'test-id'},
+ Intl,Date,URLSearchParams,Blob,URL:{createObjectURL:()=>{calls.push(['createBlob']);return 'blob:test';},revokeObjectURL:url=>calls.push(['revokeBlob',url])},location:{hash:fixtures.hash||'',search:fixtures.search||'',pathname:'/'},history:{replaceState(){}},crypto:{randomUUID:()=> 'test-id'},
  setTimeout:fn=>timers.push(fn)
  };
  vm.runInNewContext(source,context);
@@ -72,6 +72,7 @@ test('wrong current password cannot update the account',async()=>{
 });
 test('recovery event opens password form; session loss clears it and prevents update',async()=>{
  const s=await setup();await s.emit('PASSWORD_RECOVERY',{id:'owner',email:'test@example.com'});
+ assert.equal(s.nodes.get('welcomeModal').open,false);
  assert.equal(s.nodes.get('passwordModal').open,true);assert.equal(s.nodes.get('currentPassword').required,false);
  s.nodes.get('newPassword').value=s.nodes.get('confirmPassword').value='a-long-new-password';
  await s.nodes.get('passwordForm').fire('submit');
@@ -79,6 +80,47 @@ test('recovery event opens password form; session loss clears it and prevents up
  await s.emit('SIGNED_OUT',null);
  assert.equal(s.nodes.get('passwordModal').open,false);
  await s.nodes.get('passwordForm').fire('submit');assert.equal(s.calls.length,1);
+});
+test('completed welcome reaches account access, stays dismissed on return and can be replayed',async()=>{
+ const values=new Map(),storage={getItem:key=>values.get(key),setItem:(key,value)=>values.set(key,value)};
+ const s=await setup(null,{storage});
+ assert.equal(s.nodes.get('welcomeModal').open,true);
+ await s.nodes.get('welcomeNext').fire('click');
+ const capture=s.nodes.get('welcomeArtwork').src;
+ await s.nodes.get('welcomeNext').fire('click');
+ assert.notEqual(s.nodes.get('welcomeArtwork').src,capture);
+ await s.nodes.get('welcomeBack').fire('click');
+ assert.equal(s.nodes.get('welcomeArtwork').src,capture);
+ for(let i=0;i<3;i++)await s.nodes.get('welcomeNext').fire('click');
+ assert.equal(s.nodes.get('welcomeModal').open,false);
+ assert.equal(s.nodes.get('authModal').open,true);
+ const returning=await setup(null,{storage});
+ assert.equal(returning.nodes.get('welcomeModal').open,false);
+ await returning.nodes.get('replayWelcome').fire('click');
+ assert.equal(returning.nodes.get('welcomeModal').open,true);
+ assert.equal(returning.nodes.get('welcomeStepLabel').textContent,'Welcome');
+});
+test('Skip and Escape remember dismissal; storage failure never traps a visitor',async()=>{
+ for(const action of ['skip','cancel']){
+  const values=new Map(),storage={getItem:key=>values.get(key),setItem:(key,value)=>values.set(key,value)};
+  const s=await setup(null,{storage});
+  if(action==='skip')await s.nodes.get('welcomeSkip').fire('click');else await s.nodes.get('welcomeModal').fire('cancel');
+  assert.equal(s.nodes.get('welcomeModal').open,false);
+  assert.equal(s.nodes.get('authModal').open,false);
+  assert.equal((await setup(null,{storage})).nodes.get('welcomeModal').open,false);
+ }
+ const s=await setup(null,{storage:{getItem(){throw Error('Denied');},setItem(){throw Error('Denied');}}});
+ await s.nodes.get('welcomeSkip').fire('click');
+ assert.equal(s.nodes.get('welcomeModal').open,false);
+ assert.equal(s.nodes.get('accountButton').disabled,false);
+});
+test('account callback links bypass welcome without marking the introduction as completed',async()=>{
+ for(const location of [{hash:'#type=recovery&access_token=test'},{search:'?code=test'},{search:'?error_description=expired'}]){
+  const values=new Map(),storage={getItem:key=>values.get(key),setItem:(key,value)=>values.set(key,value)};
+  const s=await setup(null,{...location,storage});
+  assert.equal(s.nodes.get('welcomeModal').open,false);
+  assert.equal(values.size,0);
+ }
 });
 test('prepared export is downloadable but never claims a completed save; sign-out revokes it',async()=>{
  const s=await setup({id:'owner',email:'test@example.com'});
@@ -112,4 +154,36 @@ test('memory book uses prepared collection and clears private content on sign-ou
  await s.emit('SIGNED_OUT',null);
  assert.equal(s.nodes.get('bookModal').open,false);assert.equal(s.nodes.get('bookContent').children.length,0);
  await s.nodes.get('printBook').fire('click');assert.equal(s.calls.filter(c=>c[0]==='print').length,1);
+});
+test('the collection map omits records without coordinates and preserves a real zero-coordinate pin',async()=>{
+ let points=[];
+ const map={createView:()=>({setPoints:next=>points=next,destroy(){}})};
+ const s=await setup({id:'owner'}, {map,journeys:[
+  {id:'unpinned',title:'No location',latitude:null,longitude:null},
+  {id:'partial',title:'Incomplete location',latitude:12,longitude:null},
+  {id:'invalid',title:'Invalid location',latitude:91,longitude:0},
+  {id:'zero',title:'Chosen zero location',latitude:0,longitude:0}
+ ],memories:[
+  {id:'unpinned-memory',title:'No location',latitude:null,longitude:null},
+  {id:'pinned-memory',title:'Chosen memory location',latitude:51.5,longitude:0}
+ ]});
+ assert.deepEqual(Array.from(points,point=>point.id),['zero','pinned-memory']);
+ assert.equal(s.nodes.get('mapPinCount').textContent,'2 pinned places');
+});
+test('empty map pickers require a chosen location while existing zero coordinates remain valid',async()=>{
+ let initial;
+ const map={createView:()=>({setPoints(){},destroy(){}}),createPicker:(document,id,coords)=>{initial=coords;return {destroy(){}};}};
+ const s=await setup({id:'owner'}, {map});
+ for(const [button,lat,lon] of [['pickJourneyLocation','latitude','longitude'],['pickMemoryLocation','memoryLatitude','memoryLongitude'],['pickEditLocation','editLatitude','editLongitude']]){
+  for(const [latitude,longitude] of [['',''],[' ','\t'],['10','']]){
+   s.nodes.get(lat).value=latitude;s.nodes.get(lon).value=longitude;
+   await s.nodes.get(button).fire('click');
+   assert.equal(initial,null);assert.equal(s.nodes.get('saveMapPin').disabled,true);
+   s.nodes.get('mapPickerModal').close();
+  }
+  s.nodes.get(lat).value='0';s.nodes.get(lon).value='0';
+  await s.nodes.get(button).fire('click');
+  assert.equal(initial.latitude,0);assert.equal(initial.longitude,0);assert.equal(s.nodes.get('saveMapPin').disabled,false);
+  s.nodes.get('mapPickerModal').close();
+ }
 });
