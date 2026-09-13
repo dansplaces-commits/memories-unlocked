@@ -1,7 +1,9 @@
 let deferredInstallPrompt=null;
 function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;}
+function markStandalone(){const standalone=isStandalone();document.documentElement.classList.toggle('standalone-app',standalone);document.querySelectorAll('[data-install-app]').forEach(el=>{if(standalone)el.hidden=true;});return standalone;}
 function pwaPlatform(){const ua=navigator.userAgent||'';if(/iphone|ipad|ipod/i.test(ua))return'ios';if(/android/i.test(ua))return'android';if(/windows/i.test(ua))return'windows';return'desktop';}
 function installHelp(){
+  if(isStandalone()){toast('Memories Unlocked is already installed on this device.');return;}
   const platform=pwaPlatform();
   let steps='Use your browser menu and choose Install app or Create shortcut.';
   if(platform==='ios')steps='In Safari, tap the Share button, choose Add to Home Screen, then tap Add.';
@@ -10,6 +12,7 @@ function installHelp(){
   mountDialog('installModal',`<button class="close" onclick="closeModal('installModal')">×</button><div class="welcome">TAKE YOUR MEMORIES WITH YOU</div><h2>Install Memories Unlocked</h2><p class="intro">Open your journeys from your home screen like an app.</p><div class="install-steps"><strong>${esc(steps)}</strong><p class="small">Once installed, Memories Unlocked opens in its own app window. The app shell can start offline; cloud memories refresh when you are connected.</p></div>${deferredInstallPrompt?'<button class="save" onclick="installMemoriesUnlocked()">Install Memories Unlocked</button>':''}<button class="secondary" onclick="closeModal('installModal')">Not now</button>`,'install-panel');
 }
 async function installMemoriesUnlocked(){if(!deferredInstallPrompt){installHelp();return;}deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;closeModal('installModal');if(choice.outcome==='accepted')toast('Memories Unlocked is being added to your device.');}
-window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstallPrompt=event;document.querySelectorAll('[data-install-app]').forEach(el=>el.hidden=false);});
-window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;document.querySelectorAll('[data-install-app]').forEach(el=>el.hidden=true);toast('Memories Unlocked is installed. Your journeys are now one tap away.');});
-window.addEventListener('DOMContentLoaded',()=>{if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});if(!isStandalone()&&pwaPlatform()==='ios')document.querySelectorAll('[data-install-app]').forEach(el=>el.hidden=false);});
+window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstallPrompt=event;if(!markStandalone())document.querySelectorAll('[data-install-app]').forEach(el=>el.hidden=false);});
+window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;markStandalone();toast('Memories Unlocked is installed. Your journeys are now one tap away.');});
+window.addEventListener('DOMContentLoaded',()=>{if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});const standalone=markStandalone();if(!standalone&&pwaPlatform()==='ios')document.querySelectorAll('[data-install-app]').forEach(el=>el.hidden=false);});
+const displayModeQuery=window.matchMedia('(display-mode: standalone)');if(displayModeQuery.addEventListener)displayModeQuery.addEventListener('change',markStandalone);
