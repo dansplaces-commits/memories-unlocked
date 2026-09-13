@@ -1,0 +1,36 @@
+/* Preset appearance themes — kept separate so uploaded wallpapers remain untouched. */
+:root[data-theme="paper"] body:before {
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(255,255,255,.9), transparent 34%),
+    radial-gradient(circle at 82% 78%, rgba(207,177,116,.24), transparent 38%),
+    linear-gradient(145deg,#f7efd9,#dfcda8);
+}
+:root[data-theme="coast"] body:before {
+  background-image:
+    radial-gradient(ellipse at 12% 22%, rgba(137,220,218,.92), transparent 52%),
+    radial-gradient(ellipse at 88% 80%, rgba(246,215,151,.72), transparent 46%),
+    linear-gradient(145deg,#1f6477,#dce9df);
+}
+:root[data-theme="midnight"] body:before {
+  background-image:
+    radial-gradient(ellipse at 80% 14%, rgba(116,164,190,.68), transparent 44%),
+    radial-gradient(ellipse at 18% 82%, rgba(61,79,132,.66), transparent 48%),
+    linear-gradient(145deg,#06152b,#263f6d);
+}
+:root[data-theme="rose"] body:before {
+  background-image:
+    radial-gradient(ellipse at 16% 72%, rgba(92,143,118,.62), transparent 50%),
+    radial-gradient(ellipse at 82% 18%, rgba(255,218,207,.82), transparent 42%),
+    linear-gradient(135deg,#b96f7f,#efc4b5);
+}
+/* Presets need enough colour to remain visible beneath the reading-softness veil.
+   Custom uploaded photos deliberately keep the original overlay behaviour. */
+:root[data-theme="paper"] body:after,
+:root[data-theme="coast"] body:after,
+:root[data-theme="midnight"] body:after,
+:root[data-theme="rose"] body:after {
+  background:rgba(250,248,242,calc(var(--background-softness) * .72));
+}
+:root[data-theme="midnight"] body:after {
+  background:rgba(239,242,247,calc(var(--background-softness) * .70));
+}
