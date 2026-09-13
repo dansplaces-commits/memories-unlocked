@@ -1,0 +1,15 @@
+/* Customisable Memories Unlocked navigation dock */
+:root{--dock-gap:18px}
+html[data-dock="bottom"] .nav{left:50%;right:auto;top:auto;bottom:18px;transform:translateX(-50%);width:min(620px,calc(100% - 32px));flex-direction:row}
+html[data-dock="top"] .nav{left:50%;right:auto;top:18px;bottom:auto;transform:translateX(-50%);width:min(620px,calc(100% - 32px));flex-direction:row}
+html[data-dock="left"] .nav,html[data-dock="right"] .nav{top:50%;bottom:auto;width:86px;max-width:86px;min-height:360px;transform:translateY(-50%);flex-direction:column;padding:13px 8px;border-radius:28px}
+html[data-dock="left"] .nav{left:18px;right:auto}
+html[data-dock="right"] .nav{right:18px;left:auto}
+html[data-dock="left"] .nav button,html[data-dock="right"] .nav button{width:100%;min-height:76px;padding:8px 3px;flex:1}
+html[data-dock="left"] .nav button svg,html[data-dock="right"] .nav button svg{width:24px;height:24px}
+html[data-dock="left"] .app{margin-left:92px}
+html[data-dock="right"] .app{margin-right:92px}
+html[data-dock="top"] .app{padding-top:112px}
+html[data-dock="top"] .brand-header{margin-top:10px}
+.dock-choices{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:10px 0 22px}.dock-choice{border:1px solid #d9d3c5;background:#fff;border-radius:16px;padding:10px 5px;color:#24354b;cursor:pointer;font:inherit;font-size:11px;font-weight:700}.dock-choice[aria-pressed="true"]{outline:2px solid #c79a35;border-color:#c79a35;background:#fffaf0}.dock-preview{display:block;position:relative;width:48px;height:38px;margin:0 auto 7px;border:1px solid #d8d1c3;border-radius:8px;background:#f8f5ed}.dock-preview:after{content:"";position:absolute;background:#10244a;border-radius:4px}.dock-preview.bottom:after{height:5px;left:7px;right:7px;bottom:4px}.dock-preview.top:after{height:5px;left:7px;right:7px;top:4px}.dock-preview.left:after{width:5px;top:6px;bottom:6px;left:4px}.dock-preview.right:after{width:5px;top:6px;bottom:6px;right:4px}
+@media(max-width:700px){html[data-dock="left"] .app,html[data-dock="right"] .app{margin-left:72px;margin-right:0}html[data-dock="right"] .app{margin-left:0;margin-right:72px}html[data-dock="left"] .nav,html[data-dock="right"] .nav{width:64px;max-width:64px;left:7px;right:auto;border-radius:22px;padding:8px 4px}html[data-dock="right"] .nav{right:7px;left:auto}html[data-dock="left"] .nav button span,html[data-dock="right"] .nav button span{font-size:9px}.dock-choices{grid-template-columns:repeat(2,1fr)}}
