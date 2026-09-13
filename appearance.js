@@ -1,0 +1,74 @@
+/* Personal appearance is kept on the device; uploaded files never leave it. */
+const APPEARANCE_KEY='mu_appearance_v1';
+const fontChoices={
+  timeless:{label:'Timeless',description:'Elegant headings, simple text',heading:'Georgia, "Times New Roman", serif',body:'Arial, sans-serif'},
+  modern:{label:'Modern',description:'Clean and contemporary',heading:'"Avenir Next", "Segoe UI", Arial, sans-serif',body:'"Segoe UI", Arial, sans-serif'},
+  bookish:{label:'Storybook',description:'Warm, literary headings',heading:'Palatino, "Palatino Linotype", Georgia, serif',body:'"Trebuchet MS", Arial, sans-serif'},
+  clear:{label:'Easy reading',description:'Open shapes and generous spacing',heading:'Verdana, sans-serif',body:'Verdana, sans-serif'},
+  custom:{label:'Your uploaded font',description:'Your own lettering',heading:'"MU Custom", Georgia, serif',body:'"MU Custom", Arial, sans-serif'}
+};
+let appearance={theme:'paper',font:'timeless',softness:88},customBackgroundUrl='',customFontLoaded=false;
+function appearanceDB(){return new Promise((resolve,reject)=>{const request=indexedDB.open('mu_personal_appearance',1);request.onupgradeneeded=()=>request.result.createObjectStore('assets');request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);});}
+async function appearanceAsset(key,value){
+  const db=await appearanceDB();return new Promise((resolve,reject)=>{
+    const tx=db.transaction('assets',value===undefined?'readonly':'readwrite'),store=tx.objectStore('assets');
+    const request=value===undefined?store.get(key):value===null?store.delete(key):store.put(value,key);
+    let result;request.onsuccess=()=>result=request.result;tx.oncomplete=()=>{db.close();resolve(result);};tx.onerror=()=>{db.close();reject(tx.error);};
+  });
+}
+async function loadPersonalFont(blob){const font=new FontFace('MU Custom',await blob.arrayBuffer());await font.load();document.fonts.forEach(face=>{if(face.family==='MU Custom')document.fonts.delete(face);});document.fonts.add(font);customFontLoaded=true;}
+async function initAppearance(){
+  try{const saved=JSON.parse(localStorage.getItem(APPEARANCE_KEY)||'null');if(saved)appearance={...appearance,...saved};}catch{}
+  if(!['paper','coast','midnight','rose','custom'].includes(appearance.theme))appearance.theme='paper';
+  if(!fontChoices[appearance.font])appearance.font='timeless';
+  appearance.softness=Math.max(72,Math.min(96,Number(appearance.softness)||88));
+  applyAppearance();
+  try{
+    const [background,font]=await Promise.all([appearanceAsset('background'),appearanceAsset('font')]);
+    if(background instanceof Blob)customBackgroundUrl=URL.createObjectURL(background);
+    if(font instanceof Blob)await loadPersonalFont(font);
+    applyAppearance();
+  }catch{ /* The default themes and fonts work even if storage is unavailable. */ }
+}
+function applyAppearance(){
+  const root=document.documentElement;
+  root.dataset.theme=appearance.theme==='custom'&&!customBackgroundUrl?'paper':appearance.theme;
+  root.dataset.font=appearance.font;
+  root.style.setProperty('--font-heading',fontChoices[appearance.font].heading);
+  root.style.setProperty('--font-body',fontChoices[appearance.font].body);
+  root.style.setProperty('--background-softness',String(appearance.softness/100));
+  root.style.setProperty('--personal-background',customBackgroundUrl?`url("${customBackgroundUrl}")`:'none');
+  document.querySelectorAll('[data-theme-choice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.themeChoice===appearance.theme)));
+  document.querySelectorAll('[data-font-choice]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.fontChoice===appearance.font)));
+}
+function rememberAppearance(){
+  applyAppearance();
+  try{localStorage.setItem(APPEARANCE_KEY,JSON.stringify(appearance));}
+  catch{toast('This look is applied for now. Your browser could not save the preference.');}
+}
+function chooseTheme(theme){appearance.theme=theme;rememberAppearance();}
+function chooseFont(font){appearance.font=font;rememberAppearance();}
+function openAppearance(){
+  mountDialog('appearanceModal',`<button class="close" onclick="closeModal('appearanceModal')">×</button><div class="welcome">YOUR MEMORIES, YOUR STYLE</div><h2>Make it yours</h2><p class="intro">A familiar feeling, every time you return.</p><h3>Your background</h3><div class="theme-choices">${[['paper','Warm paper'],['coast','Coastal calm'],['midnight','Midnight blue'],['rose','Rose garden']].map(([key,label])=>`<button class="theme-choice" data-theme-choice="${key}" onclick="chooseTheme('${key}')"><span class="theme-swatch theme-${key}"></span><span>${label}</span></button>`).join('')}</div><label class="upload-control" for="backgroundUpload">＋ Choose your own background photo<input id="backgroundUpload" type="file" accept="image/jpeg,image/png,image/webp" onchange="uploadBackground(this)"></label>${customBackgroundUrl?'<button class="secondary" data-theme-choice="custom" onclick="chooseTheme(\'custom\')">Use my uploaded photo</button>':''}<p class="small">JPG, PNG or WebP, up to 15 MB. Your photo stays on this device.</p><label for="backgroundSoftness">Soften the background for easier reading</label><input id="backgroundSoftness" type="range" min="72" max="96" value="${appearance.softness}" oninput="appearance.softness=Number(this.value);rememberAppearance()"><h3>Your lettering</h3><div class="font-choices">${Object.entries(fontChoices).filter(([key])=>key!=='custom'||customFontLoaded).map(([key,font])=>`<button class="font-choice" data-font-choice="${key}" onclick="chooseFont('${key}')"><strong style="font-family:${esc(font.heading)}">${esc(font.label)}</strong><span>${esc(font.description)}</span></button>`).join('')}</div><label class="upload-control small-upload" for="fontUpload">Upload your own font<input id="fontUpload" type="file" accept=".woff2,.woff,.ttf,.otf" onchange="uploadFont(this)"></label><p class="small">Use a font you own or have permission to use. Font files stay on this device.</p><p id="appearanceMessage" class="small" role="status">Your choices save automatically on this device.</p><button class="save" onclick="closeModal('appearanceModal')">Done — this feels like me</button><button class="text-button" onclick="resetAppearance()">Restore the original look</button>`,'appearance-panel');
+  applyAppearance();
+}
+async function uploadBackground(input){
+  const file=input.files?.[0];if(!file)return;
+  if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>15*1024*1024){toast('Choose a JPG, PNG or WebP image smaller than 15 MB.');input.value='';return;}
+  $('appearanceMessage').textContent='Preparing your background…';
+  try{
+    const bitmap=await createImageBitmap(file),scale=Math.min(1,1920/Math.max(bitmap.width,bitmap.height));
+    const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(bitmap.width*scale));canvas.height=Math.max(1,Math.round(bitmap.height*scale));
+    const context=canvas.getContext('2d');context.fillStyle='#faf8f2';context.fillRect(0,0,canvas.width,canvas.height);context.drawImage(bitmap,0,0,canvas.width,canvas.height);bitmap.close();
+    const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.86));if(!blob)throw new Error('Image unavailable');
+    await appearanceAsset('background',blob);if(customBackgroundUrl)URL.revokeObjectURL(customBackgroundUrl);customBackgroundUrl=URL.createObjectURL(blob);appearance.theme='custom';rememberAppearance();
+    if($('appearanceModal'))openAppearance();toast('Your background is ready and saved on this device.');
+  }catch{if($('appearanceMessage'))$('appearanceMessage').textContent='This image could not be saved. Try another image or one of the themes above.';}
+}
+async function uploadFont(input){
+  const file=input.files?.[0];if(!file)return;
+  if(!/\.(woff2?|ttf|otf)$/i.test(file.name)||file.size>3*1024*1024){toast('Choose a WOFF2, WOFF, TTF or OTF font smaller than 3 MB.');input.value='';return;}
+  try{await loadPersonalFont(file);await appearanceAsset('font',file);appearance.font='custom';rememberAppearance();if($('appearanceModal'))openAppearance();toast('Your font is ready.');}
+  catch{if($('appearanceMessage'))$('appearanceMessage').textContent='This font could not be loaded or saved. Try a different font file.';}
+}
+function resetAppearance(){appearance={theme:'paper',font:'timeless',softness:88};rememberAppearance();if($('appearanceModal'))openAppearance();toast('The original look is restored.');}

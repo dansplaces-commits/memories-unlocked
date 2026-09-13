@@ -1,14 +1,240 @@
-const JKEY='mu_journeys',MKEY='mu_memories';let journeys=[],memories=[],cloudUser=null;try{journeys=JSON.parse(localStorage.getItem(JKEY)||'[]');memories=JSON.parse(localStorage.getItem(MKEY)||'[]')}catch(e){}const $=id=>document.getElementById(id),esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function cloudStatus(text){if($('cloudStatus'))$('cloudStatus').textContent=text}async function initCloud(){if(!window.muSupabase){cloudStatus('📱 Saved on this device');return}try{let {data:{session}}=await muSupabase.auth.getSession();if(!session){let r=await muSupabase.auth.signInAnonymously();if(r.error)throw r.error;session=r.data.session}cloudUser=session?.user||null;if(cloudUser){cloudStatus('☁️ Cloud connected securely');await loadCloudData()}}catch(e){console.warn('Cloud sign-in:',e.message);cloudStatus('📱 Device storage active · cloud sign-in needs enabling')}}
-async function loadCloudData(){if(!cloudUser)return;try{let [jr,mr]=await Promise.all([muSupabase.from('journeys').select('*').order('created_at',{ascending:false}),muSupabase.from('memories').select('*').order('created_at',{ascending:false})]);if(jr.error)throw jr.error;if(mr.error)throw mr.error;let cj=(jr.data||[]).map(j=>({id:j.id,title:j.title,location:j.location,story:j.story||'',start:j.start_date||'',end:j.end_date||'',privacy:j.visibility||'Private',code:j.share_code||String(j.id).slice(0,8).toUpperCase(),cloud:true}));let cm=(mr.data||[]).map(m=>({id:m.id,journeyId:m.journey_id,title:m.title,location:m.location,story:m.story||'',date:m.memory_date||'',clue:m.clue||'',cloud:true}));if(cj.length||cm.length){journeys=cj;memories=cm;save();render();openLinkedJourney()}}catch(e){console.warn('Cloud load:',e.message);cloudStatus('☁️ Connected · waiting for permitted cloud data')}}
-function openModal(id){$(id)?.classList.add('open')}function closeModal(id){$(id)?.classList.remove('open')}function save(){localStorage.setItem(JKEY,JSON.stringify(journeys));localStorage.setItem(MKEY,JSON.stringify(memories))}function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));$(id)?.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});render()}
-async function createJourney(){let title=$('title').value.trim(),location=$('location').value.trim();if(!title||!location)return alert('Add a journey name and location.');let now=Date.now(),j={id:now,title,location,story:$('story').value.trim(),start:$('startDate').value,end:$('endDate').value,privacy:$('privacy').value,code:title.replace(/[^a-z0-9]/gi,'').slice(0,5).toUpperCase()+'-'+String(now).slice(-4)};if(cloudUser){let row={owner_id:cloudUser.id,title:j.title,story:j.story,location:j.location,start_date:j.start||null,end_date:j.end||null,visibility:String(j.privacy||'private').toLowerCase()};let r=await muSupabase.from('journeys').insert(row).select().single();if(!r.error&&r.data){j.id=r.data.id;j.cloud=true}else console.warn('Cloud journey save:',r.error?.message)}journeys.unshift(j);save();closeModal('journeyModal');['title','location','story','startDate','endDate'].forEach(x=>$(x).value='');render();openJourney(j.id)}
-function fillJourneys(){$('memoryJourney').innerHTML=journeys.map(j=>`<option value="${j.id}">${esc(j.title)} — ${esc(j.location)}</option>`).join('')}function addMemory(id){if(!journeys.length)return openModal('journeyModal');fillJourneys();if(id)$('memoryJourney').value=String(id);openModal('memoryModal')}async function createMemory(){let title=$('memoryTitle').value.trim(),location=$('memoryLocation').value.trim(),journeyId=$('memoryJourney').value;if(!title||!location)return alert('Add a memory title and location.');let m={id:Date.now(),journeyId,title,location,date:$('memoryDate').value,story:$('memoryStory').value.trim(),clue:$('memoryClue').value.trim()};let parent=journeys.find(j=>String(j.id)===String(journeyId));if(cloudUser&&parent?.cloud){let row={owner_id:cloudUser.id,journey_id:journeyId,title:m.title,story:m.story,location:m.location,memory_date:m.date||null};let r=await muSupabase.from('memories').insert(row).select().single();if(!r.error&&r.data){m.id=r.data.id;m.cloud=true}else console.warn('Cloud memory save:',r.error?.message)}memories.unshift(m);save();closeModal('memoryModal');['memoryTitle','memoryLocation','memoryDate','memoryStory','memoryClue'].forEach(x=>$(x).value='');render();openJourney(journeyId)}
-function memoryBlock(m){return `<div class="memory clickable-memory" onclick="openMemory('${m.id}')"><b>📍 ${esc(m.title)}</b><br>${esc(m.location)}${m.date?'<br><small>'+esc(m.date)+'</small>':''}${m.story?'<br>'+esc(m.story):''}${m.clue?'<br><small>🔐 '+esc(m.clue)+'</small>':''}</div>`}
-function journeyLink(j){return location.origin+location.pathname+'?journey='+encodeURIComponent(j.code)}function findJourney(id){return journeys.find(x=>String(x.id)===String(id))}
-function openJourney(id){let j=findJourney(id);if(!j)return;closeJourneyDetail();let ms=memories.filter(m=>String(m.journeyId)===String(j.id)),dates=j.start?(j.start+(j.end?' → '+j.end:'')):'Add dates as your story grows',modal=document.createElement('div');modal.id='journeyDetailModal';modal.className='modal open journey-detail';modal.innerHTML=`<div class="sheet"><button class="close" onclick="closeJourneyDetail()">×</button><div class="journey-detail-hero"><div class="welcome">YOUR JOURNEY</div><h2>${esc(j.title)}</h2><p>📍 ${esc(j.location)}</p></div><div class="journey-stats"><div><b>📅 Dates</b><br><small>${esc(dates)}</small></div><div><b>📍 Memories</b><br><small>${ms.length} pinned</small></div><div><b>🔐 Access</b><br><small>${esc(j.privacy||'Private')}</small></div></div><h3>The Story</h3><p>${esc(j.story)||'Your story starts here.'}</p><div class="journey-code" onclick="copyCode('${esc(j.code)}')"><b>Journey Code</b><br><span>${esc(j.code)}</span><small> Tap to copy</small></div><div class="qr-padlock"><div class="welcome">YOUR DIGITAL PADLOCK</div><h3>Scan to unlock this journey</h3><canvas id="journeyQR"></canvas><p class="small">Personalise it. Print it. Attach it somewhere meaningful. The QR becomes the key back to this journey.</p><button class="detail-action" onclick="downloadQR('${esc(j.title)}')">⬇ Save QR for Printing</button></div><h3>Memory Trail</h3>${ms.length?ms.map(memoryBlock).join(''):'<div class="empty">No memories yet. Pin the first place that made this journey special.</div>'}<button class="save" onclick="closeJourneyDetail();addMemory('${j.id}')">＋ Add a Memory</button><button class="detail-action" onclick="closeJourneyDetail();showView('map')">🗺️ View Memory Map</button><button class="detail-action" onclick="shareJourney('${esc(j.code)}','${esc(j.title)}')">👣 Share / Follow Code</button></div>`;document.body.appendChild(modal);setTimeout(()=>makeQR(j),0)}
-function makeQR(j){let canvas=$('journeyQR');if(!canvas)return;if(window.QRCode)QRCode.toCanvas(canvas,journeyLink(j),{width:220,margin:2},err=>{if(err)console.error(err)});else canvas.outerHTML='<p>QR generator is loading. Reopen this journey in a moment.</p>'}function downloadQR(title){let c=$('journeyQR');if(!c)return;let a=document.createElement('a');a.download=(title||'Memories-Unlocked').replace(/[^a-z0-9]+/gi,'-')+'-QR.png';a.href=c.toDataURL('image/png');a.click()}
-function closeJourneyDetail(){$('journeyDetailModal')?.remove()}function copyCode(code){navigator.clipboard?.writeText(code);alert('Journey code copied: '+code)}function shareJourney(code,title){let url=location.origin+location.pathname+'?journey='+encodeURIComponent(code);if(navigator.share)navigator.share({title:'Memories Unlocked — '+title,text:'Follow my journey: '+code,url});else{navigator.clipboard?.writeText(url);alert('Journey link copied.')}}function openMemory(id){let m=memories.find(x=>String(x.id)===String(id));if(!m)return;alert(`${m.title}\n${m.location}${m.date?'\n'+m.date:''}${m.story?'\n\n'+m.story:''}${m.clue?'\n\nClue: '+m.clue:''}`)}
-function card(j){let ms=memories.filter(m=>String(m.journeyId)===String(j.id));return `<article class="journey clickable-card" onclick="openJourney('${j.id}')"><div class="hero"><small>${esc(j.location)} · ${j.start?esc(j.start.slice(0,4)):'Journey'}</small><h3>${esc(j.title)}</h3></div><div class="body"><p>${esc(j.story)||'Your story starts here.'}</p><div><span class="pill">🔒 ${esc(j.privacy||'Private')}</span><span class="pill">${j.cloud?'☁️ Cloud':'📱 Device'}</span></div>${ms.map(memoryBlock).join('')}<button class="save" onclick="event.stopPropagation();addMemory('${j.id}')">＋ Add a Memory to this Journey</button></div></article>`}
-function render(){let jl=$('journeyList'),aj=$('allJourneys'),rm=$('recentMemories'),mp=$('mapPins');if(jl)jl.innerHTML=journeys.length?journeys.slice(0,3).map(card).join(''):'<div class="empty">No journeys yet.</div>';if(aj)aj.innerHTML=journeys.length?journeys.map(card).join(''):'<div class="empty">Your journeys will appear here.</div>';if(rm)rm.innerHTML=memories.length?`<div class="journey"><div class="body">${memories.slice(0,5).map(memoryBlock).join('')}</div></div>`:'<div class="empty">Your pinned memories will appear here.</div>';if(mp)mp.innerHTML=memories.length?memories.map(m=>`<div class="pin clickable-memory" onclick="openMemory('${m.id}')">📍 <b>${esc(m.location)}</b><br><small>${esc(m.title)}</small></div>`).join(''):'<div class="empty">Your map is waiting for its first memory pin.</div>';if(journeys.length)fillJourneys()}
-async function followJourney(){let code=$('followCode').value.trim().toUpperCase(),j=journeys.find(x=>String(x.code).toUpperCase()===code);$('followMessage').innerHTML=j?`🔓 Unlocked: <b>${esc(j.title)}</b>`:'That journey is not available to this account yet.';if(j)setTimeout(()=>openJourney(j.id),150)}function openLinkedJourney(){let code=new URLSearchParams(location.search).get('journey');if(!code)return;let j=journeys.find(x=>String(x.code).toUpperCase()===code.toUpperCase());if(j)setTimeout(()=>openJourney(j.id),250)}document.addEventListener('click',e=>{if(e.target.classList.contains('modal'))closeJourneyDetail()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeJourneyDetail()});render();openLinkedJourney();initCloud();
+/* Memories Unlocked — existing journeys, memories and Supabase session retained. */
+const JKEY = 'mu_journeys', MKEY = 'mu_memories';
+const $ = id => document.getElementById(id);
+const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function readRecords(key) {
+  try { const value = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(value) ? value : []; }
+  catch { return []; }
+}
+let journeys = readRecords(JKEY), memories = readRecords(MKEY), cloudUser = null;
+let creatingJourney = false, creatingMemory = false;
+try {
+  if (!localStorage.getItem('mu_before_map_update_v1')) localStorage.setItem('mu_before_map_update_v1', JSON.stringify({journeys, memories}));
+} catch { /* Storage feedback is provided by save(). */ }
+function save() {
+  try {
+    localStorage.setItem(JKEY, JSON.stringify(journeys));
+    localStorage.setItem(MKEY, JSON.stringify(memories));
+    return true;
+  } catch {
+    toast('Device storage is unavailable. Keep this page open until your memories are saved to the cloud.');
+    return false;
+  }
+}
+function cloudStatus(text) { if ($('cloudStatus')) $('cloudStatus').textContent = text; }
+async function initCloud() {
+  if (!window.muSupabase) { cloudStatus('📱 Saved on this device'); return; }
+  try {
+    let {data: {session}, error} = await muSupabase.auth.getSession();
+    if (error) throw error;
+    if (!session) {
+      const result = await muSupabase.auth.signInAnonymously();
+      if (result.error) throw result.error;
+      session = result.data.session;
+    }
+    cloudUser = session?.user || null;
+    if (cloudUser) { cloudStatus('☁️ Cloud connected securely'); await loadCloudData(); }
+  } catch (error) {
+    console.warn('Cloud sign-in:', error.message);
+    cloudStatus('📱 Device storage active · cloud connection unavailable');
+  }
+}
+function mergeWithLocal(remote, local) {
+  const ids = new Set(remote.map(row => String(row.id)));
+  return [...remote, ...local.filter(row => !ids.has(String(row.id)))];
+}
+async function loadCloudData() {
+  if (!cloudUser) return;
+  try {
+    const [jr, mr] = await Promise.all([
+      muSupabase.from('journeys').select('*').eq('owner_id', cloudUser.id).order('created_at', {ascending: false}),
+      muSupabase.from('memories').select('*').eq('owner_id', cloudUser.id).order('created_at', {ascending: false})
+    ]);
+    if (jr.error) throw jr.error;
+    if (mr.error) throw mr.error;
+    const cloudJourneys = (jr.data || []).map(row => {
+      const local = findJourney(row.id) || {};
+      return {...local, id: row.id, title: row.title, location: row.location, story: row.story || '',
+        start: row.start_date || '', end: row.end_date || '', privacy: row.visibility || 'Private',
+        code: row.share_code || local.code || String(row.id).slice(0, 8).toUpperCase(), ownerId: row.owner_id, cloud: true};
+    });
+    const cloudMemories = (mr.data || []).map(row => {
+      const local = findMemory(row.id) || {};
+      const cloudPoint = validPoint(row.latitude, row.longitude);
+      const localPoint = validPoint(local.latitude, local.longitude);
+      const clue = local.extrasPending && typeof local.clue === 'string' ? local.clue : row.clue || local.clue || '';
+      const useLocalPoint = localPoint && (local.extrasPending || !cloudPoint);
+      const latitude = useLocalPoint ? Number(local.latitude) : cloudPoint ? Number(row.latitude) : null;
+      const longitude = useLocalPoint ? Number(local.longitude) : cloudPoint ? Number(row.longitude) : null;
+      return {...local, id: row.id, journeyId: row.journey_id, title: row.title, location: row.location,
+        story: row.story || '', date: row.memory_date || '', clue, ownerId: row.owner_id, cloud: true,
+        latitude, longitude,
+        extrasPending: (Boolean(clue) && clue !== row.clue) || (validPoint(latitude, longitude) && (!cloudPoint || latitude !== Number(row.latitude) || longitude !== Number(row.longitude)))};
+    });
+    // Retain device-only records and legacy clues/positions absent from the cloud schema.
+    journeys = mergeWithLocal(cloudJourneys, journeys);
+    memories = mergeWithLocal(cloudMemories, memories);
+    save(); render(); openLinkedJourney();
+  } catch (error) {
+    console.warn('Cloud load:', error.message);
+    cloudStatus('📱 Showing saved memories · cloud refresh unavailable');
+  }
+}
+// Only omit optional fields when PostgREST explicitly reports a missing column.
+// Permission, network and validation errors are never converted into successful saves.
+async function writeCloud(table, input, optional = [], id = null) {
+  const row = {...input}, missing = [];
+  for (let attempt = 0; attempt <= optional.length; attempt++) {
+    if (!Object.keys(row).length) return {data: null, missing};
+    let query = id == null ? muSupabase.from(table).insert(row)
+      : muSupabase.from(table).update(row).eq('id', id).eq('owner_id', cloudUser.id);
+    const result = await query.select().single();
+    if (!result.error) return {data: result.data, missing};
+    const message = result.error.message || '';
+    const column = optional.find(name => Object.hasOwn(row, name) &&
+      (message.includes(`'${name}'`) || message.includes(`"${name}"`) || message.includes(`.${name} `)));
+    if (['PGRST204', '42703'].includes(result.error.code) && column) {
+      delete row[column]; missing.push(column); continue;
+    }
+    throw result.error;
+  }
+  throw new Error('Cloud save could not be completed.');
+}
+function showView(id) {
+  closeAllDetails();
+  document.querySelectorAll('.view').forEach(view => view.classList.toggle('active', view.id === id));
+  document.querySelectorAll('.nav button').forEach(button => {
+    if (button.getAttribute('onclick') === `showView('${id}')`) button.setAttribute('aria-current', 'page');
+    else button.removeAttribute('aria-current');
+  });
+  window.scrollTo({top: 0, behavior: 'smooth'});
+  render();
+}
+async function createJourney() {
+  if (creatingJourney) return;
+  const title = $('title').value.trim(), location = $('location').value.trim();
+  const start = $('startDate').value, end = $('endDate').value;
+  if (!title || !location) { $('journeyFormMessage').textContent = 'Add a journey name and location.'; return; }
+  if (start && end && end < start) { $('journeyFormMessage').textContent = 'The end date must be on or after the start date.'; return; }
+  creatingJourney = true; $('createJourneyButton').disabled = true;
+  const j = {id: crypto.randomUUID(), title, location, story: $('story').value.trim(), start, end,
+    privacy: $('privacy').value, code: title.replace(/[^a-z0-9]/gi, '').slice(0, 5).toUpperCase() + '-' + String(Date.now()).slice(-4)};
+  let failed = false;
+  try {
+    if (cloudUser) {
+      const result = await writeCloud('journeys', {owner_id: cloudUser.id, title: j.title,
+        story: j.story, location: j.location, start_date: j.start || null, end_date: j.end || null,
+        visibility: j.privacy.toLowerCase(), share_code: j.code}, ['share_code']);
+      if (result.data) { j.id = result.data.id; j.cloud = true; j.ownerId = cloudUser.id; j.code = result.data.share_code || j.code; }
+    }
+  } catch (error) { failed = true; console.warn('Cloud journey save:', error.message); }
+  journeys.unshift(j);
+  const localSaved = save();
+  closeModal('journeyModal');
+  ['title','location','story','startDate','endDate','journeyFormMessage'].forEach(id => { if ('value' in $(id)) $(id).value = ''; else $(id).textContent = ''; });
+  creatingJourney = false; $('createJourneyButton').disabled = false;
+  render(); openJourney(j.id);
+  if (failed || !j.cloud) toast(localSaved ? 'Journey saved on this device. Cloud saving is unavailable.' : 'Journey is only in this open page. Storage is unavailable.');
+}
+function fillJourneys() {
+  const selected = $('memoryJourney').value;
+  $('memoryJourney').innerHTML = journeys.map(j => `<option value="${esc(j.id)}">${esc(j.title)} — ${esc(j.location)}</option>`).join('');
+  if (findJourney(selected)) $('memoryJourney').value = selected;
+}
+function addMemory(id) {
+  if (!journeys.length) { openModal('journeyModal'); return; }
+  fillJourneys();
+  if (id) $('memoryJourney').value = String(id);
+  openModal('memoryModal');
+}
+async function createMemory() {
+  if (creatingMemory) return;
+  const title = $('memoryTitle').value.trim(), location = $('memoryLocation').value.trim(), journeyId = $('memoryJourney').value;
+  if (!title || !location || !findJourney(journeyId)) { $('memoryFormMessage').textContent = 'Choose a journey and add a memory title and location.'; return; }
+  creatingMemory = true; $('createMemoryButton').disabled = true;
+  const m = {id: crypto.randomUUID(), journeyId, title, location, date: $('memoryDate').value,
+    story: $('memoryStory').value.trim(), clue: $('memoryClue').value.trim(),
+    latitude: draftMemoryPoint?.latitude ?? null, longitude: draftMemoryPoint?.longitude ?? null};
+  const parent = findJourney(journeyId);
+  try {
+    if (cloudUser && parent?.cloud) {
+      const result = await writeCloud('memories', {owner_id: cloudUser.id, journey_id: journeyId,
+        title: m.title, story: m.story, location: m.location, memory_date: m.date || null,
+        clue: m.clue, latitude: m.latitude, longitude: m.longitude}, ['clue', 'latitude', 'longitude']);
+      if (result.data) { m.id = result.data.id; m.cloud = true; m.ownerId = cloudUser.id; }
+      m.extrasPending = (result.missing.includes('clue') && Boolean(m.clue)) ||
+        (result.missing.some(k => ['latitude','longitude'].includes(k)) && validPoint(m.latitude, m.longitude));
+    }
+  } catch (error) { console.warn('Cloud memory save:', error.message); }
+  memories.unshift(m);
+  const localSaved = save();
+  closeModal('memoryModal');
+  ['memoryTitle','memoryLocation','memoryDate','memoryStory','memoryClue'].forEach(id => $(id).value = '');
+  clearMemoryLocation(); $('memoryFormMessage').textContent = '';
+  creatingMemory = false; $('createMemoryButton').disabled = false;
+  render(); openJourney(journeyId);
+  toast(!m.cloud ? (localSaved ? 'Memory saved on this device. Cloud saving is unavailable.' : 'Memory is only in this open page. Storage is unavailable.')
+    : m.extrasPending ? 'Story saved to the cloud. Clue or map position saved on this device.' : 'Your memory is safely saved to the cloud.');
+}
+function findJourney(id) { return journeys.find(j => String(j.id) === String(id)); }
+function findMemory(id) { return memories.find(m => String(m.id) === String(id)); }
+function journeyMemories(id) {
+  return memories.filter(m => String(m.journeyId) === String(id)).slice().sort((a,b) =>
+    (a.date || '9999').localeCompare(b.date || '9999') || String(a.id).localeCompare(String(b.id)));
+}
+function memoryBlock(m, number) {
+  return `<button type="button" class="memory clickable-memory" data-action="memory" data-id="${esc(m.id)}">
+    <span class="memory-number" aria-hidden="true">${number || '◇'}</span><span class="memory-copy"><strong>${esc(m.title)}</strong>
+    <span>${esc(m.location)}</span><small>${esc(formatDate(m.date))}${validPoint(m.latitude,m.longitude) ? ' · On your map' : ' · Map position to add'}</small></span><span aria-hidden="true">↗</span></button>`;
+}
+function card(j) {
+  const ms = journeyMemories(j.id);
+  return `<article class="journey clickable-card" tabindex="0" role="button" aria-label="Open ${esc(j.title)}" data-action="journey" data-id="${esc(j.id)}">
+    <div class="hero"><small>${esc(j.location)} · ${j.start ? esc(j.start.slice(0,4)) : 'Journey'}</small><h3>${esc(j.title)}</h3></div>
+    <div class="body"><p class="story-preview">${esc(j.story) || 'Your story starts here.'}</p>
+    <div><span class="pill">🔒 ${esc(j.privacy || 'Private')}</span><span class="pill">${j.cloud ? '☁️ Cloud' : '📱 Device'}</span><span class="pill">${ms.length} memories</span></div>
+    ${ms.slice(0,3).map((m,i) => memoryBlock(m,i+1)).join('')}
+    <button class="save" data-action="add-memory" data-id="${esc(j.id)}">＋ Add a Memory to this Journey</button></div></article>`;
+}
+function render() {
+  $('journeyList').innerHTML = journeys.length ? journeys.slice(0,3).map(card).join('') : '<div class="empty">No journeys yet.</div>';
+  $('allJourneys').innerHTML = journeys.length ? journeys.map(card).join('') : '<div class="empty">Your journeys will appear here.</div>';
+  $('recentMemories').innerHTML = memories.length ? memories.slice(0,5).map(m => memoryBlock(m)).join('') : '<div class="empty">Your pinned memories will appear here.</div>';
+  if (journeys.length) fillJourneys();
+  updateMapFilter();
+  if ($('map').classList.contains('active')) renderMemoryMap();
+}
+async function followJourney() {
+  const code = $('followCode').value.trim().toUpperCase();
+  const j = journeys.find(j => String(j.code).toUpperCase() === code);
+  $('followMessage').textContent = j ? `Journey found: ${j.title}` : 'This journey is not available to this account yet. Cross-device sharing is still being completed.';
+  if (j) openJourney(j.id);
+}
+let openedLinkedCode = '';
+function openLinkedJourney() {
+  const code = new URLSearchParams(location.search).get('journey');
+  if (!code || code === openedLinkedCode) return;
+  const j = journeys.find(j => String(j.code).toUpperCase() === code.toUpperCase());
+  if (j) { openedLinkedCode = code; openJourney(j.id); }
+  else { $('followCode').value = code; if (!openedLinkedCode) showView('follow'); $('followMessage').textContent = 'Looking for this journey in your saved stories. Access from another account is still being completed.'; }
+}
+document.addEventListener('click', event => {
+  const button = event.target.closest('[data-action]');
+  if (!button) return;
+  const {action, id} = button.dataset;
+  if (action === 'memory') openMemory(id);
+  if (action === 'journey') openJourney(id);
+  if (action === 'add-memory') { closeJourneyDetail(); addMemory(id); }
+  if (action === 'journey-map') { closeAllDetails(); openJourneyMap(id); }
+  if (action === 'memory-map') viewMemoryOnMap(id);
+  if (action === 'locate-memory') openLocationPicker(id);
+  if (action === 'copy-code') copyCode(findJourney(id)?.code);
+  if (action === 'share-journey') { const j = findJourney(id); if (j) shareJourney(j.code, j.title); }
+  if (action === 'download-qr') downloadQR(findJourney(id)?.title);
+  if (action === 'print-qr') printQR(id);
+  if (action === 'sync-extras') retryMemoryExtras(id);
+});
+document.addEventListener('keydown', event => {
+  if (event.target.matches('article[data-action]') && ['Enter',' '].includes(event.key)) { event.preventDefault(); event.target.click(); }
+});
+setupDialogs(); initAppearance(); render(); openLinkedJourney(); initCloud();
