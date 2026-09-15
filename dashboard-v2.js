@@ -1,24 +1,9 @@
-/* Desktop dashboard adapter: website-inspired presentation using existing app data/actions. */
+/* Desktop dashboard adapter: website-matched presentation using existing app data/actions. */
 function dashboardCloudText(){
   const current=$('cloudStatus')?.textContent||'☁️ Connecting your memories…';
   const anonymous=typeof cloudUser!=='undefined'&&cloudUser?.is_anonymous;
   if(anonymous&&!journeys.length&&!memories.length)return '☁️ Test preview ready · sign in to Account to load your trips';
   return current;
-}
-
-function dashboardFeaturedJourney(){
-  if(!journeys.length)return null;
-  return journeys.slice().sort((a,b)=>String(b.start||'').localeCompare(String(a.start||'')))[0]||journeys[0];
-}
-
-function storyPreview(){
-  const featured=dashboardFeaturedJourney();
-  const recent=memories.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,3);
-  const title=featured?.title||'Your next chapter';
-  const location=featured?.location||'Somewhere meaningful';
-  const year=featured?.start?.slice(0,4)||'Dream · Plan · Remember';
-  const memoryRows=recent.length?recent.map((m,i)=>`<div class="story-mini"><span>${i+1}</span><div><strong>${esc(m.title||'Memory')}</strong><small>${esc(m.location||'A place worth remembering')}</small></div></div>`).join(''):`<div class="story-mini"><span>1</span><div><strong>Pin a meaningful place</strong><small>Your memories will build the story here.</small></div></div><div class="story-mini"><span>2</span><div><strong>Add the moment</strong><small>Save the words, place and date.</small></div></div><div class="story-mini"><span>3</span><div><strong>Pass it on</strong><small>Leave a trail your family can follow.</small></div></div>`;
-  return `<section class="story-board" aria-label="Journey story preview"><div class="story-board-top"><span>YOUR STORY</span><b>${esc(year)}</b></div><div class="story-board-copy"><small>${esc(location)}</small><h3>${esc(title)}</h3><p>Every journey becomes part of a bigger story.</p></div><div class="story-route" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div class="story-lock" aria-hidden="true">⌾</div><div class="story-mini-list">${memoryRows}</div><div class="story-board-caption">Turn your journeys into a legacy.</div></section>`;
 }
 
 function renderDesktopDashboard(){
@@ -34,18 +19,21 @@ function renderDesktopDashboard(){
         <h1>Every place<br>has a story.</h1>
         <p class="dash-lead">Follow the footsteps. Unlock the memories.<br>Leave a trail worth following.</p>
         <div class="dash-showcase-actions">
-          <button class="dash-primary" onclick="openModal('journeyModal')">Start Your Journey ›</button>
-          <button class="dash-secondary" onclick="showView('follow')">Discover Memories Unlocked</button>
+          <button class="dash-primary" onclick="openModal('journeyModal')">🔒 Start Your Journey →</button>
+          <button class="dash-secondary" onclick="showView('follow')">▶ Discover Memories Unlocked</button>
         </div>
         <div class="dash-feature-strip">
-          <div><strong>Explore</strong><span>the world</span></div>
-          <div><strong>Capture</strong><span>meaningful moments</span></div>
-          <div><strong>Share</strong><span>with loved ones</span></div>
-          <div><strong>Leave a legacy</strong><span>for the future</span></div>
+          <div><span class="dash-feature-icon">◉</span><strong>Explore</strong><span>the world</span></div>
+          <div><span class="dash-feature-icon">▣</span><strong>Capture</strong><span>meaningful moments</span></div>
+          <div><span class="dash-feature-icon">♡</span><strong>Share</strong><span>with loved ones</span></div>
+          <div><span class="dash-feature-icon">♢</span><strong>Leave a legacy</strong><span>for the future</span></div>
         </div>
         <div class="dash-cloud">${esc(dashboardCloudText())}</div>
       </div>
-      <div class="dash-showcase-art">${storyPreview()}</div>
+      <div class="dash-showcase-art" aria-label="Memories Unlocked journey artwork">
+        <div class="dash-art-script">Places<br>People<br>Stories<br>Forever</div>
+        <div class="dash-art-padlock">♡</div>
+      </div>
     </section>
 
     <section class="dash-stats">
