@@ -38,6 +38,6 @@ For a manual preview, serve this folder with any static HTTP server.
 With Node and Playwright (including Chromium) available, run `node tests/smoke.cjs`. The test starts its own isolated local HTTP server.
 `MU_TEST_URL` and `MU_TEST_OUTPUT` override the local test URL and screenshot directory.
 
-Tests isolate Supabase and map-tile traffic. They cover memory/journey click propagation, dialogs, QR generation, Leaflet pins/trails and coincident stops, search and confirmed coordinates, mobile layout, background upload/persistence, font/theme selection, missing-column compatibility, and preservation of offline records and clues. No test records are written to the live Supabase database.
+Tests isolate Supabase and map-tile traffic. They cover memory/journey click propagation, dialogs, QR generation, Leaflet pins/trails and coincident stops, search and confirmed coordinates, mobile layout, background upload/persistence, font/theme selection, missing-column compatibility, preservation of offline records and clues, and account-cache boundaries across sign-out and account switching. No test records are written to the live Supabase database.
 
 Deployment remains the existing GitHub-to-Vercel flow. No build step, extra backend project, or service-role secret is introduced.
