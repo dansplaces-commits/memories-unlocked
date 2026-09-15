@@ -1,140 +1,31 @@
 /* Shared presentation, accessible dialogs and memory details. */
 let toastTimer;
-function toast(message) {
-  const node = $('toast'); if (!node) return;
-  node.textContent = message; node.classList.add('visible');
-  clearTimeout(toastTimer); toastTimer = setTimeout(() => node.classList.remove('visible'), 6500);
-}
-function formatDate(value) {
-  if (!value) return 'Date not added';
-  const date = new Date(String(value).slice(0,10) + 'T12:00:00');
-  return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat('en-GB', {day:'numeric',month:'long',year:'numeric'}).format(date);
-}
-function topDialog() { return [...document.querySelectorAll('.modal.open')].at(-1); }
-function refreshDialogState() {
-  const top = topDialog();
-  document.body.classList.toggle('has-modal', Boolean(top));
-  document.querySelector('.app').inert = Boolean(top);
-  document.querySelector('.nav').inert = Boolean(top);
-  document.querySelectorAll('.modal').forEach(modal => { modal.inert = modal !== top; modal.setAttribute('aria-hidden', String(modal !== top)); });
-}
-function openModal(id) {
-  const modal = $(id); if (!modal) return;
-  modal._trigger = document.activeElement;
-  modal.classList.add('open');
-  modal.setAttribute('role', 'dialog'); modal.setAttribute('aria-modal','true');
-  const title = modal.querySelector('h2');
-  if (title) { title.id ||= id + 'Title'; modal.setAttribute('aria-labelledby', title.id); }
-  modal.querySelector('.close')?.setAttribute('aria-label', 'Close');
-  refreshDialogState();
-  const focus = modal.querySelector('.close, button, input, [tabindex]'); focus?.focus({preventScroll:true});
-}
-function closeModal(id) {
-  const modal = $(id); if (!modal) return;
-  const trigger = modal._trigger;
-  if (id === 'locationPickerModal') disposeLocationPicker();
-  if (modal.dataset.dynamic) modal.remove(); else modal.classList.remove('open');
-  refreshDialogState();
-  if (trigger?.isConnected && !trigger.closest('[inert]')) trigger.focus({preventScroll:true});
-  else topDialog()?.querySelector('button')?.focus({preventScroll:true});
-}
-function mountDialog(id, html, className = '') {
-  if ($(id)) closeModal(id);
-  const modal = document.createElement('div');
-  modal.id = id; modal.className = 'modal ' + className; modal.dataset.dynamic = 'true';
-  modal.innerHTML = `<div class="sheet">${html}</div>`;
-  document.body.appendChild(modal); openModal(id); return modal;
-}
-function closeJourneyDetail() { closeModal('journeyDetailModal'); }
-function closeAllDetails() {
-  ['locationPickerModal','memoryDetailModal','journeyDetailModal'].forEach(closeModal);
-}
-function setupDialogs() {
-  document.querySelectorAll('label').forEach(label => { const field = label.nextElementSibling; if (field?.matches('input,textarea,select')) label.htmlFor = field.id; });
-  document.querySelectorAll('.modal .close').forEach(button => button.setAttribute('aria-label','Close'));
-  document.addEventListener('click', event => {
-    if (event.target === topDialog()) closeModal(event.target.id);
-  });
-  document.addEventListener('keydown', event => {
-    const modal = topDialog(); if (!modal) return;
-    if (event.key === 'Escape') { event.preventDefault(); closeModal(modal.id); }
-    if (event.key !== 'Tab') return;
-    const nodes = [...modal.querySelectorAll('button,input,select,textarea,a[href],[tabindex="0"]')].filter(n => !n.disabled && n.getClientRects().length);
-    const first = nodes[0], last = nodes.at(-1);
-    if (event.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) { event.preventDefault(); last?.focus(); }
-    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
-  });
-}
-function journeyLink(j) { return location.origin + location.pathname + '?journey=' + encodeURIComponent(j.code); }
-function openJourney(id) {
-  const j = findJourney(id); if (!j) return;
-  closeModal('memoryDetailModal');
-  const ms = journeyMemories(id);
-  mountDialog('journeyDetailModal', `
-    <div class="journey-detail-hero"><div class="detail-topline"><span class="welcome">YOUR JOURNEY</span><button class="close" onclick="closeJourneyDetail()" aria-label="Close journey">×</button></div><h2>${esc(j.title)}</h2><p>📍 ${esc(j.location)}</p></div>
-    <div class="detail-content"><div class="journey-stats"><div><b>Dates</b><small>${j.start ? esc(formatDate(j.start)) + (j.end ? ' – ' + esc(formatDate(j.end)) : '') : 'A story beyond dates'}</small></div><div><b>Memories</b><small>${ms.length} pinned</small></div><div><b>Access</b><small>${esc(j.privacy || 'Private')}</small></div></div>
-    <h3>The story</h3><p class="story-text">${esc(j.story) || 'Your story starts here.'}</p>
-    <div class="section-heading"><h3>Memory trail</h3><span class="eyebrow">FOLLOW THE FOOTSTEPS</span></div>
-    ${ms.length ? ms.map((m,i) => memoryBlock(m,i+1)).join('') : '<div class="empty">Pin the first place that made this journey special.</div>'}
-    <button class="save" data-action="add-memory" data-id="${esc(j.id)}">＋ Add a Memory</button><button class="detail-action" data-action="journey-map" data-id="${esc(j.id)}">Explore this journey’s map ↗</button>
-    <button class="journey-code" data-action="copy-code" data-id="${esc(j.id)}"><span class="eyebrow">JOURNEY CODE</span><strong>${esc(j.code)}</strong><small>Tap anywhere to copy</small></button>
-    <details class="qr-padlock"><summary>🔐 Your digital padlock <span>QR code & printing</span></summary><h3>A key back to this story</h3><div id="journeyQR" aria-label="QR code for this journey"></div><p class="small">Keep this code in a journal or memory box. Access on another account still needs the sharing setup.</p><div class="action-row"><button class="secondary" data-action="download-qr" data-id="${esc(j.id)}">Save QR image</button><button class="secondary" data-action="print-qr" data-id="${esc(j.id)}">Print padlock</button></div></details>
-    <button class="detail-action" data-action="share-journey" data-id="${esc(j.id)}">Share / Follow Code</button></div>`, 'journey-detail');
-  makeQR(j);
-}
-function openMemory(id) {
-  const m = findMemory(id); if (!m) return;
-  const j = findJourney(m.journeyId), trail = journeyMemories(m.journeyId), index = trail.findIndex(item => String(item.id) === String(id));
-  const pinned = validPoint(m.latitude, m.longitude);
-  const storage = m.cloud ? (m.extrasPending ? 'Story in cloud · clue or position on this device' : 'Saved in your cloud') : 'Saved on this device';
-  mountDialog('memoryDetailModal', `
-    <div class="memory-detail-hero"><div class="detail-topline"><span class="welcome">A PLACE IN YOUR STORY</span><button class="close" onclick="closeModal('memoryDetailModal')" aria-label="Close memory">×</button></div><div class="memory-emblem" aria-hidden="true">◇</div><h2>${esc(m.title)}</h2><p>${esc(m.location)}</p><span class="memory-date">${esc(formatDate(m.date))}</span></div>
-    <div class="detail-content"><div class="memory-breadcrumb">${esc(j?.title || 'Your journey')} <span>Memory ${index+1} of ${trail.length}</span></div><h3>The moment, remembered.</h3><p class="story-text">${esc(m.story) || 'Some places hold a story that words will find later.'}</p>
-    ${m.clue ? `<div class="clue-card"><span class="eyebrow">🔐 A CLUE TO FOLLOW</span><p class="story-text">${esc(m.clue)}</p><small>Follow the footsteps. Make a memory of your own.</small></div>` : ''}
-    <button class="detail-action" data-action="${pinned ? 'memory-map' : 'locate-memory'}" data-id="${esc(m.id)}">${pinned ? 'See this memory on the map ↗' : '📍 Place this memory on the map'}</button>
-    ${pinned ? `<button class="text-button" data-action="locate-memory" data-id="${esc(m.id)}">Adjust the pin location</button>` : ''}
-    <p class="storage-note">${esc(storage)}</p>${m.extrasPending && m.cloud ? `<button class="text-button" data-action="sync-extras" data-id="${esc(m.id)}">Retry saving clue & position to cloud</button>` : ''}
-    <div class="memory-pagination">${index > 0 ? `<button class="secondary" data-action="memory" data-id="${esc(trail[index-1].id)}">← Previous memory</button>` : '<span></span>'}${index < trail.length-1 ? `<button class="secondary" data-action="memory" data-id="${esc(trail[index+1].id)}">Next memory →</button>` : ''}</div><p class="memory-signature">Every place has a story.</p></div>`, 'memory-detail');
-}
-function makeQR(j) {
-  const target = $('journeyQR'); if (!target) return;
-  try { new QRCode(target, {text: journeyLink(j), width:220, height:220, colorDark:'#10244a',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H}); }
-  catch { target.textContent = 'The QR code could not be generated. Your journey code above still works on this account.'; }
-}
-function qrImage() {
-  const source = $('journeyQR')?.querySelector('canvas');
-  if (!source) return null;
-  const canvas = document.createElement('canvas'); canvas.width = canvas.height = 284;
-  const ctx = canvas.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0,0,284,284); ctx.drawImage(source,32,32);
-  return canvas.toDataURL('image/png');
-}
-function downloadQR(title) {
-  const image = qrImage(); if (!image) { toast('Open the journey again to generate its QR code.'); return; }
-  const link = document.createElement('a'); link.download = (title || 'Memories-Unlocked').replace(/[^a-z0-9]+/gi,'-') + '-QR.png'; link.href = image; link.click();
-}
-function printQR(id) {
-  const j = findJourney(id), image = qrImage(); if (!j || !image) return;
-  $('printPadlock')?.remove();
-  const sheet = document.createElement('section'); sheet.id = 'printPadlock';
-  sheet.innerHTML = `<div class="print-card"><p>MEMORIES UNLOCKED</p><h1>${esc(j.title)}</h1><p>${esc(j.location)}</p><img src="${image}" width="284" height="284" alt="Journey QR code"><h2>${esc(j.code)}</h2><p>Every place has a story.</p><p>Follow the footsteps. Unlock the memories.</p><small>${esc(journeyLink(j))}</small></div>`;
-  document.body.appendChild(sheet);
-  const img = sheet.querySelector('img');
-  const print = () => { window.print(); };
-  if (img.complete) print(); else img.onload = print;
-}
-async function copyText(text, label) {
-  if (!text) return;
-  try { await navigator.clipboard.writeText(text); toast(label); }
-  catch {
-    const modal = mountDialog('copyModal', `<button class="close" onclick="closeModal('copyModal')">×</button><h2>Copy your journey</h2><p>Select and copy the text below.</p><label for="copyValue">Journey link or code</label><input id="copyValue" readonly value="${esc(text)}">`);
-    modal.querySelector('input').select();
-  }
-}
-function copyCode(code) { return copyText(code, 'Journey code copied.'); }
-async function shareJourney(code, title) {
-  const url = journeyLink({code});
-  if (navigator.share) {
-    try { await navigator.share({title:'Memories Unlocked — '+title, text:'Follow my journey: '+code, url}); }
-    catch (error) { if (error.name !== 'AbortError') await copyText(url, 'Journey link copied.'); }
-  } else await copyText(url, 'Journey link copied. Cross-device access still needs the sharing setup.');
-}
+function toast(message) { const node=$('toast'); if(!node)return; node.textContent=message; node.classList.add('visible'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>node.classList.remove('visible'),6500); }
+function formatDate(value){if(!value)return'Date not added';const date=new Date(String(value).slice(0,10)+'T12:00:00');return Number.isNaN(date.getTime())?value:new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'long',year:'numeric'}).format(date);}
+function topDialog(){return[...document.querySelectorAll('.modal.open')].at(-1);}
+function refreshDialogState(){const top=topDialog();document.body.classList.toggle('has-modal',Boolean(top));document.querySelector('.app').inert=Boolean(top);document.querySelector('.nav').inert=Boolean(top);document.querySelectorAll('.modal').forEach(modal=>{modal.inert=modal!==top;modal.setAttribute('aria-hidden',String(modal!==top));});}
+function openModal(id){const modal=$(id);if(!modal)return;modal._trigger=document.activeElement;modal.classList.add('open');modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');const title=modal.querySelector('h2');if(title){title.id||=id+'Title';modal.setAttribute('aria-labelledby',title.id);}modal.querySelector('.close')?.setAttribute('aria-label','Close');refreshDialogState();modal.querySelector('.close, button, input, [tabindex]')?.focus({preventScroll:true});}
+function closeModal(id){const modal=$(id);if(!modal)return;const trigger=modal._trigger;if(id==='locationPickerModal')disposeLocationPicker();if(modal.dataset.dynamic)modal.remove();else modal.classList.remove('open');refreshDialogState();if(trigger?.isConnected&&!trigger.closest('[inert]'))trigger.focus({preventScroll:true});else topDialog()?.querySelector('button')?.focus({preventScroll:true});}
+function mountDialog(id,html,className=''){if($(id))closeModal(id);const modal=document.createElement('div');modal.id=id;modal.className='modal '+className;modal.dataset.dynamic='true';modal.innerHTML=`<div class="sheet">${html}</div>`;document.body.appendChild(modal);openModal(id);return modal;}
+function closeJourneyDetail(){closeModal('journeyDetailModal');}
+function closeAllDetails(){['locationPickerModal','memoryDetailModal','journeyDetailModal'].forEach(closeModal);}
+function setupDialogs(){document.querySelectorAll('label').forEach(label=>{const field=label.nextElementSibling;if(field?.matches('input,textarea,select'))label.htmlFor=field.id;});document.querySelectorAll('.modal .close').forEach(button=>button.setAttribute('aria-label','Close'));document.addEventListener('click',event=>{if(event.target===topDialog())closeModal(event.target.id);});document.addEventListener('keydown',event=>{const modal=topDialog();if(!modal)return;if(event.key==='Escape'){event.preventDefault();closeModal(modal.id);}if(event.key!=='Tab')return;const nodes=[...modal.querySelectorAll('button,input,select,textarea,a[href],[tabindex="0"]')].filter(n=>!n.disabled&&n.getClientRects().length);const first=nodes[0],last=nodes.at(-1);if(event.shiftKey&&(document.activeElement===first||!modal.contains(document.activeElement))){event.preventDefault();last?.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}});}
+function journeyLink(j){return location.origin+location.pathname+'?journey='+encodeURIComponent(j.code);}
+function openJourney(id){const j=findJourney(id);if(!j)return;closeModal('memoryDetailModal');const ms=journeyMemories(id);mountDialog('journeyDetailModal',`
+<div class="journey-detail-hero"><div class="detail-topline"><span class="welcome">A CHAPTER OF YOUR LIFE</span><button class="close" onclick="closeJourneyDetail()" aria-label="Close journey">×</button></div><h2>${esc(j.title)}</h2><p>📍 ${esc(j.location)}</p></div>
+<div class="detail-content"><div class="journey-stats"><div><b>When</b><small>${j.start?esc(formatDate(j.start))+(j.end?' – '+esc(formatDate(j.end)):''):'A story beyond dates'}</small></div><div><b>Memories</b><small>${ms.length} ${ms.length===1?'place':'places'} remembered</small></div><div><b>Shared with</b><small>${esc(j.privacy||'Private')}</small></div></div>
+<div class="journey-chapter-line">EVERY PLACE HAS A STORY</div><section class="journey-story-card"><span class="eyebrow">THE STORY</span><h3>Why this journey matters.</h3><p class="story-text">${esc(j.story)||'Every journey becomes part of your story. Add the moments that made this one yours.'}</p></section>
+<div class="section-heading"><span class="eyebrow">FOLLOW THE FOOTSTEPS</span><h3>Your memory trail</h3></div><div class="journey-trail-intro"><span class="trail-lock">🔓</span><div><strong>${ms.length?`${ms.length} ${ms.length===1?'memory is':'memories are'} waiting along this trail.`:'Your trail is ready to begin.'}</strong><small>Each pin is a place, a moment and a piece of the story worth remembering.</small></div></div>
+${ms.length?ms.map((m,i)=>memoryBlock(m,i+1)).join(''):'<div class="empty">Pin the first place that made this journey special.</div>'}
+<button class="save" data-action="add-memory" data-id="${esc(j.id)}">＋ Add another memory</button><button class="detail-action" data-action="journey-map" data-id="${esc(j.id)}">🗺 Follow this journey on the map ↗</button>
+<button class="journey-code" data-action="copy-code" data-id="${esc(j.id)}"><span class="eyebrow">SHARE THIS STORY · JOURNEY CODE</span><strong>${esc(j.code)}</strong><small>Tap to copy</small></button>
+<details class="qr-padlock"><summary>🔐 Your digital padlock <span>QR code & printing</span></summary><h3>A key back to this story</h3><div id="journeyQR" aria-label="QR code for this journey"></div><p class="small">Keep this code with a photograph, journal or keepsake so this story can be found again.</p><div class="action-row"><button class="secondary" data-action="download-qr" data-id="${esc(j.id)}">Save QR image</button><button class="secondary" data-action="print-qr" data-id="${esc(j.id)}">Print padlock</button></div></details>
+<button class="detail-action" data-action="share-journey" data-id="${esc(j.id)}">♡ Share this journey</button><div class="journey-signature"><strong>Dream it. Plan it. Experience it. Remember it. Share it.</strong>Every life leaves a trail.</div></div>`,'journey-detail');makeQR(j);}
+function openMemory(id){const m=findMemory(id);if(!m)return;const j=findJourney(m.journeyId),trail=journeyMemories(m.journeyId),index=trail.findIndex(item=>String(item.id)===String(id));const pinned=validPoint(m.latitude,m.longitude);const storage=m.cloud?(m.extrasPending?'Story in cloud · clue or position on this device':'Saved in your cloud'):'Saved on this device';mountDialog('memoryDetailModal',`<div class="memory-detail-hero"><div class="detail-topline"><span class="welcome">A PLACE IN YOUR STORY</span><button class="close" onclick="closeModal('memoryDetailModal')">×</button></div><div class="memory-emblem">◇</div><h2>${esc(m.title)}</h2><p>${esc(m.location)}</p><span class="memory-date">${esc(formatDate(m.date))}</span></div><div class="detail-content"><div class="memory-breadcrumb">${esc(j?.title||'Your journey')} <span>Memory ${index+1} of ${trail.length}</span></div><h3>The moment, remembered.</h3><p class="story-text">${esc(m.story)||'Some places hold a story that words will find later.'}</p>${m.clue?`<div class="clue-card"><span class="eyebrow">🔐 A CLUE TO FOLLOW</span><p class="story-text">${esc(m.clue)}</p><small>Follow the footsteps. Make a memory of your own.</small></div>`:''}<button class="detail-action" data-action="${pinned?'memory-map':'locate-memory'}" data-id="${esc(m.id)}">${pinned?'See this memory on the map ↗':'📍 Place this memory on the map'}</button>${pinned?`<button class="text-button" data-action="locate-memory" data-id="${esc(m.id)}">Adjust the pin location</button>`:''}<p class="storage-note">${esc(storage)}</p>${m.extrasPending&&m.cloud?`<button class="text-button" data-action="sync-extras" data-id="${esc(m.id)}">Retry saving clue & position to cloud</button>`:''}<div class="memory-pagination">${index>0?`<button class="secondary" data-action="memory" data-id="${esc(trail[index-1].id)}">← Previous memory</button>`:'<span></span>'}${index<trail.length-1?`<button class="secondary" data-action="memory" data-id="${esc(trail[index+1].id)}">Next memory →</button>`:''}</div><p class="memory-signature">Every place has a story.</p></div>`,'memory-detail');}
+function makeQR(j){const target=$('journeyQR');if(!target)return;try{new QRCode(target,{text:journeyLink(j),width:220,height:220,colorDark:'#10244a',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});}catch{target.textContent='The QR code could not be generated. Your journey code above still works on this account.';}}
+function qrImage(){const source=$('journeyQR')?.querySelector('canvas');if(!source)return null;const canvas=document.createElement('canvas');canvas.width=canvas.height=284;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,284,284);ctx.drawImage(source,32,32);return canvas.toDataURL('image/png');}
+function downloadQR(title){const image=qrImage();if(!image){toast('Open the journey again to generate its QR code.');return;}const link=document.createElement('a');link.download=(title||'Memories-Unlocked').replace(/[^a-z0-9]+/gi,'-')+'-QR.png';link.href=image;link.click();}
+function printQR(id){const j=findJourney(id),image=qrImage();if(!j||!image)return;$('printPadlock')?.remove();const sheet=document.createElement('section');sheet.id='printPadlock';sheet.innerHTML=`<div class="print-card"><p>MEMORIES UNLOCKED</p><h1>${esc(j.title)}</h1><p>${esc(j.location)}</p><img src="${image}" width="284" height="284"><h2>${esc(j.code)}</h2><p>Every place has a story.</p><p>Dream it. Plan it. Experience it. Remember it. Share it.</p><small>${esc(journeyLink(j))}</small></div>`;document.body.appendChild(sheet);const img=sheet.querySelector('img');const print=()=>window.print();if(img.complete)print();else img.onload=print;}
+async function copyText(text,label){if(!text)return;try{await navigator.clipboard.writeText(text);toast(label);}catch{const modal=mountDialog('copyModal',`<button class="close" onclick="closeModal('copyModal')">×</button><h2>Copy your journey</h2><p>Select and copy the text below.</p><label for="copyValue">Journey link or code</label><input id="copyValue" readonly value="${esc(text)}">`);modal.querySelector('input').select();}}
+function copyCode(code){return copyText(code,'Journey code copied.');}
+async function shareJourney(code,title){const url=journeyLink({code});if(navigator.share){try{await navigator.share({title:'Memories Unlocked — '+title,text:'Every place has a story. Follow my journey: '+code,url});}catch(error){if(error.name!=='AbortError')await copyText(url,'Journey link copied.');}}else await copyText(url,'Journey link copied.');}
