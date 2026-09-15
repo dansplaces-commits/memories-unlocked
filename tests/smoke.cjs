@@ -73,6 +73,21 @@ const second={...first,id:'00000000-0000-4000-8000-000000000012',title:'By the f
    return {keptClue,keptCode,keptOffline,keptPending,missing:result.missing,insert:writes.findLast(w=>w.op==='insert').row};
  },{journey,first});
  assert.ok(cloudChecks.keptClue&&cloudChecks.keptCode&&cloudChecks.keptOffline&&cloudChecks.keptPending);assert.equal(cloudChecks.missing.length,3);assert.equal(cloudChecks.insert.clue,'This clue must reach the cloud');assert.equal(cloudChecks.insert.latitude,41);
+ // Account cache boundaries: signing out must remove cloud-owned records but keep device-only records.
+ const signedOutScope=await page.evaluate(()=>{
+   journeys=[{id:'cloud-journey',cloud:true},{id:'device-journey',cloud:false}];
+   memories=[{id:'cloud-memory',journeyId:'cloud-journey',cloud:true},{id:'device-memory',journeyId:'device-journey',cloud:false}];
+   setStorageScope('account:user-a'); prepareSignedOutCache();
+   return {scope:storageScope(),journeys:journeys.map(j=>j.id),memories:memories.map(m=>m.id)};
+ });
+ assert.deepEqual(signedOutScope,{scope:'anonymous',journeys:['device-journey'],memories:['device-memory']});
+ // Switching directly between authenticated accounts must not expose the previous account's cache.
+ const switchedScope=await page.evaluate(()=>{
+   journeys=[{id:'account-a-journey',cloud:true}];memories=[{id:'account-a-memory',journeyId:'account-a-journey',cloud:true}];
+   setStorageScope('account:user-a'); switchToAccountScope('user-b');
+   return {scope:storageScope(),journeys:journeys.length,memories:memories.length};
+ });
+ assert.deepEqual(switchedScope,{scope:'account:user-b',journeys:0,memories:0});
  // Coordinate validation accepts the equator/meridian and rejects missing/out-of-range data.
  assert.deepEqual(await page.evaluate(()=>[validPoint(0,0),validPoint(null,null),validPoint(91,0),validPoint(0,181)]),[true,false,false,false]);
  const span=await page.evaluate(()=>{const p=[...mapPositions([{id:1,latitude:0,longitude:179},{id:2,latitude:1,longitude:-179}]).values()];return Math.abs(p[1][1]-p[0][1]);});assert.equal(span,2);
