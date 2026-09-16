@@ -1,3 +1,4 @@
+@import url('cosmetic-polish-v1.css?v=20260916a');
 /* Shared animated explainer — mirrors the locked website experience. */
 .dashboard-video-opened{overflow:hidden}
 .dashboard-explainer{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:24px;background:rgba(3,20,34,.78);backdrop-filter:blur(14px);opacity:0;visibility:hidden;transition:.28s ease}
