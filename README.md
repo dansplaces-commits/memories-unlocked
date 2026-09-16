@@ -44,16 +44,22 @@ The working branch `polish/app-2026-09-16` now includes additive product layers 
 - Reversible Archive / Restore controls and an Archived Stories manager. Archived content is hidden from the normal lists, map and counters rather than permanently deleted.
 - Updated PWA/service-worker caching for the additive product layers.
 
-### Supabase activation required
+### Supabase activation completed — 16 September 2026
 
-The UI is intentionally backward-compatible when these migrations have not yet been run. To activate the new cloud features, apply these two SQL files once in the existing Supabase project, in this order:
+The existing `Memories Unlocked` Supabase project (`fdjzelcqilupxibqsqep`) has now been updated with both additive migrations:
 
-1. `supabase/20260916_media_storage.sql`
-   - creates the private `memory-media` bucket and media columns/policies.
-2. `supabase/20260916_archive_support.sql`
-   - adds reversible archive timestamps and indexes.
+1. `media_storage`
+   - added `journeys.cover_photo_path` and `memories.photo_path`.
+   - created the private `memory-media` bucket.
+   - set the bucket to an 8 MB maximum and JPEG/PNG/WebP only.
+   - added owner-folder scoped SELECT/INSERT/UPDATE/DELETE storage policies.
+2. `archive_support`
+   - added nullable `archived_at` timestamps to journeys and memories.
+   - added owner/archive indexes for both tables.
 
-Do not run destructive database changes and do not replace the existing Supabase project. Existing account, journey and memory data should remain in place.
+Post-migration verification confirmed that existing records were not rewritten: no existing journeys or memories were marked archived and no media paths were populated automatically. Existing journey and memory RLS remains enabled with owner-scoped policies.
+
+The migrations are recorded in Supabase migration history as `media_storage` and `archive_support`.
 
 ## Readiness rule
 
@@ -66,8 +72,8 @@ Do not treat visual polish as a replacement for functional testing. Before promo
 5. Desktop and mobile explainer experiences open, advance, replay and close correctly.
 6. Map mode switching works on Street, Satellite, Terrain and Explorer without disturbing saved pins/trails.
 7. The latest-place chip opens the correct saved place or journey.
-8. A journey cover can be uploaded, replaced and removed after the media migration is applied.
-9. A memory photo can be uploaded, replaced and removed after the media migration is applied.
+8. A journey cover can be uploaded, replaced and removed.
+9. A memory photo can be uploaded, replaced and removed.
 10. Journey and memory edits persist after a full sign-out/sign-in cycle.
 11. Archived journeys and memories remain hidden after signing in on another device and can be restored.
 12. Creation forms remain usable at 320px, 390px, tablet and desktop widths.
