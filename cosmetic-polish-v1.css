@@ -153,7 +153,7 @@
   background:linear-gradient(120deg,transparent 0 55%,rgba(255,255,255,.08) 55% 56%,transparent 56%),radial-gradient(circle at 12% 18%,rgba(255,255,255,.10),transparent 20%);
 }
 .journey.clickable-card>.hero>*{position:relative;z-index:1}
-.journey.clickable-card>.hero small{display:inline-flex;width:max-content;padding:7px 10px;border-radius:999px;background:rgba(4,23,41,.27);border:1px solid rgba(255,255,255,.18);font-size:11px;letter-spacing:.5px;color:#fff}
+.journey.clickable-card>.hero>small{display:inline-flex;width:fit-content;max-width:100%;overflow-wrap:anywhere;padding:7px 10px;border-radius:999px;background:rgba(4,23,41,.27);border:1px solid rgba(255,255,255,.18);font-size:11px;letter-spacing:.5px;color:#fff}
 .journey.clickable-card>.hero h3{font-size:31px!important;line-height:1!important;letter-spacing:-.6px;text-shadow:0 2px 16px rgba(0,0,0,.12)}
 .journey.clickable-card>.body{padding:22px 23px 24px!important}
 .journey.clickable-card .story-preview{color:#53677a!important;font-size:14px;line-height:1.6;margin:0 0 12px}
@@ -228,5 +228,49 @@
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
-/* Passport-style place marks: presentational only, derived from saved journey data. */
-.travel-stamp{position:absolute;right:18px;bottom:16px;width:98px;height:98px;border:1.5px solid currentColor;border-radius:50%;display:grid;place-content:center;text-align:center;gap:3px;color:#f3ce75;background:rgba(8,35,64,.12);transform:rotate(-11deg);opacity:.92;pointer-events:none}.travel-stamp:before,.travel-stamp:after{content:"";position:absolute;border:1px solid currentColor;border-radius:50%;opacity:.62}.travel-stamp:before{inset:6px}.travel-stamp:after{inset:12px}.travel-stamp span,.travel-stamp b,.travel-stamp small{position:relative;z-index:1;display:block;max-width:74px;margin:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.travel-stamp span{font:800 8px/1 Arial,sans-serif;letter-spacing:1.5px}.travel-stamp b{font:700 10px/1.1 Georgia,serif;letter-spacing:.3px}.travel-stamp small{font:700 5.5px/1.15 Arial,sans-serif;letter-spacing:.6px}.memory{position:relative}.memory .travel-stamp{position:static;flex:0 0 53px;width:53px;height:53px;margin-left:3px;color:#a1741d;background:transparent;transform:rotate(-10deg)}.memory .travel-stamp:before{inset:4px}.memory .travel-stamp:after{inset:8px}.memory .travel-stamp span{font-size:5px;letter-spacing:.8px}.memory .travel-stamp b{max-width:40px;font-size:5.5px}.memory .travel-stamp small{display:none}.memory-arrow{color:#9a6d16;font-size:17px}.journey-detail-hero .travel-stamp,.memory-detail-hero .travel-stamp{right:34px;bottom:26px;width:108px;height:108px;color:#f0c85e;background:rgba(255,255,255,.04)}.memory-detail-hero .travel-stamp{right:32px;bottom:27px}.journey-detail-hero h2,.memory-detail-hero h2{padding-right:122px}@media(max-width:700px){.travel-stamp{right:16px;bottom:14px;width:76px;height:76px}.travel-stamp span{font-size:6px}.travel-stamp b{font-size:7px;max-width:57px}.travel-stamp small{font-size:4px}.memory .travel-stamp{display:none}.journey-detail-hero .travel-stamp,.memory-detail-hero .travel-stamp{right:19px;bottom:19px;width:78px;height:78px}.journey-detail-hero h2,.memory-detail-hero h2{padding-right:72px}}
+/* Passport marks occupy their own column; they never cover a title or place. */
+.travel-stamp{
+  position:relative;width:104px;min-height:104px;flex:0 0 104px;
+  border:1.5px solid currentColor;border-radius:50%;display:flex;
+  flex-direction:column;justify-content:center;align-items:center;gap:6px;
+  padding:19px 12px;color:#f3ce75;background:rgba(8,35,64,.12);
+  text-align:center;transform:rotate(-7deg);pointer-events:none;
+}
+.travel-stamp::before{content:"";position:absolute;inset:6px;border:1px solid currentColor;border-radius:inherit;opacity:.55}
+.travel-stamp .stamp-kind{font:700 8px/1 var(--font-body);letter-spacing:1.5px}
+.travel-stamp .stamp-place{
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
+  overflow:hidden;overflow-wrap:anywhere;max-width:100%;
+  font:700 12px/1.2 var(--font-heading);letter-spacing:.2px;
+}
+.travel-stamp .stamp-date{display:block;font:700 8px/1.2 var(--font-body);text-transform:uppercase;letter-spacing:.2px}
+.journey.clickable-card>.hero{
+  display:grid;grid-template-columns:minmax(0,1fr) 104px;gap:10px 24px;align-content:center;
+}
+.journey.clickable-card>.hero>small,.journey.clickable-card>.hero>h3{grid-column:1;overflow-wrap:anywhere}
+.journey.clickable-card>.hero>.travel-stamp{grid-column:2;grid-row:1/span 2;align-self:center}
+.memory>.travel-stamp{width:78px;min-height:78px;flex-basis:78px;padding:13px 9px;gap:4px;color:#8c641b;background:transparent}
+.memory>.travel-stamp .stamp-place{font-size:10px}
+.memory>.travel-stamp .stamp-kind{font-size:7px;letter-spacing:.8px}
+.memory>.travel-stamp .stamp-date{font-size:7px}
+.memory-arrow{color:#9a6d16;font-size:17px;flex-shrink:0}
+.journey-detail .journey-detail-hero,.memory-detail .memory-detail-hero{
+  display:grid;grid-template-columns:minmax(0,1fr) 104px;gap:12px 26px;
+  align-content:end;padding-top:96px;
+}
+.journey-detail-hero>h2,.journey-detail-hero>p,
+.memory-detail-hero>h2,.memory-detail-hero>p,.memory-detail-hero>.memory-date,.memory-detail-hero>.memory-emblem{
+  grid-column:1;min-width:0;overflow-wrap:anywhere;padding-right:0;
+}
+.journey-detail-hero>.travel-stamp{grid-column:2;grid-row:1/span 2;align-self:center}
+.memory-detail-hero>.travel-stamp{grid-column:2;grid-row:1/span 4;align-self:center}
+@media(max-width:700px){
+  .journey.clickable-card>.hero{grid-template-columns:minmax(0,1fr) 84px;column-gap:16px}
+  .journey.clickable-card>.hero>.travel-stamp{width:84px;min-height:84px;padding:15px 10px;gap:5px}
+  .journey.clickable-card>.hero>.travel-stamp .stamp-place{font-size:10px}
+  .journey.clickable-card>.hero>.travel-stamp .stamp-kind,.journey.clickable-card>.hero>.travel-stamp .stamp-date{font-size:7px}
+  .memory>.travel-stamp{display:none}
+  /* Full-size detail stamps get their own row on phones; titles keep all available width. */
+  .journey-detail .journey-detail-hero,.memory-detail .memory-detail-hero{grid-template-columns:minmax(0,1fr);row-gap:12px}
+  .journey-detail-hero>.travel-stamp,.memory-detail-hero>.travel-stamp{grid-column:1;grid-row:auto;justify-self:start;margin:6px 0 4px}
+}

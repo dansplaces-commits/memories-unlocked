@@ -45,3 +45,29 @@ Do not treat visual polish as a replacement for functional testing. Before promo
 7. The latest-place chip opens the correct saved place or journey.
 
 The approved website remains the visual source of truth for future refinement.
+
+## Safe polish review — 16 September 2026
+
+Continue only on `polish/app-2026-09-16`. The approved source is
+`locked/app-2026-09-16`; do not merge or promote without Dan's visual approval.
+
+This pass gives passport stamps their own card/detail space, displays genuine
+saved dates (or “Undated”), and keeps complete location names outside the stamp.
+Map controls gain Escape/outside-click dismissal, matching expanded state,
+visible keyboard focus, and protection from obsolete tile-load errors.
+No account, Supabase, or saved-record schema changes are included.
+
+Run the isolated logic regressions with `node --test tests/polish-unit.cjs`.
+They cover escaped stamp text, dates, record preservation, cache boundaries,
+all four map styles, disclosure state, and safe tile fallback. They are unit
+tests, not a replacement for browser or real-account verification.
+
+For local visual QA, run `node tests/preview-server.cjs` and open
+`http://127.0.0.1:4173/__qa`. This local-only harness seeds fictional records,
+omits the Supabase SDK/config, blocks external API connections, and disables
+service workers. Do not use it to assess cloud connectivity or sign-in.
+Check 320px, 390px, 768px, 1024px, 1180px and desktop widths, including long
+titles/places, missing dates, card/detail navigation and keyboard access.
+
+Desktop/mobile visual approval and the real-device account checks above remain
+release gates. Keep the marketing website and production app unchanged until approved.

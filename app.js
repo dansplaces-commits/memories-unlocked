@@ -36,8 +36,12 @@ async function createMemory(){if(creatingMemory)return;const title=$('memoryTitl
 function findJourney(id){return journeys.find(j=>String(j.id)===String(id));}function findMemory(id){return memories.find(m=>String(m.id)===String(id));}
 function journeyMemories(id){return memories.filter(m=>String(m.journeyId)===String(id)).slice().sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999')||String(a.id).localeCompare(String(b.id)));}
 function travelStamp(location,date,kind='JOURNEY'){
-  const year=String(date||'').slice(0,4)||'MEMORY';
-  return `<span class="travel-stamp" aria-hidden="true"><span>${esc(kind)}</span><b>${esc(location||'A PLACE')}</b><small>MEMORIES UNLOCKED · ${esc(year)}</small></span>`;
+  const place=String(location||'').split(',')[0].trim()||'A place to remember';
+  const value=String(date||'').slice(0,10);
+  const parsed=/^\d{4}-\d{2}-\d{2}$/.test(value)?new Date(value+'T12:00:00Z'):null;
+  const dated=parsed&&!Number.isNaN(parsed.getTime())&&parsed.toISOString().slice(0,10)===value;
+  const label=dated?new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric',timeZone:'UTC'}).format(parsed):'Undated';
+  return `<span class="travel-stamp" aria-hidden="true"><span class="stamp-kind">${esc(kind)}</span><b class="stamp-place">${esc(place)}</b><small class="stamp-date">${esc(label)}</small></span>`;
 }
 function memoryBlock(m,number){return `<button type="button" class="memory clickable-memory" data-action="memory" data-id="${esc(m.id)}"><span class="memory-number" aria-hidden="true">${number||'◇'}</span><span class="memory-copy"><strong>${esc(m.title)}</strong><span>${esc(m.location)}</span><small>${esc(formatDate(m.date))}${validPoint(m.latitude,m.longitude)?' · On your map':' · Map position to add'}</small></span>${travelStamp(m.location,m.date,'MEMORY')}<span class="memory-arrow" aria-hidden="true">↗</span></button>`;}
 function card(j){const ms=journeyMemories(j.id);return `<article class="journey clickable-card" tabindex="0" role="button" aria-label="Open ${esc(j.title)}" data-action="journey" data-id="${esc(j.id)}"><div class="hero"><small>${esc(j.location)} · ${j.start?esc(j.start.slice(0,4)):'Journey'}</small><h3>${esc(j.title)}</h3>${travelStamp(j.location,j.start)}</div><div class="body"><p class="story-preview">${esc(j.story)||'Your story starts here.'}</p><div><span class="pill">🔒 ${esc(j.privacy||'Private')}</span><span class="pill">${j.cloud?'☁️ Cloud':'📱 Device'}</span><span class="pill">${ms.length} memories</span></div>${ms.slice(0,3).map((m,i)=>memoryBlock(m,i+1)).join('')}<button class="save" data-action="add-memory" data-id="${esc(j.id)}">＋ Add a Memory to this Journey</button></div></article>`;}

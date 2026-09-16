@@ -8,17 +8,23 @@ const MAP_STYLES={
   explorer:{label:'Explorer',tiles:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',options:{maxZoom:19,attribution:'Tiles © Esri · map data providers'}}
 };
 const mapState=new WeakMap();
-function savedStyle(){try{const v=localStorage.getItem(STYLE_KEY);return MAP_STYLES[v]?v:'street';}catch{return'street';}}
+function savedStyle(){try{const v=localStorage.getItem(STYLE_KEY);return Object.hasOwn(MAP_STYLES,v)?v:'street';}catch{return'street';}}
 function rememberStyle(style){try{localStorage.setItem(STYLE_KEY,style);}catch{}}
+function closeStyleControl(container){
+  const box=container?.querySelector('.mu-map-control');
+  box?.classList.remove('open');
+  box?.querySelector('.mu-map-layers-toggle')?.setAttribute('aria-expanded','false');
+}
 function setPressed(container,style){container?.querySelectorAll('[data-mu-map-style]').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.muMapStyle===style)));const label=container?.querySelector('.mu-map-layers-toggle b');if(label)label.textContent=MAP_STYLES[style]?.label||'Layers';}
 function setStyle(map,style,noticeId){
-  if(!MAP_STYLES[style])style='street';
+  if(!Object.hasOwn(MAP_STYLES,style))style='street';
   const state=mapState.get(map)||{};
   if(state.layer)map.removeLayer(state.layer);
   const cfg=MAP_STYLES[style];
   let errorCount=0;
   const layer=L.tileLayer(cfg.tiles,{...cfg.options,updateWhenIdle:true});
   layer.on('tileerror',()=>{
+    if(mapState.get(map)?.layer!==layer)return;
     errorCount++;
     const n=document.getElementById(noticeId);
     if(n)n.textContent='This map style is temporarily unavailable. Your pins and trails are still safe.';
@@ -30,28 +36,36 @@ function setStyle(map,style,noticeId){
       }
     }
   });
-  layer.on('tileload',()=>{const n=document.getElementById(noticeId);if(n&&(n.textContent.startsWith('This map style')||n.textContent.startsWith('That map style')))n.textContent='';});
-  layer.addTo(map);layer.bringToBack?.();
+  layer.on('tileload',()=>{if(mapState.get(map)?.layer!==layer)return;const n=document.getElementById(noticeId);if(n&&(n.textContent.startsWith('This map style')||n.textContent.startsWith('That map style')))n.textContent='';});
   mapState.set(map,{...state,layer,style,noticeId});
+  layer.addTo(map);layer.bringToBack?.();
   rememberStyle(style);
   const container=map.getContainer();
   setPressed(container,style);
-  container.querySelector('.mu-map-control')?.classList.remove('open');
+  closeStyleControl(container);
   requestAnimationFrame(()=>layer.bringToBack?.());
   return layer;
 }
 function addStyleControl(map,noticeId){
   const control=L.control({position:'topright'});
+  let removeOutsideListener=()=>{};
   control.onAdd=()=>{
     const box=L.DomUtil.create('div','mu-map-control');
     box.setAttribute('aria-label','Map style');
-    box.innerHTML=`<button type="button" class="mu-map-layers-toggle" aria-expanded="false"><span>▱</span><b>Layers</b></button><div class="mu-map-options"><span class="mu-map-control-title">MAP STYLE</span>${Object.entries(MAP_STYLES).map(([key,v])=>`<button type="button" data-mu-map-style="${key}" aria-pressed="false">${v.label}</button>`).join('')}</div>`;
+    box.setAttribute('role','group');
+    const optionsId=noticeId+'-style-options';
+    box.innerHTML=`<button type="button" class="mu-map-layers-toggle" aria-expanded="false" aria-controls="${optionsId}" aria-label="Choose map style"><span aria-hidden="true">▱</span><b>Layers</b></button><div class="mu-map-options" id="${optionsId}"><span class="mu-map-control-title">MAP STYLE</span>${Object.entries(MAP_STYLES).map(([key,v])=>`<button type="button" data-mu-map-style="${key}" aria-pressed="false">${v.label}</button>`).join('')}</div>`;
     L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
     const toggle=box.querySelector('.mu-map-layers-toggle');
     toggle.addEventListener('click',()=>{const open=box.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));});
-    box.querySelectorAll('[data-mu-map-style]').forEach(btn=>btn.addEventListener('click',()=>{setStyle(map,btn.dataset.muMapStyle,noticeId);toggle.setAttribute('aria-expanded','false');}));
+    box.querySelectorAll('[data-mu-map-style]').forEach(btn=>btn.addEventListener('click',()=>{setStyle(map,btn.dataset.muMapStyle,noticeId);if(window.matchMedia('(max-width:700px)').matches)toggle.focus();}));
+    box.addEventListener('keydown',event=>{if(event.key==='Escape'&&box.classList.contains('open')){event.preventDefault();event.stopPropagation();closeStyleControl(map.getContainer());toggle.focus();}});
+    const closeOutside=event=>{if(!box.contains(event.target))closeStyleControl(map.getContainer());};
+    document.addEventListener('pointerdown',closeOutside);
+    removeOutsideListener=()=>document.removeEventListener('pointerdown',closeOutside);
     return box;
   };
+  control.onRemove=()=>removeOutsideListener();
   control.addTo(map);
   return control;
 }
@@ -59,10 +73,12 @@ function addLocateControl(map){
   const control=L.control({position:'topright'});
   control.onAdd=()=>{
     const wrap=L.DomUtil.create('div','mu-locate-control');
-    const btn=L.DomUtil.create('button','',wrap);btn.type='button';btn.innerHTML='<span>◎</span><b>My location</b>';btn.title='Show my current location';
+    const btn=L.DomUtil.create('button','',wrap);btn.type='button';btn.innerHTML='<span aria-hidden="true">◎</span><b>My location</b>';btn.title='Show my current location';btn.setAttribute('aria-label','Show my current location');
     L.DomEvent.disableClickPropagation(wrap);
     btn.addEventListener('click',()=>{
       if(!navigator.geolocation){window.toast?.('Location is not available in this browser.');return;}
+      if(btn.disabled)return;
+      btn.disabled=true;btn.setAttribute('aria-busy','true');
       btn.classList.add('locating');btn.querySelector('b').textContent='Locating…';
       navigator.geolocation.getCurrentPosition(pos=>{
         const p=[pos.coords.latitude,pos.coords.longitude];
@@ -71,8 +87,8 @@ function addLocateControl(map){
         if(state.userMarker)state.userMarker.remove();
         const userMarker=L.circleMarker(p,{radius:9,color:'#fff',weight:3,fillColor:'#1677ff',fillOpacity:1}).addTo(map).bindTooltip('You are here',{direction:'top',offset:[0,-10]});
         mapState.set(map,{...state,userMarker});
-        btn.classList.remove('locating');btn.querySelector('b').textContent='My location';
-      },()=>{btn.classList.remove('locating');btn.querySelector('b').textContent='My location';window.toast?.('Location permission was not available. You can still explore every saved place on the map.');},{enableHighAccuracy:false,timeout:9000,maximumAge:300000});
+        btn.disabled=false;btn.setAttribute('aria-busy','false');btn.classList.remove('locating');btn.querySelector('b').textContent='My location';
+      },()=>{btn.disabled=false;btn.setAttribute('aria-busy','false');btn.classList.remove('locating');btn.querySelector('b').textContent='My location';window.toast?.('Location permission was not available. You can still explore every saved place on the map.');},{enableHighAccuracy:false,timeout:9000,maximumAge:300000});
     });
     return wrap;
   };

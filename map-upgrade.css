@@ -1,4 +1,6 @@
 /* Memories Unlocked — premium map modes + top-right place chip */
+.mu-map-control button:focus-visible,.mu-locate-control button:focus-visible{outline:3px solid #c69736;outline-offset:3px}
+.mu-locate-control button[aria-busy="true"]{cursor:progress}
 .mu-map-control,.mu-locate-control{font-family:'DM Sans',Arial,sans-serif!important;box-shadow:0 10px 30px rgba(9,42,73,.16);border:1px solid rgba(255,255,255,.72);border-radius:16px!important;background:rgba(255,252,245,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .mu-map-control{display:flex;align-items:center;padding:5px;gap:3px;position:relative}
 .mu-map-control-title{font-size:9px;letter-spacing:1.6px;font-weight:800;color:#9a6d16;padding:0 6px 0 7px;white-space:nowrap}
