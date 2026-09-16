@@ -1,0 +1,230 @@
+/* Memories Unlocked — cosmetic polish pass v1. Presentation only; no data or account-flow changes. */
+:root{
+  --mu-polish-navy:#0b2d4b;
+  --mu-polish-navy-deep:#061d34;
+  --mu-polish-gold:#e7b54c;
+  --mu-polish-gold-soft:#f4d78f;
+  --mu-polish-cream:#fbf6ed;
+  --mu-polish-paper:#fffdf8;
+  --mu-polish-teal:#3d8e97;
+  --mu-polish-line:rgba(11,45,75,.10);
+  --mu-polish-shadow:0 18px 46px rgba(8,38,62,.10);
+}
+
+/* Keep old experimental pseudo-panels out of the locked dashboard. */
+@media(min-width:1180px){
+  #home:before,#home:after{content:none!important;display:none!important}
+
+  /* Navigation rail: cleaner, more app-like and visually related to the website header. */
+  html[data-dock="left"] .nav,html[data-dock="right"] .nav{
+    background:
+      radial-gradient(circle at 50% 2%,rgba(237,189,87,.13),transparent 18%),
+      linear-gradient(180deg,#0b3157 0%,#082746 48%,#061f39 100%)!important;
+    border-right:1px solid rgba(255,255,255,.07)!important;
+    box-shadow:18px 0 45px rgba(4,20,36,.12)!important;
+  }
+  html[data-dock="right"] .nav{border-right:0!important;border-left:1px solid rgba(255,255,255,.07)!important;box-shadow:-18px 0 45px rgba(4,20,36,.12)!important}
+  html[data-dock="left"] .nav:before,html[data-dock="right"] .nav:before{
+    letter-spacing:2.8px!important;
+    color:#fffaf0!important;
+    border-bottom-color:rgba(255,255,255,.13)!important;
+    text-shadow:0 2px 16px rgba(0,0,0,.16);
+  }
+  html[data-dock="left"] .nav button,html[data-dock="right"] .nav button{
+    position:relative;overflow:hidden;
+    border:1px solid transparent!important;
+    transition:background .22s ease,border-color .22s ease,transform .22s ease,box-shadow .22s ease!important;
+  }
+  html[data-dock="left"] .nav button:hover,html[data-dock="right"] .nav button:hover{
+    transform:translateX(2px);
+    background:rgba(255,255,255,.08)!important;
+    border-color:rgba(255,255,255,.10)!important;
+  }
+  html[data-dock="right"] .nav button:hover{transform:translateX(-2px)}
+  html[data-dock="left"] .nav button[aria-current="page"],html[data-dock="right"] .nav button[aria-current="page"],
+  html[data-dock="left"] .nav .account-active,html[data-dock="right"] .nav .account-active{
+    background:linear-gradient(135deg,#f4dc9a,#e7b54c)!important;
+    color:#0b2d4b!important;
+    border-color:rgba(255,255,255,.28)!important;
+    box-shadow:0 10px 24px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.62)!important;
+  }
+
+  /* Master hero: richer depth, website-like finish and restrained movement. */
+  .dash-master-hero{
+    position:relative;
+    box-shadow:0 1px 0 rgba(11,45,75,.05),0 22px 55px rgba(11,45,75,.06);
+  }
+  .dash-master-copy:after{
+    content:"";position:absolute;left:50px;bottom:20px;width:84px;height:3px;border-radius:10px;
+    background:linear-gradient(90deg,var(--mu-polish-gold),transparent);opacity:.65;
+  }
+  .dash-master-primary,.dash-master-secondary{position:relative;overflow:hidden}
+  .dash-master-primary:before,.dash-master-secondary:before{
+    content:"";position:absolute;inset:-100% auto -100% -45%;width:34%;transform:rotate(18deg);
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.36),transparent);
+    transition:left .55s ease;
+  }
+  .dash-master-primary:hover:before,.dash-master-secondary:hover:before{left:120%}
+  .dash-master-primary{box-shadow:0 10px 24px rgba(177,125,27,.16),inset 0 1px 0 rgba(255,255,255,.6)!important}
+  .dash-master-secondary{backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+  .dash-master-benefits>div{padding:7px 8px 7px 0;border-radius:14px;transition:background .2s ease,transform .2s ease}
+  .dash-master-benefits>div:hover{background:rgba(255,255,255,.30);transform:translateY(-2px)}
+  .dash-benefit-icon{
+    border:1px solid rgba(11,45,75,.16);border-radius:14px;background:rgba(255,255,255,.36);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+  }
+
+  .dash-master-art{animation:muScenicDrift 18s ease-in-out infinite alternate}
+  @keyframes muScenicDrift{from{background-position:right top}to{background-position:96% top}}
+  .dash-master-art::before{
+    content:"EXPLORE\A✦\AMEMORIES";white-space:pre;
+    position:absolute;z-index:5;right:4.6%;top:24px;width:112px;height:112px;
+    display:grid;place-items:center;text-align:center;
+    border:1.6px solid rgba(19,39,57,.54);border-radius:50%;
+    color:rgba(19,39,57,.72);font:700 9px/1.7 'DM Sans',Arial,sans-serif;letter-spacing:2px;
+    background:rgba(255,248,236,.12);transform:rotate(8deg);
+    box-shadow:inset 0 0 0 8px rgba(255,255,255,.05);
+  }
+  .dash-art-script{filter:drop-shadow(0 1px 0 rgba(255,255,255,.38))}
+  .dash-art-heart-cover{
+    right:-18px!important;bottom:-20px!important;width:210px!important;height:170px!important;
+    border-radius:72% 0 0 0!important;
+    background:radial-gradient(ellipse at 70% 65%,rgba(66,95,93,.96) 0%,rgba(80,104,96,.88) 34%,rgba(190,144,87,.45) 62%,rgba(190,144,87,0) 78%)!important;
+    filter:blur(5px);opacity:.94!important;
+  }
+
+  /* How-it-works cards gain the small interaction detail the website now has. */
+  .dash-how-card{
+    border:1px solid rgba(11,45,75,.055)!important;
+    box-shadow:0 8px 22px rgba(11,45,75,.035)!important;
+    transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease!important;
+  }
+  .dash-how-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 18px 34px rgba(11,45,75,.10)!important;
+    border-color:rgba(199,145,44,.24)!important;
+  }
+  .dash-how-card i{box-shadow:0 7px 16px rgba(161,111,19,.18),inset 0 1px 0 rgba(255,255,255,.55)}
+
+  /* Live dashboard cards: more depth and clearer hierarchy. */
+  .dash-stats{box-shadow:var(--mu-polish-shadow)!important;border-color:rgba(11,45,75,.08)!important}
+  .dash-stat strong{font-size:26px!important;letter-spacing:-.8px}
+  .dash-action{
+    position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.10)!important;
+    transition:transform .24s ease,box-shadow .24s ease,filter .24s ease!important;
+  }
+  .dash-action:after{
+    content:"";position:absolute;right:-35px;bottom:-55px;width:125px;height:125px;border-radius:50%;
+    border:1px solid rgba(255,255,255,.18);box-shadow:0 0 0 22px rgba(255,255,255,.05);
+  }
+  .dash-action:hover{transform:translateY(-5px);box-shadow:0 20px 38px rgba(11,45,75,.14)!important;filter:saturate(1.05)}
+  .dash-action .dash-icon{position:relative;z-index:2;width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:rgba(255,255,255,.14);font-size:24px!important}
+  .dash-action.gold .dash-icon,.dash-action.cream .dash-icon{background:rgba(11,45,75,.09)}
+  .dash-action>span:last-child{position:relative;z-index:2}
+
+  .dash-recent .memory{
+    border-left:0!important;padding:16px 18px!important;
+    transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease!important;
+  }
+  .dash-recent .memory:hover{transform:translateY(-3px);box-shadow:0 16px 28px rgba(11,45,75,.10)!important;border-color:rgba(200,151,56,.26)!important}
+
+  .dash-plus{box-shadow:0 18px 46px rgba(11,45,75,.055)}
+  .dash-plus .widget-card{border:1px solid rgba(11,45,75,.07)!important;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+  .dash-plus .widget-card:hover{transform:translateY(-3px);box-shadow:0 12px 25px rgba(11,45,75,.08);border-color:rgba(199,145,44,.22)!important}
+  .dash-plus .widget-card .wi{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:#f7ecd3;font-size:20px!important}
+}
+
+/* Journey list cards — richer, image-led feeling without requiring uploaded photos yet. */
+.journey.clickable-card{
+  position:relative;border:1px solid rgba(11,45,75,.085)!important;border-radius:26px!important;
+  background:rgba(255,253,248,.98)!important;box-shadow:0 12px 32px rgba(11,45,75,.07)!important;
+  transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease!important;
+}
+.journey.clickable-card:hover{transform:translateY(-5px)!important;box-shadow:0 24px 48px rgba(11,45,75,.13)!important;border-color:rgba(199,145,44,.25)!important}
+.journey.clickable-card>.hero{
+  position:relative;min-height:184px!important;padding:26px!important;overflow:hidden;
+  background:
+    radial-gradient(circle at 80% 16%,rgba(242,195,105,.30),transparent 24%),
+    radial-gradient(ellipse at 90% 105%,rgba(70,151,159,.65),transparent 45%),
+    linear-gradient(135deg,#0e3156 0%,#174968 58%,#4b8e92 100%)!important;
+}
+.journey.clickable-card>.hero:before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(120deg,transparent 0 55%,rgba(255,255,255,.08) 55% 56%,transparent 56%),radial-gradient(circle at 12% 18%,rgba(255,255,255,.10),transparent 20%);
+}
+.journey.clickable-card>.hero>*{position:relative;z-index:1}
+.journey.clickable-card>.hero small{display:inline-flex;width:max-content;padding:7px 10px;border-radius:999px;background:rgba(4,23,41,.27);border:1px solid rgba(255,255,255,.18);font-size:11px;letter-spacing:.5px;color:#fff}
+.journey.clickable-card>.hero h3{font-size:31px!important;line-height:1!important;letter-spacing:-.6px;text-shadow:0 2px 16px rgba(0,0,0,.12)}
+.journey.clickable-card>.body{padding:22px 23px 24px!important}
+.journey.clickable-card .story-preview{color:#53677a!important;font-size:14px;line-height:1.6;margin:0 0 12px}
+.journey.clickable-card .pill{background:#f7edd7!important;border:1px solid #ead8ac;color:#6f5420;margin-top:8px!important}
+.journey.clickable-card .save{box-shadow:none;margin-top:16px!important}
+
+/* Memory rows read more like collectible moments than form rows. */
+.memory.clickable-memory{
+  position:relative;border:1px solid rgba(11,45,75,.085)!important;border-left:1px solid rgba(11,45,75,.085)!important;
+  border-radius:18px!important;background:rgba(255,253,249,.98)!important;padding:15px 16px!important;
+  box-shadow:0 6px 18px rgba(11,45,75,.035);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease!important;
+}
+.memory.clickable-memory:hover{transform:translateY(-3px)!important;box-shadow:0 14px 26px rgba(11,45,75,.09)!important;border-color:rgba(199,145,44,.24)!important}
+.memory.clickable-memory .memory-number{background:linear-gradient(135deg,#f1d88f,#e1a934)!important;color:#0b2d4b!important;box-shadow:0 5px 12px rgba(174,123,26,.14)}
+.memory.clickable-memory .memory-copy strong{font-family:var(--font-heading)!important;font-size:17px!important;color:#0b2d4b!important}
+.memory.clickable-memory>span:last-child{color:#9c7627;font-size:17px}
+
+/* Create/Add sheets: more deliberate, quieter and easier to scan. */
+.modal:not(.journey-detail):not(.memory-detail) .sheet{
+  border:1px solid rgba(255,255,255,.52);box-shadow:0 34px 90px rgba(2,19,35,.32)!important;background:linear-gradient(180deg,#fffefa,#fbf6ed)!important;
+}
+.modal:not(.journey-detail):not(.memory-detail) .sheet h2{color:#0b2d4b;letter-spacing:-.7px}
+.modal:not(.journey-detail):not(.memory-detail) label{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:#7d6127;margin-top:17px}
+.modal input,.modal textarea,.modal select{
+  border:1px solid rgba(11,45,75,.13)!important;background:rgba(255,255,255,.88)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;
+}
+.modal input:focus,.modal textarea:focus,.modal select:focus{border-color:#c99a3d!important;box-shadow:0 0 0 4px rgba(226,178,77,.13)!important;background:#fff!important;outline:0!important}
+.modal .close{transition:transform .18s ease,background .18s ease}.modal .close:hover{transform:rotate(4deg) scale(1.04);background:#f7ecd4}
+.save{background:linear-gradient(135deg,#f0cb72,#dca52d)!important;box-shadow:0 10px 20px rgba(175,124,26,.13)!important}
+.detail-action{background:linear-gradient(135deg,#0e3156,#0a2948)!important}
+.secondary{box-shadow:0 5px 14px rgba(11,45,75,.04)}
+
+/* Map and follow screens: keep them visually related to the same product. */
+#map,#journeys,#follow{padding-top:6px}
+#map>.welcome,#journeys>.welcome,#follow>.welcome{letter-spacing:3px!important;color:#a67820!important}
+#map>h1,#journeys>h1,#follow>h1{color:#0b2d4b;letter-spacing:-1.5px}
+.map-toolbar{padding:16px;border:1px solid rgba(11,45,75,.08);border-radius:20px;background:rgba(255,253,248,.78);box-shadow:0 10px 26px rgba(11,45,75,.045)}
+.mapbox{border-color:rgba(11,45,75,.10)!important;box-shadow:0 18px 42px rgba(11,45,75,.08)}
+#follow>.journey{border:1px solid rgba(11,45,75,.08);box-shadow:0 15px 35px rgba(11,45,75,.07)}
+
+/* Account/appearance panels now feel like first-class screens rather than utilities. */
+.account-sheet,.appearance-panel{
+  background:linear-gradient(180deg,#fffefa,#fbf5e9)!important;
+  border:1px solid rgba(255,255,255,.55)!important;
+  box-shadow:0 34px 90px rgba(2,19,35,.30)!important;
+}
+.account-primary,.account-connected{box-shadow:inset 0 1px 0 rgba(255,255,255,.75)}
+.account-state-icon{box-shadow:0 9px 20px rgba(45,130,140,.20)}
+
+/* Mobile polish: same brand, less prototype feel, without changing the mobile interaction model. */
+@media(max-width:1179px){
+  .brand-header{box-shadow:0 8px 26px rgba(11,45,75,.055);border-bottom-color:rgba(11,45,75,.07)!important}
+  .brand-lock{background:linear-gradient(145deg,#fffaf0,#f0dfb9)!important;box-shadow:0 7px 18px rgba(11,45,75,.06)}
+  .home-hero h1{color:#0b2d4b;letter-spacing:-1.4px}
+  .home-story-panel{background:linear-gradient(145deg,rgba(255,253,248,.97),rgba(249,240,219,.94))!important;border-color:rgba(194,146,50,.17)!important}
+  #home .grid .card{position:relative;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease}
+  #home .grid .card:after{content:"";position:absolute;right:-22px;bottom:-28px;width:82px;height:82px;border-radius:50%;border:1px solid rgba(255,255,255,.17);box-shadow:0 0 0 15px rgba(255,255,255,.045)}
+  #home .grid .card:active{transform:scale(.98)}
+  .mobile-explainer-launch{box-shadow:0 12px 28px rgba(11,45,75,.07)!important;border-color:rgba(190,139,40,.18)!important}
+  .nav{background:linear-gradient(180deg,#0d3155,#082744)!important;border-color:rgba(255,255,255,.08)!important}
+  .nav button[aria-current="page"]{background:linear-gradient(135deg,#f3db99,#e8b84f)!important;box-shadow:0 6px 16px rgba(0,0,0,.18)!important}
+  .journey.clickable-card>.hero{min-height:155px!important}
+}
+
+@media(max-width:700px){
+  .modal .sheet,.modal .install-panel,.modal .appearance-panel{box-shadow:0 -20px 60px rgba(2,19,35,.20)!important}
+  .memory.clickable-memory{padding:14px!important}
+  .journey.clickable-card>.hero h3{font-size:27px!important}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
