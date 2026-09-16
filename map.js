@@ -173,3 +173,13 @@ async function confirmMemoryPoint(){
 }
 async function retryMemoryExtras(id){const m=findMemory(id);if(!m)return;const synced=await persistMemoryExtras(m);save();openMemory(id);toast(synced?'Clue and position saved to the cloud.':'Your details are kept on this device. The cloud fields or permissions still need completing.');}
 function disposeLocationPicker(){pickerVersion++;pickerRequest?.abort();pickerMap?.remove();pickerMap=null;pickerMarker=null;}
+
+/* Load the optional richer map UI without changing the saved journey/memory model. */
+(function loadPremiumMapUI(){
+  if(!document.querySelector('link[data-mu-map-upgrade]')){
+    const link=document.createElement('link');link.rel='stylesheet';link.href='map-upgrade.css?v=20260916a';link.dataset.muMapUpgrade='1';document.head.appendChild(link);
+  }
+  if(!document.querySelector('script[data-mu-map-upgrade]')){
+    const script=document.createElement('script');script.src='map-upgrade.js?v=20260916a';script.defer=true;script.dataset.muMapUpgrade='1';document.head.appendChild(script);
+  }
+})();
