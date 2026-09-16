@@ -31,6 +31,7 @@ window.muSupabase = window.supabase?.createClient(
       ['muEditingScript','editing.js?v=20260916a'],
       ['muCreationScript','creation-flow.js?v=20260916a'],
       ['muLifecycleScript','lifecycle.js?v=20260916a'],
+      ['muCloudRecoveryScript','cloud-recovery.js?v=20260916a'],
       ['muStabilityScript','stability-fixes.js?v=20260916b'],
       ['muLegacyScript','legacy-experience.js?v=20260916a'],
       ['muPlaceIntelScript','place-intelligence.js?v=20260916a'],
