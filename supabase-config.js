@@ -23,7 +23,7 @@ if (!window.MU_RECOVERY_PAGE) {
       ['muPlaceIntelScrollStyles','place-intelligence-scroll.css?v=20260916a'],
       ['muDiscoverSurfaceStyles','discover-surface.css?v=20260916a'],
       ['muPadlockTrailStyles','padlock-trail.css?v=20260916a'],
-      ['muInteractiveToolsStyles','interactive-tools.css?v=20260916b'],
+      ['muInteractiveToolsStyles','interactive-tools.css?v=20260916c'],
       ['muInteractiveMobileStyles','interactive-mobile.css?v=20260916a']
     ];
     styles.forEach(([id,href])=>{
