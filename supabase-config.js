@@ -20,6 +20,7 @@ if (!window.MU_RECOVERY_PAGE) {
       ['muStabilityStyles','stability-fixes.css?v=20260916b'],
       ['muLegacyStyles','legacy-experience.css?v=20260916a'],
       ['muPlaceIntelStyles','place-intelligence.css?v=20260916a'],
+      ['muPlaceIntelScrollStyles','place-intelligence-scroll.css?v=20260916a'],
       ['muDiscoverSurfaceStyles','discover-surface.css?v=20260916a'],
       ['muPadlockTrailStyles','padlock-trail.css?v=20260916a']
     ];
