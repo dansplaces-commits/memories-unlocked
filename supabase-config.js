@@ -18,6 +18,7 @@ window.muSupabase = window.supabase?.createClient(
     ['muStabilityStyles','stability-fixes.css?v=20260916b'],
     ['muLegacyStyles','legacy-experience.css?v=20260916a'],
     ['muPlaceIntelStyles','place-intelligence.css?v=20260916a'],
+    ['muDiscoverSurfaceStyles','discover-surface.css?v=20260916a'],
     ['muPadlockTrailStyles','padlock-trail.css?v=20260916a']
   ];
   styles.forEach(([id,href])=>{
@@ -33,6 +34,7 @@ window.muSupabase = window.supabase?.createClient(
       ['muStabilityScript','stability-fixes.js?v=20260916b'],
       ['muLegacyScript','legacy-experience.js?v=20260916a'],
       ['muPlaceIntelScript','place-intelligence.js?v=20260916a'],
+      ['muDiscoverSurfaceScript','discover-surface.js?v=20260916a'],
       ['muPadlockTrailScript','padlock-trail.js?v=20260916a']
     ];
     scripts.forEach(([id,src])=>{
