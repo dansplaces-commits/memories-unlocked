@@ -14,7 +14,8 @@ window.muSupabase = window.supabase?.createClient(
     ['muMediaStyles','media.css?v=20260916b'],
     ['muEditingStyles','editing.css?v=20260916a'],
     ['muCreationStyles','creation-flow.css?v=20260916a'],
-    ['muLifecycleStyles','lifecycle.css?v=20260916a']
+    ['muLifecycleStyles','lifecycle.css?v=20260916a'],
+    ['muStabilityStyles','stability-fixes.css?v=20260916a']
   ];
   styles.forEach(([id,href])=>{
     if(document.getElementById(id))return;
@@ -25,7 +26,8 @@ window.muSupabase = window.supabase?.createClient(
       ['muMediaScript','media.js?v=20260916a'],
       ['muEditingScript','editing.js?v=20260916a'],
       ['muCreationScript','creation-flow.js?v=20260916a'],
-      ['muLifecycleScript','lifecycle.js?v=20260916a']
+      ['muLifecycleScript','lifecycle.js?v=20260916a'],
+      ['muStabilityScript','stability-fixes.js?v=20260916a']
     ];
     scripts.forEach(([id,src])=>{
       if(document.getElementById(id))return;
