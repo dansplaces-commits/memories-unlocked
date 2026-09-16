@@ -32,6 +32,29 @@ The existing mobile-first app UI remains in place so core app behaviour is not d
 
 This work sits on top of the account-boundary branch, keeping account-scoped cache protection and the current sign-in / sign-out safety work in place.
 
+## Product build additions — 16 September 2026
+
+The working branch `polish/app-2026-09-16` now includes additive product layers on top of the approved shell:
+
+- Secure journey cover photos and memory photos using private Supabase Storage paths and signed URLs.
+- JPEG, PNG and WebP validation with an 8 MB maximum upload size.
+- Photo preview, replace and remove controls without changing existing journey or memory records when media is unavailable.
+- Journey and memory editing with cloud-first save confirmation.
+- A premium Create Journey / Add Memory flow with guidance, character counters and optional photo selection before creation.
+- Reversible Archive / Restore controls and an Archived Stories manager. Archived content is hidden from the normal lists, map and counters rather than permanently deleted.
+- Updated PWA/service-worker caching for the additive product layers.
+
+### Supabase activation required
+
+The UI is intentionally backward-compatible when these migrations have not yet been run. To activate the new cloud features, apply these two SQL files once in the existing Supabase project, in this order:
+
+1. `supabase/20260916_media_storage.sql`
+   - creates the private `memory-media` bucket and media columns/policies.
+2. `supabase/20260916_archive_support.sql`
+   - adds reversible archive timestamps and indexes.
+
+Do not run destructive database changes and do not replace the existing Supabase project. Existing account, journey and memory data should remain in place.
+
 ## Readiness rule
 
 Do not treat visual polish as a replacement for functional testing. Before promotion to the main app branch, verify:
@@ -43,6 +66,11 @@ Do not treat visual polish as a replacement for functional testing. Before promo
 5. Desktop and mobile explainer experiences open, advance, replay and close correctly.
 6. Map mode switching works on Street, Satellite, Terrain and Explorer without disturbing saved pins/trails.
 7. The latest-place chip opens the correct saved place or journey.
+8. A journey cover can be uploaded, replaced and removed after the media migration is applied.
+9. A memory photo can be uploaded, replaced and removed after the media migration is applied.
+10. Journey and memory edits persist after a full sign-out/sign-in cycle.
+11. Archived journeys and memories remain hidden after signing in on another device and can be restored.
+12. Creation forms remain usable at 320px, 390px, tablet and desktop widths.
 
 The approved website remains the visual source of truth for future refinement.
 
@@ -55,7 +83,6 @@ This pass gives passport stamps their own card/detail space, displays genuine
 saved dates (or “Undated”), and keeps complete location names outside the stamp.
 Map controls gain Escape/outside-click dismissal, matching expanded state,
 visible keyboard focus, and protection from obsolete tile-load errors.
-No account, Supabase, or saved-record schema changes are included.
 
 Run the isolated logic regressions with `node --test tests/polish-unit.cjs`.
 They cover escaped stamp text, dates, record preservation, cache boundaries,
