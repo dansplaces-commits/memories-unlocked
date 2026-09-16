@@ -5,24 +5,38 @@ const MAP_STYLES={
   street:{label:'Street',tiles:'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',options:{maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'}},
   satellite:{label:'Satellite',tiles:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',options:{maxZoom:19,attribution:'Tiles © Esri'}},
   terrain:{label:'Terrain',tiles:'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',options:{maxZoom:17,attribution:'Map data © OpenStreetMap contributors · Map style © OpenTopoMap'}},
-  explorer:{label:'Explorer',tiles:'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',options:{maxZoom:20,attribution:'© OpenStreetMap contributors · © CARTO'}}
+  explorer:{label:'Explorer',tiles:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',options:{maxZoom:19,attribution:'Tiles © Esri · map data providers'}}
 };
 const mapState=new WeakMap();
 function savedStyle(){try{const v=localStorage.getItem(STYLE_KEY);return MAP_STYLES[v]?v:'street';}catch{return'street';}}
 function rememberStyle(style){try{localStorage.setItem(STYLE_KEY,style);}catch{}}
+function setPressed(container,style){container?.querySelectorAll('[data-mu-map-style]').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.muMapStyle===style)));const label=container?.querySelector('.mu-map-layers-toggle b');if(label)label.textContent=MAP_STYLES[style]?.label||'Layers';}
 function setStyle(map,style,noticeId){
   if(!MAP_STYLES[style])style='street';
   const state=mapState.get(map)||{};
   if(state.layer)map.removeLayer(state.layer);
   const cfg=MAP_STYLES[style];
+  let errorCount=0;
   const layer=L.tileLayer(cfg.tiles,{...cfg.options,updateWhenIdle:true});
-  layer.on('tileerror',()=>{const n=document.getElementById(noticeId);if(n)n.textContent='This map style is temporarily unavailable. Your pins and trails are still safe.';});
-  layer.on('tileload',()=>{const n=document.getElementById(noticeId);if(n&&n.textContent.startsWith('This map style'))n.textContent='';});
+  layer.on('tileerror',()=>{
+    errorCount++;
+    const n=document.getElementById(noticeId);
+    if(n)n.textContent='This map style is temporarily unavailable. Your pins and trails are still safe.';
+    if(style!=='street'&&errorCount>=4){
+      const latest=mapState.get(map)||{};
+      if(latest.style===style){
+        if(n)n.textContent='That map style could not load, so Street view has been restored.';
+        setStyle(map,'street',noticeId);
+      }
+    }
+  });
+  layer.on('tileload',()=>{const n=document.getElementById(noticeId);if(n&&(n.textContent.startsWith('This map style')||n.textContent.startsWith('That map style')))n.textContent='';});
   layer.addTo(map);layer.bringToBack?.();
   mapState.set(map,{...state,layer,style,noticeId});
   rememberStyle(style);
   const container=map.getContainer();
-  container.querySelectorAll('[data-mu-map-style]').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.muMapStyle===style)));
+  setPressed(container,style);
+  container.querySelector('.mu-map-control')?.classList.remove('open');
   requestAnimationFrame(()=>layer.bringToBack?.());
   return layer;
 }
@@ -31,9 +45,11 @@ function addStyleControl(map,noticeId){
   control.onAdd=()=>{
     const box=L.DomUtil.create('div','mu-map-control');
     box.setAttribute('aria-label','Map style');
-    box.innerHTML='<span class="mu-map-control-title">MAP</span>'+Object.entries(MAP_STYLES).map(([key,v])=>`<button type="button" data-mu-map-style="${key}" aria-pressed="false">${v.label}</button>`).join('');
+    box.innerHTML=`<button type="button" class="mu-map-layers-toggle" aria-expanded="false"><span>▱</span><b>Layers</b></button><div class="mu-map-options"><span class="mu-map-control-title">MAP STYLE</span>${Object.entries(MAP_STYLES).map(([key,v])=>`<button type="button" data-mu-map-style="${key}" aria-pressed="false">${v.label}</button>`).join('')}</div>`;
     L.DomEvent.disableClickPropagation(box);L.DomEvent.disableScrollPropagation(box);
-    box.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>setStyle(map,btn.dataset.muMapStyle,noticeId)));
+    const toggle=box.querySelector('.mu-map-layers-toggle');
+    toggle.addEventListener('click',()=>{const open=box.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));});
+    box.querySelectorAll('[data-mu-map-style]').forEach(btn=>btn.addEventListener('click',()=>{setStyle(map,btn.dataset.muMapStyle,noticeId);toggle.setAttribute('aria-expanded','false');}));
     return box;
   };
   control.addTo(map);
@@ -69,7 +85,7 @@ makeTileLayer=function(map,noticeId){
   const layer=setStyle(map,style,noticeId);
   addStyleControl(map,noticeId);
   if(noticeId==='mapNotice')addLocateControl(map);
-  requestAnimationFrame(()=>map.getContainer().querySelectorAll('[data-mu-map-style]').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.muMapStyle===style))));
+  requestAnimationFrame(()=>setPressed(map.getContainer(),style));
   return layer;
 };
 
