@@ -8,18 +8,25 @@ window.muSupabase = window.supabase?.createClient(
   { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }
 );
 
-// Load the optional secure photo layer without changing the approved app shell.
-(function loadMemoriesUnlockedMedia(){
-  if(!document.getElementById('muMediaStyles')){
-    const link=document.createElement('link');
-    link.id='muMediaStyles';link.rel='stylesheet';link.href='media.css?v=20260916a';
-    document.head.appendChild(link);
-  }
+// Load additive product layers after the approved app shell has initialised.
+(function loadMemoriesUnlockedProductLayers(){
+  const styles=[
+    ['muMediaStyles','media.css?v=20260916b'],
+    ['muEditingStyles','editing.css?v=20260916a']
+  ];
+  styles.forEach(([id,href])=>{
+    if(document.getElementById(id))return;
+    const link=document.createElement('link');link.id=id;link.rel='stylesheet';link.href=href;document.head.appendChild(link);
+  });
   const boot=()=>{
-    if(document.getElementById('muMediaScript'))return;
-    const script=document.createElement('script');
-    script.id='muMediaScript';script.src='media.js?v=20260916a';
-    document.body.appendChild(script);
+    const scripts=[
+      ['muMediaScript','media.js?v=20260916a'],
+      ['muEditingScript','editing.js?v=20260916a']
+    ];
+    scripts.forEach(([id,src])=>{
+      if(document.getElementById(id))return;
+      const script=document.createElement('script');script.id=id;script.src=src;script.async=false;document.body.appendChild(script);
+    });
   };
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
