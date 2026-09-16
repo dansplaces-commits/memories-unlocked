@@ -91,8 +91,9 @@ function ensurePlaceChip(){
   const p=latestPlace();chip.querySelector('small').textContent=p.sub;chip.querySelector('strong').textContent=p.label;
 }
 function refreshPlaceChip(){requestAnimationFrame(ensurePlaceChip);}
-window.addEventListener('DOMContentLoaded',()=>{
+function initPlaceChip(){
   ensurePlaceChip();
-  ['journeyList','recentMemories','cloudStatus'].forEach(id=>{const n=document.getElementById(id);if(n)new MutationObserver(refreshPlaceChip).observe(n,{childList:true,subtree:true,characterData:true});});
-});
+  ['journeyList','recentMemories','cloudStatus'].forEach(id=>{const n=document.getElementById(id);if(n&&!n.dataset.placeObserved){n.dataset.placeObserved='1';new MutationObserver(refreshPlaceChip).observe(n,{childList:true,subtree:true,characterData:true});}});
+}
+if(document.readyState==='loading')window.addEventListener('DOMContentLoaded',initPlaceChip,{once:true});else initPlaceChip();
 })();
