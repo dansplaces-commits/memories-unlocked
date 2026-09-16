@@ -1,4 +1,4 @@
-const CACHE='memories-unlocked-shell-v5-mapfix';
+const CACHE='memories-unlocked-shell-v6-travelstamps';
 const SHELL=['/','/index.html','/style.css','/theme-fix.css','/home-polish.css','/dock.css','/desktop-premium.css','/dashboard-v2.css','/dashboard-webstyle.css','/dashboard-explainer.css','/desktop-controls.css','/mobile-app.css','/journey-experience.css','/memory-experience.css','/map-upgrade.css','/account.css','/ui.js','/map.js','/map-upgrade.js','/appearance.js','/pwa.js','/account.js','/app.js','/dashboard-v2.js','/supabase-config.js','/vendor/leaflet.css','/vendor/leaflet.js','/vendor/qrcode.js'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));});
