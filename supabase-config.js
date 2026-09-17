@@ -57,17 +57,16 @@
     document.head.appendChild(style);
   }catch{}
 })();
-window.MU_SUPABASE_URL = 'https://fdjzelcqilupxibqsqep.supabase.co';
-window.MU_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_OD_FPZWL_AfNHZstS7E3wg_yEdPaxd-';
-window.muSupabase = window.supabase?.createClient(
+
+window.MU_SUPABASE_URL='https://fdjzelcqilupxibqsqep.supabase.co';
+window.MU_SUPABASE_PUBLISHABLE_KEY='sb_publishable_OD_FPZWL_AfNHZstS7E3wg_yEdPaxd-';
+window.muSupabase=window.supabase?.createClient(
   window.MU_SUPABASE_URL,
   window.MU_SUPABASE_PUBLISHABLE_KEY,
-  { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }
+  {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}
 );
 
-// Standalone recovery/diagnostic pages reuse the same authenticated client without booting the full app shell.
-if (!window.MU_RECOVERY_PAGE) {
-  // Load additive product layers after the approved app shell has initialised.
+if(!window.MU_RECOVERY_PAGE){
   (function loadMemoriesUnlockedProductLayers(){
     const styles=[
       ['muMediaStyles','media.css?v=20260916b'],
@@ -100,8 +99,11 @@ if (!window.MU_RECOVERY_PAGE) {
     ];
     styles.forEach(([id,href])=>{
       if(document.getElementById(id))return;
-      const link=document.createElement('link');link.id=id;link.rel='stylesheet';link.href=href;document.head.appendChild(link);
+      const link=document.createElement('link');
+      link.id=id;link.rel='stylesheet';link.href=href;
+      document.head.appendChild(link);
     });
+
     const boot=()=>{
       const scripts=[
         ['muMediaScript','media.js?v=20260916a'],
@@ -123,17 +125,19 @@ if (!window.MU_RECOVERY_PAGE) {
         ['muAppToolbarScript','app-toolbar.js?v=20260917a'],
         ['muMobileMasterV1Script','mobile-master-v1.js?v=20260917a'],
         ['muMobileExactIconsV3Script','mobile-exact-icons-v3.js?v=20260917b'],
-        ['muMobileExactV4Script','mobile-exact-v4.js?v=20260917b'],
-        ['muMobileExactV6Script','mobile-exact-v6.js?v=20260917a'],
-        ['muMobileExactV7Script','mobile-exact-v7.js?v=20260917a'],
-        ['muMobileExactV10Script','mobile-exact-v10.js?v=20260917a'],
-        ['muMobileBootReleaseScript','mobile-boot-release.js?v=20260917d']
+        ['muMobileExactV4Script','mobile-exact-v4.js?v=20260917c'],
+        ['muMobileExactV11Script','mobile-exact-v11.js?v=20260917h'],
+        ['muMobileBootReleaseScript','mobile-boot-release.js?v=20260917h']
       ];
       scripts.forEach(([id,src])=>{
         if(document.getElementById(id))return;
-        const script=document.createElement('script');script.id=id;script.src=src;script.async=false;document.body.appendChild(script);
+        const script=document.createElement('script');
+        script.id=id;script.src=src;script.async=false;
+        document.body.appendChild(script);
       });
     };
-    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
+
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});
+    else boot();
   })();
 }
