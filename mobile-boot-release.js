@@ -1,9 +1,9 @@
-/* Memories Unlocked — release branded splash only after polished UI + lower artwork v11 are ready. */
+/* Memories Unlocked — release splash only after final lower-card renderer is ready. */
 (function(){
   if(window.__muMobileBootRelease)return;window.__muMobileBootRelease=true;
   const root=document.documentElement;
   const mobile=()=>window.matchMedia('(max-width:700px)').matches;
-  let released=false;
+  let released=false,loading=false;
 
   function release(){
     if(released)return true;
@@ -13,15 +13,41 @@
     return true;
   }
 
-  function lowerReady(){
+  function finalReady(){
     const home=document.querySelector('.mu-mobile-master-home');
-    if(!home)return false;
     const nav=document.querySelector('.mu-mm-bottom-nav');
-    const covers=[...home.querySelectorAll('.mu-mm-journeys .mu-mm-journey-card .mu-mm-cover')];
-    const photos=[...home.querySelectorAll('.mu-mm-memory-grid .mu-mm-memory-photo')];
-    return !!nav && !!window.__muLowerArtReady && covers.length>=2 && photos.length>=3 &&
-      covers.every(el=>el.classList.contains('has-photo')||el.classList.contains('mu-mm-builtin-art')) &&
-      photos.every(el=>el.classList.contains('has-photo')||el.classList.contains('mu-mm-builtin-art'));
+    const covers=[...(home?.querySelectorAll('.mu-mm-journeys .mu-mm-journey-card .mu-mm-cover')||[])];
+    const photos=[...(home?.querySelectorAll('.mu-mm-memory-grid .mu-mm-memory-photo')||[])];
+    return !!nav&&!!window.__muLowerReleaseReady&&covers.length>=2&&photos.length>=3&&
+      covers.slice(0,2).every(el=>(el.style.backgroundImage||'').length>10)&&
+      photos.slice(0,3).every(el=>(el.style.backgroundImage||'').length>10);
+  }
+
+  function loadFinal(){
+    if(finalReady()){requestAnimationFrame(()=>requestAnimationFrame(release));return;}
+    if(loading)return;loading=true;
+    const old=document.getElementById('muMobileLowerReleaseScript');if(old)old.remove();
+    try{delete window.__muMobileLowerRelease;}catch{window.__muMobileLowerRelease=false;}
+    window.__muLowerReleaseReady=false;
+    const s=document.createElement('script');
+    s.id='muMobileLowerReleaseScript';
+    s.src='mobile-lower-release.js?v=20260917release1';
+    s.async=false;
+    s.onload=waitReady;
+    s.onerror=()=>release();
+    document.body.appendChild(s);
+  }
+
+  function waitReady(){
+    let tries=0;
+    const check=()=>{
+      if(finalReady()){
+        requestAnimationFrame(()=>requestAnimationFrame(()=>requestAnimationFrame(release)));
+        return;
+      }
+      if(++tries<80)setTimeout(check,75);else release();
+    };
+    check();
   }
 
   if(!mobile()){
@@ -29,30 +55,16 @@
     return;
   }
 
-  if(lowerReady()){
-    requestAnimationFrame(()=>requestAnimationFrame(release));
-    return;
-  }
-
-  const onReady=()=>{
-    if(!lowerReady())return;
-    window.removeEventListener('mu:lower-art-ready',onReady);
-    requestAnimationFrame(()=>requestAnimationFrame(()=>requestAnimationFrame(release)));
+  const ready=()=>{
+    const master=document.querySelector('.mu-mobile-master-home');
+    const nav=document.querySelector('.mu-mm-bottom-nav');
+    if(master&&master.children.length&&nav){loadFinal();return true;}
+    return false;
   };
-  window.addEventListener('mu:lower-art-ready',onReady);
 
-  let tries=0;
-  const poll=setInterval(()=>{
-    if(lowerReady()){
-      clearInterval(poll);
-      onReady();
-      return;
-    }
-    if(++tries>=96){
-      clearInterval(poll);
-      release();
-    }
-  },75);
-
+  if(ready())return;
+  const observer=new MutationObserver(()=>{if(ready())observer.disconnect();});
+  observer.observe(document.documentElement,{childList:true,subtree:true});
+  let tries=0;const poll=setInterval(()=>{if(ready()||++tries>=64)clearInterval(poll);},125);
   setTimeout(()=>{if(!released)release();},8000);
 })();
