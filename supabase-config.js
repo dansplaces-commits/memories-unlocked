@@ -64,8 +64,9 @@ if (!window.MU_RECOVERY_PAGE) {
         ['muAppToolbarScript','app-toolbar.js?v=20260917a'],
         ['muMobileMasterV1Script','mobile-master-v1.js?v=20260917a'],
         ['muMobileExactIconsV3Script','mobile-exact-icons-v3.js?v=20260917b'],
-        ['muMobileExactV4Script','mobile-exact-v4.js?v=20260917a'],
-        ['muMobileExactV6Script','mobile-exact-v6.js?v=20260917a']
+        ['muMobileExactV4Script','mobile-exact-v4.js?v=20260917b'],
+        ['muMobileExactV6Script','mobile-exact-v6.js?v=20260917a'],
+        ['muMobileExactV7Script','mobile-exact-v7.js?v=20260917a']
       ];
       scripts.forEach(([id,src])=>{
         if(document.getElementById(id))return;
