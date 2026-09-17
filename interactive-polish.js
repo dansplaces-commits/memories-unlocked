@@ -1,4 +1,4 @@
-/* Memories Unlocked — Interactive Dashboard polish: friendly tools + deliberate floating-widget interaction. */
+/* Memories Unlocked — safe Interactive Dashboard polish: friendly tools + deliberate floating-widget interaction. */
 (function(){
 const DOUBLE_TAP_MS=430;
 const MOVE_LIMIT=9;
@@ -35,16 +35,17 @@ function openDiscover(){
   const ctx=latestContext();
   if(!ctx){window.toast?.('Add a journey or memory location first, then Discover can tell its story.');return;}
   if(typeof window.muOpenPlaceIntelligence==='function'){window.muOpenPlaceIntelligence(ctx.kind,ctx.id);return;}
-  const tool=document.querySelector('[data-mu-tool="discover"]');
-  if(tool){tool.click();return;}
+  if(typeof window.muOpenDiscoverSurface==='function'){window.muOpenDiscoverSurface();return;}
   window.toast?.('Discover is still loading. Try again in a moment.');
 }
+function setTextIfChanged(node,value){if(node&&node.textContent!==value)node.textContent=value;}
 function polishTools(){
   document.querySelectorAll('.dash-master-benefits.mu-tools-ready [data-mu-tool]').forEach(tool=>{
     const key=tool.dataset.muTool,icon=tool.querySelector('.dash-benefit-icon'),copy=tool.querySelector('span:not(.dash-benefit-icon)');
-    tool.classList.add('mu-friendly-tool');
+    if(!tool.classList.contains('mu-friendly-tool'))tool.classList.add('mu-friendly-tool');
     if(icon&&ICONS[key]&&icon.dataset.muFriendly!=='1'){icon.dataset.muFriendly='1';icon.innerHTML=ICONS[key];}
-    const values=COPY[key];if(copy&&values){const b=copy.querySelector('b'),small=copy.querySelector('small');if(b)b.textContent=values[0];if(small)small.textContent=values[1];}
+    const values=COPY[key];
+    if(copy&&values){const b=copy.querySelector('b'),small=copy.querySelector('small');setTextIfChanged(b,values[0]);setTextIfChanged(small,values[1]);}
   });
 }
 function bindWidget(el){
@@ -52,22 +53,34 @@ function bindWidget(el){
   el.dataset.muDeliberateTap='1';
   el.setAttribute('title','Drag to move · double tap to open');
   const current=el.getAttribute('aria-label')||'';
-  el.setAttribute('aria-label',(current?current+'. ':'')+'Drag to move; double tap to open.');
+  if(!current.includes('double tap to open'))el.setAttribute('aria-label',(current?current+'. ':'')+'Drag to move; double tap to open.');
   let down=null,lastTap=0,selectedTimer=null;
   el.addEventListener('pointerdown',e=>{if(e.button!==undefined&&e.button!==0)return;down={x:e.clientX,y:e.clientY};},true);
   el.addEventListener('pointerup',e=>{
-    if(!down)return;const distance=Math.hypot(e.clientX-down.x,e.clientY-down.y);down=null;if(distance>MOVE_LIMIT){lastTap=0;el.classList.remove('mu-widget-selected');return;}
+    if(!down)return;
+    const distance=Math.hypot(e.clientX-down.x,e.clientY-down.y);down=null;
+    if(distance>MOVE_LIMIT){lastTap=0;el.classList.remove('mu-widget-selected');return;}
     const now=Date.now();
-    if(now-lastTap<=DOUBLE_TAP_MS){lastTap=0;clearTimeout(selectedTimer);el.classList.remove('mu-widget-selected');if(el.id==='appDiscoverChip')openDiscover();else openLatest();}
-    else{lastTap=now;el.classList.add('mu-widget-selected');clearTimeout(selectedTimer);selectedTimer=setTimeout(()=>{el.classList.remove('mu-widget-selected');lastTap=0;},DOUBLE_TAP_MS+80);}
+    if(now-lastTap<=DOUBLE_TAP_MS){
+      lastTap=0;clearTimeout(selectedTimer);el.classList.remove('mu-widget-selected');
+      if(el.id==='appDiscoverChip')openDiscover();else openLatest();
+    }else{
+      lastTap=now;el.classList.add('mu-widget-selected');clearTimeout(selectedTimer);
+      selectedTimer=setTimeout(()=>{el.classList.remove('mu-widget-selected');lastTap=0;},DOUBLE_TAP_MS+80);
+    }
   },true);
-  /* Single clicks are deliberately inert. This also blocks the older one-click handlers. */
   el.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();},true);
-  /* Double-click is handled by pointer timing above; block the former double-click reset action. */
   el.addEventListener('dblclick',e=>{e.preventDefault();e.stopImmediatePropagation();},true);
   el.addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)){e.preventDefault();e.stopImmediatePropagation();if(el.id==='appDiscoverChip')openDiscover();else openLatest();}},true);
 }
 function refresh(){polishTools();bindWidget(document.getElementById('appPlaceChip'));bindWidget(document.getElementById('appDiscoverChip'));}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',refresh,{once:true});else refresh();
-new MutationObserver(()=>queueMicrotask(refresh)).observe(document.documentElement,{childList:true,subtree:true});
+let scheduled=false;
+function scheduleRefresh(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;refresh();});}
+function start(){
+  refresh();
+  const dash=document.querySelector('.desktop-dashboard');
+  if(dash)new MutationObserver(scheduleRefresh).observe(dash,{childList:true,subtree:true});
+  if(document.body)new MutationObserver(scheduleRefresh).observe(document.body,{childList:true});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
