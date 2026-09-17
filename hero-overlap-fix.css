@@ -68,12 +68,13 @@
     transform:rotate(7deg);
   }
 
-  /* Keep the top-right location chip clear of the hero quote. */
-  .app-place-chip{
+  /* Keep the top-right location chip clear of the hero quote until the interactive drag layer takes over. */
+  .app-place-chip:not(.mu-widget-draggable){
     top:18px!important;
     right:18px!important;
     max-width:260px!important;
   }
+  .app-place-chip.mu-widget-draggable{max-width:260px!important}
 }
 
 @media (min-width:1180px) and (max-width:1400px){
