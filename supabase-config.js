@@ -1,7 +1,5 @@
 // Memories Unlocked — browser-safe Supabase configuration
 // The publishable key is intentionally safe for client-side use; RLS remains the security boundary.
-// Retire the temporary branded boot overlay as early as possible; the installed app should open into the product shell.
-try{document.documentElement.classList.remove('mu-mobile-boot');}catch{}
 window.MU_SUPABASE_URL = 'https://fdjzelcqilupxibqsqep.supabase.co';
 window.MU_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_OD_FPZWL_AfNHZstS7E3wg_yEdPaxd-';
 window.muSupabase = window.supabase?.createClient(
@@ -41,7 +39,7 @@ if (!window.MU_RECOVERY_PAGE) {
       ['muMobileExactV5Styles','mobile-exact-v5.css?v=20260917a'],
       ['muMobileExactV6Styles','mobile-exact-v6.css?v=20260917a'],
       ['muMobileExactV8Styles','mobile-exact-v8.css?v=20260917a'],
-      ['muMobileExactV9Styles','mobile-exact-v9.css?v=20260917a']
+      ['muMobileExactV9Styles','mobile-exact-v9.css?v=20260917b']
     ];
     styles.forEach(([id,href])=>{
       if(document.getElementById(id))return;
@@ -71,7 +69,8 @@ if (!window.MU_RECOVERY_PAGE) {
         ['muMobileExactV4Script','mobile-exact-v4.js?v=20260917b'],
         ['muMobileExactV6Script','mobile-exact-v6.js?v=20260917a'],
         ['muMobileExactV7Script','mobile-exact-v7.js?v=20260917a'],
-        ['muMobileExactV9Script','mobile-exact-v9.js?v=20260917a']
+        ['muMobileExactV9Script','mobile-exact-v9.js?v=20260917b'],
+        ['muMobileBootReleaseScript','mobile-boot-release.js?v=20260917b']
       ];
       scripts.forEach(([id,src])=>{
         if(document.getElementById(id))return;
