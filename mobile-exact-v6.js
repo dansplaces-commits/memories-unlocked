@@ -1,4 +1,4 @@
-/* Memories Unlocked — installed-app exact-match stabiliser v6. */
+/* Memories Unlocked — installed-app exact-match stabiliser v6b. */
 (function(){
 if(window.__muMobileExactV6)return;window.__muMobileExactV6=true;
 const mobile=()=>window.matchMedia('(max-width:700px)').matches;
@@ -9,16 +9,35 @@ const icons={
  share:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7m0 0h-6m6 0v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
  legacy:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.2" r="2.5" fill="none" stroke="currentColor" stroke-width="1.55"/><circle cx="6.2" cy="8.9" r="1.9" fill="none" stroke="currentColor" stroke-width="1.4"/><circle cx="17.8" cy="8.9" r="1.9" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M7.2 18.7c.2-3.7 1.9-5.7 4.8-5.7s4.6 2 4.8 5.7M2.8 18.3c.2-2.7 1.4-4.1 3.6-4.1M21.2 18.3c-.2-2.7-1.4-4.1-3.6-4.1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`
 };
+const journeyArt='/assets/mobile-ref-journeys.jpg?v=20260917b';
+const memoryArt='/assets/mobile-ref-memories.jpg?v=20260917b';
+function imp(el,name,value){el?.style.setProperty(name,value,'important');}
+function paintJourney(el,side){
+ if(!el)return;
+ imp(el,'background-image',`url("${journeyArt}")`);imp(el,'background-size','200% 100%');imp(el,'background-position',side==='right'?'100% center':'0% center');imp(el,'background-repeat','no-repeat');imp(el,'background-color','#eadfc9');
+ el.querySelector('.mu-mm-cover-art')?.style.setProperty('display','none','important');
+}
+function verifyJourney(el){
+ if(!el)return;
+ if(!el.classList.contains('has-photo')){paintJourney(el,'left');return;}
+ const urls=(el.style.backgroundImage||'').match(/url\(["']?([^"')]+)["']?\)/g)||[];
+ const raw=urls.at(-1);if(!raw){el.classList.remove('has-photo');paintJourney(el,'left');return;}
+ const src=raw.replace(/^url\(["']?/,'').replace(/["']?\)$/,'');
+ const img=new Image();img.onload=()=>{};img.onerror=()=>{el.classList.remove('has-photo');paintJourney(el,'left');};img.src=src;
+}
+function paintPrompt(el,index){
+ if(!el)return;imp(el,'background-image',`url("${memoryArt}")`);imp(el,'background-size','300% 100%');imp(el,'background-position',index===0?'0% center':index===1?'50% center':'100% center');imp(el,'background-repeat','no-repeat');imp(el,'background-color','#ece2d1');
+}
 function clean(){
  if(!mobile())return;
  document.querySelectorAll('#home > .home-discover-place,#appDiscoverChip,.app-discover-chip,.app-place-chip').forEach(n=>n.remove());
- document.querySelectorAll('.mu-mm-tools-row i').forEach(i=>{
-   const key=[...i.classList].find(k=>icons[k]);if(!key)return;
-   if(i.dataset.muV6===key&&i.querySelector('svg'))return;
-   i.dataset.muV6=key;i.innerHTML=icons[key];
- });
+ document.querySelectorAll('.mu-mm-tools-row i').forEach(i=>{const key=[...i.classList].find(k=>icons[k]);if(!key)return;if(i.dataset.muV6===key&&i.querySelector('svg'))return;i.dataset.muV6=key;i.innerHTML=icons[key];});
+ const home=document.querySelector('.mu-mobile-master-home');if(!home)return;
+ home.querySelectorAll('.mu-mm-journey-card:not(.mu-mm-dream-card) .mu-mm-cover').forEach(verifyJourney);
+ home.querySelectorAll('.mu-mm-dream-card .mu-mm-cover').forEach(el=>paintJourney(el,'right'));
+ [...home.querySelectorAll('.mu-mm-memory-prompt .mu-mm-memory-photo')].forEach((el,i)=>paintPrompt(el,i%3));
 }
 let queued=false;function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;clean();});}
-function start(){clean();const home=document.getElementById('home');if(home)new MutationObserver(m=>{if(m.some(x=>x.addedNodes&&x.addedNodes.length))schedule();}).observe(home,{childList:true,subtree:true});let tries=0;const retry=setInterval(()=>{clean();if(++tries>18)clearInterval(retry);},350);window.addEventListener('pageshow',schedule,{passive:true});}
+function start(){clean();const home=document.getElementById('home');if(home)new MutationObserver(m=>{if(m.some(x=>x.addedNodes&&x.addedNodes.length))schedule();}).observe(home,{childList:true,subtree:true});let tries=0;const retry=setInterval(()=>{clean();if(++tries>24)clearInterval(retry);},300);window.addEventListener('pageshow',schedule,{passive:true});window.addEventListener('focus',schedule,{passive:true});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
