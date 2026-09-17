@@ -1,4 +1,4 @@
-/* Memories Unlocked — decorative landmark ribbon for the locked master home. */
+/* Memories Unlocked — landmark ribbon for the locked master home. */
 (function(){
 if(window.__muLandmarkRibbonLoaded)return;
 window.__muLandmarkRibbonLoaded=true;
@@ -13,7 +13,7 @@ const LANDMARKS=[
 ];
 
 function landmarkMarkup(){
-  return `<section class="mu-landmark-ribbon" aria-label="Travel landmarks"><div class="mu-landmark-heading"><div><span>PLACES THAT INSPIRE</span><h2>Stories live everywhere.</h2></div><p>From famous landmarks to the quiet places only your family remembers.</p></div><div class="mu-landmark-track">${LANDMARKS.map(([city,country,svg],i)=>`<article class="mu-landmark-card lm-${i+1}"><div class="mu-landmark-art">${svg}</div><div><strong>${city}</strong><small>${country}</small></div><span class="mu-landmark-stamp">MEMORIES<br>UNLOCKED</span></article>`).join('')}</div></section>`;
+  return `<section class="mu-landmark-ribbon" aria-label="Travel landmarks"><div class="mu-landmark-heading"><div><span>PLACES THAT INSPIRE</span><h2>Stories live everywhere.</h2></div><p>From famous landmarks to the quiet places only your family remembers.</p></div><div class="mu-landmark-track">${LANDMARKS.map(([city,country,svg],i)=>`<button type="button" data-landmark-discover="${city}" aria-label="Discover ${city}, ${country}" class="mu-landmark-card lm-${i+1}"><div class="mu-landmark-art">${svg}</div><div><strong>${city}</strong><small>${country}</small></div><span class="mu-landmark-stamp">MEMORIES<br>UNLOCKED</span></button>`).join('')}</div></section>`;
 }
 
 function ensureLandmarkRibbon(){
