@@ -28,7 +28,8 @@ if (!window.MU_RECOVERY_PAGE) {
       ['muInteractivePolishStyles','interactive-polish.css?v=20260917a'],
       ['muMasterHomeLockStyles','master-home-lock.css?v=20260917a'],
       ['muLandmarkRibbonStyles','landmark-ribbon.css?v=20260917b'],
-      ['muLandmarkDiscoverStyles','landmark-discover.css?v=20260917a']
+      ['muLandmarkDiscoverStyles','landmark-discover.css?v=20260917a'],
+      ['muAppToolbarStyles','app-toolbar.css?v=20260917a']
     ];
     styles.forEach(([id,href])=>{
       if(document.getElementById(id))return;
@@ -50,7 +51,8 @@ if (!window.MU_RECOVERY_PAGE) {
         ['muInteractiveMobileScript','interactive-mobile.js?v=20260916a'],
         ['muInteractivePolishScript','interactive-polish.js?v=20260917b'],
         ['muLandmarkDiscoverScript','landmark-discover.js?v=20260917a'],
-        ['muLandmarkRibbonScript','landmark-ribbon.js?v=20260917b']
+        ['muLandmarkRibbonScript','landmark-ribbon.js?v=20260917b'],
+        ['muAppToolbarScript','app-toolbar.js?v=20260917a']
       ];
       scripts.forEach(([id,src])=>{
         if(document.getElementById(id))return;
