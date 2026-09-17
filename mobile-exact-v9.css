@@ -1,4 +1,5 @@
 /* Memories Unlocked — DOM-backed fallback artwork v9. */
+@import url('mobile-final-art.css?v=20260917final1');
 @media(max-width:700px){
   .mu-mobile-master-home .mu-mm-cover,
   .mu-mobile-master-home .mu-mm-memory-photo{position:relative!important;overflow:hidden!important;}
