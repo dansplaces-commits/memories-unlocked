@@ -30,7 +30,9 @@ if (!window.MU_RECOVERY_PAGE) {
       ['muLandmarkRibbonStyles','landmark-ribbon.css?v=20260917b'],
       ['muLandmarkDiscoverStyles','landmark-discover.css?v=20260917a'],
       ['muAppToolbarStyles','app-toolbar.css?v=20260917a'],
-      ['muAppVisualPolishV2Styles','app-visual-polish-v2.css?v=20260917a']
+      ['muAppVisualPolishV2Styles','app-visual-polish-v2.css?v=20260917a'],
+      ['muMobileMasterV1Styles','mobile-master-v1.css?v=20260917a'],
+      ['muMobileMasterV1FixStyles','mobile-master-v1-fixes.css?v=20260917a']
     ];
     styles.forEach(([id,href])=>{
       if(document.getElementById(id))return;
@@ -54,7 +56,8 @@ if (!window.MU_RECOVERY_PAGE) {
         ['muQuickToolIconsV2Script','quick-tool-icons-v2.js?v=20260917a'],
         ['muLandmarkDiscoverScript','landmark-discover.js?v=20260917a'],
         ['muLandmarkRibbonScript','landmark-ribbon.js?v=20260917b'],
-        ['muAppToolbarScript','app-toolbar.js?v=20260917a']
+        ['muAppToolbarScript','app-toolbar.js?v=20260917a'],
+        ['muMobileMasterV1Script','mobile-master-v1.js?v=20260917a']
       ];
       scripts.forEach(([id,src])=>{
         if(document.getElementById(id))return;
