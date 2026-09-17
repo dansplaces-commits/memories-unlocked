@@ -30,7 +30,7 @@
         requestAnimationFrame(()=>requestAnimationFrame(()=>requestAnimationFrame(release)));
         return;
       }
-      if(++tries<80)setTimeout(check,75);else release();
+      if(++tries<100)setTimeout(check,75);else release();
     };
     check();
   }
@@ -49,7 +49,7 @@
 
     const s=document.createElement('script');
     s.id='muMobileExactV11Script';
-    s.src='mobile-exact-v11.js?v=20260917f';
+    s.src='mobile-exact-v11.js?v=20260917g';
     s.async=false;
     s.onload=finishWhenPainted;
     s.onerror=()=>release();
@@ -67,6 +67,6 @@
   if(ready())return;
   const observer=new MutationObserver(()=>{if(ready())observer.disconnect();});
   observer.observe(document.documentElement,{childList:true,subtree:true});
-  let tries=0;const retry=setInterval(()=>{if(ready()||++tries>=48)clearInterval(retry);},125);
-  setTimeout(()=>{if(!released)release();},8000);
+  let tries=0;const retry=setInterval(()=>{if(ready()||++tries>=64)clearInterval(retry);},125);
+  setTimeout(()=>{if(!released)release();},9000);
 })();
