@@ -24,7 +24,8 @@ if (!window.MU_RECOVERY_PAGE) {
       ['muDiscoverSurfaceStyles','discover-surface.css?v=20260916a'],
       ['muPadlockTrailStyles','padlock-trail.css?v=20260916a'],
       ['muInteractiveToolsStyles','interactive-tools.css?v=20260916c'],
-      ['muInteractiveMobileStyles','interactive-mobile.css?v=20260916a']
+      ['muInteractiveMobileStyles','interactive-mobile.css?v=20260916a'],
+      ['muInteractivePolishStyles','interactive-polish.css?v=20260917a']
     ];
     styles.forEach(([id,href])=>{
       if(document.getElementById(id))return;
@@ -43,7 +44,8 @@ if (!window.MU_RECOVERY_PAGE) {
         ['muDiscoverSurfaceScript','discover-surface.js?v=20260916a'],
         ['muPadlockTrailScript','padlock-trail.js?v=20260916a'],
         ['muInteractiveToolsScript','interactive-tools.js?v=20260916a'],
-        ['muInteractiveMobileScript','interactive-mobile.js?v=20260916a']
+        ['muInteractiveMobileScript','interactive-mobile.js?v=20260916a'],
+        ['muInteractivePolishScript','interactive-polish.js?v=20260917a']
       ];
       scripts.forEach(([id,src])=>{
         if(document.getElementById(id))return;
