@@ -126,8 +126,8 @@ if (!window.MU_RECOVERY_PAGE) {
         ['muMobileExactV4Script','mobile-exact-v4.js?v=20260917b'],
         ['muMobileExactV6Script','mobile-exact-v6.js?v=20260917a'],
         ['muMobileExactV7Script','mobile-exact-v7.js?v=20260917a'],
-        ['muMobileExactV9Script','mobile-exact-v9.js?v=20260917b'],
-        ['muMobileBootReleaseScript','mobile-boot-release.js?v=20260917c']
+        ['muMobileExactV10Script','mobile-exact-v10.js?v=20260917a'],
+        ['muMobileBootReleaseScript','mobile-boot-release.js?v=20260917d']
       ];
       scripts.forEach(([id,src])=>{
         if(document.getElementById(id))return;
