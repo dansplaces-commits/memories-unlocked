@@ -25,7 +25,8 @@ if (!window.MU_RECOVERY_PAGE) {
       ['muPadlockTrailStyles','padlock-trail.css?v=20260916a'],
       ['muInteractiveToolsStyles','interactive-tools.css?v=20260916c'],
       ['muInteractiveMobileStyles','interactive-mobile.css?v=20260916a'],
-      ['muInteractivePolishStyles','interactive-polish.css?v=20260917a']
+      ['muInteractivePolishStyles','interactive-polish.css?v=20260917a'],
+      ['muMasterHomeLockStyles','master-home-lock.css?v=20260917a']
     ];
     styles.forEach(([id,href])=>{
       if(document.getElementById(id))return;
