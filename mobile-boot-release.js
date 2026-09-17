@@ -1,9 +1,9 @@
-/* Memories Unlocked — release branded splash only after polished UI + embedded lower artwork are ready. */
+/* Memories Unlocked — release branded splash only after polished UI + lower artwork v11 are ready. */
 (function(){
   if(window.__muMobileBootRelease)return;window.__muMobileBootRelease=true;
   const root=document.documentElement;
   const mobile=()=>window.matchMedia('(max-width:700px)').matches;
-  let released=false, artworkLoading=false, artworkReady=false;
+  let released=false,artworkLoading=false;
 
   function release(){
     if(released)return true;
@@ -13,43 +13,43 @@
     return true;
   }
 
-  function artworkIsReady(){
+  function lowerReady(){
     const home=document.querySelector('.mu-mobile-master-home');
     if(!home)return false;
-    const covers=[...home.querySelectorAll('.mu-mm-journey-card .mu-mm-cover:not(.has-photo)')];
-    const prompts=[...home.querySelectorAll('.mu-mm-memory-prompt .mu-mm-memory-photo')];
-    const coverReady=covers.every(el=>el.querySelector('.mu-mm-fallback-art[src^="data:image/"]'));
-    const promptReady=prompts.every(el=>el.querySelector('.mu-mm-fallback-art[src^="data:image/"]'));
-    return coverReady&&promptReady;
+    const covers=[...home.querySelectorAll('.mu-mm-journeys .mu-mm-journey-card .mu-mm-cover')];
+    const photos=[...home.querySelectorAll('.mu-mm-memory-grid .mu-mm-memory-photo')];
+    return !!window.__muLowerArtReady&&covers.length>=2&&photos.length>=3&&
+      covers.every(el=>el.classList.contains('has-photo')||el.classList.contains('mu-mm-builtin-art'))&&
+      photos.every(el=>el.classList.contains('has-photo')||el.classList.contains('mu-mm-builtin-art'));
   }
 
   function finishWhenPainted(){
     let tries=0;
     const check=()=>{
-      if(artworkIsReady()){
-        artworkReady=true;
+      if(lowerReady()){
         requestAnimationFrame(()=>requestAnimationFrame(()=>requestAnimationFrame(release)));
         return;
       }
-      if(++tries<24)setTimeout(check,50);else release();
+      if(++tries<80)setTimeout(check,75);else release();
     };
     check();
   }
 
   function loadArtwork(){
-    if(artworkReady){requestAnimationFrame(()=>requestAnimationFrame(release));return;}
+    if(lowerReady()){finishWhenPainted();return;}
     if(artworkLoading)return;
     artworkLoading=true;
 
     document.querySelectorAll('.mu-mm-fallback-art').forEach(n=>n.remove());
-    try{delete window.__muMobileExactV10;}catch{window.__muMobileExactV10=false;}
+    try{delete window.__muMobileExactV11;}catch{window.__muMobileExactV11=false;}
+    window.__muLowerArtReady=false;
 
-    const old=document.getElementById('muMobileExactV10Script');
+    const old=document.getElementById('muMobileExactV11Script');
     if(old)old.remove();
 
     const s=document.createElement('script');
-    s.id='muMobileExactV10Script';
-    s.src='mobile-exact-v10.js?v=20260917e';
+    s.id='muMobileExactV11Script';
+    s.src='mobile-exact-v11.js?v=20260917f';
     s.async=false;
     s.onload=finishWhenPainted;
     s.onerror=()=>release();
@@ -68,5 +68,5 @@
   const observer=new MutationObserver(()=>{if(ready())observer.disconnect();});
   observer.observe(document.documentElement,{childList:true,subtree:true});
   let tries=0;const retry=setInterval(()=>{if(ready()||++tries>=48)clearInterval(retry);},125);
-  setTimeout(()=>{if(!released)release();},7000);
+  setTimeout(()=>{if(!released)release();},8000);
 })();
