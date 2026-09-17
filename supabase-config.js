@@ -35,7 +35,8 @@ if (!window.MU_RECOVERY_PAGE) {
       ['muMobileMasterV1FixStyles','mobile-master-v1-fixes.css?v=20260917a'],
       ['muMobileExactV2Styles','mobile-exact-v2.css?v=20260917b'],
       ['muMobileExactV3Styles','mobile-exact-v3.css?v=20260917a'],
-      ['muMobileExactV4Styles','mobile-exact-v4.css?v=20260917a']
+      ['muMobileExactV4Styles','mobile-exact-v4.css?v=20260917a'],
+      ['muMobileExactV5Styles','mobile-exact-v5.css?v=20260917a']
     ];
     styles.forEach(([id,href])=>{
       if(document.getElementById(id))return;
