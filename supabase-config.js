@@ -1,5 +1,62 @@
 // Memories Unlocked — browser-safe Supabase configuration
 // The publishable key is intentionally safe for client-side use; RLS remains the security boundary.
+(function installMemoriesUnlockedSplash(){
+  try{
+    if(!window.matchMedia('(max-width:700px)').matches)return;
+    const style=document.createElement('style');
+    style.id='muPremiumSplashStyle';
+    style.textContent=`
+      @media(max-width:700px){
+        html.mu-mobile-boot body{margin:0!important;background:#fbf7ef!important;overflow:hidden!important;}
+        html.mu-mobile-boot .app,
+        html.mu-mobile-boot .nav,
+        html.mu-mobile-boot .mu-mm-bottom-nav{visibility:hidden!important;opacity:0!important;}
+        html.mu-mobile-boot body:before{
+          content:""!important;
+          position:fixed!important;
+          inset:0!important;
+          z-index:2147483646!important;
+          display:block!important;
+          background-color:#fbf7ef!important;
+          background-image:url('/icons/icon-512.png')!important;
+          background-repeat:no-repeat!important;
+          background-position:center calc(50% - 34px)!important;
+          background-size:clamp(160px,44vw,220px) auto!important;
+          opacity:1!important;
+          transition:opacity .34s ease!important;
+          pointer-events:none!important;
+        }
+        html.mu-mobile-boot body:after{
+          content:"MEMORIES  UNLOCKED"!important;
+          position:fixed!important;
+          left:50%!important;
+          top:calc(50% + 102px)!important;
+          transform:translateX(-50%)!important;
+          z-index:2147483647!important;
+          width:max-content!important;
+          color:#153654!important;
+          background:transparent!important;
+          font:700 16px/1.1 Georgia,'Times New Roman',serif!important;
+          letter-spacing:3.2px!important;
+          text-align:center!important;
+          opacity:1!important;
+          transition:opacity .34s ease!important;
+          pointer-events:none!important;
+        }
+        html.mu-mobile-boot.mu-mobile-boot-leaving body:before,
+        html.mu-mobile-boot.mu-mobile-boot-leaving body:after{opacity:0!important;}
+        html.mu-mobile-boot.mu-mobile-boot-leaving .app,
+        html.mu-mobile-boot.mu-mobile-boot-leaving .mu-mm-bottom-nav{
+          visibility:visible!important;
+          opacity:1!important;
+          transition:opacity .34s ease!important;
+        }
+        html.mu-mobile-boot.mu-mobile-boot-leaving .nav{display:none!important;visibility:hidden!important;opacity:0!important;}
+      }
+    `;
+    document.head.appendChild(style);
+  }catch{}
+})();
 window.MU_SUPABASE_URL = 'https://fdjzelcqilupxibqsqep.supabase.co';
 window.MU_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_OD_FPZWL_AfNHZstS7E3wg_yEdPaxd-';
 window.muSupabase = window.supabase?.createClient(
@@ -70,7 +127,7 @@ if (!window.MU_RECOVERY_PAGE) {
         ['muMobileExactV6Script','mobile-exact-v6.js?v=20260917a'],
         ['muMobileExactV7Script','mobile-exact-v7.js?v=20260917a'],
         ['muMobileExactV9Script','mobile-exact-v9.js?v=20260917b'],
-        ['muMobileBootReleaseScript','mobile-boot-release.js?v=20260917b']
+        ['muMobileBootReleaseScript','mobile-boot-release.js?v=20260917c']
       ];
       scripts.forEach(([id,src])=>{
         if(document.getElementById(id))return;
