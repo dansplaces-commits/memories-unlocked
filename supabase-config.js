@@ -45,7 +45,7 @@ if (!window.MU_RECOVERY_PAGE) {
         ['muPadlockTrailScript','padlock-trail.js?v=20260916a'],
         ['muInteractiveToolsScript','interactive-tools.js?v=20260916a'],
         ['muInteractiveMobileScript','interactive-mobile.js?v=20260916a'],
-        ['muInteractivePolishScript','interactive-polish.js?v=20260917a']
+        ['muInteractivePolishScript','interactive-polish.js?v=20260917b']
       ];
       scripts.forEach(([id,src])=>{
         if(document.getElementById(id))return;
