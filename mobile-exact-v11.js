@@ -1,10 +1,12 @@
-/* Memories Unlocked — lower-card artwork v11. Decode repo base64 assets and paint direct backgrounds. */
+/* Memories Unlocked — lower-card artwork v11. Paint real bundled JPEG assets directly. */
 (function(){
   if(window.__muMobileExactV11)return;window.__muMobileExactV11=true;
   const mobile=()=>window.matchMedia('(max-width:700px)').matches;
   if(!mobile())return;
 
-  let J=null,M=null,loading=false;
+  const J='/assets/mobile-ref-journeys.jpg?v=20260917g';
+  const M='/assets/mobile-ref-memories.jpg?v=20260917g';
+  let assetsReady=false;
 
   function installStyle(){
     if(document.getElementById('muLowerArtV11Style'))return;
@@ -14,31 +16,26 @@
       .mu-mobile-master-home .mu-mm-cover.mu-mm-builtin-art>.mu-mm-cover-art{display:none!important}
       .mu-mobile-master-home .mu-mm-memory-photo.mu-mm-builtin-art:before{display:none!important;content:none!important}
       .mu-mobile-master-home .mu-mm-cover.mu-mm-builtin-art,
-      .mu-mobile-master-home .mu-mm-memory-photo.mu-mm-builtin-art{background-color:#eadfc9!important}
+      .mu-mobile-master-home .mu-mm-memory-photo.mu-mm-builtin-art{background-color:#eadfc9!important;background-repeat:no-repeat!important}
     }`;
     document.head.appendChild(s);
   }
 
-  async function asData(path){
-    const r=await fetch(path,{cache:'no-store'});
-    if(!r.ok)throw new Error(`Artwork ${r.status}`);
-    const raw=(await r.text()).trim().replace(/\s+/g,'');
-    if(!raw.startsWith('/9j/'))throw new Error('Artwork payload is not JPEG base64');
-    return `data:image/jpeg;base64,${raw}`;
+  function preload(src){
+    return new Promise(resolve=>{
+      const i=new Image();
+      i.onload=()=>resolve(true);
+      i.onerror=()=>resolve(false);
+      i.src=src;
+    });
   }
 
-  async function loadArt(){
-    if(J&&M)return true;
-    if(loading)return false;
-    loading=true;
-    try{
-      [J,M]=await Promise.all([
-        asData('/assets/mobile-ref-journeys.jpg'),
-        asData('/assets/mobile-ref-memories.jpg')
-      ]);
-      return true;
-    }catch(e){console.warn('Memories Unlocked lower artwork:',e);return false;}
-    finally{loading=false;}
+  async function loadAssets(){
+    if(assetsReady)return true;
+    const results=await Promise.all([preload(J),preload(M)]);
+    assetsReady=results.every(Boolean);
+    if(!assetsReady)console.warn('Memories Unlocked lower artwork assets failed to preload',results);
+    return assetsReady;
   }
 
   function paint(el,src,size,pos){
@@ -52,7 +49,7 @@
   }
 
   function apply(){
-    if(!J||!M)return false;
+    if(!assetsReady)return false;
     installStyle();
     const host=document.querySelector('.mu-mobile-master-home');
     if(!host)return false;
@@ -82,7 +79,7 @@
   }
 
   async function start(){
-    await loadArt();
+    await loadAssets();
     apply();
     const root=document.querySelector('.mu-mobile-master-home')||document.getElementById('home');
     if(root)new MutationObserver(m=>{
