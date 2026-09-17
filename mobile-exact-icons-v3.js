@@ -16,13 +16,27 @@ const nav={
 };
 function apply(){
   document.querySelectorAll('.mu-mm-tools-row i').forEach(el=>{
-    const key=[...el.classList].find(k=>icons[k]);if(!key||el.dataset.mxV3==='1')return;el.dataset.mxV3='1';el.innerHTML=icons[key];
+    const key=[...el.classList].find(k=>icons[k]);if(!key)return;
+    if(el.dataset.mxV3===key&&el.querySelector('svg'))return;
+    el.dataset.mxV3=key;el.innerHTML=icons[key];
   });
   document.querySelectorAll('.mu-mm-bottom-nav [data-mm-nav]').forEach(btn=>{
-    const key=btn.dataset.mmNav,span=btn.querySelector('span');if(!span||!nav[key]||span.dataset.mxV3==='1')return;span.dataset.mxV3='1';span.innerHTML=nav[key];
+    const key=btn.dataset.mmNav,span=btn.querySelector('span');if(!span||!nav[key])return;
+    if(span.dataset.mxV3===key&&span.querySelector('svg'))return;
+    span.dataset.mxV3=key;span.innerHTML=nav[key];
   });
 }
 let queued=false;function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;apply();});}
-function start(){apply();const home=document.querySelector('.mu-mobile-master-home');if(home)new MutationObserver(schedule).observe(home,{childList:true,subtree:true});const navNode=document.querySelector('.mu-mm-bottom-nav');if(navNode)new MutationObserver(schedule).observe(navNode,{childList:true,subtree:true});}
+function start(){
+  apply();
+  const observer=new MutationObserver(mutations=>{
+    if(!mutations.some(m=>m.addedNodes&&m.addedNodes.length))return;
+    schedule();
+  });
+  observer.observe(document.body,{childList:true,subtree:true});
+  let tries=0;const retry=setInterval(()=>{apply();if(++tries>=20)clearInterval(retry);},300);
+  window.addEventListener('resize',schedule,{passive:true});
+  window.addEventListener('pageshow',schedule,{passive:true});
+}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
