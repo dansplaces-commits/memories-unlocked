@@ -36,14 +36,14 @@ function renderDesktopDashboard(){
         <div class="dash-master-benefits">
           <div><span class="dash-benefit-icon">◈</span><span><b>Explore</b><small>the world</small></span></div>
           <div><span class="dash-benefit-icon">▣</span><span><b>Capture</b><small>meaningful moments</small></span></div>
-          <div><span class="dash-benefit-icon">♧</span><span><b>Share</b><small>with loved ones</small></span></div>
+          <div><span class="dash-benefit-icon">◎</span><span><b>Account</b><small>sync & security</small></span></div>
           <div><span class="dash-benefit-icon">♡</span><span><b>Leave a legacy</b><small>for the future</small></span></div>
         </div>
       </div>
 
       <div class="dash-master-art" aria-label="Scenic Memories Unlocked journey artwork">
         <div class="dash-art-sky-mask"></div>
-        <div class="dash-art-script">The greatest journeys in life<br>should be shared through generations —<br>and now they can be.</div>
+        <div class="dash-art-script">The greatest journeys in life<br>should be remembered through generations —<br>and now they can be.</div>
         <div class="dash-art-heart-cover" aria-hidden="true"></div>
       </div>
     </section>
@@ -62,11 +62,11 @@ function renderDesktopDashboard(){
         <button class="dash-how-card c3" onclick="addMemory()">
           <i>3</i><span class="dash-how-icon">▣</span><strong>Capture the Memory</strong><small>Add photos, stories<br>and special moments.</small>
         </button>
-        <button class="dash-how-card c4" onclick="showView('follow')">
+        <button class="dash-how-card c4" onclick="addMemory()">
           <i>4</i><span class="dash-how-icon">⚿</span><strong>Leave a Clue</strong><small>Add hints, messages<br>or challenges.</small>
         </button>
         <button class="dash-how-card c5" onclick="showView('follow')">
-          <i>5</i><span class="dash-how-icon footsteps">◜◝</span><strong>Follow the Footsteps</strong><small>Retrace the journey<br>and continue the story.</small>
+          <i>5</i><span class="dash-how-icon footsteps">◜◝</span><strong>Open a Story Key</strong><small>Return to a journey<br>on your signed-in devices.</small>
         </button>
       </div>
     </section>
@@ -75,7 +75,7 @@ function renderDesktopDashboard(){
       <div class="dash-live-heading">
         <div>
           <div class="dash-live-kicker">YOUR JOURNEYS, YOUR WAY</div>
-          <h2>A beautiful way to<br>remember and share.</h2>
+          <h2>A beautiful way to<br>remember and revisit.</h2>
         </div>
         <p>${esc(dashboardCloudText())}</p>
       </div>
@@ -84,7 +84,7 @@ function renderDesktopDashboard(){
         <div class="dash-stat"><strong>${journeys.length}</strong><span>${journeys.length===1?'Journey':'Journeys'}</span></div>
         <div class="dash-stat"><strong>${memories.length}</strong><span>${memories.length===1?'Memory':'Memories'}</span></div>
         <div class="dash-stat"><strong>${placeCount}</strong><span>${placeCount===1?'Place':'Places'}</span></div>
-        <div class="dash-stat"><strong>0</strong><span>Followers</span></div>
+        <div class="dash-stat"><strong>${journeys.filter(j=>j.code).length}</strong><span>Story Keys</span></div>
         <div class="dash-quote">“Every place has a story worth keeping.”</div>
       </section>
 
@@ -92,23 +92,13 @@ function renderDesktopDashboard(){
         <button class="dash-action navy" onclick="openModal('journeyModal')"><span class="dash-icon">⊞</span><span><strong>Create Journey</strong><br><small>Start a new adventure</small></span></button>
         <button class="dash-action gold" onclick="addMemory()"><span class="dash-icon">⌖</span><span><strong>Add Memory</strong><br><small>Capture a special moment</small></span></button>
         <button class="dash-action teal" onclick="showView('map')"><span class="dash-icon">▱</span><span><strong>View My Map</strong><br><small>See your journey unfold</small></span></button>
-        <button class="dash-action cream" onclick="showView('follow')"><span class="dash-icon">➤</span><span><strong>Follow</strong><br><small>Discover and follow</small></span></button>
+        <button class="dash-action cream" onclick="showView('follow')"><span class="dash-icon">🔐</span><span><strong>Story Key</strong><br><small>Open a private journey</small></span></button>
       </section>
 
       <div class="dash-section-title"><h2>Recent Memories</h2><span>View all ›</span></div>
       <section class="dash-recent">${recentHtml}</section>
 
-      <section class="dash-plus">
-        <div class="dash-plus-heading"><div><div class="welcome">EXPLORE MORE</div><h2>Memories+</h2></div><p>The whole journey, in one place.</p></div>
-        <div class="dash-plus-grid">
-          ${experienceCard('📌','Pin Studio','Create custom map pins and collections','PLUS')}
-          ${experienceCard('✈️','Holiday Builder','Flights, hotels, itinerary, budget & packing','PLUS')}
-          ${experienceCard('🎨','Journey Themes','Skins and styles for every adventure','FREE + PLUS')}
-          ${experienceCard('📖','Memory Books','Turn a journey into a keepsake','PLUS')}
-          ${experienceCard('🔐','Legacy Vault','Save messages and memories for the future','PLUS')}
-          ${experienceCard('👨‍👩‍👧‍👦','Family Circle','Share journeys with the people you love','PLUS')}
-        </div>
-      </section>
+      
     </section>`;
 }
 
@@ -122,8 +112,8 @@ const dashboardExplainerScenes=[
   {k:'STEP 1 OF 5',t:'Create a Journey',c:'Add a trip you’ve taken — or somewhere you dream of going.',i:'🗺️',tone:587.33},
   {k:'STEP 2 OF 5',t:'Pin a Place',c:'Drop a pin on the places that mattered most.',i:'📍',tone:659.25},
   {k:'STEP 3 OF 5',t:'Capture the Memory',c:'Add photos, stories and the moments you never want to lose.',i:'📷',tone:698.46},
-  {k:'STEP 4 OF 5',t:'Leave a Clue',c:'Add a message, hint or challenge for the people who follow.',i:'🔑',tone:783.99},
-  {k:'STEP 5 OF 5',t:'Follow the Footsteps',c:'Retrace the journey, unlock the story and continue the trail.',i:'👣',tone:880},
+  {k:'STEP 4 OF 5',t:'Leave a Clue',c:'Add a message, hint or challenge for a future return.',i:'🔑',tone:783.99},
+  {k:'STEP 5 OF 5',t:'Open a Story Key',c:'Return to a private journey on another device signed into your account.',i:'🔐',tone:880},
   {k:'YOUR LEGACY',t:'Your memories become a trail.',c:'A trail your family can rediscover, retrace and continue.',i:'↝',tone:987.77},
   {k:'MEMORIES UNLOCKED',t:'Every place has a story.',c:'Start yours.',i:'🔓',tone:1046.5}
 ];
