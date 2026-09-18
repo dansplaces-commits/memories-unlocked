@@ -50,3 +50,13 @@
  .mu-mobile-master-home .mu-mm-action-copy strong{font-size:10px!important}
  .mu-mobile-master-home .mu-mm-action-copy small{font-size:6px!important}
 }
+
+/* Final Home finish: clean quick-tool icon and remove duplicate dream decoration. */
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-tools-row i.account{font-size:0!important;padding:0!important}
+ .mu-mobile-master-home .mu-mm-tools-row i.account:before{content:"";display:block!important;width:9px!important;height:9px!important;border:1.8px solid #173653!important;border-radius:50%!important;position:absolute!important;top:8px!important;left:50%!important;transform:translateX(-50%)!important;box-sizing:border-box!important}
+ .mu-mobile-master-home .mu-mm-tools-row i.account:after{content:""!important;display:block!important;width:18px!important;height:9px!important;border:1.8px solid #173653!important;border-bottom:0!important;border-radius:12px 12px 0 0!important;position:absolute!important;left:50%!important;bottom:7px!important;transform:translateX(-50%)!important;box-sizing:border-box!important}
+ .mu-mobile-master-home .mu-mm-dream-card .mu-mm-cover i{display:none!important}
+ .mu-mobile-master-home .mu-mm-cover,.mu-mobile-master-home .mu-mm-memory-photo{isolation:isolate!important}
+ .mu-mobile-master-home .mu-release-img{display:block!important;opacity:1!important;visibility:visible!important}
+}
