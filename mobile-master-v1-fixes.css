@@ -1,1 +1,31 @@
 @media(max-width:700px){.journey-detail .sheet:before,.memory-detail .sheet:before,.place-intel-modal .sheet:before{display:none!important;content:none!important}.mu-mm-tools-row i.legacy{font-size:0!important}.mu-mm-tools-row i.legacy:before{content:'👪';font-size:18px}.mu-mm-tools-row i.footsteps{font-size:0!important;position:relative}.mu-mm-tools-row i.footsteps:before{content:'👣';font-size:18px;transform:rotate(-10deg)}.mu-mm-tools-row i.footsteps:after{content:'👣';position:absolute;font-size:11px;right:-2px;top:-4px;opacity:.72;transform:rotate(14deg)}}
+/* Memories Unlocked RC8 — final mobile Home geometry lock. Loaded last on purpose. */
+@media(max-width:700px){
+  body.mu-mobile-master{padding-bottom:88px!important}
+  .app{padding:0 12px 90px!important}
+  .mu-mobile-master-home{padding:2px 0 6px!important;min-height:0!important}
+  .mu-mobile-master-home .mu-mm-hero-cards{margin-bottom:14px!important}
+  .mu-mobile-master-home .mu-mm-start{margin-bottom:15px!important}
+  .mu-mobile-master-home .mu-mm-action-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+  .mu-mobile-master-home .mu-mm-action{width:auto!important;min-width:0!important;min-height:150px!important;height:150px!important;border-radius:18px!important}
+  .mu-mobile-master-home .mu-mm-action-art{inset:3px 2px 48px!important}
+  .mu-mobile-master-home .mu-mm-action-copy strong{font-size:15px!important}
+  .mu-mobile-master-home .mu-mm-action-copy small{font-size:8.5px!important}
+  .mu-mobile-master-home .mu-mm-tools{margin:2px 0 14px!important}
+  .mu-mobile-master-home .mu-mm-list{margin:0 0 14px!important}
+  .mu-mobile-master-home .mu-mm-journeys{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+  .mu-mobile-master-home .mu-mm-cover{height:92px!important;background-size:cover!important;background-position:center!important}
+  .mu-mobile-master-home .mu-mm-journey-meta{padding:8px 9px 10px!important}
+  .mu-mobile-master-home .mu-mm-memory-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important}
+  .mu-mobile-master-home .mu-mm-memory-photo{height:76px!important;background-size:cover!important;background-position:center!important}
+  .mu-mobile-master-home .mu-mm-memory-prompt strong{font-size:10.5px!important;margin:6px 7px 0!important}
+  .mu-mobile-master-home .mu-mm-memory-prompt small{font-size:7.5px!important;margin:3px 7px 0!important}
+  .mu-mobile-master-home .mu-mm-inline-fallback{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important}
+  .mu-mm-bottom-nav{left:7px!important;right:7px!important;height:67px!important}
+}
+@media(max-width:380px){
+  .mu-mobile-master-home .mu-mm-action{min-height:142px!important;height:142px!important}
+  .mu-mobile-master-home .mu-mm-action-copy strong{font-size:14px!important}
+  .mu-mobile-master-home .mu-mm-cover{height:84px!important}
+  .mu-mobile-master-home .mu-mm-memory-photo{height:70px!important}
+}
