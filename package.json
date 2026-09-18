@@ -8,12 +8,13 @@
   },
   "scripts": {
     "native:web": "node scripts/build-native-web.mjs",
-    "cap:sync": "npm run native:web && cap sync && npm run native:permissions",
-    "cap:add:android": "npm run native:web && cap add android && npm run native:permissions",
-    "cap:add:ios": "npm run native:web && cap add ios && npm run native:permissions",
+    "cap:sync": "npm run native:web && cap sync && npm run native:permissions && npm run native:assets",
+    "cap:add:android": "npm run native:web && cap add android && npm run native:permissions && npm run native:assets",
+    "cap:add:ios": "npm run native:web && cap add ios && npm run native:permissions && npm run native:assets",
     "cap:open:android": "npm run cap:sync && cap open android",
     "cap:open:ios": "npm run cap:sync && cap open ios",
-    "native:permissions": "node scripts/configure-native-permissions.mjs"
+    "native:permissions": "node scripts/configure-native-permissions.mjs",
+    "native:assets": "node scripts/generate-native-assets.mjs"
   },
   "dependencies": {
     "@capacitor/android": "8.5.2",
@@ -21,6 +22,8 @@
     "@capacitor/ios": "8.5.2"
   },
   "devDependencies": {
-    "@capacitor/cli": "8.5.2"
+    "@capacitor/cli": "8.5.2",
+    "@capacitor/assets": "3.0.5",
+    "sharp": "0.34.5"
   }
 }
