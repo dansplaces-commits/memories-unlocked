@@ -58,10 +58,12 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug --stacktrace
 
-      - name: Upload installable APK
+      - name: Upload Android RC test bundle
         uses: actions/upload-artifact@v4
         with:
           name: memories-unlocked-android-rc-debug
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: |
+            android/app/build/outputs/apk/debug/app-debug.apk
+            icons/icon-1024.png
           if-no-files-found: error
           retention-days: 14
