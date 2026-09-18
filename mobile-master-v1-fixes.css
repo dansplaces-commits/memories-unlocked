@@ -136,3 +136,10 @@
  .mu-mobile-master-home .mu-mm-cover:after{z-index:1!important;pointer-events:none!important}
  .mu-mobile-master-home .mu-mm-cover>i{z-index:3!important}
 }
+
+/* Physical acceptance: keep all four Start cards on the same baseline. */
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-action-grid{align-items:start!important}
+ .mu-mobile-master-home .mu-mm-action{height:132px!important;min-height:132px!important;margin-top:0!important;transform:none!important;align-self:start!important}
+ .mu-mobile-master-home .mu-mm-action.memory{margin-top:0!important;top:auto!important}
+}
