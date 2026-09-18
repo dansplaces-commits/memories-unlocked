@@ -1,0 +1,111 @@
+/* Memories Unlocked — locked master home direction, approved 17 Sep 2026.
+   Presentation only: preserves all working data/account/tool behaviour. */
+@media(min-width:1180px){
+  :root{--mu-master-cream:#fbf6ed;--mu-master-navy:#092a49;--mu-master-gold:#dfa524;--mu-master-line:#ddcfb5}
+
+  .desktop-dashboard{background:var(--mu-master-cream)!important;overflow:visible!important}
+  .dash-master-hero{
+    height:590px!important;min-height:590px!important;
+    grid-template-columns:47.5% 52.5%!important;
+    background:var(--mu-master-cream)!important;
+    border-bottom:1px solid rgba(9,42,73,.06)!important;
+  }
+  .dash-master-copy{
+    padding:27px 40px 24px 50px!important;
+    background:linear-gradient(90deg,#fbf6ed 0%,#fbf6ed 76%,rgba(251,246,237,.96) 88%,rgba(251,246,237,.22) 100%)!important;
+  }
+  .dash-master-kicker{margin-bottom:14px!important;color:#c48829!important;letter-spacing:6px!important;font-size:13px!important}
+  .dash-master-copy h1{
+    max-width:650px!important;
+    font-size:clamp(76px,6.25vw,100px)!important;
+    line-height:.985!important;letter-spacing:-3px!important;color:var(--mu-master-navy)!important;
+  }
+  .dash-master-lead{margin-top:18px!important;font-size:20px!important;line-height:1.42!important;color:#15334f!important}
+  .dash-master-buttons{margin-top:22px!important;gap:18px!important}
+  .dash-master-primary,.dash-master-secondary{height:66px!important;border-radius:34px!important;font-size:16px!important}
+  .dash-master-primary{min-width:330px!important;background:linear-gradient(135deg,#f1c15c,#dda324)!important;box-shadow:0 8px 20px rgba(173,119,20,.10)!important}
+  .dash-master-secondary{min-width:275px!important;background:rgba(255,255,255,.62)!important;border:1.5px solid #153653!important}
+  .dash-button-lock{font-size:0!important;position:relative;width:24px;height:27px;display:inline-block;flex:0 0 24px}
+  .dash-button-lock:before{content:'';position:absolute;left:5px;top:10px;width:14px;height:13px;border-radius:3px;background:#526b7e}
+  .dash-button-lock:after{content:'';position:absolute;left:7px;top:3px;width:10px;height:11px;border:2px solid #526b7e;border-bottom:0;border-radius:8px 8px 0 0;box-sizing:border-box}
+  .dash-play{width:34px!important;height:34px!important}
+
+  /* Restore the approved reference artwork. The quote, travel stamp and padlock are part of the locked scene. */
+  .dash-master-art{
+    height:590px!important;min-height:590px!important;
+    background-image:url('https://raw.githubusercontent.com/dansplaces-commits/memories-unlocked-website/redesign/final-site-v2/design-reference.png')!important;
+    background-repeat:no-repeat!important;
+    background-size:auto 590px!important;
+    background-position:right top!important;
+    background-color:#f2d8b3!important;
+    overflow:hidden!important;
+  }
+  .dash-master-art:before{display:none!important;content:none!important}
+  .dash-master-art:after{
+    display:block!important;content:''!important;position:absolute!important;inset:0 auto 0 0!important;
+    width:15%!important;background:linear-gradient(90deg,#fbf6ed 0%,rgba(251,246,237,.66) 45%,rgba(251,246,237,0) 100%)!important;
+    z-index:2!important;pointer-events:none!important;
+  }
+  .dash-art-script,.dash-art-sky-mask,.dash-art-heart-cover{display:none!important}
+
+  /* Interactive tools: same visual language as the approved four-icon strip, expanded to five working tools. */
+  .dash-master-benefits.mu-tools-ready{
+    grid-template-columns:repeat(5,minmax(108px,1fr))!important;
+    gap:12px!important;width:min(100%,790px)!important;max-width:790px!important;
+    margin-top:25px!important;padding:0!important;align-items:center!important;
+  }
+  .dash-master-benefits.mu-tools-ready>div{
+    grid-template-columns:46px minmax(0,1fr)!important;gap:9px!important;
+    min-height:61px!important;padding:7px 7px!important;border:0!important;border-radius:14px!important;
+    background:transparent!important;box-shadow:none!important;
+  }
+  .dash-master-benefits.mu-tools-ready>div:hover,.dash-master-benefits.mu-tools-ready>div:focus-visible{
+    background:rgba(255,255,255,.55)!important;box-shadow:0 8px 20px rgba(16,45,85,.05)!important;
+  }
+  .dash-master-benefits.mu-tools-ready .dash-benefit-icon{
+    width:44px!important;height:44px!important;border-radius:50%!important;
+    background:rgba(255,252,246,.72)!important;border:1.4px solid rgba(16,45,85,.22)!important;
+    color:#12385f!important;box-shadow:none!important;
+  }
+  .dash-master-benefits.mu-tools-ready .dash-benefit-icon svg{width:27px!important;height:27px!important}
+  .dash-master-benefits.mu-tools-ready b{font-size:12px!important;line-height:1.15!important}
+  .dash-master-benefits.mu-tools-ready small{font-size:9.5px!important;line-height:1.18!important;max-width:90px!important;color:#586f83!important}
+  .dash-master-benefits.mu-tools-ready .mu-tool-live-badge{right:4px!important;top:2px!important;width:7px!important;height:7px!important}
+
+  /* HOW IT WORKS — match the approved calm five-card rhythm. */
+  .dash-how{height:324px!important;min-height:324px!important;padding:17px 48px 20px!important;background:linear-gradient(180deg,#fbfaf5,#f7f2e7)!important}
+  .dash-how-kicker{font-size:13px!important;letter-spacing:6px!important;color:#bf8930!important}
+  .dash-how h2{font-size:39px!important;letter-spacing:-1px!important;margin-top:4px!important}
+  .dash-how>p{font-size:15px!important;margin-top:5px!important}
+  .dash-how-grid{gap:24px!important;margin-top:18px!important}
+  .dash-how-card{height:170px!important;border-radius:10px!important;padding-top:30px!important;transition:transform .18s ease,box-shadow .18s ease!important}
+  .dash-how-card:hover{transform:translateY(-3px);box-shadow:0 12px 24px rgba(16,45,85,.08)!important}
+  .dash-how-card i{width:38px!important;height:38px!important;top:-15px!important;background:#e0aa40!important}
+  .dash-how-icon{font-size:34px!important;margin-bottom:8px!important;color:#0c3155!important}
+
+  /* Live-app section begins quietly beneath the approved front page. */
+  .dash-live{padding-top:32px!important;border-top:1px solid rgba(9,42,73,.035)!important}
+
+  /* Keep the bottom dock visually separate from the master artwork. */
+  html[data-dock="bottom"] .nav{background:#12345d!important;border:1px solid rgba(255,255,255,.12)!important}
+}
+
+@media(min-width:1180px) and (max-width:1400px){
+  .dash-master-copy{padding-left:38px!important;padding-right:28px!important}
+  .dash-master-copy h1{font-size:clamp(68px,6vw,84px)!important}
+  .dash-master-lead{font-size:18px!important}
+  .dash-master-primary{min-width:290px!important}.dash-master-secondary{min-width:245px!important}
+  .dash-master-benefits.mu-tools-ready{gap:7px!important;max-width:700px!important}
+  .dash-master-benefits.mu-tools-ready>div{grid-template-columns:41px minmax(0,1fr)!important;gap:7px!important;padding:6px 4px!important}
+  .dash-master-benefits.mu-tools-ready .dash-benefit-icon{width:40px!important;height:40px!important}
+  .dash-master-benefits.mu-tools-ready b{font-size:11px!important}.dash-master-benefits.mu-tools-ready small{font-size:8.8px!important}
+  .dash-master-art{background-size:auto 590px!important}
+}
+
+@media(max-width:1179px){
+  /* Mobile keeps existing app structure, but adopts the master palette and friendly tool treatment. */
+  .mu-mobile-tools{background:#fbf6ed!important}
+  .dash-master-benefits.mu-tools-ready .dash-benefit-icon{border-radius:50%!important;background:#fff9ed!important;border:1px solid rgba(16,45,85,.16)!important}
+}
+
+@media(prefers-reduced-motion:reduce){.dash-how-card,.dash-master-primary,.dash-master-secondary{transition:none!important}}

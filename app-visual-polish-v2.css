@@ -1,0 +1,75 @@
+/* Memories Unlocked — App Visual Polish Pack v2. Adds subtle themed artwork to action cards without changing behaviour. */
+.grid .card,.dash-action{position:relative!important;overflow:hidden!important;isolation:isolate}
+.grid .card>*,.dash-action>*{position:relative;z-index:2}
+.grid .card:before,.dash-action:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.24;background-repeat:no-repeat;background-position:right center;background-size:58% auto;mix-blend-mode:multiply}
+.grid .card:after,.dash-action:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,.06) 54%,rgba(255,255,255,0) 100%)}
+
+/* CREATE A JOURNEY — itinerary / boarding pass / route line */
+.grid .card:nth-child(1):before,.dash-action:nth-child(1):before{
+  background-image:
+    linear-gradient(90deg,transparent 0 16%,rgba(19,52,88,.16) 16% 17%,transparent 17% 31%,rgba(19,52,88,.12) 31% 32%,transparent 32%),
+    repeating-linear-gradient(0deg,transparent 0 16px,rgba(19,52,88,.08) 16px 17px),
+    radial-gradient(circle at 18% 70%,rgba(219,161,44,.55) 0 4px,transparent 5px),
+    radial-gradient(circle at 46% 44%,rgba(219,161,44,.44) 0 4px,transparent 5px),
+    radial-gradient(circle at 76% 25%,rgba(219,161,44,.42) 0 4px,transparent 5px);
+  transform:rotate(-4deg) scale(1.08);transform-origin:center right;
+}
+.grid .card:nth-child(1){background-image:linear-gradient(135deg,rgba(255,246,221,.96),rgba(235,196,105,.9))!important}
+.dash-action:nth-child(1){background-image:linear-gradient(135deg,#17365f,#102b4f)!important}
+
+/* ADD A MEMORY — polaroid frames / note paper */
+.grid .card:nth-child(2):before,.dash-action:nth-child(2):before{
+  background-image:
+    linear-gradient(115deg,transparent 0 26%,rgba(255,255,255,.58) 26% 47%,transparent 47%),
+    linear-gradient(25deg,transparent 0 39%,rgba(19,52,88,.16) 39% 41%,transparent 41%),
+    repeating-linear-gradient(0deg,transparent 0 18px,rgba(19,52,88,.06) 18px 19px);
+  border:2px solid rgba(19,52,88,.16);border-radius:8px;inset:16% -4% 12% 48%;transform:rotate(6deg);
+}
+.grid .card:nth-child(2){background-image:linear-gradient(135deg,rgba(255,250,239,.98),rgba(237,218,181,.93))!important}
+.dash-action:nth-child(2){background-image:linear-gradient(135deg,#e6b94f,#d9a52b)!important}
+
+/* EXPLORE MY MAP — atlas / contour / compass */
+.grid .card:nth-child(3):before,.dash-action:nth-child(3):before{
+  background-image:
+    radial-gradient(ellipse at 72% 45%,transparent 0 17%,rgba(15,59,78,.16) 18% 19%,transparent 20% 29%,rgba(15,59,78,.11) 30% 31%,transparent 32% 44%,rgba(15,59,78,.08) 45% 46%,transparent 47%),
+    radial-gradient(circle at 76% 49%,rgba(219,161,44,.22) 0 3%,transparent 4%),
+    linear-gradient(90deg,transparent 49%,rgba(15,59,78,.12) 49% 51%,transparent 51%),
+    linear-gradient(0deg,transparent 49%,rgba(15,59,78,.12) 49% 51%,transparent 51%);
+  background-size:100% 100%,100% 100%,42% 42%,42% 42%;background-position:center,center,76% 49%,76% 49%;
+}
+.grid .card:nth-child(3){background-image:linear-gradient(135deg,rgba(229,244,241,.98),rgba(185,218,215,.94))!important}
+.dash-action:nth-child(3){background-image:linear-gradient(135deg,#6daaa9,#579392)!important}
+
+/* FOLLOW THE JOURNEY — route / trail / footsteps */
+.grid .card:nth-child(4):before,.dash-action:nth-child(4):before{
+  background-image:
+    radial-gradient(circle at 18% 72%,rgba(19,52,88,.22) 0 5px,transparent 6px),
+    radial-gradient(circle at 38% 58%,rgba(19,52,88,.2) 0 4px,transparent 5px),
+    radial-gradient(circle at 58% 44%,rgba(19,52,88,.18) 0 5px,transparent 6px),
+    radial-gradient(circle at 78% 28%,rgba(219,161,44,.5) 0 5px,transparent 6px),
+    repeating-linear-gradient(145deg,transparent 0 10px,rgba(19,52,88,.09) 10px 12px,transparent 12px 22px);
+  transform:rotate(-3deg) scale(1.06)
+}
+.grid .card:nth-child(4){background-image:linear-gradient(135deg,rgba(255,248,235,.98),rgba(231,217,190,.94))!important}
+.dash-action:nth-child(4){background-image:linear-gradient(135deg,#f5eddf,#e7dcc7)!important}
+
+/* Give cards a richer but still premium finish. */
+.grid .card{min-height:112px!important;border:1px solid rgba(14,47,79,.08)!important;box-shadow:0 10px 24px rgba(15,43,72,.06)!important}
+.grid .card span{font-weight:750!important;letter-spacing:-.01em}
+.grid .card:hover,.grid .card:focus-visible,.dash-action:hover,.dash-action:focus-visible{transform:translateY(-2px);box-shadow:0 14px 30px rgba(15,43,72,.10)!important}
+.dash-action{transition:transform .18s ease,box-shadow .18s ease!important}
+
+/* Quick tools: keep icons crisp and friendly. */
+.mu-mobile-tools button>span,.dash-master-benefits.mu-tools-ready .dash-benefit-icon{display:grid!important;place-items:center!important}
+.mu-mobile-tools button>span svg{width:26px;height:26px;display:block}
+.dash-master-benefits.mu-tools-ready .dash-benefit-icon svg{width:28px!important;height:28px!important}
+
+@media(max-width:700px){
+  .grid{gap:12px!important}
+  .grid .card{min-height:118px!important;border-radius:20px!important;padding:18px!important}
+  .grid .card:before{opacity:.2;background-size:70% auto}
+  .mu-mobile-tools>div{gap:7px!important}
+  .mu-mobile-tools button{min-width:0!important;padding:8px 5px!important}
+  .mu-mobile-tools button b{font-size:9px!important}
+}
+@media(prefers-reduced-motion:reduce){.grid .card,.dash-action{transition:none!important}}

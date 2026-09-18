@@ -1,0 +1,150 @@
+@media(max-width:700px){.journey-detail .sheet:before,.memory-detail .sheet:before,.place-intel-modal .sheet:before{display:none!important;content:none!important}.mu-mm-tools-row i.legacy{font-size:0!important}.mu-mm-tools-row i.legacy:before{content:'👪';font-size:18px}.mu-mm-tools-row i.footsteps{font-size:0!important;position:relative}.mu-mm-tools-row i.footsteps:before{content:'👣';font-size:18px;transform:rotate(-10deg)}.mu-mm-tools-row i.footsteps:after{content:'👣';position:absolute;font-size:11px;right:-2px;top:-4px;opacity:.72;transform:rotate(14deg)}}
+/* Memories Unlocked RC8 — final mobile Home geometry lock. Loaded last on purpose. */
+@media(max-width:700px){
+  body.mu-mobile-master{padding-bottom:88px!important}
+  .app{padding:0 12px 90px!important}
+  .mu-mobile-master-home{padding:2px 0 6px!important;min-height:0!important}
+  .mu-mobile-master-home .mu-mm-hero-cards{margin-bottom:14px!important}
+  .mu-mobile-master-home .mu-mm-start{margin-bottom:15px!important}
+  .mu-mobile-master-home .mu-mm-action-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+  .mu-mobile-master-home .mu-mm-action{width:auto!important;min-width:0!important;min-height:150px!important;height:150px!important;border-radius:18px!important}
+  .mu-mobile-master-home .mu-mm-action-art{inset:3px 2px 48px!important}
+  .mu-mobile-master-home .mu-mm-action-copy strong{font-size:15px!important}
+  .mu-mobile-master-home .mu-mm-action-copy small{font-size:8.5px!important}
+  .mu-mobile-master-home .mu-mm-tools{margin:2px 0 14px!important}
+  .mu-mobile-master-home .mu-mm-list{margin:0 0 14px!important}
+  .mu-mobile-master-home .mu-mm-journeys{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+  .mu-mobile-master-home .mu-mm-cover{height:92px!important;background-size:cover!important;background-position:center!important}
+  .mu-mobile-master-home .mu-mm-journey-meta{padding:8px 9px 10px!important}
+  .mu-mobile-master-home .mu-mm-memory-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px!important}
+  .mu-mobile-master-home .mu-mm-memory-photo{height:76px!important;background-size:cover!important;background-position:center!important}
+  .mu-mobile-master-home .mu-mm-memory-prompt strong{font-size:10.5px!important;margin:6px 7px 0!important}
+  .mu-mobile-master-home .mu-mm-memory-prompt small{font-size:7.5px!important;margin:3px 7px 0!important}
+  .mu-mobile-master-home .mu-mm-inline-fallback{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;display:block!important}
+  .mu-mm-bottom-nav{left:7px!important;right:7px!important;height:67px!important}
+}
+@media(max-width:380px){
+  .mu-mobile-master-home .mu-mm-action{min-height:142px!important;height:142px!important}
+  .mu-mobile-master-home .mu-mm-action-copy strong{font-size:14px!important}
+  .mu-mobile-master-home .mu-mm-cover{height:84px!important}
+  .mu-mobile-master-home .mu-mm-memory-photo{height:70px!important}
+}
+
+/* RC9 correction — undo RC8 oversized Home geometry; preserve native artwork resolver. */
+@media(max-width:700px){
+ body.mu-mobile-master{padding-bottom:84px!important}
+ .app{padding:0 14px 86px!important}
+ .mu-mobile-master-home .mu-mm-action-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important}
+ .mu-mobile-master-home .mu-mm-action{height:118px!important;min-height:118px!important;padding:8px!important;border-radius:16px!important}
+ .mu-mobile-master-home .mu-mm-action-art{inset:2px 1px 39px!important}
+ .mu-mobile-master-home .mu-mm-action-copy{left:8px!important;right:18px!important;bottom:8px!important}
+ .mu-mobile-master-home .mu-mm-action-copy strong{font-size:11px!important;line-height:1.02!important}
+ .mu-mobile-master-home .mu-mm-action-copy small{font-size:6.6px!important;line-height:1.08!important;margin-top:2px!important}
+ .mu-mobile-master-home .mu-mm-action>b{right:7px!important;bottom:8px!important;font-size:13px!important}
+ .mu-mobile-master-home .mu-mm-cover{height:78px!important}
+ .mu-mobile-master-home .mu-mm-memory-photo{height:66px!important}
+ .mu-mobile-master-home .mu-mm-section-head h2,.mu-mobile-master-home .mu-mm-list-head h2{font-size:21px!important}
+}
+@media(max-width:380px){
+ .mu-mobile-master-home .mu-mm-action{height:110px!important;min-height:110px!important}
+ .mu-mobile-master-home .mu-mm-action-copy strong{font-size:10px!important}
+ .mu-mobile-master-home .mu-mm-action-copy small{font-size:6px!important}
+}
+
+/* Final Home finish: clean quick-tool icon and remove duplicate dream decoration. */
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-tools-row i.account{font-size:0!important;padding:0!important}
+ .mu-mobile-master-home .mu-mm-tools-row i.account:before{content:"";display:block!important;width:9px!important;height:9px!important;border:1.8px solid #173653!important;border-radius:50%!important;position:absolute!important;top:8px!important;left:50%!important;transform:translateX(-50%)!important;box-sizing:border-box!important}
+ .mu-mobile-master-home .mu-mm-tools-row i.account:after{content:""!important;display:block!important;width:18px!important;height:9px!important;border:1.8px solid #173653!important;border-bottom:0!important;border-radius:12px 12px 0 0!important;position:absolute!important;left:50%!important;bottom:7px!important;transform:translateX(-50%)!important;box-sizing:border-box!important}
+ .mu-mobile-master-home .mu-mm-dream-card .mu-mm-cover i{display:none!important}
+ .mu-mobile-master-home .mu-mm-cover,.mu-mobile-master-home .mu-mm-memory-photo{isolation:isolate!important}
+ .mu-mobile-master-home .mu-release-img{display:block!important;opacity:1!important;visibility:visible!important}
+}
+
+/* Phone screenshot acceptance pass — 2026-09-18. */
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-latest{grid-template-columns:54px minmax(0,1fr) 22px!important;padding:11px 12px!important}
+ .mu-mobile-master-home .mu-mm-latest-thumb{width:48px!important;height:48px!important}
+ .mu-mobile-master-home .mu-mm-latest strong{font-size:16px!important}
+ .mu-mobile-master-home .mu-mm-action-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important}
+ .mu-mobile-master-home .mu-mm-action{height:126px!important;min-height:126px!important;padding:7px!important}
+ .mu-mobile-master-home .mu-mm-action-copy{left:8px!important;right:15px!important;bottom:8px!important}
+ .mu-mobile-master-home .mu-mm-action-copy strong{font-size:10.5px!important;line-height:1.02!important}
+ .mu-mobile-master-home .mu-mm-action-copy small{font-size:6.4px!important;line-height:1.08!important}
+ .mu-mobile-master-home .mu-mm-tools{padding:10px 7px 8px!important;margin-bottom:12px!important}
+ .mu-mobile-master-home .mu-mm-tools-row i{width:35px!important;height:35px!important}
+ .mu-mobile-master-home .mu-mm-tools-row strong{font-size:8px!important}
+ .mu-mobile-master-home .mu-mm-tools-row small{font-size:6.3px!important}
+ .mu-mobile-master-home .mu-mm-list-head h2{font-size:21px!important}
+ .mu-mobile-master-home .mu-mm-cover{height:82px!important}
+ .mu-mobile-master-home .mu-mm-memory-photo{height:70px!important}
+ .mu-mobile-master-home .mu-mm-memory-grid{margin-bottom:8px!important}
+ .mu-mobile-master-home .mu-mm-list:last-child{margin-bottom:4px!important}
+ .mu-mobile-master-home .mu-release-img{position:absolute!important;display:block!important;opacity:1!important;visibility:visible!important;z-index:0!important;object-fit:cover!important}
+}
+/* Physical-phone acceptance lock pass. */
+@media(max-width:700px){
+ body.mu-mobile-master{padding-bottom:0!important}
+ body.mu-mobile-master .app{padding-bottom:84px!important}
+ .mu-mobile-master-home .mu-mm-latest{grid-template-columns:56px minmax(0,1fr) 22px!important;column-gap:14px!important}
+ .mu-mobile-master-home .mu-mm-latest>span:nth-child(2){min-width:0!important;padding-left:2px!important}
+ .mu-mobile-master-home .mu-mm-action-copy strong{font-size:10px!important;line-height:1.02!important}
+ .mu-mobile-master-home .mu-mm-action-copy small{font-size:6.2px!important;line-height:1.08!important}
+ .mu-mobile-master-home .mu-mm-tools{padding-bottom:12px!important}
+ .mu-mobile-master-home .mu-mm-tools-row i.account:before,
+ .mu-mobile-master-home .mu-mm-tools-row i.account:after{content:none!important;display:none!important}
+ .mu-mobile-master-home .mu-mm-tools-row i.account svg{display:block!important;width:23px!important;height:23px!important}
+ .mu-mobile-master-home .mu-mm-inline-fallback img{display:block!important;opacity:1!important;visibility:visible!important}
+}
+
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-inline-fallback{display:block!important;opacity:1!important;visibility:visible!important;background-color:#eadfc9!important}
+ .mu-mobile-master-home .mu-mm-cover>.mu-mm-inline-fallback,
+ .mu-mobile-master-home .mu-mm-memory-photo>.mu-mm-inline-fallback{position:absolute!important;inset:0!important;z-index:0!important}
+ .mu-mobile-master-home .mu-mm-cover>i,.mu-mobile-master-home .mu-mm-journey-meta,
+ .mu-mobile-master-home .mu-mm-memory-card>strong,.mu-mobile-master-home .mu-mm-memory-card>small,.mu-mobile-master-home .mu-mm-memory-card>em{position:relative;z-index:2}
+}
+
+/* Approved visual target — final phone cleanup. */
+@media(max-width:700px){
+ .mu-mobile-master-home{padding-top:6px!important}
+ .mu-mobile-master-home .mu-mm-hero-cards{gap:10px!important;margin-bottom:14px!important}
+ .mu-mobile-master-home .mu-mm-action-grid{gap:10px!important}
+ .mu-mobile-master-home .mu-mm-action{height:132px!important;min-height:132px!important}
+ .mu-mobile-master-home .mu-mm-tools{margin-top:16px!important;margin-bottom:14px!important;padding:11px 10px 13px!important}
+ .mu-mobile-master-home .mu-mm-tools-row{align-items:start!important}
+ .mu-mobile-master-home .mu-mm-tools-row button{min-width:0!important}
+ .mu-mobile-master-home .mu-mm-tools-row strong{margin-top:4px!important;line-height:1.05!important}
+ .mu-mobile-master-home .mu-mm-tools-row small{line-height:1.05!important}
+ .mu-mobile-master-home .mu-mm-list{margin-top:10px!important}
+ .mu-mobile-master-home .mu-mm-journeys{gap:10px!important}
+ .mu-mobile-master-home .mu-mm-cover{height:104px!important;background-color:#eadfc9!important}
+ .mu-mobile-master-home .mu-mm-memory-photo{height:92px!important;background-color:#eadfc9!important}
+ .mu-mobile-master-home .mu-mm-journey-meta{padding:9px 10px 10px!important}
+ .mu-mobile-master-home .mu-mm-memory-card>strong{padding:7px 8px 0!important}
+ .mu-mobile-master-home .mu-mm-memory-card>small{padding:0 8px!important}
+}
+
+/* Critical lower-art fix: base CSS was hiding every fallback span. */
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-memory-photo>span.mu-mm-inline-fallback,
+ .mu-mobile-master-home .mu-mm-cover>span.mu-mm-inline-fallback{
+   position:absolute!important;inset:0!important;display:block!important;opacity:1!important;visibility:visible!important;
+   width:100%!important;height:100%!important;padding:0!important;margin:0!important;z-index:1!important;
+ }
+ .mu-mobile-master-home .mu-mm-memory-photo:not(.has-photo):before{content:none!important;display:none!important}
+ .mu-mobile-master-home .mu-mm-cover:after{z-index:1!important;pointer-events:none!important}
+ .mu-mobile-master-home .mu-mm-cover>i{z-index:3!important}
+}
+
+/* Physical acceptance: keep all four Start cards on the same baseline. */
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-action-grid{align-items:start!important}
+ .mu-mobile-master-home .mu-mm-action{height:132px!important;min-height:132px!important;margin-top:0!important;transform:none!important;align-self:start!important}
+ .mu-mobile-master-home .mu-mm-action.memory{margin-top:0!important;top:auto!important}
+}
+
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-inline-fallback{position:absolute!important;inset:0!important;display:block!important;opacity:1!important;visibility:visible!important;overflow:hidden!important;z-index:1!important}
+ .mu-mobile-master-home .mu-mm-inline-fallback>img{position:absolute!important;inset:0!important;display:block!important;width:100%!important;height:100%!important;max-width:none!important;opacity:1!important;visibility:visible!important}
+}

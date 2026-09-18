@@ -1,0 +1,69 @@
+/* Memories Unlocked — RC3 authoritative mobile Home artwork.
+   The master Home renderer owns journey/memory artwork with real <img> elements.
+   This file only guarantees sizing, clipping and legacy-background suppression. */
+@media(max-width:700px){
+.mu-mobile-master-home .mu-mm-cover,
+.mu-mobile-master-home .mu-mm-memory-photo{
+  position:relative!important;
+  overflow:hidden!important;
+  background-color:#eadfc9!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+  background-position:center!important;
+}
+.mu-mobile-master-home .mu-mm-cover{height:54px!important}
+.mu-mobile-master-home .mu-mm-memory-photo{height:49px!important}
+.mu-mobile-master-home .mu-mm-cover:not(.has-photo),
+.mu-mobile-master-home .mu-mm-memory-photo.mu-mm-inline-photo:not(.has-photo){
+  background-image:none!important;
+}
+.mu-mobile-master-home .mu-mm-inline-fallback{display:block!important;max-width:none!important}
+.mu-mobile-master-home .mu-mm-tools{margin-bottom:12px!important}
+.mu-mobile-master-home .mu-mm-list{margin-bottom:12px!important}
+.mu-mobile-master-home .mu-mm-memory-grid{margin-bottom:0!important}
+.mu-mobile-master-home{padding-bottom:0!important}
+.mu-mobile-master-home .mu-mm-tools-row i.account{background:#f6e8c2!important;color:#173653!important;position:relative!important}
+.mu-mobile-master-home .mu-mm-tools-row i.account:after{content:'◡'!important;position:absolute!important;left:0!important;right:0!important;bottom:5px!important;font:700 16px/1 Arial,sans-serif!important;text-align:center!important}
+.mu-mobile-master-home .mu-mm-tools-row i.account{font-size:10px!important;padding-top:3px!important;box-sizing:border-box!important}
+.mu-mobile-master-home .mu-mm-cover:not(.has-photo):before,
+.mu-mobile-master-home .mu-mm-memory-photo.mu-mm-inline-photo:not(.has-photo):before,
+.mu-mobile-master-home .mu-mm-memory-photo.mu-mm-inline-photo:not(.has-photo):after{
+  content:none!important;
+  display:none!important;
+}
+.mu-mobile-master-home .mu-mm-cover:not(.has-photo):after{
+  content:""!important;
+  display:block!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:1!important;
+  pointer-events:none!important;
+  background:linear-gradient(180deg,transparent 58%,rgba(8,31,57,.20))!important;
+}
+.mu-mobile-master-home .mu-mm-cover i{
+  position:absolute!important;
+  z-index:2!important;
+}
+.mu-mobile-master-home .mu-mm-memory-prompt strong,
+.mu-mobile-master-home .mu-mm-memory-prompt small{
+  display:block!important;
+  margin-left:4px!important;
+  margin-right:4px!important;
+  position:relative!important;
+  z-index:2!important;
+}
+.mu-mobile-master-home .mu-mm-memory-prompt strong{
+  font:700 6.8px/1.05 Georgia,serif!important;
+  margin-top:4px!important;
+  color:#173653!important;
+}
+.mu-mobile-master-home .mu-mm-memory-prompt small{
+  font-size:4.8px!important;
+  line-height:1.05!important;
+  margin-top:2px!important;
+  color:#8b7750!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+}

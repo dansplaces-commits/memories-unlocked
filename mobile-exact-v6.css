@@ -1,0 +1,54 @@
+/* Memories Unlocked — installed-app exact-match conflict fixes v6. */
+@media(max-width:700px){
+  /* The approved mobile master is the only visible Home surface. */
+  #home > :not(.mu-mobile-master-home){display:none!important;}
+  #home > .home-discover-place{display:none!important;}
+
+  /* Kill the legacy dock even in standalone mode where older CSS is more specific. */
+  html.standalone-app body.mu-mobile-master .nav,
+  body.mu-mobile-master .nav,
+  body.mu-mobile-master > .nav{display:none!important;visibility:hidden!important;pointer-events:none!important;}
+  .mu-mm-bottom-nav{z-index:9999!important;}
+
+  /* No pseudo/emoji icon layers under the final SVG pack. */
+  .mu-mm-tools-row i:before,
+  .mu-mm-tools-row i:after{content:none!important;display:none!important;}
+  .mu-mm-tools-row i{overflow:hidden!important;}
+  .mu-mm-tools-row i svg{display:block!important;position:relative!important;z-index:2!important;}
+
+  /* Force the approved travel artwork into fallback journey cards. */
+  .mu-mm-journey-card:not(.mu-mm-dream-card) .mu-mm-cover:not(.has-photo){
+    background:url('assets/mobile-ref-journeys.jpg') left center/200% 100% no-repeat!important;
+  }
+  .mu-mm-dream-card .mu-mm-cover{
+    background:url('assets/mobile-ref-journeys.jpg') right center/200% 100% no-repeat!important;
+  }
+  .mu-mm-cover:not(.has-photo) .mu-mm-cover-art,
+  .mu-mm-cover:not(.has-photo):before,
+  .mu-mm-dream-card .mu-mm-cover:before{display:none!important;}
+  .mu-mm-cover:not(.has-photo):after{background:linear-gradient(180deg,transparent 58%,rgba(8,31,57,.20))!important;}
+
+  /* Force the approved photo strip into memory prompts and remove old polaroid placeholders. */
+  .mu-mm-memory-prompt .mu-mm-memory-photo{
+    background-image:url('assets/mobile-ref-memories.jpg')!important;
+    background-size:300% 100%!important;
+    background-repeat:no-repeat!important;
+    background-color:#eee5d5!important;
+  }
+  .mu-mm-memory-prompt:nth-child(1) .mu-mm-memory-photo{background-position:0% center!important;}
+  .mu-mm-memory-prompt:nth-child(2) .mu-mm-memory-photo{background-position:50% center!important;}
+  .mu-mm-memory-prompt:nth-child(3) .mu-mm-memory-photo{background-position:100% center!important;}
+  .mu-mm-memory-prompt .mu-mm-memory-photo:before,
+  .mu-mm-memory-prompt .mu-mm-memory-photo:after{content:none!important;display:none!important;}
+
+  /* Bring lower cards closer to the reference proportions. */
+  .mu-mm-cover{height:54px!important;}
+  .mu-mm-memory-prompt .mu-mm-memory-photo{height:49px!important;}
+  .mu-mm-memory-prompt{min-height:72px!important;}
+  .mu-mm-journey-meta{padding:4px 6px 5px!important;}
+  .mu-mm-journey-meta strong{font-size:8.3px!important;}
+
+  /* The installed app should finish cleanly above the single nav. */
+  .mu-mobile-master-home{padding-bottom:8px!important;}
+  body.mu-mobile-master .app{padding-bottom:62px!important;}
+}
