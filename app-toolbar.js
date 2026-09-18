@@ -13,7 +13,7 @@ function toolbarMarkup(){return `
     <button type="button" data-mu-toolbar-view="home">Home</button>
     <button type="button" data-mu-toolbar-view="map">My Map</button>
     <button type="button" data-mu-toolbar-view="journeys">Journeys</button>
-    <button type="button" data-mu-toolbar-view="follow">Follow</button>
+    <button type="button" data-mu-toolbar-view="follow">Story Key</button>
   </nav>
   <div class="mu-toolbar-actions">
     <button type="button" class="mu-toolbar-account" data-mu-toolbar-account>Account</button>
