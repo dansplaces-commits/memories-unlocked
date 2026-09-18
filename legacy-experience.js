@@ -66,7 +66,7 @@
     const m=findMemory(id);if(!m)return;
     const j=findJourney(m.journeyId);
     const restoreKind=j?.archived?'journey':'memory',restoreId=j?.archived?j.id:m.id;
-    const modal=mountDialog('legacyMemoryModal',`<button class="close" type="button" onclick="closeModal('legacyMemoryModal')">×</button><span class="eyebrow">LEGACY TRAIL</span><h2>${esc(m.title||'Memory')}</h2><p class="legacy-place">📍 ${esc(m.location||'Location not added')} · ${esc(formatDate(m.date))}</p><div class="legacy-photo"><span>◇</span><small>${m.photoPath?'Loading photograph…':'A place in your story'}</small></div><section class="legacy-story"><span class="eyebrow">THE MEMORY</span><p>${esc(m.story)||'This memory remains part of the journey trail.'}</p></section>${m.clue?`<section class="legacy-clue"><span class="eyebrow">🔐 CLUE LEFT HERE</span><p>${esc(m.clue)}</p></section>`:''}<div class="legacy-actions"><button class="save" type="button" data-place-intel="memory" data-place-id="${esc(m.id)}">Discover this place</button><button class="secondary" type="button" data-archive-action="restore" data-archive-kind="${restoreKind}" data-archive-id="${esc(restoreId)}">${j?.archived?'Restore journey':'Restore memory'}</button></div><p class="small">Legacy memories leave the active feed but stay on the map so the footsteps can still be followed.</p>`,'legacy-memory-detail');
+    const modal=mountDialog('legacyMemoryModal',`<button class="close" type="button" onclick="closeModal('legacyMemoryModal')">×</button><span class="eyebrow">LEGACY TRAIL</span><h2>${esc(m.title||'Memory')}</h2><p class="legacy-place">📍 ${esc(m.location||'Location not added')} · ${esc(formatDate(m.date))}</p><div class="legacy-photo"><span>◇</span><small>${m.photoPath?'Loading photograph…':'A place in your story'}</small></div><section class="legacy-story"><span class="eyebrow">THE MEMORY</span><p>${esc(m.story)||'This memory remains part of the journey trail.'}</p></section>${m.clue?`<section class="legacy-clue"><span class="eyebrow">🔐 CLUE LEFT HERE</span><p>${esc(m.clue)}</p></section>`:''}<div class="legacy-actions"><button class="save" type="button" data-place-intel="memory" data-place-id="${esc(m.id)}">Discover this place</button><button class="secondary" type="button" data-archive-action="restore" data-archive-kind="${restoreKind}" data-archive-id="${esc(restoreId)}">${j?.archived?'Restore journey':'Restore memory'}</button></div><p class="small">Legacy memories leave the active feed but stay on the map so the footsteps can still be retraced.</p>`,'legacy-memory-detail');
     hydrateLegacyPhoto(modal,m);
   };
 
@@ -123,7 +123,7 @@
       if(pins&&legacy.length){
         let section=document.getElementById('legacyMapList');
         if(!section){section=document.createElement('section');section.id='legacyMapList';section.className='legacy-map-list';pins.insertAdjacentElement('afterend',section);}
-        section.innerHTML=`<div class="legacy-map-list-heading"><span class="eyebrow">LEGACY TRAIL</span><h3>Still part of the story</h3><p>Archived memories remain here for future followers.</p></div>${legacy.map(legacyRow).join('')}`;
+        section.innerHTML=`<div class="legacy-map-list-heading"><span class="eyebrow">LEGACY TRAIL</span><h3>Still part of the story</h3><p>Archived memories remain here for future returns.</p></div>${legacy.map(legacyRow).join('')}`;
       }else document.getElementById('legacyMapList')?.remove();
       requestAnimationFrame(fitMemoryMap);
     };
