@@ -2,8 +2,8 @@
 (function(){
 if(window.__muMobileLowerRelease)return;window.__muMobileLowerRelease=true;
 const mobile=()=>window.matchMedia('(max-width:700px)').matches;if(!mobile())return;
-const J='/assets/mobile-ref-journeys.jpg?v=20260917release1';
-const M='/assets/mobile-ref-memories.jpg?v=20260917release1';
+const J='assets/mobile-ref-journeys.jpg?v=20260917release1';
+const M='assets/mobile-ref-memories.jpg?v=20260917release1';
 function imp(el,n,v){el&&el.style.setProperty(n,v,'important');}
 function paint(el,src,size,pos){if(!el)return;imp(el,'background-image',`url("${src}")`);imp(el,'background-size',size);imp(el,'background-position',pos);imp(el,'background-repeat','no-repeat');imp(el,'background-color','#eadfc9');el.classList.add('has-photo','mu-release-art');el.querySelectorAll('.mu-mm-fallback-art').forEach(n=>n.remove());el.querySelector('.mu-mm-cover-art')?.style.setProperty('display','none','important');}
 function dreamCard(){const b=document.createElement('button');b.type='button';b.className='mu-mm-journey-card mu-mm-dream-card';b.dataset.mmAction='journey';b.innerHTML='<span class="mu-mm-cover"><i>DREAM</i></span><span class="mu-mm-journey-meta"><small>YOUR NEXT CHAPTER</small><strong>Plan another journey</strong><span>Dream it · save it · make it real</span></span>';return b;}
