@@ -17,10 +17,14 @@
 .mu-mobile-master-home .mu-mm-memory-photo.mu-mm-inline-photo:not(.has-photo){
   background-image:none!important;
 }
-.mu-mobile-master-home .mu-mm-inline-fallback{
-  display:block!important;
-  max-width:none!important;
-}
+.mu-mobile-master-home .mu-mm-inline-fallback{display:block!important;max-width:none!important}
+.mu-mobile-master-home .mu-mm-tools{margin-bottom:12px!important}
+.mu-mobile-master-home .mu-mm-list{margin-bottom:12px!important}
+.mu-mobile-master-home .mu-mm-memory-grid{margin-bottom:0!important}
+.mu-mobile-master-home{padding-bottom:0!important}
+.mu-mobile-master-home .mu-mm-tools-row i.account{background:#f6e8c2!important;color:#173653!important;position:relative!important}
+.mu-mobile-master-home .mu-mm-tools-row i.account:after{content:'◡'!important;position:absolute!important;left:0!important;right:0!important;bottom:5px!important;font:700 16px/1 Arial,sans-serif!important;text-align:center!important}
+.mu-mobile-master-home .mu-mm-tools-row i.account{font-size:10px!important;padding-top:3px!important;box-sizing:border-box!important}
 .mu-mobile-master-home .mu-mm-cover:not(.has-photo):before,
 .mu-mobile-master-home .mu-mm-memory-photo.mu-mm-inline-photo:not(.has-photo):before,
 .mu-mobile-master-home .mu-mm-memory-photo.mu-mm-inline-photo:not(.has-photo):after{
