@@ -1,0 +1,25 @@
+{
+  "name": "memories-unlocked",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Memories Unlocked native release wrapper",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "native:web": "node scripts/build-native-web.mjs",
+    "cap:sync": "npm run native:web && cap sync",
+    "cap:add:android": "npm run native:web && cap add android",
+    "cap:add:ios": "npm run native:web && cap add ios",
+    "cap:open:android": "npm run cap:sync && cap open android",
+    "cap:open:ios": "npm run cap:sync && cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.5.2",
+    "@capacitor/core": "8.5.2",
+    "@capacitor/ios": "8.5.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.2"
+  }
+}
