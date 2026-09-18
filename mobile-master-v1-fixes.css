@@ -60,3 +60,25 @@
  .mu-mobile-master-home .mu-mm-cover,.mu-mobile-master-home .mu-mm-memory-photo{isolation:isolate!important}
  .mu-mobile-master-home .mu-release-img{display:block!important;opacity:1!important;visibility:visible!important}
 }
+
+/* Phone screenshot acceptance pass — 2026-09-18. */
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-latest{grid-template-columns:54px minmax(0,1fr) 22px!important;padding:11px 12px!important}
+ .mu-mobile-master-home .mu-mm-latest-thumb{width:48px!important;height:48px!important}
+ .mu-mobile-master-home .mu-mm-latest strong{font-size:16px!important}
+ .mu-mobile-master-home .mu-mm-action-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px!important}
+ .mu-mobile-master-home .mu-mm-action{height:126px!important;min-height:126px!important;padding:7px!important}
+ .mu-mobile-master-home .mu-mm-action-copy{left:8px!important;right:15px!important;bottom:8px!important}
+ .mu-mobile-master-home .mu-mm-action-copy strong{font-size:10.5px!important;line-height:1.02!important}
+ .mu-mobile-master-home .mu-mm-action-copy small{font-size:6.4px!important;line-height:1.08!important}
+ .mu-mobile-master-home .mu-mm-tools{padding:10px 7px 8px!important;margin-bottom:12px!important}
+ .mu-mobile-master-home .mu-mm-tools-row i{width:35px!important;height:35px!important}
+ .mu-mobile-master-home .mu-mm-tools-row strong{font-size:8px!important}
+ .mu-mobile-master-home .mu-mm-tools-row small{font-size:6.3px!important}
+ .mu-mobile-master-home .mu-mm-list-head h2{font-size:21px!important}
+ .mu-mobile-master-home .mu-mm-cover{height:82px!important}
+ .mu-mobile-master-home .mu-mm-memory-photo{height:70px!important}
+ .mu-mobile-master-home .mu-mm-memory-grid{margin-bottom:8px!important}
+ .mu-mobile-master-home .mu-mm-list:last-child{margin-bottom:4px!important}
+ .mu-mobile-master-home .mu-release-img{position:absolute!important;display:block!important;opacity:1!important;visibility:visible!important;z-index:0!important;object-fit:cover!important}
+}
