@@ -31,7 +31,7 @@ npm run cap:open:ios
 
 ## Permissions to verify before signed builds
 
-Memories Unlocked uses device location only when the user requests location-based features. The generated native projects must include an appropriate "when in use" location permission/usage description before store submission.
+Memories Unlocked uses device location only when the user requests location-based features. `npm run cap:add:*` and `npm run cap:sync` now run `scripts/configure-native-permissions.mjs`, which adds Android coarse/fine foreground location permissions and the iOS `NSLocationWhenInUseUsageDescription`. No background/Always location permission is requested.
 
 Android should target API 36 for the 2026 Google Play requirement. iOS builds submitted now must use Xcode 26 or later with the iOS 26 SDK.
 
