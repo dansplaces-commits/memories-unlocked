@@ -82,3 +82,17 @@
  .mu-mobile-master-home .mu-mm-list:last-child{margin-bottom:4px!important}
  .mu-mobile-master-home .mu-release-img{position:absolute!important;display:block!important;opacity:1!important;visibility:visible!important;z-index:0!important;object-fit:cover!important}
 }
+/* Physical-phone acceptance lock pass. */
+@media(max-width:700px){
+ body.mu-mobile-master{padding-bottom:0!important}
+ body.mu-mobile-master .app{padding-bottom:84px!important}
+ .mu-mobile-master-home .mu-mm-latest{grid-template-columns:56px minmax(0,1fr) 22px!important;column-gap:14px!important}
+ .mu-mobile-master-home .mu-mm-latest>span:nth-child(2){min-width:0!important;padding-left:2px!important}
+ .mu-mobile-master-home .mu-mm-action-copy strong{font-size:10px!important;line-height:1.02!important}
+ .mu-mobile-master-home .mu-mm-action-copy small{font-size:6.2px!important;line-height:1.08!important}
+ .mu-mobile-master-home .mu-mm-tools{padding-bottom:12px!important}
+ .mu-mobile-master-home .mu-mm-tools-row i.account:before,
+ .mu-mobile-master-home .mu-mm-tools-row i.account:after{content:none!important;display:none!important}
+ .mu-mobile-master-home .mu-mm-tools-row i.account svg{display:block!important;width:23px!important;height:23px!important}
+ .mu-mobile-master-home .mu-mm-inline-fallback img{display:block!important;opacity:1!important;visibility:visible!important}
+}
