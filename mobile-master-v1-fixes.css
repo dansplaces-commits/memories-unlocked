@@ -104,3 +104,23 @@
  .mu-mobile-master-home .mu-mm-cover>i,.mu-mobile-master-home .mu-mm-journey-meta,
  .mu-mobile-master-home .mu-mm-memory-card>strong,.mu-mobile-master-home .mu-mm-memory-card>small,.mu-mobile-master-home .mu-mm-memory-card>em{position:relative;z-index:2}
 }
+
+/* Approved visual target — final phone cleanup. */
+@media(max-width:700px){
+ .mu-mobile-master-home{padding-top:6px!important}
+ .mu-mobile-master-home .mu-mm-hero-cards{gap:10px!important;margin-bottom:14px!important}
+ .mu-mobile-master-home .mu-mm-action-grid{gap:10px!important}
+ .mu-mobile-master-home .mu-mm-action{height:132px!important;min-height:132px!important}
+ .mu-mobile-master-home .mu-mm-tools{margin-top:16px!important;margin-bottom:14px!important;padding:11px 10px 13px!important}
+ .mu-mobile-master-home .mu-mm-tools-row{align-items:start!important}
+ .mu-mobile-master-home .mu-mm-tools-row button{min-width:0!important}
+ .mu-mobile-master-home .mu-mm-tools-row strong{margin-top:4px!important;line-height:1.05!important}
+ .mu-mobile-master-home .mu-mm-tools-row small{line-height:1.05!important}
+ .mu-mobile-master-home .mu-mm-list{margin-top:10px!important}
+ .mu-mobile-master-home .mu-mm-journeys{gap:10px!important}
+ .mu-mobile-master-home .mu-mm-cover{height:104px!important;background-color:#eadfc9!important}
+ .mu-mobile-master-home .mu-mm-memory-photo{height:92px!important;background-color:#eadfc9!important}
+ .mu-mobile-master-home .mu-mm-journey-meta{padding:9px 10px 10px!important}
+ .mu-mobile-master-home .mu-mm-memory-card>strong{padding:7px 8px 0!important}
+ .mu-mobile-master-home .mu-mm-memory-card>small{padding:0 8px!important}
+}
