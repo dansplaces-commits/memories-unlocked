@@ -8,11 +8,12 @@
   },
   "scripts": {
     "native:web": "node scripts/build-native-web.mjs",
-    "cap:sync": "npm run native:web && cap sync",
-    "cap:add:android": "npm run native:web && cap add android",
-    "cap:add:ios": "npm run native:web && cap add ios",
+    "cap:sync": "npm run native:web && cap sync && npm run native:permissions",
+    "cap:add:android": "npm run native:web && cap add android && npm run native:permissions",
+    "cap:add:ios": "npm run native:web && cap add ios && npm run native:permissions",
     "cap:open:android": "npm run cap:sync && cap open android",
-    "cap:open:ios": "npm run cap:sync && cap open ios"
+    "cap:open:ios": "npm run cap:sync && cap open ios",
+    "native:permissions": "node scripts/configure-native-permissions.mjs"
   },
   "dependencies": {
     "@capacitor/android": "8.5.2",
