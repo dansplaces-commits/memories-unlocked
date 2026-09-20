@@ -292,3 +292,58 @@
  .mu-mobile-master-home .mu-mm-tools-row small{font-size:5.8px!important}
  .mu-mm-bottom-nav button b{font-size:7px!important}
 }
+
+
+/* 2026-09-20 physical-device final Home acceptance pass.
+   One geometry owner for media; removes legacy grey overlays and restores nav contrast. */
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-cover,
+ .mu-mobile-master-home .mu-mm-memory-photo{
+   background:#efe3c8!important;
+   overflow:hidden!important;
+   isolation:isolate!important;
+ }
+ .mu-mobile-master-home .mu-mm-cover:before,
+ .mu-mobile-master-home .mu-mm-memory-photo:before{
+   content:none!important;
+   display:none!important;
+   background:none!important;
+ }
+ .mu-mobile-master-home .mu-mm-cover>.mu-mm-inline-fallback,
+ .mu-mobile-master-home .mu-mm-memory-photo>.mu-mm-inline-fallback{
+   inset:0!important;
+   width:100%!important;
+   height:100%!important;
+   background:transparent!important;
+ }
+ .mu-mobile-master-home .mu-mm-cover>.mu-mm-inline-fallback>img,
+ .mu-mobile-master-home .mu-mm-memory-photo>.mu-mm-inline-fallback>img{
+   inset:0!important;
+   width:100%!important;
+   height:100%!important;
+   min-width:100%!important;
+   min-height:100%!important;
+   object-fit:cover!important;
+   object-position:center!important;
+   background:transparent!important;
+   transform:none!important;
+ }
+ .mu-mobile-master-home .mu-mm-cover:after{
+   background:linear-gradient(180deg,transparent 68%,rgba(8,31,55,.16))!important;
+ }
+ .mu-mobile-master-home .mu-mm-journey-meta{
+   min-height:62px!important;
+   padding:9px 32px 9px 10px!important;
+ }
+ .mu-mobile-master-home .mu-mm-journey-meta:after{display:none!important;content:none!important}
+ .mu-mobile-master-home .mu-mm-journey-meta small{max-width:calc(100% - 8px)!important}
+ .mu-mobile-master-home .mu-mm-memory-copy{min-height:43px!important;padding:8px 34px 8px 9px!important}
+ .mu-mobile-master-home .mu-mm-memory-heart{right:7px!important;bottom:9px!important}
+ .mu-mm-bottom-nav{background:#0c3158!important;border-color:#0c3158!important}
+ .mu-mm-bottom-nav button{color:#f4ead6!important;opacity:.82!important}
+ .mu-mm-bottom-nav button span,.mu-mm-bottom-nav button b{color:inherit!important;opacity:1!important}
+ .mu-mm-bottom-nav button.active:not(.mu-mm-plus){
+   background:#fff1d2!important;color:#b77d12!important;opacity:1!important
+ }
+ .mu-mm-bottom-nav .mu-mm-plus{opacity:1!important}
+}
