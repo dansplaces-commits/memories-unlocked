@@ -54,6 +54,12 @@ jobs:
           grep -R "targetSdk" android/variables.gradle android/app/build.gradle* || true
           grep -R "compileSdk" android/variables.gradle android/app/build.gradle* || true
 
+      - name: Restore stable Android test signing key
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: memories-unlocked-stable-debug-signing-v1
+
       - name: Build debug APK
         working-directory: android
         run: |
