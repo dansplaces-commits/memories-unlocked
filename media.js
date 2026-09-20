@@ -1,6 +1,6 @@
 /* Memories Unlocked — secure photo layer for journey covers and memory photos. */
 const MU_MEDIA_BUCKET='memory-media';
-const MU_MEDIA_MAX_BYTES=8*1024*1024;
+const MU_MEDIA_MAX_BYTES=25*1024*1024;
 const MU_MEDIA_TYPES=new Set(['image/jpeg','image/png','image/webp']);
 const muMediaUrls=new Map();
 let muMediaSchemaReady=false;
@@ -74,14 +74,14 @@ function muOpenPhotoPicker(kind,id){
   const record=muMediaRecord(kind,id);
   if(!record)return;
   if(!muMediaAvailable(record)){toast('Connect this story to your cloud before adding photographs.');return;}
-  const modal=mountDialog('mediaPickerModal',`<button class="close" type="button" onclick="closeModal('mediaPickerModal')">×</button><span class="eyebrow">ADD TO YOUR STORY</span><h2>${record[muMediaField(kind)]?'Replace':'Add'} ${kind==='journey'?'journey cover':'memory photo'}</h2><p class="small">Choose one clear image. JPEG, PNG or WebP · maximum 8 MB.</p><label class="media-file-label" for="mediaPhotoFile"><span>Choose a photo</span><small>From this device</small></label><input id="mediaPhotoFile" class="media-file-input" type="file" accept="image/jpeg,image/png,image/webp"><div id="mediaPreview" class="media-preview"><div>▧</div><span>Your preview will appear here.</span></div><p id="mediaPickerMessage" class="small"></p><button id="mediaSaveButton" class="save" type="button" disabled>Save photo</button>`,'media-picker');
+  const modal=mountDialog('mediaPickerModal',`<button class="close" type="button" onclick="closeModal('mediaPickerModal')">×</button><span class="eyebrow">ADD TO YOUR STORY</span><h2>${record[muMediaField(kind)]?'Replace':'Add'} ${kind==='journey'?'journey cover':'memory photo'}</h2><p class="small">Choose one clear image. JPEG, PNG or WebP · maximum 25 MB.</p><label class="media-file-label" for="mediaPhotoFile"><span>Choose a photo</span><small>From this device</small></label><input id="mediaPhotoFile" class="media-file-input" type="file" accept="image/jpeg,image/png,image/webp"><div id="mediaPreview" class="media-preview"><div>▧</div><span>Your preview will appear here.</span></div><p id="mediaPickerMessage" class="small"></p><button id="mediaSaveButton" class="save" type="button" disabled>Save photo</button>`,'media-picker');
   const input=modal.querySelector('#mediaPhotoFile'),preview=modal.querySelector('#mediaPreview'),message=modal.querySelector('#mediaPickerMessage'),saveButton=modal.querySelector('#mediaSaveButton');
   let selected=null;
   input.addEventListener('change',()=>{
     selected=input.files?.[0]||null;saveButton.disabled=true;message.textContent='';
     if(!selected){preview.innerHTML='<div>▧</div><span>Your preview will appear here.</span>';return;}
     if(!MU_MEDIA_TYPES.has(selected.type)){selected=null;message.textContent='Please choose a JPEG, PNG or WebP image.';return;}
-    if(selected.size>MU_MEDIA_MAX_BYTES){selected=null;message.textContent='That image is larger than 8 MB. Choose a smaller copy.';return;}
+    if(selected.size>MU_MEDIA_MAX_BYTES){selected=null;message.textContent='That image is larger than 25 MB. Choose a smaller copy.';return;}
     const reader=new FileReader();
     reader.onload=()=>{preview.innerHTML=`<img src="${reader.result}" alt="Preview of selected photo"><span>${esc(input.files[0].name)}</span>`;saveButton.disabled=false;};
     reader.onerror=()=>{selected=null;message.textContent='This image could not be previewed. Try another file.';};
