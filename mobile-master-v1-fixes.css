@@ -263,3 +263,32 @@
  .mu-mobile-master-home .mu-mm-cover{height:104px!important}
  .mu-mobile-master-home .mu-mm-memory-photo{height:90px!important}
 }
+
+/* Readability + fit lock — typography, photography and stamps must stay legible on phone. */
+@media(max-width:700px){
+ .mu-mobile-master-home *{box-sizing:border-box}
+ .mu-mobile-master-home button{min-width:0}
+ .mu-mobile-master-home .mu-mm-discover>span:nth-child(2),.mu-mobile-master-home .mu-mm-latest>span:nth-child(2){min-width:0!important}
+ .mu-mobile-master-home .mu-mm-discover strong,.mu-mobile-master-home .mu-mm-latest strong{display:block!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+ .mu-mobile-master-home .mu-mm-discover em,.mu-mobile-master-home .mu-mm-latest em{display:block!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+ .mu-mobile-master-home .mu-mm-action-copy{overflow:hidden!important}
+ .mu-mobile-master-home .mu-mm-action-copy strong{display:block!important;max-width:100%!important;overflow-wrap:break-word!important}
+ .mu-mobile-master-home .mu-mm-action-copy small{display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+ .mu-mobile-master-home .mu-mm-tools-row strong,.mu-mobile-master-home .mu-mm-tools-row small{display:block!important;max-width:100%!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+ .mu-mobile-master-home .mu-mm-cover,.mu-mobile-master-home .mu-mm-memory-photo{background-size:cover!important;background-position:center!important}
+ .mu-mobile-master-home .mu-mm-inline-fallback>img{object-fit:cover!important;object-position:center!important}
+ .mu-mobile-master-home .mu-mm-cover>i{max-width:72%!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;box-shadow:0 2px 7px rgba(8,31,55,.12)!important}
+ .mu-mobile-master-home .mu-mm-journey-meta strong,.mu-mobile-master-home .mu-mm-memory-copy strong{overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+ .mu-mobile-master-home .mu-mm-journey-meta span,.mu-mobile-master-home .mu-mm-journey-meta small,.mu-mobile-master-home .mu-mm-memory-copy small{overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+ .mu-mobile-master-home .mu-mm-journey-meta:after{background:rgba(255,250,242,.76)!important;box-shadow:0 1px 5px rgba(12,45,81,.08)!important}
+}
+@media(max-width:360px){
+ .mu-mobile-master-home .mu-mm-action-grid{gap:6px!important}
+ .mu-mobile-master-home .mu-mm-action{padding:6px!important}
+ .mu-mobile-master-home .mu-mm-action-copy{left:6px!important;right:12px!important}
+ .mu-mobile-master-home .mu-mm-tools-row{gap:2px!important}
+ .mu-mobile-master-home .mu-mm-tools-row i{width:34px!important;height:34px!important}
+ .mu-mobile-master-home .mu-mm-tools-row strong{font-size:7.5px!important}
+ .mu-mobile-master-home .mu-mm-tools-row small{font-size:5.8px!important}
+ .mu-mm-bottom-nav button b{font-size:7px!important}
+}
