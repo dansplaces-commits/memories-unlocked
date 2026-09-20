@@ -148,3 +148,26 @@
  .mu-mobile-master-home .mu-mm-inline-fallback{position:absolute!important;inset:0!important;display:block!important;opacity:1!important;visibility:visible!important;overflow:hidden!important;z-index:1!important}
  .mu-mobile-master-home .mu-mm-inline-fallback>img{position:absolute!important;inset:0!important;display:block!important;width:100%!important;height:100%!important;max-width:none!important;opacity:1!important;visibility:visible!important}
 }
+
+/* 2026-09-20 aesthetic lock — authoritative Home finish. */
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-cover,
+ .mu-mobile-master-home .mu-mm-memory-photo{position:relative!important;overflow:hidden!important;padding:0!important}
+ .mu-mobile-master-home .mu-mm-cover{height:104px!important}
+ .mu-mobile-master-home .mu-mm-memory-photo{height:92px!important}
+ .mu-mobile-master-home .mu-mm-cover>.mu-mm-inline-fallback,
+ .mu-mobile-master-home .mu-mm-memory-photo>.mu-mm-inline-fallback{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;padding:0!important;display:block!important;overflow:hidden!important;background:transparent!important}
+ .mu-mobile-master-home .mu-mm-inline-fallback>img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-width:100%!important;min-height:100%!important;object-fit:cover!important;object-position:center!important;margin:0!important;padding:0!important;display:block!important}
+ .mu-mobile-master-home .mu-mm-cover:before,
+ .mu-mobile-master-home .mu-mm-memory-photo:before,
+ .mu-mobile-master-home .mu-mm-cover:after{pointer-events:none!important}
+ .mu-mobile-master-home .mu-mm-journey-card,
+ .mu-mobile-master-home .mu-mm-memory-card{overflow:hidden!important}
+ .mu-mobile-master-home .mu-mm-journey-meta{margin:0!important;border:0!important}
+ .mu-mobile-master-home .mu-mm-memory-card>strong{margin-top:0!important;padding-top:8px!important}
+ .mu-mobile-master-home .mu-mm-list-head{align-items:baseline!important;margin-bottom:8px!important}
+ .mu-mobile-master-home .mu-mm-list-head button{white-space:nowrap!important}
+ .mu-mobile-master-home .mu-mm-section-head{align-items:flex-start!important}
+ .mu-mobile-master-home .mu-mm-tools-row button{overflow:visible!important}
+ .mu-mm-bottom-nav{bottom:max(7px,env(safe-area-inset-bottom))!important}
+}
