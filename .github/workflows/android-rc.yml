@@ -74,17 +74,32 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug --stacktrace
 
-      - name: Verify APK signature
+      - name: Re-sign APK for broad device compatibility
         run: |
           APKSIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort -V | tail -1)
-          "$APKSIGNER" verify --verbose --print-certs android/app/build/outputs/apk/debug/app-debug.apk
+          cp android/app/build/outputs/apk/debug/app-debug.apk android/app/build/outputs/apk/debug/app-debug-original.apk
+          "$APKSIGNER" sign \
+            --ks "$HOME/.android/debug.keystore" \
+            --ks-pass pass:android \
+            --key-pass pass:android \
+            --ks-key-alias androiddebugkey \
+            --v1-signing-enabled true \
+            --v2-signing-enabled true \
+            --v3-signing-enabled true \
+            --out android/app/build/outputs/apk/debug/memories-unlocked-install.apk \
+            android/app/build/outputs/apk/debug/app-debug-original.apk
+
+      - name: Verify final install APK
+        run: |
+          APKSIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort -V | tail -1)
+          "$APKSIGNER" verify --verbose --print-certs android/app/build/outputs/apk/debug/memories-unlocked-install.apk
 
       - name: Upload Android RC test bundle
         uses: actions/upload-artifact@v4
         with:
           name: memories-unlocked-android-rc-debug
           path: |
-            android/app/build/outputs/apk/debug/app-debug.apk
+            android/app/build/outputs/apk/debug/memories-unlocked-install.apk
             icons/icon-1024.png
           if-no-files-found: error
           retention-days: 14
