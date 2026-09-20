@@ -242,3 +242,24 @@
  .mu-mobile-master-home .mu-mm-journey-meta small{display:block!important;margin-top:3px!important;font-size:6.5px!important;color:#9a7425!important}
  .mu-mobile-master-home .mu-mm-card-more{position:absolute!important;right:7px!important;bottom:8px!important;color:#0c2d51!important;font:700 10px/1 Arial,sans-serif!important;letter-spacing:1px!important;z-index:4!important}
 }
+
+/* Home composition pass — make the full page read as one premium travel journal. */
+@media(max-width:700px){
+ .mu-mobile-master-home{max-width:620px!important;margin:0 auto!important}
+ .mu-mobile-master-home section{position:relative!important}
+ .mu-mobile-master-home .mu-mm-hero-cards{margin-top:4px!important}
+ .mu-mobile-master-home .mu-mm-start{padding-top:2px!important}
+ .mu-mobile-master-home .mu-mm-section-head,.mu-mobile-master-home .mu-mm-list-head{padding:0 2px!important}
+ .mu-mobile-master-home .mu-mm-section-head>span,.mu-mobile-master-home .mu-mm-tools-head>span{font-family:"Segoe Print","Bradley Hand",cursive!important;font-weight:600!important;color:#a77820!important}
+ .mu-mobile-master-home .mu-mm-list-head button{border:0!important;background:transparent!important;color:#a87820!important;font-size:8px!important;font-weight:800!important;padding:6px 2px!important}
+ .mu-mobile-master-home .mu-mm-list-head button:active{transform:scale(.96)!important}
+ .mu-mobile-master-home .mu-mm-journeys,.mu-mobile-master-home .mu-mm-memory-grid{scroll-margin-top:80px!important}
+ .mu-mobile-master-home .mu-mm-memories{padding-bottom:10px!important}
+ .mu-mobile-master-home .mu-mm-memory-photo{height:98px!important}
+ .mu-mobile-master-home .mu-mm-memory-heart{width:22px!important;height:22px!important;display:grid!important;place-items:center!important;border-radius:50%!important;background:rgba(255,250,242,.92)!important;right:6px!important;bottom:7px!important;box-shadow:0 2px 7px rgba(17,45,74,.10)!important}
+}
+@media(max-width:390px){
+ .mu-mobile-master-home .mu-mm-section-head h2,.mu-mobile-master-home .mu-mm-list-head h2{font-size:22px!important}
+ .mu-mobile-master-home .mu-mm-cover{height:104px!important}
+ .mu-mobile-master-home .mu-mm-memory-photo{height:90px!important}
+}
