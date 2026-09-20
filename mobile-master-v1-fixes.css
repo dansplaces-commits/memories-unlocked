@@ -192,3 +192,13 @@
  .mu-mm-bottom-nav button.active{color:#b98218!important}
  .mu-mm-bottom-nav .mu-mm-plus{background:linear-gradient(145deg,#e0aa2d,#f2c75e)!important;color:#0d3158!important}
 }
+
+/* Target memory-card finish. */
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-memory-card{position:relative!important;text-align:left!important}
+ .mu-mobile-master-home .mu-mm-memory-copy{display:block!important;position:relative!important;min-height:36px!important;padding:7px 24px 7px 8px!important;background:#fffaf2!important;z-index:3!important}
+ .mu-mobile-master-home .mu-mm-memory-copy strong{display:block!important;padding:0!important;margin:0!important;font:700 10px/1.08 Georgia,serif!important;color:#0c2d51!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+ .mu-mobile-master-home .mu-mm-memory-copy small{display:block!important;padding:0!important;margin:3px 0 0!important;font-size:7px!important;line-height:1.1!important;color:#7a682f!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+ .mu-mobile-master-home .mu-mm-memory-heart{position:absolute!important;right:7px!important;bottom:9px!important;z-index:4!important;color:#0c2d51!important;font:700 17px/1 Arial,sans-serif!important}
+ .mu-mobile-master-home .mu-mm-memory-card>strong,.mu-mobile-master-home .mu-mm-memory-card>small,.mu-mobile-master-home .mu-mm-memory-card>em{display:none!important}
+}
