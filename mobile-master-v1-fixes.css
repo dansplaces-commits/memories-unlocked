@@ -171,3 +171,24 @@
  .mu-mobile-master-home .mu-mm-tools-row button{overflow:visible!important}
  .mu-mm-bottom-nav{bottom:max(7px,env(safe-area-inset-bottom))!important}
 }
+
+/* Target-match pass — dynamic content inside the approved Memories Unlocked shell. */
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-hero-cards{gap:11px!important}
+ .mu-mobile-master-home .mu-mm-discover{min-height:88px!important;border-radius:18px!important;box-shadow:0 8px 20px rgba(10,38,68,.10)!important}
+ .mu-mobile-master-home .mu-mm-latest{min-height:94px!important;border-radius:18px!important;background:#fffaf2!important;box-shadow:0 8px 22px rgba(16,45,80,.08)!important}
+ .mu-mobile-master-home .mu-mm-section-head h2{font-size:25px!important;letter-spacing:-.5px!important}
+ .mu-mobile-master-home .mu-mm-section-head p{font-size:9px!important}
+ .mu-mobile-master-home .mu-mm-section-head>span{font-size:10px!important;transform:rotate(-4deg)!important}
+ .mu-mobile-master-home .mu-mm-action{background:#fffaf2!important;border-color:#e7d8bb!important;box-shadow:0 6px 15px rgba(18,46,75,.055)!important}
+ .mu-mobile-master-home .mu-mm-tools{background:#fffaf2!important;border-color:#eadcc3!important;box-shadow:0 7px 18px rgba(18,46,75,.055)!important}
+ .mu-mobile-master-home .mu-mm-list-head h2{font-size:24px!important;letter-spacing:-.45px!important}
+ .mu-mobile-master-home .mu-mm-journey-card,.mu-mobile-master-home .mu-mm-memory-card{background:#fffaf2!important;border-color:#e8dac0!important;box-shadow:0 6px 16px rgba(18,46,75,.07)!important}
+ .mu-mobile-master-home .mu-mm-journey-meta strong{font-family:Georgia,serif!important;color:#0c2d51!important}
+ .mu-mobile-master-home .mu-mm-memory-card>strong{font-family:Georgia,serif!important;color:#0c2d51!important}
+ .mu-mobile-master-home .mu-mm-memory-card>small{color:#756640!important}
+ .mu-mm-bottom-nav{background:#fffaf2!important;border:1px solid #eadcc4!important;box-shadow:0 -7px 24px rgba(10,35,61,.11)!important}
+ .mu-mm-bottom-nav button{color:#173653!important}
+ .mu-mm-bottom-nav button.active{color:#b98218!important}
+ .mu-mm-bottom-nav .mu-mm-plus{background:linear-gradient(145deg,#e0aa2d,#f2c75e)!important;color:#0d3158!important}
+}
