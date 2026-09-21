@@ -459,3 +459,48 @@
  .mu-mm-bottom-nav .mu-mm-plus{width:43px!important;height:43px!important;min-width:43px!important;font-size:23px!important;transform:translateY(-8px)!important}
  .mu-mm-bottom-nav .mu-mm-plus:active{transform:translateY(-8px) scale(.92)!important}
 }
+
+
+/* FINAL PHONE ACCEPTANCE LOCK — match the approved compact master on real Android.
+   Build 82 proved the structure; this pass removes the remaining excess vertical scale. */
+@media(max-width:430px){
+ body.mu-mobile-master .app{padding:4px 10px 66px!important}
+ .mu-master-mobile-header{height:46px!important;min-height:46px!important;padding:3px 10px!important;margin:0 -10px 5px!important}
+ .mu-mobile-master-home .mu-mm-hero-cards{gap:5px!important;margin-bottom:5px!important}
+ .mu-mobile-master-home .mu-mm-discover{height:58px!important;min-height:58px!important;padding:6px 9px!important;border-radius:14px!important}
+ .mu-mobile-master-home .mu-mm-latest{height:48px!important;min-height:48px!important;padding:5px 8px!important;border-radius:14px!important}
+ .mu-mobile-master-home .mu-mm-discover strong,.mu-mobile-master-home .mu-mm-latest strong{font-size:14px!important}
+ .mu-mobile-master-home .mu-mm-start{margin-top:2px!important}
+ .mu-mobile-master-home .mu-mm-section-head{margin-bottom:4px!important}
+ .mu-mobile-master-home .mu-mm-section-head h2,.mu-mobile-master-home .mu-mm-list-head h2{font-size:16px!important}
+ .mu-mobile-master-home .mu-mm-section-head p{font-size:7px!important;margin-top:2px!important}
+ .mu-mobile-master-home .mu-mm-action-grid{gap:5px!important}
+ .mu-mobile-master-home .mu-mm-action{height:88px!important;min-height:88px!important;padding:4px!important;border-radius:12px!important}
+ .mu-mobile-master-home .mu-mm-action-art{height:44px!important;min-height:44px!important}
+ .mu-mobile-master-home .mu-mm-action-copy{left:6px!important;right:5px!important;bottom:5px!important}
+ .mu-mobile-master-home .mu-mm-action-copy strong{font-size:8.5px!important}
+ .mu-mobile-master-home .mu-mm-action-copy small{font-size:5.7px!important}
+ .mu-mobile-master-home .mu-mm-tools{margin:6px 0!important;padding:5px 7px 6px!important;border-radius:13px!important}
+ .mu-mobile-master-home .mu-mm-tools-head{margin-bottom:2px!important}
+ .mu-mobile-master-home .mu-mm-tools-head h3{font-size:9.5px!important}
+ .mu-mobile-master-home .mu-mm-tools-row i{width:24px!important;height:24px!important;font-size:11px!important}
+ .mu-mobile-master-home .mu-mm-tools-row strong{font-size:5.8px!important}
+ .mu-mobile-master-home .mu-mm-tools-row small{font-size:4.8px!important}
+ .mu-mobile-master-home .mu-mm-list{margin-top:5px!important}
+ .mu-mobile-master-home .mu-mm-list-head{margin-bottom:4px!important}
+ .mu-mobile-master-home .mu-mm-journeys{gap:6px!important}
+ .mu-mobile-master-home .mu-mm-cover{height:52px!important}
+ .mu-mobile-master-home .mu-mm-journey-meta{min-height:38px!important;padding:4px 20px 4px 6px!important}
+ .mu-mobile-master-home .mu-mm-journey-meta strong{font-size:8px!important}
+ .mu-mobile-master-home .mu-mm-journey-meta span{font-size:4.8px!important;margin-top:1px!important}
+ .mu-mobile-master-home .mu-mm-journey-meta small{font-size:4.6px!important;margin-top:1px!important}
+ .mu-mobile-master-home .mu-mm-memory-photo{height:47px!important}
+ .mu-mobile-master-home .mu-mm-memory-copy{min-height:25px!important;padding:3px 18px 3px 5px!important}
+ .mu-mobile-master-home .mu-mm-memory-copy strong{font-size:6.4px!important}
+ .mu-mobile-master-home .mu-mm-memory-copy small{font-size:4.7px!important}
+ .mu-mobile-master-home:after{height:58px!important}
+ .mu-mm-bottom-nav{height:49px!important;min-height:49px!important;left:8px!important;right:8px!important;padding:3px 4px max(3px,env(safe-area-inset-bottom))!important;border-radius:14px 14px 0 0!important}
+ .mu-mm-bottom-nav button span{font-size:13px!important}
+ .mu-mm-bottom-nav button b{font-size:5.5px!important}
+ .mu-mm-bottom-nav .mu-mm-plus{width:37px!important;height:37px!important;min-width:37px!important;font-size:20px!important;transform:translateY(-6px)!important}
+}
