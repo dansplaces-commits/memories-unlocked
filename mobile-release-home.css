@@ -103,3 +103,50 @@
     bottom:max(8px,env(safe-area-inset-bottom))!important;
   }
 }
+
+/* Build 75 — physical screenshot correction.
+   Remove legacy media overlay entirely and keep lower Home content clear of fixed navigation. */
+@media(max-width:700px){
+  .mu-mobile-master-home .mu-mm-cover:before,
+  .mu-mobile-master-home .mu-mm-cover:after,
+  .mu-mobile-master-home .mu-mm-memory-photo:before,
+  .mu-mobile-master-home .mu-mm-memory-photo:after{
+    content:none!important;
+    display:none!important;
+    background:none!important;
+  }
+  .mu-mobile-master-home .mu-mm-cover>.mu-mm-inline-fallback,
+  .mu-mobile-master-home .mu-mm-memory-photo>.mu-mm-inline-fallback{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    display:block!important;
+    overflow:hidden!important;
+    z-index:0!important;
+    background:transparent!important;
+  }
+  .mu-mobile-master-home .mu-mm-inline-fallback>img{
+    position:absolute!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    min-width:0!important;
+    min-height:0!important;
+    object-fit:cover!important;
+    object-position:center!important;
+    transform:none!important;
+    border:0!important;
+  }
+  .mu-mobile-master-home .mu-mm-cover>i{z-index:3!important}
+  body.mu-mobile-master .app{
+    padding-bottom:calc(160px + env(safe-area-inset-bottom))!important;
+  }
+  .mu-mobile-master-home{
+    padding-bottom:calc(150px + env(safe-area-inset-bottom))!important;
+  }
+  .mu-mobile-master-home .mu-mm-memories,
+  .mu-mobile-master-home .mu-mm-memory-grid{
+    margin-bottom:24px!important;
+  }
+}
