@@ -390,3 +390,18 @@
    height:110px!important;pointer-events:none!important;
  }
 }
+
+/* Base-build fit lock — physical Android viewport.
+   Keep approved composition, ensure the complete Home content remains reachable. */
+@media(max-width:700px){
+ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
+ body.mu-mobile-master .app{width:100%!important;max-width:100%!important;box-sizing:border-box!important}
+ .mu-mobile-master-home{width:100%!important;max-width:620px!important;box-sizing:border-box!important;overflow:visible!important}
+ .mu-mobile-master-home .mu-mm-journeys,
+ .mu-mobile-master-home .mu-mm-memory-grid{width:100%!important;max-width:100%!important}
+ .mu-mobile-master-home .mu-mm-journey-card,
+ .mu-mobile-master-home .mu-mm-memory-card{min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
+ .mu-mm-bottom-nav{left:12px!important;right:12px!important;width:auto!important;max-width:none!important;box-sizing:border-box!important}
+ .mu-mobile-master-home:after{height:190px!important}
+ #home.view.active{overflow:visible!important}
+}
