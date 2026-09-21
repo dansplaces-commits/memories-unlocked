@@ -370,3 +370,23 @@
  #home.view.active{padding-bottom:calc(120px + env(safe-area-inset-bottom))!important}
  .mu-mm-bottom-nav{z-index:10000!important}
 }
+
+/* Build 78 physical-phone acceptance: one painted photo surface, and fixed nav
+   reserves real document space rather than relying on nested padding. */
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-photo-surface{
+   position:absolute!important;inset:0!important;display:block!important;
+   width:100%!important;height:100%!important;background-repeat:no-repeat!important;
+   background-size:cover!important;background-color:transparent!important;z-index:1!important;
+ }
+ .mu-mobile-master-home .mu-mm-direct-photo,
+ .mu-mobile-master-home .mu-mm-inline-fallback{display:none!important}
+ .mu-mobile-master-home:after{
+   content:""!important;display:block!important;width:100%!important;
+   height:150px!important;clear:both!important;pointer-events:none!important;
+ }
+ #home.view.active:after{
+   content:""!important;display:block!important;width:100%!important;
+   height:110px!important;pointer-events:none!important;
+ }
+}
