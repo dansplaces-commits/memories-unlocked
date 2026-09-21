@@ -347,3 +347,26 @@
  }
  .mu-mm-bottom-nav .mu-mm-plus{opacity:1!important}
 }
+
+
+/* Build 76 physical Android acceptance lock.
+   Direct image element owns the photo geometry; Home owns its bottom scroll clearance. */
+@media(max-width:700px){
+ .mu-mobile-master-home .mu-mm-cover,
+ .mu-mobile-master-home .mu-mm-memory-photo{position:relative!important;overflow:hidden!important;background:#efe3c8!important}
+ .mu-mobile-master-home .mu-mm-cover:before,
+ .mu-mobile-master-home .mu-mm-cover:after,
+ .mu-mobile-master-home .mu-mm-memory-photo:before,
+ .mu-mobile-master-home .mu-mm-memory-photo:after{content:none!important;display:none!important}
+ .mu-mobile-master-home .mu-mm-direct-photo{
+   position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+   max-width:none!important;max-height:none!important;object-fit:cover!important;object-position:center!important;
+   margin:0!important;padding:0!important;border:0!important;background:transparent!important;z-index:1!important;
+ }
+ .mu-mobile-master-home .mu-mm-cover>i{z-index:3!important}
+ .mu-mobile-master-home{padding-bottom:190px!important}
+ .mu-mobile-master-home .mu-mm-memories{padding-bottom:36px!important;margin-bottom:0!important}
+ .mu-mobile-master-home .mu-mm-memory-grid{margin-bottom:0!important}
+ #home.view.active{padding-bottom:calc(120px + env(safe-area-inset-bottom))!important}
+ .mu-mm-bottom-nav{z-index:10000!important}
+}
