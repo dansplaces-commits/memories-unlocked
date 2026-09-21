@@ -67,3 +67,39 @@
   text-overflow:ellipsis!important;
 }
 }
+
+/* Physical-phone final acceptance fix — 2026-09-21.
+   Preserve approved Home design; fix media seams and reserve scroll space above Android nav. */
+@media(max-width:700px){
+  body.mu-mobile-master{padding-bottom:calc(96px + env(safe-area-inset-bottom))!important}
+  body.mu-mobile-master .app{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
+  .mu-mobile-master-home{padding-bottom:calc(96px + env(safe-area-inset-bottom))!important}
+  .mu-mobile-master-home .mu-mm-list:last-child,
+  .mu-mobile-master-home .mu-mm-memory-grid{margin-bottom:18px!important}
+
+  .mu-mobile-master-home .mu-mm-cover,
+  .mu-mobile-master-home .mu-mm-memory-photo,
+  .mu-mobile-master-home .mu-mm-inline-fallback{
+    background:transparent!important;
+    border:0!important;
+  }
+  .mu-mobile-master-home .mu-mm-cover>.mu-mm-inline-fallback,
+  .mu-mobile-master-home .mu-mm-memory-photo>.mu-mm-inline-fallback{
+    position:absolute!important;inset:-1px!important;
+    width:calc(100% + 2px)!important;height:calc(100% + 2px)!important;
+    overflow:hidden!important;
+  }
+  .mu-mobile-master-home .mu-mm-inline-fallback>img,
+  .mu-mobile-master-home img.mu-release-img{
+    position:absolute!important;inset:-1px!important;
+    width:calc(100% + 2px)!important;height:calc(100% + 2px)!important;
+    object-fit:cover!important;object-position:center!important;
+    display:block!important;margin:0!important;padding:0!important;border:0!important;
+  }
+  .mu-mobile-master-home .mu-mm-cover:after{
+    background:linear-gradient(180deg,transparent 62%,rgba(8,31,57,.18))!important;
+  }
+  .mu-mm-bottom-nav{
+    bottom:max(8px,env(safe-area-inset-bottom))!important;
+  }
+}
