@@ -152,3 +152,12 @@ test('memory story stays optional in both app and cloud schema',()=>{
   assert.match(migration,/check \(char_length\(story\) <= 10000\)/i);
   assert.doesNotMatch(migration,/char_length\(btrim\(story\)\) >= 1/i);
 });
+
+test('photo preview avoids Base64 memory inflation on phones',()=>{
+  const media=source('media.js');
+  assert.match(media,/URL\.createObjectURL\(selected\)/);
+  assert.match(media,/URL\.revokeObjectURL\(previewUrl\)/);
+  assert.doesNotMatch(media,/readAsDataURL\(/);
+  const storageMigration=source('supabase/20260916_media_storage.sql');
+  assert.match(storageMigration,/26214400/);
+});
