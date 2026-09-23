@@ -130,8 +130,8 @@ function renderVegasIntel(modal,ctx,data){
   const spotsCopy=topSpots.length?`From ${topSpots.join(', ')} and more.`:'From the Strip to hidden gems, discover must-see places across Las Vegas.';
   const foodCopy=food.length?`Local favourites include ${food.join(', ')}.`:'Food, neighbourhoods, day trips and local highlights beyond the Strip.';
   host.innerHTML=`
-    <section class="mu-vegas-discover">
-      <div class="mu-vegas-hero" ${hero?`style="--vegas-live-image:url('${esc(hero)}')"`:''}>
+    <section class="mu-vegas-discover" ${hero?`style="--vegas-live-image:url('${esc(hero)}')"`:''}>
+      <div class="mu-vegas-hero">
         <div class="mu-vegas-hero-shade"></div>
         <span class="mu-vegas-count">1 / 5</span>
         ${muVegasBadge('hero')}
