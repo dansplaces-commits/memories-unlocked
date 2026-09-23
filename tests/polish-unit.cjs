@@ -161,3 +161,14 @@ test('photo preview avoids Base64 memory inflation on phones',()=>{
   const storageMigration=source('supabase/20260916_media_storage.sql');
   assert.match(storageMigration,/26214400/);
 });
+
+
+test('mobile Home keeps scenic fallback and signed cloud photos visible',()=>{
+  const mobile=source('mobile-master-v1.js');
+  const fixes=source('mobile-master-v1-fixes.css');
+  assert.match(mobile,/function paintPhotoSurface\(/);
+  assert.match(mobile,/class="mu-mm-photo-surface"/);
+  assert.match(mobile,/paintPhotoSurface\(el,u,'linear-gradient/);
+  assert.match(fixes,/2026-09-23 scenic photo visibility lock/);
+  assert.match(fixes,/\.mu-mm-photo-surface\{[\s\S]*opacity:1!important[\s\S]*visibility:visible!important/);
+});
