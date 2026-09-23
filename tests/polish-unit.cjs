@@ -192,3 +192,17 @@ test('mobile journey detail balances compact hero with larger saved photo',()=>{
   assert.match(fixes,/\.journey-detail \.journey-detail-hero\{[\s\S]*padding-bottom:14px!important/);
   assert.match(fixes,/\.journey-detail \.journey-detail-hero h2\{[\s\S]*font-size:32px!important/);
 });
+
+
+test('Las Vegas Discover uses the approved premium master layout',()=>{
+  const js=source('place-intelligence.js');
+  const css=source('place-intelligence.css');
+  assert.match(js,/function muIsLasVegasContext\(/);
+  assert.match(js,/muVegasBadge\('hero'\)/);
+  assert.match(js,/Best time to visit/);
+  assert.match(js,/Best Memories to Make/);
+  assert.match(css,/2026-09-23 Las Vegas Discover master/);
+  assert.match(css,/\.mu-vegas-hero\{/);
+  assert.match(css,/\.mu-vegas-grid\{/);
+  assert.match(css,/\.mu-vegas-card\{/);
+});
