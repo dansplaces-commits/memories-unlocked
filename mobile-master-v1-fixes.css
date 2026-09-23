@@ -567,3 +567,11 @@
     text-shadow:none!important;
   }
 }
+
+
+/* 2026-09-23 mobile journey photo breathing room */
+@media(max-width:700px){
+  .journey-detail .story-photo-media.has-photo{
+    min-height:315px!important;
+  }
+}
