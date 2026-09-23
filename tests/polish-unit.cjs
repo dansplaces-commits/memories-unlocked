@@ -182,3 +182,13 @@ test('mobile detail sheets scroll above fixed nav and respect safe areas',()=>{
   assert.match(fixes,/padding-bottom:calc\(120px \+ env\(safe-area-inset-bottom\)\)!important/);
   assert.match(fixes,/padding-top:calc\(28px \+ env\(safe-area-inset-top\)\)!important/);
 });
+
+
+test('mobile journey detail balances compact hero with larger saved photo',()=>{
+  const fixes=source('mobile-master-v1-fixes.css');
+  assert.match(fixes,/mobile journey photo breathing room/);
+  assert.match(fixes,/\.journey-detail \.story-photo-media\.has-photo\{[\s\S]*min-height:315px!important/);
+  assert.match(fixes,/mobile journey hero balance/);
+  assert.match(fixes,/\.journey-detail \.journey-detail-hero\{[\s\S]*padding-bottom:14px!important/);
+  assert.match(fixes,/\.journey-detail \.journey-detail-hero h2\{[\s\S]*font-size:32px!important/);
+});
