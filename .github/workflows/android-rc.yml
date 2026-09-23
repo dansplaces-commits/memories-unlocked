@@ -12,6 +12,7 @@ on:
       - "package.json"
       - "capacitor.config.json"
       - "scripts/**"
+      - "tests/**"
       - "*.html"
       - "*.css"
       - "*.js"
