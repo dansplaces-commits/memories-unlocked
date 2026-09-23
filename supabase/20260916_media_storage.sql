@@ -12,7 +12,7 @@ values (
   'memory-media',
   'memory-media',
   false,
-  8388608,
+  26214400,
   array['image/jpeg','image/png','image/webp']
 )
 on conflict (id) do update set
