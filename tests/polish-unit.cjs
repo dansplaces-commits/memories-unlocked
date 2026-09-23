@@ -144,3 +144,11 @@ test('runtime loader skips scripts already declared by the page',()=>{
   assert.ok(!paths.includes('mobile-master-v1.js'),'mobile master must not load twice');
   assert.ok(!paths.includes('mobile-boot-release.js'),'mobile boot must not load twice');
 });
+
+test('memory story stays optional in both app and cloud schema',()=>{
+  const app=source('app.js');
+  assert.match(app,/if\(!title\|\|!location\|\|!findJourney\(journeyId\)\)/);
+  const migration=source('supabase/20260923_allow_empty_memory_story.sql');
+  assert.match(migration,/check \(char_length\(story\) <= 10000\)/i);
+  assert.doesNotMatch(migration,/char_length\(btrim\(story\)\) >= 1/i);
+});
