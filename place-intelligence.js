@@ -95,7 +95,88 @@ function placeFactsMarkup(primary){
   const facts=placeSentenceFacts(primary?.extract||'');if(!facts.length)return'<p class="place-muted">A short history was not available for this exact point yet.</p>';
   return `<div class="place-facts">${facts.map((fact,i)=>`<div><span>${String(i+1).padStart(2,'0')}</span><p>${esc(fact)}</p></div>`).join('')}</div>`;
 }
+
+function muIsLasVegasContext(ctx){
+  const label=[ctx?.label,ctx?.record?.location,ctx?.record?.title].filter(Boolean).join(' ');
+  return /\blas\s+vegas\b/i.test(label);
+}
+function muVegasBadge(size='hero'){
+  return `<div class="mu-vegas-badge mu-vegas-badge-${size}" aria-label="Welcome to Fabulous Las Vegas badge">
+    <span class="mu-vegas-star">✦</span>
+    <span class="mu-vegas-welcome">WELCOME</span>
+    <span class="mu-vegas-fabulous">to Fabulous</span>
+    <strong>LAS VEGAS</strong>
+    <small>NEVADA</small>
+    <span class="mu-vegas-palms">♢ ✦ ♢</span>
+  </div>`;
+}
+function muVegasTopNames(items,count=3){
+  return (items||[]).slice(0,count).map(item=>item?.name).filter(Boolean);
+}
+function muVegasCard(title,copy,cta,kind,photo='strip'){
+  return `<button type="button" class="mu-vegas-card mu-vegas-card-${photo}" data-vegas-card="${kind}">
+    <span class="mu-vegas-card-copy"><strong>${esc(title)}</strong><small>${esc(copy)}</small><b>${esc(cta)} <span>›</span></b></span>
+  </button>`;
+}
+function renderVegasIntel(modal,ctx,data){
+  const host=modal.querySelector('#placeIntelBody');if(!host)return;
+  modal.classList.add('vegas-discover-modal');
+  const wiki=data.wiki||{},primary=wiki.primary,nearby=data.nearby||{explore:[],food:[],stay:[]};
+  const hero=primary?.thumbnail?.source||'';
+  const topSpots=muVegasTopNames(nearby.explore,3);
+  const food=muVegasTopNames(nearby.food,3);
+  const source=primary?.fullurl||(primary?.pageid?`https://en.wikipedia.org/?curid=${primary.pageid}`:'');
+  const whyCopy=primary?.extract?String(primary.extract).replace(/\s+/g,' ').trim().slice(0,135):'Bright lights, landmark sights and unforgettable experiences make Las Vegas a place built for stories.';
+  const spotsCopy=topSpots.length?`From ${topSpots.join(', ')} and more.`:'From the Strip to hidden gems, discover must-see places across Las Vegas.';
+  const foodCopy=food.length?`Local favourites include ${food.join(', ')}.`:'Food, neighbourhoods, day trips and local highlights beyond the Strip.';
+  host.innerHTML=`
+    <section class="mu-vegas-discover">
+      <div class="mu-vegas-hero" ${hero?`style="--vegas-live-image:url('${esc(hero)}')"`:''}>
+        <div class="mu-vegas-hero-shade"></div>
+        <span class="mu-vegas-count">1 / 5</span>
+        ${muVegasBadge('hero')}
+      </div>
+      <section class="mu-vegas-title-block">
+        ${muVegasBadge('small')}
+        <div class="mu-vegas-title-copy">
+          <h2>Las Vegas</h2>
+          <p><span>●</span> NEVADA, USA</p>
+          <div class="mu-vegas-actions">
+            <button type="button" data-vegas-save aria-label="Save Las Vegas"><span>♡</span><small>Save</small></button>
+            <button type="button" data-vegas-share aria-label="Share Las Vegas"><span>↗</span><small>Share</small></button>
+          </div>
+          <p class="mu-vegas-intro">Bright lights, iconic sights and unforgettable moments — Las Vegas is a place where every journey becomes a story worth sharing.</p>
+        </div>
+      </section>
+      <section class="mu-vegas-facts">
+        <div><span>▣</span><small>Best time to visit</small><strong>Spring & autumn</strong></div>
+        <div><span>☀</span><small>Climate</small><strong>Desert sunshine</strong></div>
+        <div><span>▧</span><small>Iconic status</small><strong>World famous</strong></div>
+        <div><span>●</span><small>Location</small><strong>Nevada, USA</strong></div>
+      </section>
+      <section class="mu-vegas-grid">
+        ${muVegasCard('Why Visit',whyCopy,'Explore Reasons','story','fountains')}
+        ${muVegasCard('Top Spots',spotsCopy,'See Top Spots','spots','strip')}
+        ${muVegasCard('Best Memories to Make','Shows, skyline views, luxury stays and once-in-a-lifetime moments.','Start Your Journey','memories','lights')}
+        ${muVegasCard('Local Highlights',foodCopy,'Discover More','local','food')}
+      </section>
+      <section class="mu-vegas-more" data-vegas-more hidden>
+        <button type="button" class="mu-vegas-more-close" data-vegas-more-close>×</button>
+        <span class="eyebrow">DISCOVER LAS VEGAS</span>
+        <h3 data-vegas-more-title>Why Visit</h3>
+        <div data-vegas-more-body>
+          ${primary?.extract?`<p class="place-history">${esc(primary.extract)}</p>`:'<p class="place-muted">More Las Vegas details will appear here as live place information loads.</p>'}
+        </div>
+        ${source?`<p class="place-source">Place summary: Wikipedia · <a href="${esc(source)}" target="_blank" rel="noopener">read source ↗</a></p>`:''}
+      </section>
+    </section>`;
+  modal.dataset.vegasSource=source;
+  modal.dataset.vegasStory=primary?.extract||'';
+  modal.dataset.vegasSpots=JSON.stringify((nearby.explore||[]).slice(0,6));
+  modal.dataset.vegasFood=JSON.stringify((nearby.food||[]).slice(0,6));
+}
 function renderPlaceIntel(modal,ctx,data){
+  if(muIsLasVegasContext(ctx)){renderVegasIntel(modal,ctx,data);return;}
   const host=modal.querySelector('#placeIntelBody');if(!host)return;
   const wiki=data.wiki||{},primary=wiki.primary,nearby=data.nearby||{explore:[],food:[],stay:[]};
   const wikiUrl=primary?.fullurl||primary?.pageid?`https://en.wikipedia.org/?curid=${primary?.pageid}`:'';
@@ -142,6 +223,10 @@ function installPlaceHooks(){
 }
 installPlaceHooks();
 document.addEventListener('click',event=>{
+  const vegasShare=event.target.closest('[data-vegas-share]');if(vegasShare){event.preventDefault();const modal=vegasShare.closest('#placeIntelModal');const url=modal?.dataset.vegasSource||location.href;const share={title:'Memories Unlocked — Las Vegas',text:'Discover Las Vegas with Memories Unlocked.',url};if(navigator.share){navigator.share(share).catch(()=>{});}else if(navigator.clipboard){navigator.clipboard.writeText(url).then(()=>toast?.('Las Vegas link copied.')).catch(()=>{});}return;}
+  const vegasSave=event.target.closest('[data-vegas-save]');if(vegasSave){event.preventDefault();try{localStorage.setItem('mu_saved_discover_las_vegas','1');}catch{}vegasSave.classList.add('saved');vegasSave.querySelector('span').textContent='♥';toast?.('Las Vegas saved to Discover.');return;}
+  const vegasClose=event.target.closest('[data-vegas-more-close]');if(vegasClose){vegasClose.closest('[data-vegas-more]')?.setAttribute('hidden','');return;}
+  const vegasCard=event.target.closest('[data-vegas-card]');if(vegasCard){event.preventDefault();const modal=vegasCard.closest('#placeIntelModal'),panel=modal?.querySelector('[data-vegas-more]'),title=modal?.querySelector('[data-vegas-more-title]'),body=modal?.querySelector('[data-vegas-more-body]');if(!panel||!title||!body)return;const kind=vegasCard.dataset.vegasCard;let heading='Why Visit',html='';if(kind==='story'){heading='Why Visit';html=modal.dataset.vegasStory?`<p class="place-history">${esc(modal.dataset.vegasStory)}</p>`:'<p class="place-muted">Las Vegas is ready to discover.</p>';}else if(kind==='spots'){heading='Top Spots';let items=[];try{items=JSON.parse(modal.dataset.vegasSpots||'[]');}catch{}html=items.length?`<div class="mu-vegas-detail-list">${items.map(x=>`<div><strong>${esc(x.name)}</strong><small>${esc(x.type||'Place')} · ${esc(placeDistanceLabel(x.distance||0))}</small></div>`).join('')}</div>`:'<p class="place-muted">Nearby highlights are still loading.</p>';}else if(kind==='local'){heading='Local Highlights';let items=[];try{items=JSON.parse(modal.dataset.vegasFood||'[]');}catch{}html=items.length?`<div class="mu-vegas-detail-list">${items.map(x=>`<div><strong>${esc(x.name)}</strong><small>${esc(x.type||'Local stop')} · ${esc(placeDistanceLabel(x.distance||0))}</small></div>`).join('')}</div>`:'<p class="place-muted">Local highlights are still loading.</p>';}else{heading='Best Memories to Make';html='<div class="mu-vegas-memory-ideas"><span>🎭 A show you will talk about for years</span><span>🌆 A skyline photograph after dark</span><span>🍽 A meal worth remembering</span><span>🌄 A day trip beyond the Strip</span></div>';}title.textContent=heading;body.innerHTML=html;panel.removeAttribute('hidden');panel.scrollIntoView({behavior:'smooth',block:'start'});return;}
   const discover=event.target.closest('[data-place-intel]');if(discover){event.preventDefault();muOpenPlaceIntelligence(discover.dataset.placeIntel,discover.dataset.placeId);return;}
   const tab=event.target.closest('[data-place-tab]');if(tab){const modal=tab.closest('#placeIntelModal');modal?.querySelectorAll('[data-place-tab]').forEach(b=>b.classList.toggle('active',b===tab));modal?.querySelectorAll('[data-place-panel]').forEach(p=>p.classList.toggle('active',p.dataset.placePanel===tab.dataset.placeTab));return;}
   const add=event.target.closest('[data-place-add]');if(add){const suggestion=placeSuggestions.get(add.dataset.placeAdd);if(!suggestion)return;closeModal('placeIntelModal');addMemory(suggestion.journeyId);$('memoryTitle').value=suggestion.name;$('memoryLocation').value=suggestion.name;draftMemoryPoint={latitude:suggestion.latitude,longitude:suggestion.longitude};$('memoryLocationStatus').textContent=`✓ ${suggestion.name} added as a planned stop. Exact map position is ready to save.`;toast('Suggested place added to your journey form.');}
