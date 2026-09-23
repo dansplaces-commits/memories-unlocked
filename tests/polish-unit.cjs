@@ -172,3 +172,13 @@ test('mobile Home keeps scenic fallback and signed cloud photos visible',()=>{
   assert.match(fixes,/2026-09-23 scenic photo visibility lock/);
   assert.match(fixes,/\.mu-mm-photo-surface\{[\s\S]*opacity:1!important[\s\S]*visibility:visible!important/);
 });
+
+
+test('mobile detail sheets scroll above fixed nav and respect safe areas',()=>{
+  const fixes=source('mobile-master-v1-fixes.css');
+  assert.match(fixes,/mobile detail scroll \+ safe-area lock/);
+  assert.match(fixes,/\.journey-detail\.modal,[\s\S]*z-index:12000!important/);
+  assert.match(fixes,/\.journey-detail \.sheet,[\s\S]*height:100dvh!important[\s\S]*overflow-y:auto!important/);
+  assert.match(fixes,/padding-bottom:calc\(120px \+ env\(safe-area-inset-bottom\)\)!important/);
+  assert.match(fixes,/padding-top:calc\(28px \+ env\(safe-area-inset-top\)\)!important/);
+});
