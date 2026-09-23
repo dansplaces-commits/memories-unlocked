@@ -91,7 +91,8 @@ function muOpenPhotoPicker(kind,id){
       selected=null;message.textContent='This image could not be previewed. Try another file.';
     }
   });
-  modal.addEventListener('close',clearPreviewUrl,{once:true});
+  const previewCleanupObserver=new MutationObserver(()=>{if(!modal.isConnected){clearPreviewUrl();previewCleanupObserver.disconnect();}});
+  previewCleanupObserver.observe(document.body,{childList:true});
   saveButton.addEventListener('click',()=>{if(selected)muUploadPhoto(kind,id,selected,saveButton,message).finally(clearPreviewUrl);});
 }
 async function muUploadPhoto(kind,id,file,button,message){
