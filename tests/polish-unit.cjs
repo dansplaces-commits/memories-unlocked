@@ -122,3 +122,25 @@ test('late errors from an old layer cannot change a new selection; failed curren
 test('invalid saved styles use Street, including inherited object-property names',()=>{
   for(const saved of ['unknown','constructor','__proto__'])assert.equal(mapContext(saved).localStorage.getItem('mu_map_style_v1'),'street');
 });
+
+test('runtime loader skips scripts already declared by the page',()=>{
+  const appendedScripts=[];
+  const directScripts=['media.js?v=direct','mobile-master-v1.js?v=direct','mobile-boot-release.js?v=direct']
+    .map(src=>({getAttribute:name=>name==='src'?src:null}));
+  const document={
+    scripts:directScripts,
+    readyState:'complete',
+    getElementById(){return null;},
+    createElement(tag){return tag==='script'?{tag,getAttribute(){return null;}}:{tag};},
+    head:{appendChild(){}},
+    body:{appendChild(node){if(node.tag==='script')appendedScripts.push(node.src);}},
+    addEventListener(){}
+  };
+  const window={matchMedia:()=>({matches:false}),supabase:undefined};
+  vm.runInContext(source('supabase-config.js'),vm.createContext({window,document,console}));
+  const paths=appendedScripts.map(src=>String(src).split('?')[0]);
+  assert.ok(paths.includes('editing.js'),'dynamic-only scripts still load');
+  assert.ok(!paths.includes('media.js'),'media.js must not load twice');
+  assert.ok(!paths.includes('mobile-master-v1.js'),'mobile master must not load twice');
+  assert.ok(!paths.includes('mobile-boot-release.js'),'mobile boot must not load twice');
+});
