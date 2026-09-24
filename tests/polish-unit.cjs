@@ -244,3 +244,19 @@ test('all global Discover entry points ignore latest saved place',()=>{
   assert.match(hub,/\[data-home-discover-kind\],\[data-mu-tool="discover"\]/);
   assert.match(mobile,/if\(key==='discover'\).*muOpenDiscoverHub/);
 });
+
+
+test('premium Discover cosmetic pass keeps scenic hero and compact badges',()=>{
+  const hub=source('discover-destinations.js');
+  const css=source('discover-destinations.css');
+  assert.match(hub,/data-dest-wiki="Las Vegas Strip"/);
+  assert.match(hub,/imageWiki:'Colosseum'/);
+  assert.match(hub,/imageWiki:'Exuma'/);
+  assert.match(hub,/imageWiki:'Miami Beach, Florida'/);
+  assert.match(hub,/Discover\.<\/h2>/);
+  assert.match(css,/2026-09-24 premium Discover cosmetic lock/);
+  assert.match(css,/\.mu-dest-badge-card\{right:9px!important;top:9px!important;width:46px!important;height:46px!important/);
+  assert.match(css,/@media\(max-width:700px\)[\s\S]*\.mu-dest-badge-card\{width:40px!important;height:40px!important/);
+  assert.match(css,/\.mu-discover-hub-modal \.mu-discover-hero h2\{[\s\S]*color:#fff!important/);
+  assert.match(css,/var\(--dest-image/);
+});
