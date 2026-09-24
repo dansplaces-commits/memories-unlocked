@@ -3,7 +3,7 @@
 if(window.__muPremiumDiscover)return;window.__muPremiumDiscover=true;
 const escHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const STATIC={
-  hero:'https://commons.wikimedia.org/wiki/Special:FilePath/1%20Las%20vegas%20strip.jpg',
+  hero:'https://commons.wikimedia.org/wiki/Special:FilePath/Bellagio%20Fountains%20at%20night.jpg',
   why:'https://commons.wikimedia.org/wiki/Special:FilePath/Bellagio%20Fountains%20at%20night.jpg',
   spots:'https://commons.wikimedia.org/wiki/Special:FilePath/LasVegasRedRockCanyon.jpg',
   memories:'https://commons.wikimedia.org/wiki/Special:FilePath/The%20Fremont%20Street%20Experience.jpg',
