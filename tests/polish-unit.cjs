@@ -391,3 +391,18 @@ test('all Discover destinations use curated card imagery and five-image gallerie
   assert.match(css,/\.mu-dyn-stamp svg\{/);
   assert.match(css,/\.mu-dyn-card-icon svg\{/);
 });
+
+
+test('champagne Discover uses fine tuned cinematic photo sets',()=>{
+  const js=source('discover-exact.js');
+  const css=source('discover-exact.css');
+  assert.match(js,/Palace of Westminster at dusk from Westminster Bridge\.jpg/);
+  assert.match(js,/Tower Bridge golden hour\.jpg/);
+  assert.match(js,/Rome - Trevi fountain at night \(5188892083\)\.jpg/);
+  assert.match(js,/Swimming Pigs\.jpg/);
+  assert.match(js,/Ocean Drive NB past 7th Street Miami Beach at night\.jpeg/);
+  assert.match(js,/Paris Montmartre view of the Eiffel Tower at sunset 2026-01-03-1\.jpg/);
+  assert.match(js,/heroPos:/);
+  assert.match(css,/--dyn-hero-pos/);
+  assert.match(css,/2026-09-24 cinematic photography finish/);
+});
