@@ -355,3 +355,18 @@ test('exact Discover fills spare phone space without changing locked artwork',()
   assert.match(css,/\.mu-exact-nav-wrap\{margin-top:auto/);
   assert.match(css,/\.mu-exact-snapshot-grid\{/);
 });
+
+
+test('Discover destination cards switch the whole screen and remember the chosen home',()=>{
+  const js=source('discover-exact.js');
+  const css=source('discover-exact.css');
+  assert.match(js,/mu_discover_main_destination/);
+  assert.match(js,/function switchDestination\(id,remember=true\)/);
+  assert.match(js,/dynamicMarkup\(c\)/);
+  assert.match(js,/data-exact-dest=/);
+  assert.match(js,/window\.muOpenDiscoverDestination=id=>/);
+  assert.match(js,/memories-unlocked-discover-nav-clean\.png/);
+  assert.match(css,/2026-09-24 full destination switch template/);
+  assert.match(css,/\.mu-dyn-screen\{/);
+  assert.match(css,/\.mu-dyn-next-card\{/);
+});
