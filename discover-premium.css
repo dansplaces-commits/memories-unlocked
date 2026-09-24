@@ -1,5 +1,5 @@
 /* Memories Unlocked — premium Discover isolated screen */
-.mu-premium-discover-modal{z-index:13000!important;padding:0!important;align-items:stretch!important;background:#071d33!important}
+.mu-premium-discover-modal{z-index:9000!important;padding:0!important;align-items:stretch!important;background:#071d33!important}
 .mu-premium-discover-modal .sheet{width:100%!important;max-width:930px!important;height:100dvh!important;max-height:100dvh!important;margin:0 auto!important;padding:0!important;border:0!important;border-radius:0!important;overflow-y:auto!important;overflow-x:hidden!important;background:#fff8eb!important;box-shadow:none!important;-webkit-overflow-scrolling:touch!important}
 .mu-premium-discover-modal .sheet:before,.mu-premium-discover-modal>.sheet>.close{display:none!important;content:none!important}
 #muPremiumDiscoverRoot{min-height:100%;background:#fff8eb}
@@ -21,11 +21,11 @@
 @media(max-width:700px){
  .mu-premium-discover-modal .sheet{padding-bottom:calc(88px + env(safe-area-inset-bottom))!important}
  .mu-pd-topbar{height:64px;padding:env(safe-area-inset-top) 12px 0;box-sizing:content-box;grid-template-columns:52px 1fr 76px}.mu-pd-back{width:36px;height:36px;font-size:29px}.mu-pd-brand{font-size:18px;gap:6px}.mu-pd-brand b{font-size:8px;letter-spacing:1.6px}.mu-pd-lock{width:27px;height:27px;border-width:2px;font-size:14px}.mu-pd-topline{font-size:5.7px;letter-spacing:1px}
- .mu-pd-hero{height:465px;background-position:center}.mu-pd-hero-copy{left:20px;top:28px}.mu-pd-kicker{font-size:9px;letter-spacing:3px}.mu-pd-hero-copy h1{font-size:54px!important;margin-top:10px!important}.mu-pd-hero-copy p{font-size:14px}.mu-pd-hero-copy em{font-size:15px;margin-top:16px}.mu-pd-count{right:14px;top:15px;padding:8px 13px;font-size:10px}
- .mu-pd-vegas-badge{left:15px;bottom:17px;width:126px;height:98px}.mu-pd-actions{right:14px;bottom:21px;gap:8px}.mu-pd-actions button{width:54px;height:54px}.mu-pd-actions span{font-size:20px}.mu-pd-actions small{font-size:8px}
+ .mu-pd-hero{height:310px;background-position:center}.mu-pd-hero-copy{left:20px;top:28px}.mu-pd-kicker{font-size:9px;letter-spacing:3px}.mu-pd-hero-copy h1{font-size:54px!important;margin-top:10px!important}.mu-pd-hero-copy p{font-size:14px}.mu-pd-hero-copy em{font-size:15px;margin-top:16px}.mu-pd-count{right:14px;top:15px;padding:8px 13px;font-size:10px}
+ .mu-pd-vegas-badge{left:14px;bottom:14px;width:104px;height:82px}.mu-pd-actions{right:14px;bottom:21px;gap:8px}.mu-pd-actions button{width:54px;height:54px}.mu-pd-actions span{font-size:20px}.mu-pd-actions small{font-size:8px}
  .mu-pd-facts{margin:0 9px;border-radius:0 0 17px 17px}.mu-pd-facts>div{min-height:86px;padding:11px 7px;grid-template-columns:18px 1fr;column-gap:5px}.mu-pd-facts span{font-size:15px}.mu-pd-facts small{font-size:5.8px}.mu-pd-facts strong{font-size:8.6px;line-height:1.2}
  .mu-pd-grid{gap:9px;padding:16px 9px 13px}.mu-pd-editorial-card{min-height:180px;border-radius:16px}.mu-pd-card-icon{left:10px;bottom:67px;width:34px;height:34px;font-size:16px}.mu-pd-card-copy{left:11px;right:45px;bottom:10px}.mu-pd-card-copy strong{font-size:17px}.mu-pd-card-copy small{font-size:8.5px;margin-top:4px}.mu-pd-card-arrow{right:9px;bottom:11px;width:32px;height:32px;font-size:22px}
  .mu-pd-next{padding:9px 10px 17px}.mu-pd-next-head h2{font-size:28px!important}.mu-pd-next-head button{font-size:6.5px}.mu-pd-next-card{flex-basis:128px;height:163px}.mu-pd-dest-badge{width:43px;height:43px}.mu-pd-dest-badge b{max-width:35px;font-size:5.6px}.mu-pd-next-copy strong{font-size:15px}.mu-pd-next-copy small{font-size:8px}
- .mu-pd-bottom-pad{height:20px}
+ .mu-pd-bottom-pad{height:100px}
 }
-@media(max-width:390px){.mu-pd-hero{height:440px}.mu-pd-hero-copy h1{font-size:49px!important}.mu-pd-editorial-card{min-height:170px}.mu-pd-next-card{flex-basis:120px;height:155px}}
+@media(max-width:390px){.mu-pd-hero{height:300px}.mu-pd-hero-copy h1{font-size:49px!important}.mu-pd-editorial-card{min-height:150px}.mu-pd-next-card{flex-basis:118px;height:142px}}
