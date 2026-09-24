@@ -227,7 +227,7 @@ test('curated Discover is independent of saved travel and uses smaller iconic ba
 
 test('standalone Las Vegas Discover opens without requiring a saved journey',()=>{
   const js=source('place-intelligence.js');
-  assert.match(js,/window\.muOpenVegasDiscover=async function/);
+  assert.match(js,/window\\.muOpenLegacyVegasDiscover=async function/);
   assert.match(js,/latitude:36\.1699,longitude:-115\.1398/);
   assert.match(js,/renderVegasIntel\(modal,ctx,data\)/);
 });
@@ -278,4 +278,19 @@ test('Discover lands on featured Las Vegas before destination browsing',()=>{
   assert.match(css,/2026-09-24 featured Discover landing lock/);
   assert.match(css,/--vegas-card-image/);
   assert.match(css,/\.mu-vegas-next-track/);
+});
+
+
+test('premium Discover uses fixed curated visuals and isolated layout',()=>{
+  const js=source('discover-premium.js');
+  const css=source('discover-premium.css');
+  assert.match(js,/const STATIC=\{/);
+  assert.match(js,/Bellagio%20Fountains%20at%20night\.jpg/);
+  assert.match(js,/assets\/bahamas-escape\.jpg/);
+  assert.doesNotMatch(js,/wikiThumb/);
+  assert.doesNotMatch(js,/commonsThumb/);
+  assert.match(js,/window\.muOpenVegasDiscover=modal/);
+  assert.match(css,/\.mu-premium-discover-modal\{z-index:9000!important/);
+  assert.match(css,/@media\(max-width:700px\)[\s\S]*\.mu-pd-hero\{height:310px/);
+  assert.match(css,/\.mu-pd-bottom-pad\{height:100px/);
 });
