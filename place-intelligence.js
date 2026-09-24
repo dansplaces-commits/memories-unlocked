@@ -226,7 +226,7 @@ function renderPlaceIntel(modal,ctx,data){
       <p class="place-source">Accommodation locations: OpenStreetMap contributors via Overpass.</p>
     </section>`;
 }
-window.muOpenVegasDiscover=async function(){
+window.muOpenLegacyVegasDiscover=async function(){
   const modal=mountDialog('placeIntelModal',`<button class="close" type="button" onclick="closeModal('placeIntelModal')">×</button><div id="placeIntelBody"><div class="place-intel-loading"><span>✦</span><h2>Discovering Las Vegas…</h2><p>Loading the iconic places behind the bright lights.</p></div></div>`,'place-intel-modal vegas-discover-modal');
   const ctx={kind:'discover',id:'las-vegas',label:'Las Vegas, Nevada, USA',record:{title:'Las Vegas',location:'Las Vegas, Nevada, USA'},latitude:36.1699,longitude:-115.1398,journeyId:null};
   try{const [intel,images]=await Promise.all([loadPlaceIntelligence(ctx),fetchVegasEditorialImages().catch(()=>({}))]);intel.vegasImages=images;if(modal.isConnected)renderVegasIntel(modal,ctx,intel);}
