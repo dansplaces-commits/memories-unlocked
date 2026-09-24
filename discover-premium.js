@@ -2,7 +2,19 @@
 (function(){
 if(window.__muPremiumDiscover)return;window.__muPremiumDiscover=true;
 const escHtml=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const HERO_FILE='File:Las Vegas Strip (53501962368).jpg';
+const STATIC={
+  hero:'https://commons.wikimedia.org/wiki/Special:FilePath/1%20Las%20vegas%20strip.jpg',
+  why:'https://commons.wikimedia.org/wiki/Special:FilePath/Bellagio%20Fountains%20at%20night.jpg',
+  spots:'https://commons.wikimedia.org/wiki/Special:FilePath/LasVegasRedRockCanyon.jpg',
+  memories:'https://commons.wikimedia.org/wiki/Special:FilePath/The%20Fremont%20Street%20Experience.jpg',
+  local:'https://commons.wikimedia.org/wiki/Special:FilePath/Bellagio%20fountains%20night.jpg',
+  rome:'https://commons.wikimedia.org/wiki/Special:FilePath/Colosseum%20%28Rome%29.jpg',
+  bahamas:'assets/bahamas-escape.jpg',
+  miami:'https://commons.wikimedia.org/wiki/Special:FilePath/Miami%20Beach%20Art%20Deco.jpg',
+  london:'https://commons.wikimedia.org/wiki/Special:FilePath/Big%20Ben%20and%20the%20Palace%20of%20Westminster.jpg',
+  paris:'https://commons.wikimedia.org/wiki/Special:FilePath/Eiffel%20Tower%20at%20sunset.jpg'
+};
+
 const DESTS=[
  ['rome','Rome','Italy','Colosseum','ROME'],
  ['bahamas','Bahamas','Caribbean','Exuma','BAHAMAS'],
@@ -28,29 +40,11 @@ function vegasBadge(){
  </span>`;
 }
 function destBadge(label){return `<span class="mu-pd-dest-badge"><b>${escHtml(label)}</b></span>`;}
-async function wikiThumb(title,size=1200){
- try{
-  const u='https://en.wikipedia.org/w/api.php?'+new URLSearchParams({action:'query',titles:title,prop:'pageimages',piprop:'thumbnail',pithumbsize:String(size),format:'json',origin:'*'});
-  const r=await fetch(u);if(!r.ok)return'';const j=await r.json();return Object.values(j.query?.pages||{})[0]?.thumbnail?.source||'';
- }catch{return''}
-}
-async function commonsThumb(file,size=1600){
- try{
-  const u='https://commons.wikimedia.org/w/api.php?'+new URLSearchParams({action:'query',titles:file,prop:'imageinfo',iiprop:'url',iiurlwidth:String(size),format:'json',origin:'*'});
-  const r=await fetch(u);if(!r.ok)return'';const j=await r.json();const p=Object.values(j.query?.pages||{})[0];return p?.imageinfo?.[0]?.thumburl||p?.imageinfo?.[0]?.url||'';
- }catch{return''}
-}
-async function hydrate(root){
- const hero=await commonsThumb(HERO_FILE,1600);
- if(hero&&root.isConnected)root.style.setProperty('--pd-hero',`url("${hero.replace(/"/g,'%22')}")`);
- const jobs=[
-  ['[data-pd-card="why"]','Fountains of Bellagio'],
-  ['[data-pd-card="spots"]','Red Rock Canyon National Conservation Area'],
-  ['[data-pd-card="memories"]','Fremont Street Experience'],
-  ['[data-pd-card="local"]','Las Vegas Strip']
- ];
- await Promise.all(jobs.map(async([sel,title])=>{const el=root.querySelector(sel),src=await wikiThumb(title);if(el&&src)el.style.setProperty('--pd-card-img',`url("${src.replace(/"/g,'%22')}")`);}));
- await Promise.all(DESTS.map(async d=>{const el=root.querySelector(`[data-pd-dest="${d[0]}"]`),src=await wikiThumb(d[3],900);if(el&&src)el.style.setProperty('--pd-dest-img',`url("${src.replace(/"/g,'%22')}")`);}));
+function hydrate(root){
+  root.style.setProperty('--pd-hero',`url("${STATIC.hero}")`);
+  const cards={why:STATIC.why,spots:STATIC.spots,memories:STATIC.memories,local:STATIC.local};
+  Object.entries(cards).forEach(([k,src])=>root.querySelector(`[data-pd-card="${k}"]`)?.style.setProperty('--pd-card-img',`url("${src}")`));
+  DESTS.forEach(d=>root.querySelector(`[data-pd-dest="${d[0]}"]`)?.style.setProperty('--pd-dest-img',`url("${STATIC[d[0]]}")`));
 }
 function fact(icon,k,v){return `<div><span>${icon}</span><small>${k}</small><strong>${v}</strong></div>`;}
 function editorialCard(kind,title,copy,icon){
