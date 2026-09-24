@@ -5,6 +5,7 @@ if(window.__muExactDiscover)return;window.__muExactDiscover=true;
 const MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memories-unlocked-discover-las-vegas-content-master-v2.png?v=1790275439';
 const HEADER_MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memories-unlocked-discover-header-master.png?v=1790276193';
 const NAV_MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memories-unlocked-discover-nav-clean.png?v=1790276097';
+const C=(file,width=1600)=>`https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=${width}`;
 
 const VEGAS_GALLERY=[
  {src:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Front_of_the_Bellagio_at_night.jpg?width=1400',title:'Bellagio after dark',copy:'Las Vegas comes alive after sunset — lights, water and the Strip in full glow.'},
@@ -26,7 +27,9 @@ const CONFIG={
   }
  },
  rome:{
-  id:'rome',name:'Rome',location:'Italy',hero:'https://commons.wikimedia.org/wiki/Special:FilePath/Colosseum%20%28Rome%29.jpg',count:'1 / 1',badge:'ROME',tagline:['Ancient places.','Timeless stories.','Your next chapter.'],
+  id:'rome',name:'Rome',location:'Italy',hero:C('Colosseum at sunset-Rome.JPG'),count:'1 / 5',badge:'ROME',tagline:['Ancient places.','Timeless stories.','Your next chapter.'],
+  images:{why:C('Sunset over Roman Forum (45485877135).jpg'),spots:C('Trevi fountain (Rome) at night.jpg'),memories:C("Night view - St Peter's basilica and Ponte Vittorio Emmanuele II. Rome, Italy.jpg"),local:C('Trastevere street, Rome, Italy.jpg')},
+  gallery:[['Colosseum at sunset-Rome.JPG','Colosseum at sunset'],['Sunset over Roman Forum (45485877135).jpg','Roman Forum at golden hour'],['Trevi fountain (Rome) at night.jpg','Trevi Fountain after dark'],["Night view - St Peter's basilica and Ponte Vittorio Emmanuele II. Rome, Italy.jpg",'St Peter’s by night'],['Trastevere street, Rome, Italy.jpg','Trastevere streets']],
   facts:[['✈','Best time to visit','Apr – Jun · Sep – Oct'],['☀','Climate','Warm summers · Mild winters'],['◉','Iconic status','Historic & Cultural'],['●','Location','Rome, Italy']],
   snapshot:{best:'History · Food · Culture',stay:'3–5 days',vibe:'Timeless · Romantic · Walkable',tip:'Start early for the headline sights, then leave space for slow piazza evenings.'},
   sections:{
@@ -37,7 +40,9 @@ const CONFIG={
   }
  },
  bahamas:{
-  id:'bahamas',name:'Bahamas',location:'Caribbean',hero:'assets/bahamas-escape.jpg',count:'1 / 1',badge:'BAHAMAS',tagline:['Turquoise waters.','Island stories.','Your next chapter.'],
+  id:'bahamas',name:'Bahamas',location:'Caribbean',hero:C('Bahamas 1989 (547) Exuma (24719903834).jpg'),count:'1 / 5',badge:'BAHAMAS',tagline:['Turquoise waters.','Island stories.','Your next chapter.'],
+  images:{why:C('Beaches in Nassau, Bahamas.jpg'),spots:C('Nassau-Harbour-Cruise-Ships-Aerial-Bahamas.jpg'),memories:C('The Bahamas (iss069e033721).jpg'),local:C('Conch delle bahamas impanate.jpg')},
+  gallery:[['Bahamas 1989 (547) Exuma (24719903834).jpg','Exuma waters'],['Beaches in Nassau, Bahamas.jpg','Nassau beach'],['The Bahamas (iss069e033721).jpg','The Exumas from above'],['Nassau-Harbour-Cruise-Ships-Aerial-Bahamas.jpg','Nassau Harbour'],['Prince George Wharf in Nassau Harbor.jpg','Harbour life']],
   facts:[['✈','Best time to visit','Dec – Apr'],['☀','Climate','Warm & sunny · All year'],['◉','Iconic status','Island Paradise'],['●','Location','Bahamas, Caribbean']],
   snapshot:{best:'Sea · Relaxation · Adventure',stay:'5–7 days',vibe:'Tropical · Calm · Unforgettable',tip:'Leave room for a boat day — many of the best memories happen away from the main island.'},
   sections:{
@@ -48,7 +53,9 @@ const CONFIG={
   }
  },
  miami:{
-  id:'miami',name:'Miami',location:'Florida, USA',hero:'https://commons.wikimedia.org/wiki/Special:FilePath/Miami%20Beach%20Art%20Deco.jpg',count:'1 / 1',badge:'MIAMI',tagline:['Sunshine days.','Vibrant nights.','Your next chapter.'],
+  id:'miami',name:'Miami',location:'Florida, USA',hero:C('Ocean Drive at Night (2).jpg'),count:'1 / 5',badge:'MIAMI',tagline:['Sunshine days.','Vibrant nights.','Your next chapter.'],
+  images:{why:C('Ocean Drive in the Miami Beach Art Deco Historic District.jpg'),spots:C('Miami Beach - Ocean Drive and Lummus Park.jpg'),memories:C('Ocean Drive NB past 10th Street Miami Beach at night.jpeg'),local:C('Little Havana House.jpg')},
+  gallery:[['Ocean Drive at Night (2).jpg','Ocean Drive after dark'],['Ocean Drive in the Miami Beach Art Deco Historic District.jpg','Art Deco Miami'],['Miami Beach - Ocean Drive and Lummus Park.jpg','South Beach'],['Ocean Drive NB past 10th Street Miami Beach at night.jpeg','Neon Ocean Drive'],['Little Havana House.jpg','Little Havana']],
   facts:[['✈','Best time to visit','Nov – Apr'],['☀','Climate','Hot & sunny · Year-round'],['◉','Iconic status','Vibrant City'],['●','Location','Florida, USA']],
   snapshot:{best:'Beach · Food · Culture',stay:'3–5 days',vibe:'Colourful · Energetic · Coastal',tip:'Treat Miami as several neighbourhoods, not one beach — South Beach is only the start.'},
   sections:{
@@ -59,7 +66,9 @@ const CONFIG={
   }
  },
  london:{
-  id:'london',name:'London',location:'UK',hero:'https://commons.wikimedia.org/wiki/Special:FilePath/Big%20Ben%20and%20the%20Palace%20of%20Westminster.jpg',count:'1 / 1',badge:'LONDON',tagline:['Iconic landmarks.','Incredible stories.','Your next chapter.'],
+  id:'london',name:'London',location:'UK',hero:C('Palace of Westminster at sunset 2026-09-05.jpg'),count:'1 / 5',badge:'LONDON',tagline:['Iconic landmarks.','Incredible stories.','Your next chapter.'],
+  images:{why:C('Tower Bridge at Night.JPG'),spots:C('London - Borough Market.jpg'),memories:C('Palace of Westminster at dusk from Westminster Bridge.jpg'),local:C('TowerBridge at night.jpg')},
+  gallery:[['Palace of Westminster at sunset 2026-09-05.jpg','Westminster at sunset'],['Tower Bridge at Night.JPG','Tower Bridge at night'],['London - Borough Market.jpg','Borough Market'],['Palace of Westminster at dusk from Westminster Bridge.jpg','Westminster at dusk'],['Tower Bridge Nacht.JPG','London after dark']],
   facts:[['✈','Best time to visit','Apr – Jun · Sep – Oct'],['☀','Climate','Mild summers · Cool winters'],['◉','Iconic status','World Famous'],['●','Location','London, UK']],
   snapshot:{best:'History · Culture · Food',stay:'3–5 days',vibe:'Iconic · Layered · Always changing',tip:'Plan by neighbourhood and Tube line — crossing London repeatedly can eat into a day.'},
   sections:{
@@ -70,7 +79,9 @@ const CONFIG={
   }
  },
  paris:{
-  id:'paris',name:'Paris',location:'France',hero:'https://commons.wikimedia.org/wiki/Special:FilePath/Eiffel%20Tower%20at%20sunset.jpg',count:'1 / 1',badge:'PARIS',tagline:['Romance. Culture.','Iconic sights.','Your next chapter.'],
+  id:'paris',name:'Paris',location:'France',hero:C('Eiffel Tower sunset, Paris (9249818803).jpg'),count:'1 / 5',badge:'PARIS',tagline:['Romance. Culture.','Iconic sights.','Your next chapter.'],
+  images:{why:C('Montmartre @ Paris (33384906184).jpg'),spots:C('The Louvre, Paris, France, between ca. 1890 and ca. 1900.jpg'),memories:C('Eiffel Tower at sunset.jpg'),local:C('Paris cafe in Ile de la Cite, 2010.jpg')},
+  gallery:[['Eiffel Tower sunset, Paris (9249818803).jpg','Eiffel Tower at sunset'],['Montmartre @ Paris (33384906184).jpg','Montmartre'],['Paris at sunset, view from the Eiffel Tower.jpg','Paris from above'],['Paris cafe in Ile de la Cite, 2010.jpg','Paris café life'],['Atardecer en Paris.jpg','Paris at golden hour']],
   facts:[['✈','Best time to visit','Apr – Jun · Sep – Oct'],['☀','Climate','Warm summers · Cool winters'],['◉','Iconic status','Cultural Icon'],['●','Location','Paris, France']],
   snapshot:{best:'Art · Food · Romance',stay:'3–5 days',vibe:'Elegant · Historic · Atmospheric',tip:'Leave one afternoon completely unplanned — Paris is especially good when you wander.'},
   sections:{
