@@ -238,27 +238,33 @@ function infoLayer(data){
 }
 
 let galleryIndex=0;
+function currentGallery(){
+ if(currentId==='vegas')return VEGAS_GALLERY;
+ const c=CONFIG[currentId];
+ return (c?.gallery||[]).map(([file,title])=>({src:C(file),title,copy:`${title} — one of the places that gives ${c.name} its character.`}));
+}
 function galleryLayer(index=0){
- if(currentId!=='vegas'){window.toast?.(`${CONFIG[currentId].name} gallery is the next polish pass.`);return;}
+ const gallery=currentGallery();if(!gallery.length)return;
  const modal=exactModal();if(!modal)return;
- clearOverlay();galleryIndex=(index+VEGAS_GALLERY.length)%VEGAS_GALLERY.length;
+ clearOverlay();galleryIndex=(index+gallery.length)%gallery.length;
+ const c=CONFIG[currentId];
  const layer=document.createElement('div');layer.className='mu-exact-layer mu-exact-gallery-layer open';
  layer.innerHTML=`<section class="mu-exact-gallery-shell">
-  <div class="mu-exact-gallery-top"><button type="button" data-exact-close-layer aria-label="Back">‹</button><span>LAS VEGAS · PHOTO STORY</span><b data-gallery-counter></b></div>
+  <div class="mu-exact-gallery-top"><button type="button" data-exact-close-layer aria-label="Back">‹</button><span>${c.name.toUpperCase()} · PHOTO STORY</span><b data-gallery-counter></b></div>
   <div class="mu-exact-gallery-media" data-gallery-swipe><img data-gallery-image alt=""><button type="button" class="mu-exact-gallery-prev" data-gallery-prev aria-label="Previous photo">‹</button><button type="button" class="mu-exact-gallery-next" data-gallery-next aria-label="Next photo">›</button></div>
-  <div class="mu-exact-gallery-copy"><small>DISCOVER</small><h2 data-gallery-title></h2><p data-gallery-copy></p><div class="mu-exact-gallery-dots">${VEGAS_GALLERY.map((_,i)=>`<button type="button" data-gallery-dot="${i}" aria-label="Photo ${i+1}"></button>`).join('')}</div></div>
+  <div class="mu-exact-gallery-copy"><small>DISCOVER</small><h2 data-gallery-title></h2><p data-gallery-copy></p><div class="mu-exact-gallery-dots">${gallery.map((_,i)=>`<button type="button" data-gallery-dot="${i}" aria-label="Photo ${i+1}"></button>`).join('')}</div></div>
  </section>`;
  modal.append(layer);renderGallery();
 }
 function renderGallery(){
  const layer=exactModal()?.querySelector('.mu-exact-gallery-layer');if(!layer)return;
- const item=VEGAS_GALLERY[galleryIndex],img=layer.querySelector('[data-gallery-image]');
+ const gallery=currentGallery(),item=gallery[galleryIndex],img=layer.querySelector('[data-gallery-image]');if(!item)return;
  img.src=item.src;img.alt=item.title;
- layer.querySelector('[data-gallery-counter]').textContent=`${galleryIndex+1} / ${VEGAS_GALLERY.length}`;
+ layer.querySelector('[data-gallery-counter]').textContent=`${galleryIndex+1} / ${gallery.length}`;
  layer.querySelector('[data-gallery-title]').textContent=item.title;layer.querySelector('[data-gallery-copy]').textContent=item.copy;
  layer.querySelectorAll('[data-gallery-dot]').forEach((d,i)=>d.classList.toggle('active',i===galleryIndex));
 }
-function moveGallery(delta){galleryIndex=(galleryIndex+delta+VEGAS_GALLERY.length)%VEGAS_GALLERY.length;renderGallery()}
+function moveGallery(delta){const gallery=currentGallery();if(!gallery.length)return;galleryIndex=(galleryIndex+delta+gallery.length)%gallery.length;renderGallery()}
 function saveCurrent(){
  const c=CONFIG[currentId];
  try{localStorage.setItem(`mu_saved_discover_${currentId}`,'1')}catch{}
@@ -270,7 +276,7 @@ window.muOpenPremiumDiscover=open;window.muOpenVegasDiscover=open;window.muOpenE
 let heroPointerX=null,galleryPointerX=null,suppressHeroClick=0;
 document.addEventListener('pointerdown',e=>{const h=e.target.closest('[data-exact-action="gallery"]');if(h)heroPointerX=e.clientX;const g=e.target.closest('[data-gallery-swipe]');if(g)galleryPointerX=e.clientX});
 document.addEventListener('pointerup',e=>{
- const h=e.target.closest('[data-exact-action="gallery"]');if(h&&heroPointerX!==null){const dx=e.clientX-heroPointerX;heroPointerX=null;if(Math.abs(dx)>38){suppressHeroClick=Date.now()+500;galleryLayer(dx<0?1:VEGAS_GALLERY.length-1);e.preventDefault();return}}
+ const h=e.target.closest('[data-exact-action="gallery"]');if(h&&heroPointerX!==null){const dx=e.clientX-heroPointerX;heroPointerX=null;if(Math.abs(dx)>38){suppressHeroClick=Date.now()+500;galleryLayer(dx<0?1:currentGallery().length-1);e.preventDefault();return}}
  const g=e.target.closest('[data-gallery-swipe]');if(g&&galleryPointerX!==null){const dx=e.clientX-galleryPointerX;galleryPointerX=null;if(Math.abs(dx)>38){moveGallery(dx<0?1:-1);e.preventDefault()}}
 });
 
