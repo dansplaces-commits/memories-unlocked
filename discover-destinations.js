@@ -57,6 +57,13 @@ function openDestination(id){
  if(typeof window.muOpenLandmarkDiscover==='function'){window.muOpenLandmarkDiscover(d.name);return;}
  window.toast?.('This destination guide is loading. Try once more in a moment.');
 }
+/* Global Discover route lock */
+document.addEventListener('click',e=>{
+  const legacy=e.target.closest('[data-home-discover-kind],[data-mu-tool="discover"]');
+  if(!legacy||legacy.closest('#discoverHubModal'))return;
+  e.preventDefault();e.stopImmediatePropagation();
+  window.muOpenDiscoverHub?.();
+},true);
 document.addEventListener('click',e=>{
  const open=e.target.closest('[data-dest-open]');if(open){e.preventDefault();openDestination(open.dataset.destOpen);return;}
  const save=e.target.closest('[data-dest-save]');if(save){e.preventDefault();e.stopPropagation();const set=saved(),id=save.dataset.destSave;if(set.has(id)){set.delete(id);save.classList.remove('saved');save.textContent='♡';}else{set.add(id);save.classList.add('saved');save.textContent='♥';}writeSaved(set);window.toast?.(set.has(id)?'Added to your bucket list.':'Removed from your bucket list.');return;}
