@@ -1,0 +1,14 @@
+/* Memories Unlocked — exact approved Discover screen */
+html.mu-exact-discover-open,html.mu-exact-discover-open body{overflow:hidden!important}
+.mu-exact-discover-modal{position:fixed!important;inset:0!important;z-index:30000!important;margin:0!important;padding:0!important;background:#fff8eb!important;align-items:flex-start!important;justify-content:center!important;overflow:hidden!important}
+.mu-exact-discover-modal .sheet{position:absolute!important;inset:0!important;width:100%!important;height:100dvh!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:#fff8eb!important;box-shadow:none!important;overflow:auto!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;display:block!important}
+.mu-exact-discover-modal .sheet:before,.mu-exact-discover-modal>.sheet>.close{display:none!important;content:none!important}
+.mu-exact-discover-frame{position:relative;width:min(100%,941px);margin:0 auto;background:#fff8eb;line-height:0}
+.mu-exact-discover-art{display:block;width:100%;height:auto;margin:0;padding:0;user-select:none;-webkit-user-drag:none;pointer-events:none}
+.mu-exact-hotspot{position:absolute!important;z-index:5!important;border:0!important;background:transparent!important;padding:0!important;margin:0!important;border-radius:0!important;box-shadow:none!important;outline:0!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
+.mu-exact-hotspot:focus-visible{outline:2px solid rgba(238,187,73,.85)!important;outline-offset:-3px!important;border-radius:12px!important}
+html.mu-exact-discover-open .mu-mm-bottom-nav{visibility:hidden!important;pointer-events:none!important}
+@media(max-width:700px){
+ .mu-exact-discover-modal .sheet{height:100dvh!important;padding:0!important}
+ .mu-exact-discover-frame{width:100%!important;max-width:none!important}
+}
