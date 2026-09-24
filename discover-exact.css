@@ -3,8 +3,9 @@ html.mu-exact-discover-open,html.mu-exact-discover-open body{overflow:hidden!imp
 .mu-exact-discover-modal{position:fixed!important;inset:0!important;z-index:30000!important;margin:0!important;padding:0!important;background:#fff8eb!important;align-items:flex-start!important;justify-content:center!important;overflow:hidden!important}
 .mu-exact-discover-modal .sheet{position:absolute!important;inset:0!important;width:100%!important;height:100dvh!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:#fff8eb!important;box-shadow:none!important;overflow:auto!important;overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;display:block!important}
 .mu-exact-discover-modal .sheet:before,.mu-exact-discover-modal>.sheet>.close{display:none!important;content:none!important}
-.mu-exact-discover-frame{position:relative;width:min(100%,941px);margin:0 auto;background:#fff8eb;line-height:0}
-.mu-exact-discover-art{display:block;width:100%;height:auto;margin:0;padding:0;user-select:none;-webkit-user-drag:none;pointer-events:none}
+.mu-exact-discover-frame{position:relative;width:min(100%,941px);margin:0 auto;background:#fff8eb;line-height:0;min-height:100dvh;display:flex;flex-direction:column}
+.mu-exact-content-wrap,.mu-exact-nav-wrap{position:relative;flex:0 0 auto}
+.mu-exact-discover-art,.mu-exact-nav-art{display:block;width:100%;height:auto;margin:0;padding:0;user-select:none;-webkit-user-drag:none;pointer-events:none}
 .mu-exact-hotspot{position:absolute!important;z-index:5!important;border:0!important;background:transparent!important;padding:0!important;margin:0!important;border-radius:0!important;box-shadow:none!important;outline:0!important;cursor:pointer!important;-webkit-tap-highlight-color:transparent!important}
 .mu-exact-hotspot:focus-visible{outline:2px solid rgba(238,187,73,.85)!important;outline-offset:-3px!important;border-radius:12px!important}
 html.mu-exact-discover-open .mu-mm-bottom-nav{visibility:hidden!important;pointer-events:none!important}
@@ -56,4 +57,25 @@ html.mu-exact-discover-open .mu-mm-bottom-nav{visibility:hidden!important;pointe
  .mu-exact-gallery-top{height:54px}.mu-exact-gallery-copy{padding:16px 15px calc(18px + env(safe-area-inset-bottom))}
  .mu-exact-gallery-copy h2{font-size:25px!important}.mu-exact-gallery-copy p{font-size:10.5px}
  .mu-exact-gallery-prev,.mu-exact-gallery-next{width:38px;height:38px;font-size:26px}
+}
+
+
+/* 2026-09-24 premium fill extension */
+.mu-exact-travel-snapshot{line-height:normal;background:#fff8eb;color:#0a3157;padding:10px 20px 11px;border-top:1px solid #ecdcc0;border-bottom:1px solid #ead9ba;box-shadow:inset 0 5px 14px rgba(9,43,75,.025)}
+.mu-exact-snapshot-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:8px}
+.mu-exact-snapshot-head span{color:#b57d20;font:800 7px/1 Arial,sans-serif;letter-spacing:1.8px}
+.mu-exact-snapshot-head em{color:#b57d20;font:600 9px/1 "Segoe Print","Bradley Hand",cursive;transform:rotate(-3deg)}
+.mu-exact-snapshot-grid{display:grid;grid-template-columns:1.25fr .75fr 1.35fr;border:1px solid #e4d1ae;border-radius:13px;overflow:hidden;background:#fffdf7}
+.mu-exact-snapshot-grid>div{padding:7px 9px;border-right:1px solid #e9d9bc;min-width:0}
+.mu-exact-snapshot-grid>div:last-child{border-right:0}
+.mu-exact-snapshot-grid small,.mu-exact-snapshot-grid strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mu-exact-snapshot-grid small{color:#83909d;font:800 5.4px/1 Arial,sans-serif;letter-spacing:.8px}
+.mu-exact-snapshot-grid strong{margin-top:3px;color:#0a3157;font:700 9px/1.15 Georgia,serif}
+.mu-exact-travel-snapshot p{margin:6px 0 0;color:#788592;font:500 7.7px/1.35 Arial,sans-serif}.mu-exact-travel-snapshot p b{color:#a36f1d}
+.mu-exact-nav-wrap{margin-top:auto;background:#08365f}
+@media(max-width:700px){
+ .mu-exact-travel-snapshot{padding:8px 12px 9px}
+ .mu-exact-snapshot-head{margin-bottom:6px}.mu-exact-snapshot-head span{font-size:6px}.mu-exact-snapshot-head em{font-size:7.5px}
+ .mu-exact-snapshot-grid>div{padding:6px 7px}.mu-exact-snapshot-grid small{font-size:4.8px}.mu-exact-snapshot-grid strong{font-size:8px}
+ .mu-exact-travel-snapshot p{font-size:6.8px;margin-top:5px}
 }
