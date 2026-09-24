@@ -294,3 +294,18 @@ test('premium Discover uses fixed curated visuals and isolated layout',()=>{
   assert.match(css,/@media\(max-width:700px\)[\s\S]*\.mu-pd-hero\{height:310px/);
   assert.match(css,/\.mu-pd-bottom-pad\{height:100px/);
 });
+
+
+test('premium Discover precision pass uses crisp vector controls',()=>{
+  const js=source('discover-premium.js');
+  const css=source('discover-premium.css');
+  assert.match(js,/function pdIcon\(kind\)/);
+  assert.match(js,/pd-sign-bulbs/);
+  assert.match(js,/pd-sign-palms/);
+  assert.match(js,/data-pd-save><span>\$\{pdIcon\('save'\)\}/);
+  assert.match(js,/data-pd-share><span>\$\{pdIcon\('share'\)\}/);
+  assert.match(js,/mu-pd-card-icon">\$\{pdIcon\(kind\)\}/);
+  assert.match(css,/2026-09-24 icon precision pass/);
+  assert.match(css,/\.mu-pd-card-icon svg\{/);
+  assert.match(css,/\.mu-pd-actions button span svg\{/);
+});
