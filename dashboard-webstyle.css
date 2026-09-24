@@ -1,0 +1,427 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+:root{
+  --mu-navy:#0b2d4b;
+  --mu-navy-deep:#08263e;
+  --mu-gold:#e5a928;
+  --mu-cream:#fbf5ea;
+  --mu-ink:#0b2942;
+  --mu-muted:#637489;
+}
+
+/* APP HOME — locked to the approved master composition. */
+@media (min-width:1180px){
+  html,body{background:var(--mu-cream)!important}
+  .app{max-width:none!important;background:var(--mu-cream)!important}
+  .brand-header{display:none!important}
+  #home{padding:0!important;margin:0!important;max-width:none!important;background:var(--mu-cream)!important}
+  #home>.home-hero,
+  #home>.home-story-panel,
+  #home>.grid,
+  #home>.home-section-title,
+  #home>#journeyList,
+  #home>#recentMemories,
+  #home>.quote{display:none!important}
+
+  .desktop-dashboard{
+    display:block!important;
+    width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+    padding:0 0 130px!important;
+    color:var(--mu-ink);
+    font-family:'DM Sans',Arial,sans-serif;
+    overflow:hidden;
+    background:#fbf6ed;
+  }
+
+  /* === HERO: 1536×590 master proportions === */
+  .dash-master-hero{
+    height:590px;
+    min-height:590px;
+    display:grid;
+    grid-template-columns:47.5% 52.5%;
+    overflow:hidden;
+    background:#faf4e9;
+  }
+
+  .dash-master-copy{
+    position:relative;
+    z-index:5;
+    padding:28px 42px 28px 50px;
+    background:
+      linear-gradient(90deg,#fbf6ed 0%,#fbf6ed 76%,rgba(251,246,237,.96) 88%,rgba(251,246,237,.42) 100%);
+  }
+
+  .dash-master-kicker{
+    margin:0 0 16px;
+    color:#c68b2d;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:6px;
+  }
+
+  .dash-master-copy h1{
+    margin:0;
+    max-width:660px;
+    color:#092a49;
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:clamp(78px,6.55vw,104px);
+    line-height:.985;
+    font-weight:700;
+    letter-spacing:-3.2px;
+  }
+
+  .dash-master-lead{
+    margin:20px 0 0;
+    color:#102f4d;
+    font-size:21px;
+    line-height:1.48;
+    font-weight:400;
+  }
+
+  .dash-master-buttons{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-top:24px;
+  }
+
+  .dash-master-primary,
+  .dash-master-secondary{
+    height:68px;
+    border-radius:38px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    font-family:'DM Sans',Arial,sans-serif;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+    transition:transform .18s ease,box-shadow .18s ease;
+  }
+  .dash-master-primary:hover,.dash-master-secondary:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(10,42,74,.13)}
+  .dash-master-primary{
+    min-width:340px;
+    padding:0 30px;
+    border:0;
+    color:#0a2b4a;
+    background:linear-gradient(135deg,#f2c464,#dda224);
+  }
+  .dash-master-secondary{
+    min-width:280px;
+    padding:0 28px;
+    border:1.5px solid #0a2b4a;
+    color:#0a2b4a;
+    background:rgba(255,255,255,.62);
+  }
+  .dash-button-lock{font-size:20px;color:#486078}
+  .dash-button-arrow{font-size:25px;font-weight:400;margin-left:auto}
+  .dash-play{
+    width:32px;height:32px;border-radius:50%;
+    display:grid;place-items:center;
+    background:#0a2b4a;color:white;font-size:13px;
+    padding-left:2px;
+  }
+
+  .dash-master-benefits{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:22px;
+    margin-top:44px;
+    max-width:720px;
+  }
+  .dash-master-benefits>div{
+    display:flex;
+    gap:13px;
+    align-items:center;
+    min-width:0;
+  }
+  .dash-benefit-icon{
+    flex:0 0 42px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    color:#0a2b4a;
+    font-size:25px;
+  }
+  .dash-master-benefits b{
+    display:block;
+    color:#0a2b4a;
+    font-size:13px;
+    line-height:1.15;
+    white-space:nowrap;
+  }
+  .dash-master-benefits small{
+    display:block;
+    margin-top:4px;
+    color:#536b82;
+    font-size:10.5px;
+    line-height:1.25;
+    white-space:nowrap;
+  }
+
+  /* The approved scene is cropped from the same visual reference as the master.
+     Old overlaid copy is softly masked; the approved generational line sits on top. */
+  .dash-master-art{
+    position:relative;
+    height:590px;
+    min-height:590px;
+    overflow:hidden;
+    background-image:url('https://raw.githubusercontent.com/dansplaces-commits/memories-unlocked-website/redesign/final-site-v2/design-reference.png');
+    background-repeat:no-repeat;
+    background-size:auto 590px;
+    background-position:right top;
+  }
+  .dash-master-art:after{
+    content:'';
+    position:absolute;
+    inset:0 auto 0 0;
+    width:14%;
+    z-index:1;
+    pointer-events:none;
+    background:linear-gradient(90deg,#fbf6ed 0%,rgba(251,246,237,.68) 45%,transparent 100%);
+  }
+  .dash-art-sky-mask{
+    position:absolute;
+    z-index:1;
+    left:0;
+    top:0;
+    width:61%;
+    height:39%;
+    pointer-events:none;
+    background:
+      radial-gradient(ellipse at 34% 34%,rgba(248,221,177,.97) 0%,rgba(247,211,156,.92) 36%,rgba(245,203,145,.55) 64%,rgba(245,203,145,0) 82%);
+    filter:blur(1px);
+  }
+  .dash-art-script{
+    position:absolute;
+    z-index:3;
+    top:27px;
+    left:3%;
+    width:62%;
+    color:#182d43;
+    text-align:center;
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:22px;
+    line-height:1.42;
+    font-style:italic;
+    font-weight:600;
+    transform:rotate(-2.5deg);
+    text-shadow:0 1px 0 rgba(255,255,255,.45);
+  }
+  .dash-art-heart-cover{
+    position:absolute;
+    z-index:4;
+    right:6.2%;
+    bottom:4.2%;
+    width:132px;
+    height:105px;
+    border-radius:9px 9px 18px 18px;
+    pointer-events:none;
+    background:linear-gradient(180deg,#bd813b,#a96b2f);
+    opacity:.96;
+  }
+
+  /* === HOW IT WORKS === */
+  .dash-how{
+    height:324px;
+    min-height:324px;
+    padding:17px 48px 20px;
+    text-align:center;
+    background:linear-gradient(180deg,#fbfaf5 0%,#f8f4ea 100%);
+    border-top:1px solid rgba(9,42,73,.04);
+  }
+  .dash-how-kicker{
+    color:#c68b2d;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:6px;
+  }
+  .dash-how h2{
+    margin:4px 0 0;
+    color:#0a2b4a;
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:40px;
+    line-height:1.05;
+    letter-spacing:-1.1px;
+  }
+  .dash-how>p{
+    margin:6px 0 0;
+    color:#183a59;
+    font-size:15px;
+  }
+  .dash-how-grid{
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:24px;
+    margin-top:18px;
+  }
+  .dash-how-card{
+    position:relative;
+    height:170px;
+    border:0;
+    border-radius:11px;
+    padding:31px 12px 13px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    color:#0b2d4b;
+    cursor:pointer;
+    font-family:'DM Sans',Arial,sans-serif;
+    box-shadow:none;
+  }
+  .dash-how-card.c1,.dash-how-card.c3,.dash-how-card.c5{background:rgba(239,228,207,.73)}
+  .dash-how-card.c2{background:rgba(211,231,240,.88)}
+  .dash-how-card.c4{background:rgba(214,230,224,.88)}
+  .dash-how-card i{
+    position:absolute;
+    left:50%;top:-15px;
+    transform:translateX(-50%);
+    width:38px;height:38px;border-radius:50%;
+    display:grid;place-items:center;
+    background:#e2ac42;color:#0a2b4a;
+    font-style:normal;font-weight:700;font-size:15px;
+  }
+  .dash-how-icon{font-size:34px;line-height:1;margin-bottom:9px}
+  .dash-how-card strong{font-size:15px;line-height:1.15}
+  .dash-how-card small{
+    margin-top:8px;
+    color:#263e56;
+    font-size:11.5px;
+    line-height:1.35;
+  }
+
+  /* === LIVE APP AREA BELOW THE LOCKED MASTER === */
+  .dash-live{
+    padding:28px 48px 70px;
+    background:linear-gradient(180deg,#fbf6ed,#f7efe1);
+  }
+  .dash-live-heading{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:36px;
+    margin-bottom:18px;
+  }
+  .dash-live-kicker{
+    color:#c68b2d;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:5px;
+  }
+  .dash-live-heading h2{
+    margin:8px 0 0;
+    color:#0a2b4a;
+    font-family:'Playfair Display',Georgia,serif;
+    font-size:43px;
+    line-height:1.03;
+  }
+  .dash-live-heading>p{
+    max-width:420px;
+    margin:9px 0 0;
+    color:#64758a;
+    text-align:right;
+    font-size:12px;
+  }
+
+  .dash-stats{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(90px,1fr)) minmax(220px,1.35fr);
+    align-items:center;
+    margin:0 0 18px;
+    padding:20px 25px;
+    background:#fffdf8;
+    border:1px solid #e5ddcf;
+    border-radius:22px;
+    box-shadow:0 10px 28px rgba(16,36,74,.05);
+  }
+  .dash-stat{padding:4px 18px;border-right:1px solid #e8e1d5;color:#102d55}
+  .dash-stat:first-child{padding-left:0}
+  .dash-stat strong{display:block;font:700 22px 'Playfair Display',serif}
+  .dash-stat span{font-size:12px;color:#64758a}
+  .dash-quote{padding-left:24px;font:italic 15px/1.45 'Playfair Display',serif;color:#405b78}
+
+  .dash-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:0 0 34px}
+  .dash-action{
+    border:0;border-radius:21px;min-height:138px;padding:22px;text-align:left;
+    display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;
+    box-shadow:0 9px 22px rgba(16,36,74,.05);font-family:'DM Sans',sans-serif
+  }
+  .dash-action strong{font:700 18px 'Playfair Display',serif}
+  .dash-action small{font-size:12px}
+  .dash-action .dash-icon{font-size:30px}
+  .dash-action.navy{background:#102d55;color:#fff}
+  .dash-action.gold{background:#dfa923;color:#102d55}
+  .dash-action.teal{background:#378e98;color:#fff}
+  .dash-action.cream{background:#f9e9bd;color:#102d55;border:1px solid #ecd596}
+
+  .dash-section-title{display:flex;justify-content:space-between;align-items:center;margin:0 0 12px}
+  .dash-section-title h2{margin:0;font:700 30px 'Playfair Display',serif;color:#102d55}
+  .dash-section-title span{font-size:12px;color:#61738a}
+  .dash-recent{margin:0}
+  .dash-recent .memory{background:#fffdf9;border:1px solid #e7dfd1;border-radius:20px;margin-bottom:10px;min-height:92px;box-shadow:0 7px 18px rgba(16,36,74,.04)}
+
+  .dash-plus{margin:34px 0 0;padding:28px;border-radius:24px;background:#fffaf0;border:1px solid #e4d7bd}
+  .dash-plus-heading{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:15px}
+  .dash-plus-heading h2{margin:2px 0 0;font:700 30px 'Playfair Display',serif;color:#102d55}
+  .dash-plus-heading p{margin:0;color:#65778c;font-size:13px}
+  .dash-plus-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .dash-plus .widget-card{
+    display:grid;grid-template-columns:38px 1fr auto;gap:10px;align-items:center;
+    background:#fff;border:1px solid #eee6d8;border-radius:17px;width:100%;
+    padding:13px 12px;text-align:left;color:#102d55;font:inherit;min-width:0;margin:0
+  }
+  .dash-plus .widget-card .wi{font-size:24px}
+  .dash-plus .widget-card strong{display:block;font-size:13px}
+  .dash-plus .widget-card small{display:block;font-size:11px;color:#63758a;margin-top:2px;line-height:1.3}
+  .dash-plus .widget-card b{display:block;font-size:10px;color:#996d16;margin-top:4px}
+  .dash-plus .widget-arrow{font-size:20px}
+
+  /* Slim side dock so it does not destroy the approved composition. */
+  html[data-dock="left"],html[data-dock="right"]{--side-dock-width:104px}
+  html[data-dock="left"] .app{margin-left:104px!important;width:calc(100% - 104px)!important;padding-left:0!important;padding-right:0!important}
+  html[data-dock="right"] .app{margin-right:104px!important;width:calc(100% - 104px)!important;margin-left:0!important;padding-left:0!important;padding-right:0!important}
+  html[data-dock="left"] .nav,html[data-dock="right"] .nav{
+    width:104px!important;max-width:104px!important;padding:16px 7px!important;gap:7px!important
+  }
+  html[data-dock="left"] .nav button,html[data-dock="right"] .nav button{
+    width:100%!important;min-height:58px!important;max-height:58px!important;
+    flex:0 0 58px!important;padding:8px 6px!important;gap:5px!important;border-radius:15px!important
+  }
+  html[data-dock="left"] .nav button svg,html[data-dock="right"] .nav button svg{width:21px!important;height:21px!important}
+  html[data-dock="left"] .nav button span,html[data-dock="right"] .nav button span{font-size:10px!important;white-space:nowrap}
+}
+
+@media (min-width:1180px) and (max-width:1400px){
+  .dash-master-hero{grid-template-columns:49% 51%;height:540px;min-height:540px}
+  .dash-master-art{height:540px;min-height:540px;background-size:auto 540px}
+  .dash-master-copy{padding-left:38px;padding-right:28px}
+  .dash-master-copy h1{font-size:70px}
+  .dash-master-lead{font-size:18px}
+  .dash-master-primary{min-width:285px}
+  .dash-master-secondary{min-width:235px}
+  .dash-master-benefits{gap:12px;margin-top:30px}
+  .dash-how{height:auto;min-height:300px;padding-left:34px;padding-right:34px}
+  .dash-how-grid{gap:14px}
+  .dash-live{padding-left:34px;padding-right:34px}
+}
+
+@media (min-width:1180px) and (max-width:1250px){
+  .dash-master-copy h1{font-size:62px}
+  .dash-master-buttons{gap:10px}
+  .dash-master-primary,.dash-master-secondary{min-width:0;padding:0 20px;font-size:14px}
+  .dash-master-benefits{grid-template-columns:repeat(2,1fr)}
+  .dash-art-script{font-size:18px}
+  .dash-how h2{font-size:34px}
+  .dash-how-card strong{font-size:13px}
+  .dash-how-card small{font-size:10.5px}
+  .dash-quote{display:none}
+  .dash-stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
+/* Keep tablet/mobile on the existing mobile-first app UI. */
+@media (max-width:1179px){
+  .desktop-dashboard{display:none!important}
+}
