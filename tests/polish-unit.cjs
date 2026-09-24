@@ -227,7 +227,7 @@ test('curated Discover is independent of saved travel and uses smaller iconic ba
 
 test('standalone Las Vegas Discover opens without requiring a saved journey',()=>{
   const js=source('place-intelligence.js');
-  assert.match(js,/window\\.muOpenLegacyVegasDiscover=async function/);
+  assert.match(js,/window\.muOpenLegacyVegasDiscover=async function/);
   assert.match(js,/latitude:36\.1699,longitude:-115\.1398/);
   assert.match(js,/renderVegasIntel\(modal,ctx,data\)/);
 });
