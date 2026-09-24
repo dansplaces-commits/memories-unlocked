@@ -340,3 +340,18 @@ test('exact Discover adds information overlays and five-image swipe gallery',()=
   assert.match(css,/\.mu-exact-gallery-shell\{/);
   assert.match(css,/\.mu-exact-gallery-dots button\.active/);
 });
+
+
+test('exact Discover fills spare phone space without changing locked artwork',()=>{
+  const js=source('discover-exact.js');
+  const css=source('discover-exact.css');
+  assert.match(js,/content-master-v2\.png/);
+  assert.match(js,/nav-master-v2\.png/);
+  assert.match(js,/TRAVEL SNAPSHOT/);
+  assert.match(js,/Shows · Food · Nightlife/);
+  assert.match(js,/3–5 days/);
+  assert.match(js,/Iconic · Vibrant · Indulgent/);
+  assert.match(css,/2026-09-24 premium fill extension/);
+  assert.match(css,/\.mu-exact-nav-wrap\{margin-top:auto/);
+  assert.match(css,/\.mu-exact-snapshot-grid\{/);
+});
