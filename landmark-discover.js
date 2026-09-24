@@ -114,7 +114,7 @@ document.addEventListener('click',event=>{
   if(landmark){event.preventDefault();window.muOpenLandmarkDiscover(landmark.dataset.landmarkDiscover);return;}
   const start=event.target.closest('[data-landmark-start]');
   if(start){
-    const place=PLACES[start.dataset.landmarkStart];if(!place)return;
+    const place=PLACES[start.dataset.landmarkStart]||Object.values(PLACES).find(p=>p.wiki===start.dataset.landmarkStart);if(!place)return;
     closeModal('placeIntelModal');openModal('journeyModal');
     const title=document.getElementById('title'),location=document.getElementById('location'),story=document.getElementById('story');
     if(title&&!title.value)title.value=`${place.wiki} Journey`;
