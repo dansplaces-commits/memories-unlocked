@@ -260,3 +260,22 @@ test('premium Discover cosmetic pass keeps scenic hero and compact badges',()=>{
   assert.match(css,/\.mu-discover-hub-modal \.mu-discover-hero h2\{[\s\S]*color:#fff!important/);
   assert.match(css,/var\(--dest-image/);
 });
+
+
+test('Discover lands on featured Las Vegas before destination browsing',()=>{
+  const vegas=source('place-intelligence.js');
+  const destinations=source('discover-destinations.js');
+  const mobile=source('mobile-master-v1.js');
+  const css=source('place-intelligence.css');
+  assert.match(vegas,/fetchVegasEditorialImages/);
+  assert.match(vegas,/Bellagio \(resort\)/);
+  assert.match(vegas,/Red Rock Canyon National Conservation Area/);
+  assert.match(vegas,/Fremont Street Experience/);
+  assert.match(vegas,/mu-vegas-next-section/);
+  assert.match(vegas,/muDiscoverFeaturedStrip/);
+  assert.match(destinations,/if\(typeof window\.muOpenVegasDiscover==='function'\)window\.muOpenVegasDiscover\(\)/);
+  assert.match(mobile,/if\(key==='discover'\).*muOpenVegasDiscover/);
+  assert.match(css,/2026-09-24 featured Discover landing lock/);
+  assert.match(css,/--vegas-card-image/);
+  assert.match(css,/\.mu-vegas-next-track/);
+});
