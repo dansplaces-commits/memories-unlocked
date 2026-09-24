@@ -309,3 +309,15 @@ test('premium Discover precision pass uses crisp vector controls',()=>{
   assert.match(css,/\.mu-pd-card-icon svg\{/);
   assert.match(css,/\.mu-pd-actions button span svg\{/);
 });
+
+
+test('exact Discover uses the approved static master artwork',()=>{
+  const js=source('discover-exact.js');
+  const css=source('discover-exact.css');
+  assert.match(js,/memories-unlocked-discover-las-vegas-master\.png/);
+  assert.match(js,/window\.muOpenVegasDiscover=open/);
+  assert.match(js,/data-exact-action/);
+  assert.match(css,/\.mu-exact-discover-modal\{position:fixed!important;inset:0!important;z-index:30000!important/);
+  assert.match(css,/html\.mu-exact-discover-open \.mu-mm-bottom-nav\{visibility:hidden!important/);
+  assert.match(css,/\.mu-exact-discover-art\{display:block;width:100%;height:auto/);
+});
