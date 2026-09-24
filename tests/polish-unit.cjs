@@ -231,3 +231,16 @@ test('standalone Las Vegas Discover opens without requiring a saved journey',()=
   assert.match(js,/latitude:36\.1699,longitude:-115\.1398/);
   assert.match(js,/renderVegasIntel\(modal,ctx,data\)/);
 });
+
+
+test('all global Discover entry points ignore latest saved place',()=>{
+  const surface=source('discover-surface.js');
+  const hub=source('discover-destinations.js');
+  const mobile=source('mobile-master-v1.js');
+  assert.match(surface,/Bucket List Places/);
+  assert.doesNotMatch(surface,/chip\.dataset\.homeDiscoverKind=place\.kind/);
+  assert.match(surface,/chip\.dataset\.muTool='discover'/);
+  assert.match(hub,/Global Discover route lock/);
+  assert.match(hub,/\[data-home-discover-kind\],\[data-mu-tool="discover"\]/);
+  assert.match(mobile,/if\(key==='discover'\).*muOpenDiscoverHub/);
+});
