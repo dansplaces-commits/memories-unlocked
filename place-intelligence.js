@@ -205,6 +205,12 @@ function renderPlaceIntel(modal,ctx,data){
       <p class="place-source">Accommodation locations: OpenStreetMap contributors via Overpass.</p>
     </section>`;
 }
+window.muOpenVegasDiscover=async function(){
+  const modal=mountDialog('placeIntelModal',`<button class="close" type="button" onclick="closeModal('placeIntelModal')">×</button><div id="placeIntelBody"><div class="place-intel-loading"><span>✦</span><h2>Discovering Las Vegas…</h2><p>Loading the iconic places behind the bright lights.</p></div></div>`,'place-intel-modal vegas-discover-modal');
+  const ctx={kind:'discover',id:'las-vegas',label:'Las Vegas, Nevada, USA',record:{title:'Las Vegas',location:'Las Vegas, Nevada, USA'},latitude:36.1699,longitude:-115.1398,journeyId:null};
+  try{const data=await loadPlaceIntelligence(ctx);if(modal.isConnected)renderVegasIntel(modal,ctx,data);}
+  catch(error){const host=modal.querySelector('#placeIntelBody');if(host)host.innerHTML=`<div class="place-intel-error"><span>✦</span><h2>Las Vegas is still here.</h2><p>Live place details could not load just now, but your app data is unchanged.</p><button class="secondary" type="button" onclick="closeModal('placeIntelModal')">Back to Discover</button></div>`;}
+};
 window.muOpenPlaceIntelligence=async function(kind,id){
   const record=contextRecord(kind,id);if(!record)return;
   const modal=mountDialog('placeIntelModal',`<button class="close" type="button" onclick="closeModal('placeIntelModal')">×</button><div id="placeIntelBody"><div class="place-intel-loading"><span>⌖</span><h2>Discovering this place…</h2><p>Finding its story and what surrounds it.</p></div></div>`,'place-intel-modal');
