@@ -17,7 +17,7 @@ const VEGAS_GALLERY=[
 
 const CONFIG={
  vegas:{
-  id:'vegas',name:'Las Vegas',location:'Nevada, USA',count:'1 / 5',exact:true,
+  id:'vegas',name:'Las Vegas',location:'Nevada, USA',hero:VEGAS_GALLERY[0].src,count:'1 / 5',exact:true,
   snapshot:{best:'Shows · Food · Nightlife',stay:'3–5 days',vibe:'Iconic · Vibrant · Indulgent',tip:'The Strip is longer than it looks — plan by area, not just by hotel.'},
   sections:{
    why:{kicker:'WHY VISIT?',title:'Why Las Vegas?',intro:'Las Vegas is built around memorable moments — bold architecture, spectacle, food, entertainment and desert scenery all in one place.',items:['See the Strip transformed after dark.','Choose from world-famous shows, attractions and immersive experiences.','Mix city nights with desert landscapes and unforgettable day trips.']},
@@ -170,7 +170,7 @@ function dynamicCard(key,c){
 function nextCards(current){
  return ORDER.filter(id=>id!==current).slice(0,5).map(id=>{
   const d=CONFIG[id];
-  return `<button type="button" class="mu-dyn-next-card" data-exact-dest="${id}" style="--dyn-next-image:url('${d.exact?MASTER:d.hero}')">
+  return `<button type="button" class="mu-dyn-next-card" data-exact-dest="${id}" style="--dyn-next-image:url('${d.hero||MASTER}')">
     <span class="mu-dyn-next-badge">${d.badge||'LAS VEGAS'}</span><span class="mu-dyn-next-shade"></span>
     <span class="mu-dyn-next-copy"><strong>${d.name}</strong><small>${d.location}</small></span>
    </button>`;
