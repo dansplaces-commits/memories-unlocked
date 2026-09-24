@@ -142,12 +142,28 @@ function vegasMarkup(){
   ${navMarkup()}
  </div>`;
 }
+function dynIcon(kind){
+ const common='viewBox="0 0 32 32" aria-hidden="true"';
+ if(kind==='why')return `<svg ${common}><circle cx="9" cy="16" r="5"/><circle cx="23" cy="16" r="5"/><path d="M14 16h4M6 12l3-6 3 6M20 12l3-6 3 6"/></svg>`;
+ if(kind==='spots')return `<svg ${common}><path d="M5 7l7-3 8 3 7-3v21l-7 3-8-3-7 3Z"/><path d="M12 4v21M20 7v21"/></svg>`;
+ if(kind==='memories')return `<svg ${common}><rect x="4.5" y="9" width="23" height="17" rx="3"/><path d="M10 9l2-4h8l2 4"/><circle cx="16" cy="17.5" r="5"/></svg>`;
+ return `<svg ${common}><path d="M8 4v10m-3-10v6a3 3 0 0 0 6 0V4M8 14v14M22 4c-3 3-4 7-4 11 0 3 2 5 4 5m0-16v24"/></svg>`;
+}
+function stampIcon(id){
+ const common='viewBox="0 0 48 38" aria-hidden="true"';
+ if(id==='rome')return `<svg ${common}><path d="M7 31V18c0-7 6-12 17-12s17 5 17 12v13M10 18h28M13 13h22M16 9h16M12 31V23h7v8m4 0v-9h5v9m4 0v-8h5v8"/></svg>`;
+ if(id==='bahamas')return `<svg ${common}><path d="M24 32c-2-10-1-19 4-27M28 8c-5-4-10-4-14-1 5 1 9 3 12 6m2-5c5-4 10-3 14 0-5 1-9 3-12 6M9 33c9-5 22-5 31 0"/></svg>`;
+ if(id==='miami')return `<svg ${common}><path d="M9 31V17h8v14m4 0V11h10v20m4 0V20h6v11"/><path d="M10 14c8-7 16-7 23-2"/></svg>`;
+ if(id==='london')return `<svg ${common}><path d="M17 32V11h14v21M20 11V7h8v4M23 7V4h3v3"/><circle cx="24" cy="17" r="4"/><path d="M24 17v-2m0 2 2 2"/></svg>`;
+ if(id==='paris')return `<svg ${common}><path d="M24 4 17 30m7-26 7 26M19 17h10M15 30h18M20 11h8M13 34h22"/></svg>`;
+ return '';
+}
 function dynamicCard(key,c){
  const s=c.sections[key];
  const labels={why:'Why Visit?',spots:'Top Spots',memories:'Best Memories to Make',local:'Local Highlights'};
- const icons={why:'◉',spots:'⌖',memories:'▣',local:'⌁'};
- return `<button type="button" class="mu-dyn-card" data-exact-action="${key}" style="--dyn-card-image:url('${c.hero}')">
-   <span class="mu-dyn-card-shade"></span><span class="mu-dyn-card-icon">${icons[key]}</span>
+ const img=c.images?.[key]||c.hero;
+ return `<button type="button" class="mu-dyn-card" data-exact-action="${key}" style="--dyn-card-image:url('${img}')">
+   <span class="mu-dyn-card-shade"></span><span class="mu-dyn-card-icon">${dynIcon(key)}</span>
    <span class="mu-dyn-card-copy"><strong>${labels[key]}</strong><small>${s.intro}</small></span><span class="mu-dyn-card-arrow">›</span>
   </button>`;
 }
@@ -168,7 +184,8 @@ function dynamicMarkup(c){
     <span class="mu-dyn-hero-shade"></span>
     <div class="mu-dyn-title"><small>DISCOVER</small><h1>${c.name}</h1><p>●&nbsp; ${c.location}</p><em>${c.tagline.join('<br>')}</em></div>
     <span class="mu-dyn-count">${c.count}</span>
-    <span class="mu-dyn-stamp"><b>${c.badge}</b><small>${c.location}</small></span>
+    <span class="mu-dyn-stamp">${stampIcon(c.id)}<b>${c.badge}</b><small>${c.location}</small></span>
+    <button type="button" class="mu-dyn-gallery-hit" data-exact-action="gallery" aria-label="Open ${c.name} photo gallery"></button>
     <div class="mu-dyn-actions"><button type="button" data-exact-action="save"><span>♡</span><small>Save</small></button><button type="button" data-exact-action="share"><span>↗</span><small>Share</small></button></div>
    </section>
    <section class="mu-dyn-facts">${c.facts.map(f=>`<div><span>${f[0]}</span><small>${f[1]}</small><strong>${f[2]}</strong></div>`).join('')}</section>
