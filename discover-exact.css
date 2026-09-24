@@ -122,3 +122,25 @@ html.mu-exact-discover-open .mu-mm-bottom-nav{visibility:hidden!important;pointe
  .mu-dyn-grid{gap:8px;padding:12px 2.4% 10px}.mu-dyn-card{min-height:145px;border-radius:14px}.mu-dyn-card-icon{left:9px;bottom:55px;width:29px;height:29px;font-size:13px}.mu-dyn-card-copy{left:10px;right:39px;bottom:9px}.mu-dyn-card-copy strong{font-size:15px}.mu-dyn-card-copy small{font-size:7.1px;line-height:1.3;max-height:28px}.mu-dyn-card-arrow{right:8px;bottom:10px;width:28px;height:28px;font-size:19px}
  .mu-dyn-next{padding:0 2.5% 12px}.mu-dyn-next-head h2{font-size:23px!important}.mu-dyn-next-head span{font-size:5.5px}.mu-dyn-next-card{flex-basis:100px;height:119px;border-radius:11px}.mu-dyn-next-badge{right:5px;top:5px;max-width:44px;padding:4px 5px;font-size:4.7px}.mu-dyn-next-copy{left:7px;bottom:6px}.mu-dyn-next-copy strong{font-size:11px}.mu-dyn-next-copy small{font-size:6.3px}
 }
+
+
+/* 2026-09-24 champagne destination polish */
+.mu-dyn-gallery-hit{position:absolute;inset:0;z-index:1;border:0;background:transparent;padding:0;margin:0;cursor:pointer}
+.mu-dyn-title,.mu-dyn-count,.mu-dyn-stamp,.mu-dyn-actions{z-index:3!important}
+.mu-dyn-stamp{grid-template-rows:38px auto auto!important;gap:1px!important;padding:6px!important;box-sizing:border-box!important}
+.mu-dyn-stamp svg{width:48px;height:38px;fill:none;stroke:#0b3158;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;position:relative;z-index:2}
+.mu-dyn-stamp b{margin-top:1px}
+.mu-dyn-card-icon svg{width:21px;height:21px;fill:none;stroke:#b77d20;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mu-dyn-card{background-position:center!important;transition:transform .16s ease,box-shadow .16s ease}
+.mu-dyn-card:active,.mu-dyn-next-card:active{transform:scale(.985)}
+.mu-dyn-card-shade{background:linear-gradient(180deg,rgba(4,29,52,.01) 24%,rgba(4,38,67,.30) 55%,rgba(4,38,67,.96) 80%)!important}
+.mu-dyn-next-card{background-position:center!important}
+.mu-dyn-next-badge{box-shadow:0 3px 9px rgba(3,28,51,.14)}
+.mu-dyn-next-copy strong{text-shadow:0 1px 4px rgba(0,0,0,.30)}
+.mu-dyn-actions button{box-shadow:0 4px 13px rgba(3,27,49,.18),inset 0 0 0 1px rgba(255,255,255,.05)}
+.mu-dyn-actions button span{line-height:1}
+@media(max-width:700px){
+ .mu-dyn-stamp{grid-template-rows:25px auto auto!important;padding:4px!important}
+ .mu-dyn-stamp svg{width:31px!important;height:24px!important;stroke-width:1.8!important}
+ .mu-dyn-card-icon svg{width:16px!important;height:16px!important}
+}
