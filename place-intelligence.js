@@ -113,8 +113,22 @@ function muVegasBadge(size='hero'){
 function muVegasTopNames(items,count=3){
   return (items||[]).slice(0,count).map(item=>item?.name).filter(Boolean);
 }
-function muVegasCard(title,copy,cta,kind,photo='strip'){
-  return `<button type="button" class="mu-vegas-card mu-vegas-card-${photo}" data-vegas-card="${kind}">
+async function fetchVegasEditorialImages(){
+  const url=new URL('https://en.wikipedia.org/w/api.php');
+  url.search=new URLSearchParams({action:'query',titles:'Las Vegas Strip|Bellagio (resort)|Fremont Street Experience|Red Rock Canyon National Conservation Area|Las Vegas',prop:'pageimages',piprop:'thumbnail',pithumbsize:'1400',format:'json',origin:'*'});
+  const data=await placeFetchJson(url.toString(),{},12000);
+  const pages=Object.values(data.query?.pages||{});
+  const byTitle=title=>pages.find(p=>String(p.title||'').toLowerCase()===title.toLowerCase())?.thumbnail?.source||'';
+  return{
+    hero:byTitle('Las Vegas Strip')||byTitle('Las Vegas'),
+    why:byTitle('Bellagio (resort)')||byTitle('Las Vegas Strip'),
+    spots:byTitle('Red Rock Canyon National Conservation Area')||byTitle('Las Vegas Strip'),
+    memories:byTitle('Fremont Street Experience')||byTitle('Las Vegas Strip'),
+    local:byTitle('Las Vegas')||byTitle('Las Vegas Strip')
+  };
+}
+function muVegasCard(title,copy,cta,kind,photo='strip',image=''){
+  return `<button type="button" class="mu-vegas-card mu-vegas-card-${photo}" data-vegas-card="${kind}" ${image?`style="--vegas-card-image:url('${esc(image)}')"`:''}>
     <span class="mu-vegas-card-copy"><strong>${esc(title)}</strong><small>${esc(copy)}</small><b>${esc(cta)} <span>›</span></b></span>
   </button>`;
 }
@@ -122,7 +136,8 @@ function renderVegasIntel(modal,ctx,data){
   const host=modal.querySelector('#placeIntelBody');if(!host)return;
   modal.classList.add('vegas-discover-modal');
   const wiki=data.wiki||{},primary=wiki.primary,nearby=data.nearby||{explore:[],food:[],stay:[]};
-  const hero=primary?.thumbnail?.source||'';
+  const editorial=data.vegasImages||{};
+  const hero=editorial.hero||primary?.thumbnail?.source||'';
   const topSpots=muVegasTopNames(nearby.explore,3);
   const food=muVegasTopNames(nearby.food,3);
   const source=primary?.fullurl||(primary?.pageid?`https://en.wikipedia.org/?curid=${primary.pageid}`:'');
@@ -131,6 +146,7 @@ function renderVegasIntel(modal,ctx,data){
   const foodCopy=food.length?`Local favourites include ${food.join(', ')}.`:'Food, neighbourhoods, day trips and local highlights beyond the Strip.';
   host.innerHTML=`
     <section class="mu-vegas-discover" ${hero?`style="--vegas-live-image:url('${esc(hero)}')"`:''}>
+      <div class="mu-vegas-topbar"><button type="button" class="mu-vegas-back" onclick="closeModal('placeIntelModal')" aria-label="Back">‹</button><div class="mu-vegas-brand"><span>Memories</span> <b>Unlocked</b></div><button type="button" class="mu-vegas-browse" data-vegas-browse-all>Browse places</button></div>
       <div class="mu-vegas-hero">
         <div class="mu-vegas-hero-shade"></div>
         <span class="mu-vegas-count">1 / 5</span>
@@ -155,10 +171,14 @@ function renderVegasIntel(modal,ctx,data){
         <div><span>●</span><small>Location</small><strong>Nevada, USA</strong></div>
       </section>
       <section class="mu-vegas-grid">
-        ${muVegasCard('Why Visit',whyCopy,'Explore Reasons','story','fountains')}
-        ${muVegasCard('Top Spots',spotsCopy,'See Top Spots','spots','strip')}
-        ${muVegasCard('Best Memories to Make','Shows, skyline views, luxury stays and once-in-a-lifetime moments.','Start Your Journey','memories','lights')}
-        ${muVegasCard('Local Highlights',foodCopy,'Discover More','local','food')}
+        ${muVegasCard('Why Visit',whyCopy,'Explore Reasons','story','fountains',editorial.why)}
+        ${muVegasCard('Top Spots',spotsCopy,'See Top Spots','spots','strip',editorial.spots)}
+        ${muVegasCard('Best Memories to Make','Shows, skyline views, luxury stays and once-in-a-lifetime moments.','Start Your Journey','memories','lights',editorial.memories)}
+        ${muVegasCard('Local Highlights',foodCopy,'Discover More','local','food',editorial.local)}
+      </section>
+      <section class="mu-vegas-next-section">
+        <div class="mu-vegas-next-head"><div><span>WHERE NEXT?</span><h3>More places to dream about.</h3><p>Save a destination to your bucket list or open it to explore.</p></div><button type="button" data-vegas-browse-all>Browse all</button></div>
+        <div class="mu-vegas-next-track">${typeof window.muDiscoverFeaturedStrip==='function'?window.muDiscoverFeaturedStrip():''}</div>
       </section>
       <section class="mu-vegas-more" data-vegas-more hidden>
         <button type="button" class="mu-vegas-more-close" data-vegas-more-close>×</button>
@@ -170,6 +190,7 @@ function renderVegasIntel(modal,ctx,data){
         ${source?`<p class="place-source">Place summary: Wikipedia · <a href="${esc(source)}" target="_blank" rel="noopener">read source ↗</a></p>`:''}
       </section>
     </section>`;
+  window.muHydrateDiscoverImages?.(host);
   modal.dataset.vegasSource=source;
   modal.dataset.vegasStory=primary?.extract||'';
   modal.dataset.vegasSpots=JSON.stringify((nearby.explore||[]).slice(0,6));
@@ -208,7 +229,7 @@ function renderPlaceIntel(modal,ctx,data){
 window.muOpenVegasDiscover=async function(){
   const modal=mountDialog('placeIntelModal',`<button class="close" type="button" onclick="closeModal('placeIntelModal')">×</button><div id="placeIntelBody"><div class="place-intel-loading"><span>✦</span><h2>Discovering Las Vegas…</h2><p>Loading the iconic places behind the bright lights.</p></div></div>`,'place-intel-modal vegas-discover-modal');
   const ctx={kind:'discover',id:'las-vegas',label:'Las Vegas, Nevada, USA',record:{title:'Las Vegas',location:'Las Vegas, Nevada, USA'},latitude:36.1699,longitude:-115.1398,journeyId:null};
-  try{const data=await loadPlaceIntelligence(ctx);if(modal.isConnected)renderVegasIntel(modal,ctx,data);}
+  try{const [intel,images]=await Promise.all([loadPlaceIntelligence(ctx),fetchVegasEditorialImages().catch(()=>({}))]);intel.vegasImages=images;if(modal.isConnected)renderVegasIntel(modal,ctx,intel);}
   catch(error){const host=modal.querySelector('#placeIntelBody');if(host)host.innerHTML=`<div class="place-intel-error"><span>✦</span><h2>Las Vegas is still here.</h2><p>Live place details could not load just now, but your app data is unchanged.</p><button class="secondary" type="button" onclick="closeModal('placeIntelModal')">Back to Discover</button></div>`;}
 };
 window.muOpenPlaceIntelligence=async function(kind,id){
@@ -229,6 +250,7 @@ function installPlaceHooks(){
 }
 installPlaceHooks();
 document.addEventListener('click',event=>{
+  const vegasBrowse=event.target.closest('[data-vegas-browse-all]');if(vegasBrowse){event.preventDefault();closeModal?.('placeIntelModal');window.muOpenDiscoverHub?.();return;}
   const vegasShare=event.target.closest('[data-vegas-share]');if(vegasShare){event.preventDefault();const modal=vegasShare.closest('#placeIntelModal');const url=modal?.dataset.vegasSource||location.href;const share={title:'Memories Unlocked — Las Vegas',text:'Discover Las Vegas with Memories Unlocked.',url};if(navigator.share){navigator.share(share).catch(()=>{});}else if(navigator.clipboard){navigator.clipboard.writeText(url).then(()=>toast?.('Las Vegas link copied.')).catch(()=>{});}return;}
   const vegasSave=event.target.closest('[data-vegas-save]');if(vegasSave){event.preventDefault();try{localStorage.setItem('mu_saved_discover_las_vegas','1');}catch{}vegasSave.classList.add('saved');vegasSave.querySelector('span').textContent='♥';toast?.('Las Vegas saved to Discover.');return;}
   const vegasClose=event.target.closest('[data-vegas-more-close]');if(vegasClose){vegasClose.closest('[data-vegas-more]')?.setAttribute('hidden','');return;}
