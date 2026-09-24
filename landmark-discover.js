@@ -5,7 +5,11 @@ window.__muLandmarkDiscoverLoaded=true;
 
 const CACHE_HOURS=12;
 const PLACES={
+  'Las Vegas':{label:'Las Vegas, Nevada, USA',wiki:'Las Vegas',lat:36.1699,lng:-115.1398},
   Rome:{label:'Rome, Italy',wiki:'Rome',lat:41.9028,lng:12.4964},
+  Bahamas:{label:'The Bahamas',wiki:'The Bahamas',lat:25.0343,lng:-77.3963},
+  Miami:{label:'Miami, Florida, USA',wiki:'Miami',lat:25.7617,lng:-80.1918},
+  Venice:{label:'Venice, Italy',wiki:'Venice',lat:45.4408,lng:12.3155},
   Paris:{label:'Paris, France',wiki:'Paris',lat:48.8566,lng:2.3522},
   London:{label:'London, England',wiki:'London',lat:51.5074,lng:-0.1278},
   'New York':{label:'New York City, USA',wiki:'New York City',lat:40.7128,lng:-74.0060},
