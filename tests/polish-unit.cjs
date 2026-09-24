@@ -370,3 +370,24 @@ test('Discover destination cards switch the whole screen and remember the chosen
   assert.match(css,/\.mu-dyn-screen\{/);
   assert.match(css,/\.mu-dyn-next-card\{/);
 });
+
+
+test('all Discover destinations use curated card imagery and five-image galleries',()=>{
+  const js=source('discover-exact.js');
+  const css=source('discover-exact.css');
+  assert.match(js,/Colosseum at sunset-Rome\.JPG/);
+  assert.match(js,/Bahamas 1989 \(547\) Exuma/);
+  assert.match(js,/Ocean Drive at Night \(2\)\.jpg/);
+  assert.match(js,/Palace of Westminster at sunset 2026-09-05\.jpg/);
+  assert.match(js,/Eiffel Tower sunset, Paris \(9249818803\)\.jpg/);
+  assert.match(js,/images:\{why:/);
+  assert.match(js,/gallery:\[\[/);
+  assert.match(js,/count:'1 \/ 5'/);
+  assert.match(js,/function currentGallery\(\)/);
+  assert.match(js,/function dynIcon\(kind\)/);
+  assert.match(js,/function stampIcon\(id\)/);
+  assert.match(css,/2026-09-24 champagne destination polish/);
+  assert.match(css,/\.mu-dyn-gallery-hit\{/);
+  assert.match(css,/\.mu-dyn-stamp svg\{/);
+  assert.match(css,/\.mu-dyn-card-icon svg\{/);
+});
