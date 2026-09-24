@@ -29,3 +29,37 @@
  .mu-pd-bottom-pad{height:100px}
 }
 @media(max-width:390px){.mu-pd-hero{height:300px}.mu-pd-hero-copy h1{font-size:49px!important}.mu-pd-editorial-card{min-height:150px}.mu-pd-next-card{flex-basis:118px;height:142px}}
+
+
+/* 2026-09-24 icon precision pass */
+.mu-pd-vegas-badge svg{overflow:visible}
+.pd-sign-outer{fill:#f9f0cf;stroke:#d6a13a;stroke-width:5;stroke-linejoin:round}
+.pd-sign-mid{fill:#fffaf0;stroke:#0a3157;stroke-width:4;stroke-linejoin:round}
+.pd-sign-inner{fill:#fffdf7;stroke:#e7b34b;stroke-width:1.8;stroke-linejoin:round}
+.pd-sign-star{fill:#f47732;stroke:#f4c85f;stroke-width:2.5;stroke-linejoin:round}
+.pd-sign-post{fill:none;stroke:#0a3157;stroke-width:3.5}
+.pd-sign-bulbs circle{fill:#fff;stroke:#d74a38;stroke-width:2}
+.pd-sign-letters text{fill:#d53f31;font:900 6.3px/1 Arial,sans-serif;text-anchor:middle;dominant-baseline:middle}
+.pd-sign-to{fill:#17486e;font:900 5.5px Arial,sans-serif;text-anchor:middle;letter-spacing:1px}
+.pd-sign-fabulous{fill:#2f6e96;font:italic 700 13px Georgia,serif;text-anchor:middle}
+.pd-sign-vegas{fill:#d83e32;font:900 19px Arial,sans-serif;text-anchor:middle;letter-spacing:-.5px}
+.pd-sign-nevada{fill:#163f64;font:800 6.5px Arial,sans-serif;text-anchor:middle;letter-spacing:3px}
+.pd-sign-palms{fill:none;stroke:#d59f32;stroke-width:2;stroke-linecap:round}
+.pd-sign-sparks{fill:#e0aa3e}
+.mu-pd-actions button{border-width:1.5px!important;box-shadow:0 4px 14px rgba(3,23,42,.20),inset 0 0 0 1px rgba(255,255,255,.06)!important}
+.mu-pd-actions button span{width:22px;height:22px!important;display:grid!important;place-items:center!important;color:#efc45e!important}
+.mu-pd-actions button span svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mu-pd-actions button small{margin-top:3px!important;font-weight:700!important;letter-spacing:.05px!important}
+.mu-pd-actions button.saved{background:#f4cf68!important}
+.mu-pd-actions button.saved span,.mu-pd-actions button.saved small{color:#082f55!important}
+.mu-pd-card-icon{border-width:1.5px!important;box-shadow:0 3px 9px rgba(5,34,61,.14)!important}
+.mu-pd-card-icon svg{width:20px;height:20px;fill:none;stroke:#b77d20;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mu-pd-card-arrow{border-width:1.5px!important}
+@media(max-width:700px){
+ .mu-pd-actions button{width:48px!important;height:48px!important}
+ .mu-pd-actions button span,.mu-pd-actions button span svg{width:18px!important;height:18px!important}
+ .mu-pd-actions button small{font-size:7.5px!important}
+ .mu-pd-card-icon{width:31px!important;height:31px!important}
+ .mu-pd-card-icon svg{width:17px!important;height:17px!important}
+ .mu-pd-vegas-badge{width:101px!important;height:80px!important}
+}
