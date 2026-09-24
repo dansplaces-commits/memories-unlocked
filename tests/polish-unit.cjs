@@ -321,3 +321,22 @@ test('exact Discover uses the approved static master artwork',()=>{
   assert.match(css,/html\.mu-exact-discover-open \.mu-mm-bottom-nav\{visibility:hidden!important/);
   assert.match(css,/\.mu-exact-discover-art\{display:block;width:100%;height:auto/);
 });
+
+
+test('exact Discover adds information overlays and five-image swipe gallery',()=>{
+  const js=source('discover-exact.js');
+  const css=source('discover-exact.css');
+  assert.match(js,/const GALLERY=\[/);
+  assert.match(js,/Las_Vegas_Strip_by_night\.jpg/);
+  assert.match(js,/Fremont_at_Night/);
+  assert.match(js,/function galleryLayer\(index=0\)/);
+  assert.match(js,/data-exact-action="gallery"/);
+  assert.match(js,/pointerdown/);
+  assert.match(js,/pointerup/);
+  assert.match(js,/const INFO=\{/);
+  assert.match(js,/const DEST=\{/);
+  assert.match(css,/2026-09-24 exact Discover interaction layer/);
+  assert.match(css,/\.mu-exact-info-sheet\{/);
+  assert.match(css,/\.mu-exact-gallery-shell\{/);
+  assert.match(css,/\.mu-exact-gallery-dots button\.active/);
+});
