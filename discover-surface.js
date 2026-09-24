@@ -58,7 +58,8 @@ document.addEventListener('click',event=>{
   const button=event.target.closest('[data-home-discover-kind]');
   if(!button)return;
   event.preventDefault();event.stopPropagation();
-  if(typeof window.muOpenDiscoverHub==='function')window.muOpenDiscoverHub();
+  if(typeof window.muOpenVegasDiscover==='function')window.muOpenVegasDiscover();
+  else if(typeof window.muOpenDiscoverHub==='function')window.muOpenDiscoverHub();
   else if(typeof toast==='function')toast('Discover is loading. Refresh this preview once and try again.');
 },true);
 const observer=new MutationObserver(refresh);
