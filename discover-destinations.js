@@ -31,10 +31,18 @@ function card(d,i){const isSaved=saved().has(d.id);return `<article class="mu-de
   </button>
   <div class="mu-dest-copy"><div><small>${safe(d.tag)}</small><strong>${safe(d.name)}</strong><span>${safe(d.region)}</span></div><button type="button" class="mu-dest-heart ${isSaved?'saved':''}" data-dest-save="${d.id}" aria-label="${isSaved?'Remove from':'Add to'} bucket list">${isSaved?'♥':'♡'}</button></div>
  </article>`;}
+function miniCard(d){const isSaved=saved().has(d.id);return `<article class="mu-vegas-next-card" data-dest-card="${d.id}">
+  <button type="button" class="mu-vegas-next-photo" data-dest-open="${d.id}" data-dest-wiki="${safe(d.imageWiki||d.wiki)}" aria-label="Discover ${safe(d.name)}">
+    ${badge(d)}<span class="mu-vegas-next-arrow">→</span>
+  </button>
+  <div class="mu-vegas-next-copy"><strong>${safe(d.name)}</strong><small>${safe(d.region)}</small><button type="button" class="mu-dest-heart ${isSaved?'saved':''}" data-dest-save="${d.id}" aria-label="${isSaved?'Remove from':'Add to'} bucket list">${isSaved?'♥':'♡'}</button></div>
+ </article>`;}
+window.muDiscoverFeaturedStrip=function(){return DESTS.filter(d=>d.id!=='las-vegas').slice(0,7).map(miniCard).join('');};
 async function hydrateImages(host){
  const cards=[...host.querySelectorAll('[data-dest-wiki]')];
  await Promise.all(cards.map(async el=>{try{const title=el.dataset.destWiki;const url='https://en.wikipedia.org/w/api.php?'+new URLSearchParams({action:'query',titles:title,prop:'pageimages',piprop:'thumbnail',pithumbsize:'1000',format:'json',origin:'*'});const data=await fetch(url);if(!data.ok)return;const json=await data.json();const page=Object.values(json.query?.pages||{})[0];const src=page?.thumbnail?.source;if(src&&el.isConnected){el.style.setProperty('--dest-image',`url("${src.replace(/"/g,'%22')}")`);el.classList.add('has-image');}}catch{}}));
 }
+window.muHydrateDiscoverImages=hydrateImages;
 function render(){
  const host=document.getElementById('muDiscoverHubBody');if(!host)return;
  host.innerHTML=`<section class="mu-discover-hub">
@@ -53,17 +61,18 @@ window.muOpenDiscoverHub=function(){
 };
 function openDestination(id){
  const d=DESTS.find(x=>x.id===id);if(!d)return;
- closeModal?.('discoverHubModal');
+ closeModal?.('discoverHubModal');closeModal?.('placeIntelModal');
  if(id==='las-vegas'&&typeof window.muOpenVegasDiscover==='function'){window.muOpenVegasDiscover();return;}
  if(typeof window.muOpenLandmarkDiscover==='function'){window.muOpenLandmarkDiscover(d.name);return;}
  window.toast?.('This destination guide is loading. Try once more in a moment.');
 }
+window.muOpenDiscoverDestination=openDestination;
 /* Global Discover route lock */
 document.addEventListener('click',e=>{
   const legacy=e.target.closest('[data-home-discover-kind],[data-mu-tool="discover"]');
   if(!legacy||legacy.closest('#discoverHubModal'))return;
   e.preventDefault();e.stopImmediatePropagation();
-  window.muOpenDiscoverHub?.();
+  if(typeof window.muOpenVegasDiscover==='function')window.muOpenVegasDiscover();else window.muOpenDiscoverHub?.();
 },true);
 document.addEventListener('click',e=>{
  const open=e.target.closest('[data-dest-open]');if(open){e.preventDefault();openDestination(open.dataset.destOpen);return;}
