@@ -2,7 +2,8 @@
 (function(){
 if(window.__muExactDiscover)return;window.__muExactDiscover=true;
 
-const MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memories-unlocked-discover-las-vegas-master.png?v=1790271619';
+const MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memories-unlocked-discover-las-vegas-content-master-v2.png?v=1790275439';
+const NAV_MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memories-unlocked-discover-nav-master-v2.png?v=1790275444';
 
 const GALLERY=[
  {src:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Front_of_the_Bellagio_at_night.jpg?width=1400',title:'Bellagio after dark',copy:'Las Vegas comes alive after sunset — lights, water and the Strip in full glow.'},
@@ -32,25 +33,39 @@ function hotspot(name,label,left,top,width,height){
 }
 function markup(){
  return `<div class="mu-exact-discover-frame">
-   <img class="mu-exact-discover-art" src="${MASTER}" alt="Discover Las Vegas — Memories Unlocked">
-   ${hotspot('gallery','Open Las Vegas photo gallery',0,5.6,100,35.4)}
-   ${hotspot('back','Back',3.9,1.0,10.8,4.9)}
-   ${hotspot('save','Save Las Vegas',71.3,33.5,11.4,6.2)}
-   ${hotspot('share','Share Las Vegas',83.2,33.5,11.4,6.2)}
-   ${hotspot('why','Why visit Las Vegas',2.4,50.7,46.0,12.8)}
-   ${hotspot('spots','Top spots in Las Vegas',50.3,50.7,47.0,12.8)}
-   ${hotspot('memories','Best memories to make',2.4,64.4,46.0,13.2)}
-   ${hotspot('local','Local highlights',50.3,64.4,47.0,13.2)}
-   ${hotspot('rome','Discover Rome',3.0,82.0,18.0,11.2)}
-   ${hotspot('bahamas','Discover Bahamas',22.1,82.0,19.0,11.2)}
-   ${hotspot('miami','Discover Miami',42.3,82.0,19.0,11.2)}
-   ${hotspot('london','Discover London',62.1,82.0,18.4,11.2)}
-   ${hotspot('paris','Discover Paris',81.0,82.0,17.0,11.2)}
-   ${hotspot('home','Home',2.0,94.2,19.6,5.6)}
-   ${hotspot('journeys','My Journeys',22.8,94.2,18.7,5.6)}
-   ${hotspot('add','Add memory',43.7,94.0,12.8,5.9)}
-   ${hotspot('navmemories','Memories',58.3,94.2,18.3,5.6)}
-   ${hotspot('friends','Friends',78.2,94.2,19.0,5.6)}
+   <div class="mu-exact-content-wrap">
+    <img class="mu-exact-discover-art" src="${MASTER}" alt="Discover Las Vegas — Memories Unlocked">
+    ${hotspot('gallery','Open Las Vegas photo gallery',0,5.96,100,37.70)}
+    ${hotspot('back','Back',3.9,1.06,10.8,5.22)}
+    ${hotspot('save','Save Las Vegas',71.3,35.68,11.4,6.60)}
+    ${hotspot('share','Share Las Vegas',83.2,35.68,11.4,6.60)}
+    ${hotspot('why','Why visit Las Vegas',2.4,53.99,46.0,13.63)}
+    ${hotspot('spots','Top spots in Las Vegas',50.3,53.99,47.0,13.63)}
+    ${hotspot('memories','Best memories to make',2.4,68.58,46.0,13.84)}
+    ${hotspot('local','Local highlights',50.3,68.58,47.0,13.84)}
+    ${hotspot('rome','Discover Rome',3.0,87.33,18.0,11.93)}
+    ${hotspot('bahamas','Discover Bahamas',22.1,87.33,19.0,11.93)}
+    ${hotspot('miami','Discover Miami',42.3,87.33,19.0,11.93)}
+    ${hotspot('london','Discover London',62.1,87.33,18.4,11.93)}
+    ${hotspot('paris','Discover Paris',81.0,87.33,17.0,11.93)}
+   </div>
+   <section class="mu-exact-travel-snapshot" aria-label="Las Vegas travel snapshot">
+    <div class="mu-exact-snapshot-head"><span>TRAVEL SNAPSHOT</span><em>Little details. Better journeys.</em></div>
+    <div class="mu-exact-snapshot-grid">
+      <div><small>BEST FOR</small><strong>Shows · Food · Nightlife</strong></div>
+      <div><small>IDEAL STAY</small><strong>3–5 days</strong></div>
+      <div><small>VIBE</small><strong>Iconic · Vibrant · Indulgent</strong></div>
+    </div>
+    <p><b>Good to know:</b> The Strip is longer than it looks — plan by area, not just by hotel.</p>
+   </section>
+   <div class="mu-exact-nav-wrap">
+    <img class="mu-exact-nav-art" src="${NAV_MASTER}" alt="">
+    ${hotspot('home','Home',2.0,4.5,19.6,91)}
+    ${hotspot('journeys','My Journeys',22.8,4.5,18.7,91)}
+    ${hotspot('add','Add memory',43.7,3.5,12.8,93)}
+    ${hotspot('navmemories','Memories',58.3,4.5,18.3,91)}
+    ${hotspot('friends','Friends',78.2,4.5,19.0,91)}
+   </div>
  </div>`;
 }
 
