@@ -27,9 +27,9 @@ const CONFIG={
   }
  },
  rome:{
-  id:'rome',name:'Rome',location:'Italy',hero:C('Colosseum at sunset-Rome.JPG'),count:'1 / 5',badge:'ROME',tagline:['Ancient places.','Timeless stories.','Your next chapter.'],
-  images:{why:C('Sunset over Roman Forum (45485877135).jpg'),spots:C('Trevi fountain (Rome) at night.jpg'),memories:C("Night view - St Peter's basilica and Ponte Vittorio Emmanuele II. Rome, Italy.jpg"),local:C('Trastevere street, Rome, Italy.jpg')},
-  gallery:[['Colosseum at sunset-Rome.JPG','Colosseum at sunset'],['Sunset over Roman Forum (45485877135).jpg','Roman Forum at golden hour'],['Trevi fountain (Rome) at night.jpg','Trevi Fountain after dark'],["Night view - St Peter's basilica and Ponte Vittorio Emmanuele II. Rome, Italy.jpg",'St Peter’s by night'],['Trastevere street, Rome, Italy.jpg','Trastevere streets']],
+  id:'rome',name:'Rome',location:'Italy',hero:C('Colosseum at sunset-Rome.JPG',2000),heroPos:'center 48%',count:'1 / 5',badge:'ROME',tagline:['Ancient places.','Timeless stories.','Your next chapter.'],
+  images:{why:C("Saint Peter's Basilica at sunset 2021-10.jpg",1800),spots:C('Rome - Trevi fountain at night (5188892083).jpg',1800),memories:C("Rome St.Peter's Basilica at dusk.jpg",1800),local:C('Night life at Trastevere, Rome - 3381.jpg',1800)},
+  gallery:[['Colosseum at sunset-Rome.JPG','Colosseum at sunset'],["Saint Peter's Basilica at sunset 2021-10.jpg",'St Peter’s at sunset'],['Rome - Trevi fountain at night (5188892083).jpg','Trevi Fountain after dark'],["Rome St.Peter's Basilica at dusk.jpg",'Rome at dusk'],['Night life at Trastevere, Rome - 3381.jpg','Trastevere after dark']],
   facts:[['✈','Best time to visit','Apr – Jun · Sep – Oct'],['☀','Climate','Warm summers · Mild winters'],['◉','Iconic status','Historic & Cultural'],['●','Location','Rome, Italy']],
   snapshot:{best:'History · Food · Culture',stay:'3–5 days',vibe:'Timeless · Romantic · Walkable',tip:'Start early for the headline sights, then leave space for slow piazza evenings.'},
   sections:{
@@ -40,9 +40,9 @@ const CONFIG={
   }
  },
  bahamas:{
-  id:'bahamas',name:'Bahamas',location:'Caribbean',hero:C('Bahamas 1989 (547) Exuma (24719903834).jpg'),count:'1 / 5',badge:'BAHAMAS',tagline:['Turquoise waters.','Island stories.','Your next chapter.'],
-  images:{why:C('Beaches in Nassau, Bahamas.jpg'),spots:C('Nassau-Harbour-Cruise-Ships-Aerial-Bahamas.jpg'),memories:C('The Bahamas (iss069e033721).jpg'),local:C('Conch delle bahamas impanate.jpg')},
-  gallery:[['Bahamas 1989 (547) Exuma (24719903834).jpg','Exuma waters'],['Beaches in Nassau, Bahamas.jpg','Nassau beach'],['The Bahamas (iss069e033721).jpg','The Exumas from above'],['Nassau-Harbour-Cruise-Ships-Aerial-Bahamas.jpg','Nassau Harbour'],['Prince George Wharf in Nassau Harbor.jpg','Harbour life']],
+  id:'bahamas',name:'Bahamas',location:'Caribbean',hero:C('Spiaggia Exuma.JPG',2000),heroPos:'center 54%',count:'1 / 5',badge:'BAHAMAS',tagline:['Turquoise waters.','Island stories.','Your next chapter.'],
+  images:{why:C('BHA Nassau, Paradise Island, Cove Beach 001.jpg',1800),spots:C('The Bahamas (iss069e033721).jpg',1800),memories:C('Swimming Pigs.jpg',1800),local:C('Straw Market Nassau Bahamas 2024.jpg',1800)},
+  gallery:[['Spiaggia Exuma.JPG','Exuma beach'],['BHA Nassau, Paradise Island, Cove Beach 001.jpg','Paradise Island'],['The Bahamas (iss069e033721).jpg','The Exumas from above'],['Swimming Pigs.jpg','Swimming pigs'],['Straw Market Nassau Bahamas 2024.jpg','Nassau Straw Market']],
   facts:[['✈','Best time to visit','Dec – Apr'],['☀','Climate','Warm & sunny · All year'],['◉','Iconic status','Island Paradise'],['●','Location','Bahamas, Caribbean']],
   snapshot:{best:'Sea · Relaxation · Adventure',stay:'5–7 days',vibe:'Tropical · Calm · Unforgettable',tip:'Leave room for a boat day — many of the best memories happen away from the main island.'},
   sections:{
@@ -53,9 +53,9 @@ const CONFIG={
   }
  },
  miami:{
-  id:'miami',name:'Miami',location:'Florida, USA',hero:C('Ocean Drive at Night (2).jpg'),count:'1 / 5',badge:'MIAMI',tagline:['Sunshine days.','Vibrant nights.','Your next chapter.'],
-  images:{why:C('Ocean Drive in the Miami Beach Art Deco Historic District.jpg'),spots:C('Miami Beach - Ocean Drive and Lummus Park.jpg'),memories:C('Ocean Drive NB past 10th Street Miami Beach at night.jpeg'),local:C('Little Havana House.jpg')},
-  gallery:[['Ocean Drive at Night (2).jpg','Ocean Drive after dark'],['Ocean Drive in the Miami Beach Art Deco Historic District.jpg','Art Deco Miami'],['Miami Beach - Ocean Drive and Lummus Park.jpg','South Beach'],['Ocean Drive NB past 10th Street Miami Beach at night.jpeg','Neon Ocean Drive'],['Little Havana House.jpg','Little Havana']],
+  id:'miami',name:'Miami',location:'Florida, USA',hero:C('Ocean Drive at Night (2).jpg',2000),heroPos:'center 48%',count:'1 / 5',badge:'MIAMI',tagline:['Sunshine days.','Vibrant nights.','Your next chapter.'],
+  images:{why:C('Ocean drive south beach miami night.JPG',1800),spots:C('South Beach from air.jpg',1800),memories:C('Ocean Drive NB past 7th Street Miami Beach at night.jpeg',1800),local:C('April 7, 2015 - Little Havana, Miami, Florida - Welcome.jpg',1800)},
+  gallery:[['Ocean Drive at Night (2).jpg','Ocean Drive after dark'],['South Beach from air.jpg','South Beach from above'],['Ocean Drive NB past 7th Street Miami Beach at night.jpeg','Neon Ocean Drive'],['April 7, 2015 - Little Havana, Miami, Florida - Welcome.jpg','Little Havana'],['South beach miami at night.JPG','South Beach at night']],
   facts:[['✈','Best time to visit','Nov – Apr'],['☀','Climate','Hot & sunny · Year-round'],['◉','Iconic status','Vibrant City'],['●','Location','Florida, USA']],
   snapshot:{best:'Beach · Food · Culture',stay:'3–5 days',vibe:'Colourful · Energetic · Coastal',tip:'Treat Miami as several neighbourhoods, not one beach — South Beach is only the start.'},
   sections:{
@@ -66,9 +66,9 @@ const CONFIG={
   }
  },
  london:{
-  id:'london',name:'London',location:'UK',hero:C('Palace of Westminster at sunset 2026-09-05.jpg'),count:'1 / 5',badge:'LONDON',tagline:['Iconic landmarks.','Incredible stories.','Your next chapter.'],
-  images:{why:C('Tower Bridge at Night.JPG'),spots:C('London - Borough Market.jpg'),memories:C('Palace of Westminster at dusk from Westminster Bridge.jpg'),local:C('TowerBridge at night.jpg')},
-  gallery:[['Palace of Westminster at sunset 2026-09-05.jpg','Westminster at sunset'],['Tower Bridge at Night.JPG','Tower Bridge at night'],['London - Borough Market.jpg','Borough Market'],['Palace of Westminster at dusk from Westminster Bridge.jpg','Westminster at dusk'],['Tower Bridge Nacht.JPG','London after dark']],
+  id:'london',name:'London',location:'UK',hero:C('Palace of Westminster at dusk from Westminster Bridge.jpg',2000),heroPos:'center 52%',count:'1 / 5',badge:'LONDON',tagline:['Iconic landmarks.','Incredible stories.','Your next chapter.'],
+  images:{why:C('Tower Bridge golden hour.jpg',1800),spots:C('London Eye and the River Thames at night.jpg',1800),memories:C('London Eye at Sunset.jpg',1800),local:C('London - Borough Market.jpg',1800)},
+  gallery:[['Palace of Westminster at dusk from Westminster Bridge.jpg','Westminster at dusk'],['Tower Bridge golden hour.jpg','Tower Bridge at golden hour'],['London Eye and the River Thames at night.jpg','London Eye at night'],['London Eye at Sunset.jpg','London Eye at sunset'],['London - Borough Market.jpg','Borough Market']],
   facts:[['✈','Best time to visit','Apr – Jun · Sep – Oct'],['☀','Climate','Mild summers · Cool winters'],['◉','Iconic status','World Famous'],['●','Location','London, UK']],
   snapshot:{best:'History · Culture · Food',stay:'3–5 days',vibe:'Iconic · Layered · Always changing',tip:'Plan by neighbourhood and Tube line — crossing London repeatedly can eat into a day.'},
   sections:{
@@ -79,9 +79,9 @@ const CONFIG={
   }
  },
  paris:{
-  id:'paris',name:'Paris',location:'France',hero:C('Eiffel Tower sunset, Paris (9249818803).jpg'),count:'1 / 5',badge:'PARIS',tagline:['Romance. Culture.','Iconic sights.','Your next chapter.'],
-  images:{why:C('Montmartre @ Paris (33384906184).jpg'),spots:C('The Louvre, Paris, France, between ca. 1890 and ca. 1900.jpg'),memories:C('Eiffel Tower at sunset.jpg'),local:C('Paris cafe in Ile de la Cite, 2010.jpg')},
-  gallery:[['Eiffel Tower sunset, Paris (9249818803).jpg','Eiffel Tower at sunset'],['Montmartre @ Paris (33384906184).jpg','Montmartre'],['Paris at sunset, view from the Eiffel Tower.jpg','Paris from above'],['Paris cafe in Ile de la Cite, 2010.jpg','Paris café life'],['Atardecer en Paris.jpg','Paris at golden hour']],
+  id:'paris',name:'Paris',location:'France',hero:C('Paris Montmartre view of the Eiffel Tower at sunset 2026-01-03-1.jpg',2000),heroPos:'center 48%',count:'1 / 5',badge:'PARIS',tagline:['Romance. Culture.','Iconic sights.','Your next chapter.'],
+  images:{why:C('Montmartre at night, Paris 27 April 2018.jpg',1800),spots:C('Cathédrale Notre-Dame at Sunset.jpg',1800),memories:C('Paris at dusk (22439395442).jpg',1800),local:C('Café in Paris at dusk 04 2016 France 5557.jpg',1800)},
+  gallery:[['Paris Montmartre view of the Eiffel Tower at sunset 2026-01-03-1.jpg','Eiffel Tower at sunset'],['Montmartre at night, Paris 27 April 2018.jpg','Montmartre after dark'],['Cathédrale Notre-Dame at Sunset.jpg','Notre-Dame at sunset'],['Paris at dusk (22439395442).jpg','Paris at dusk'],['Café in Paris at dusk 04 2016 France 5557.jpg','Paris café at dusk']],
   facts:[['✈','Best time to visit','Apr – Jun · Sep – Oct'],['☀','Climate','Warm summers · Cool winters'],['◉','Iconic status','Cultural Icon'],['●','Location','Paris, France']],
   snapshot:{best:'Art · Food · Romance',stay:'3–5 days',vibe:'Elegant · Historic · Atmospheric',tip:'Leave one afternoon completely unplanned — Paris is especially good when you wander.'},
   sections:{
@@ -180,7 +180,7 @@ function dynamicMarkup(c){
  return `<div class="mu-exact-discover-frame" data-current-destination="${c.id}">
   <section class="mu-dyn-screen">
    <div class="mu-dyn-header"><img src="${HEADER_MASTER}" alt=""><button type="button" data-exact-action="back" aria-label="Back"></button></div>
-   <section class="mu-dyn-hero" style="--dyn-hero:url('${c.hero}')">
+   <section class="mu-dyn-hero" style="--dyn-hero:url('${c.hero}');--dyn-hero-pos:${c.heroPos||'center'}">
     <span class="mu-dyn-hero-shade"></span>
     <div class="mu-dyn-title"><small>DISCOVER</small><h1>${c.name}</h1><p>●&nbsp; ${c.location}</p><em>${c.tagline.join('<br>')}</em></div>
     <span class="mu-dyn-count">${c.count}</span>
