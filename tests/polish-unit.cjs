@@ -212,15 +212,15 @@ test('curated Discover is independent of saved travel and uses smaller iconic ba
   const hub=source('discover-destinations.js');
   const css=source('discover-destinations.css');
   const mobile=source('mobile-master-v1.js');
-  assert.match(hub,/Where will your story go next\?/);
+  assert.match(hub,/Discover\.<\/h2>/);
   assert.match(hub,/BUCKET-LIST INSPIRATION/);
   assert.match(hub,/id:'las-vegas'/);
   assert.match(hub,/id:'rome'/);
   assert.match(hub,/id:'bahamas'/);
   assert.match(hub,/id:'miami'/);
   assert.match(hub,/mu_bucket_list_v1/);
-  assert.match(css,/\.mu-dest-badge-card\{right:8px;top:8px;width:58px;height:58px/);
-  assert.match(css,/@media\(max-width:700px\)[\s\S]*\.mu-dest-badge-card\{width:49px;height:49px/);
+  assert.match(css,/\.mu-dest-badge-card\{right:9px!important;top:9px!important;width:46px!important;height:46px!important/);
+  assert.match(css,/@media\(max-width:700px\)[\s\S]*\.mu-dest-badge-card\{width:40px!important;height:40px!important/);
   assert.match(mobile,/Explore Bucket List Places/);
   assert.match(mobile,/window\.muOpenDiscoverHub/);
 });
