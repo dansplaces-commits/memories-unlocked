@@ -376,10 +376,10 @@ test('all Discover destinations use curated card imagery and five-image gallerie
   const js=source('discover-exact.js');
   const css=source('discover-exact.css');
   assert.match(js,/Colosseum at sunset-Rome\.JPG/);
-  assert.match(js,/Bahamas 1989 \(547\) Exuma/);
+  assert.match(js,/Spiaggia Exuma\.JPG/);
   assert.match(js,/Ocean Drive at Night \(2\)\.jpg/);
-  assert.match(js,/Palace of Westminster at sunset 2026-09-05\.jpg/);
-  assert.match(js,/Eiffel Tower sunset, Paris \(9249818803\)\.jpg/);
+  assert.match(js,/Palace of Westminster at dusk from Westminster Bridge\.jpg/);
+  assert.match(js,/Paris Montmartre view of the Eiffel Tower at sunset 2026-01-03-1\.jpg/);
   assert.match(js,/images:\{why:/);
   assert.match(js,/gallery:\[\[/);
   assert.match(js,/count:'1 \/ 5'/);
