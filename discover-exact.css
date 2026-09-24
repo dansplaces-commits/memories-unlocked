@@ -86,7 +86,7 @@ html.mu-exact-discover-open .mu-mm-bottom-nav{visibility:hidden!important;pointe
 .mu-dyn-header{position:relative;line-height:0;background:#fff8eb}
 .mu-dyn-header img{display:block;width:100%;height:auto}
 .mu-dyn-header button{position:absolute;left:3.8%;top:14%;width:10.5%;height:72%;border:0;background:transparent;padding:0}
-.mu-dyn-hero{position:relative;height:520px;background-image:var(--dyn-hero),linear-gradient(135deg,#0b365f,#b47534);background-size:cover;background-position:center;overflow:hidden}
+.mu-dyn-hero{position:relative;height:520px;background-image:var(--dyn-hero),linear-gradient(135deg,#0b365f,#b47534);background-size:cover;background-position:var(--dyn-hero-pos,center);overflow:hidden}
 .mu-dyn-hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,26,49,.78) 0%,rgba(4,26,49,.36) 45%,rgba(4,26,49,.05) 72%),linear-gradient(180deg,rgba(0,0,0,.03),rgba(3,23,42,.35))}
 .mu-dyn-title{position:absolute;left:4.7%;top:8%;z-index:2;color:#fff;max-width:54%}
 .mu-dyn-title small{display:block;color:#efbd4e;font:800 11px/1 Arial,sans-serif;letter-spacing:3px}
@@ -144,3 +144,11 @@ html.mu-exact-discover-open .mu-mm-bottom-nav{visibility:hidden!important;pointe
  .mu-dyn-stamp svg{width:31px!important;height:24px!important;stroke-width:1.8!important}
  .mu-dyn-card-icon svg{width:16px!important;height:16px!important}
 }
+
+
+/* 2026-09-24 cinematic photography finish */
+.mu-dyn-hero:after{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(180deg,rgba(3,22,40,.02) 0%,transparent 54%,rgba(3,22,40,.16) 100%)}
+.mu-dyn-card:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.04),transparent 42%);z-index:1}
+.mu-dyn-card-icon,.mu-dyn-card-copy,.mu-dyn-card-arrow{z-index:3!important}
+.mu-dyn-next-card:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.03),transparent 50%);z-index:1}
+.mu-dyn-next-badge,.mu-dyn-next-copy{z-index:3!important}
