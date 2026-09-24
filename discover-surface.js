@@ -30,30 +30,25 @@ function renderAuthoritativeHome(){
   if(storyPlace){const n=new Set(ms.map(m=>(m.location||'').trim().toLowerCase()).filter(Boolean)).size;storyPlace.textContent=`${n} ${n===1?'Place':'Places'}`;}
 }
 function renderDiscoverCard(){
-  const place=latestActive();
   const desktop=document.querySelector('.dash-live');
   if(desktop){
     let section=desktop.querySelector('.dash-discover-place');
     if(!section){section=document.createElement('section');section.className='dash-discover-place';const actions=desktop.querySelector('.dash-actions');actions?.insertAdjacentElement('afterend',section);}
-    if(section){
-      if(place)section.innerHTML=`<div class="dash-discover-copy"><span class="eyebrow">DISCOVER</span><h2>Where will your story go next?</h2><p>Explore iconic places, dream destinations and bucket-list ideas — separate from the journeys you've already made.</p></div><button type="button" class="dash-discover-button" data-mu-tool="discover"><span>⌖</span><b>Explore Bucket List Places</b><small>Find inspiration for your next journey →</small></button>`;
-      else section.innerHTML=`<div class="dash-discover-copy"><span class="eyebrow">DISCOVER THE PLACE</span><h2>Your next place starts here.</h2><p>Create a journey or memory with a location and Memories Unlocked will help you understand and explore it.</p></div>`;
-    }
+    if(section)section.innerHTML=`<div class="dash-discover-copy"><span class="eyebrow">DISCOVER</span><h2>Where will your story go next?</h2><p>Explore iconic places, dream destinations and bucket-list ideas — separate from the journeys you've already made.</p></div><button type="button" class="dash-discover-button" data-mu-tool="discover"><span>⌖</span><b>Explore Bucket List Places</b><small>Find inspiration for your next journey →</small></button>`;
   }
   const home=document.getElementById('home');
   if(home){
     let mobile=home.querySelector('.home-discover-place');
     if(!mobile){mobile=document.createElement('section');mobile.className='home-discover-place';const grid=home.querySelector('.grid');grid?.insertAdjacentElement('afterend',mobile);}
-    if(mobile&&place)mobile.innerHTML=`<span class="eyebrow">DISCOVER</span><h2>Bucket List Places</h2><p>Iconic destinations, future ideas and places you'd love to experience.</p><button type="button" class="secondary" data-mu-tool="discover">Explore destinations →</button>`;
+    if(mobile)mobile.innerHTML=`<span class="eyebrow">DISCOVER</span><h2>Bucket List Places</h2><p>Iconic destinations, future ideas and places you'd love to experience.</p><button type="button" class="secondary" data-mu-tool="discover">Explore destinations →</button>`;
   }
 }
 function renderDiscoverChip(){
-  const place=latestActive();
   let chip=document.getElementById('appDiscoverChip');
-  if(!place){chip?.remove();return;}
   if(!chip){chip=document.createElement('button');chip.id='appDiscoverChip';chip.type='button';chip.className='app-discover-chip';document.body.appendChild(chip);}
-  chip.dataset.homeDiscoverKind=place.kind;chip.dataset.homeDiscoverId=String(place.id);
-  chip.innerHTML=`<span class="discover-chip-icon">⌖</span><span><small>DISCOVER</small><strong>${esc(place.label)}</strong></span><span class="discover-chip-arrow">→</span>`;
+  delete chip.dataset.homeDiscoverKind;delete chip.dataset.homeDiscoverId;
+  chip.dataset.muTool='discover';
+  chip.innerHTML=`<span class="discover-chip-icon">⌖</span><span><small>DISCOVER</small><strong>Bucket List Places</strong></span><span class="discover-chip-arrow">→</span>`;
 }
 function refresh(){
   if(discoverQueued)return;discoverQueued=true;
