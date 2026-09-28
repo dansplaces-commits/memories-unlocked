@@ -151,6 +151,7 @@ function dynIcon(kind){
 }
 function stampIcon(id){
  const common='viewBox="0 0 48 38" aria-hidden="true"';
+ if(id==='vegas')return `<svg ${common}><path d="M7 21h34M11 21V13h26v8M15 13l9-8 9 8M24 5v16M10 27h28M14 31h20"/><path d="M10 9h5m18 0h5M5 16h6m26 0h6"/></svg>`;
  if(id==='rome')return `<svg ${common}><path d="M7 31V18c0-7 6-12 17-12s17 5 17 12v13M10 18h28M13 13h22M16 9h16M12 31V23h7v8m4 0v-9h5v9m4 0v-8h5v8"/></svg>`;
  if(id==='bahamas')return `<svg ${common}><path d="M24 32c-2-10-1-19 4-27M28 8c-5-4-10-4-14-1 5 1 9 3 12 6m2-5c5-4 10-3 14 0-5 1-9 3-12 6M9 33c9-5 22-5 31 0"/></svg>`;
  if(id==='miami')return `<svg ${common}><path d="M9 31V17h8v14m4 0V11h10v20m4 0V20h6v11"/><path d="M10 14c8-7 16-7 23-2"/></svg>`;
@@ -224,17 +225,83 @@ function open(){
  return modal;
 }
 
-function infoLayer(data){
- const modal=exactModal();if(!modal||!data)return;
+function infoHero(c,key){
+ if(c.images?.[key])return c.images[key];
+ const vegasMap={why:0,spots:1,memories:3,local:2};
+ return c.id==='vegas'?(VEGAS_GALLERY[vegasMap[key]??0]?.src||c.hero):c.hero;
+}
+function infoPrompt(c,key){
+ const prompts={
+  why:`What would make ${c.name} feel worth travelling for — the atmosphere, the food, the history, the spectacle, or something personal?`,
+  spots:`Which one place in ${c.name} would you want to see first — and what would make that moment yours?`,
+  memories:`Imagine looking back in ten years. Which ${c.name} moment would you most want to have kept?`,
+  local:`What would help you experience ${c.name} beyond the postcard and find the part that feels personal?`
+ };
+ return prompts[key]||`What would make ${c.name} unforgettable for you?`;
+}
+function infoKeyLabel(key){
+ return {why:'THE EXPERIENCE',spots:'THE ICONS',memories:'THE MOMENTS',local:'BEYOND THE POSTCARD'}[key]||'DISCOVER';
+}
+function infoLayer(data,key='why'){
+ const modal=exactModal(),c=CONFIG[currentId];if(!modal||!data||!c)return;
  clearOverlay();
- const layer=document.createElement('div');layer.className='mu-exact-layer mu-exact-info-layer';
- layer.innerHTML=`<button type="button" class="mu-exact-layer-dismiss" data-exact-close-layer aria-label="Close information"></button>
- <section class="mu-exact-info-sheet"><span class="mu-exact-sheet-handle"></span><button type="button" class="mu-exact-sheet-close" data-exact-close-layer aria-label="Close">×</button>
-  <small>${data.kicker}</small><h2>${data.title}</h2><p>${data.intro}</p>
-  <div class="mu-exact-info-list">${data.items.map((x,i)=>`<div><b>0${i+1}</b><span>${x}</span></div>`).join('')}</div>
-  <div class="mu-exact-info-actions"><button type="button" data-exact-close-layer>Back to Discover</button><button type="button" class="primary" data-exact-save-trip>Save ${CONFIG[currentId].name}</button></div>
+ const hero=infoHero(c,key),gallery=currentGallery();
+ const layer=document.createElement('div');layer.className='mu-exact-layer mu-exact-info-layer mu-premium-info-layer open';
+ layer.innerHTML=`<section class="mu-premium-info-page">
+  <header class="mu-premium-info-hero" style="--info-hero:url('${hero}')">
+   <span class="mu-premium-info-hero-shade"></span>
+   <div class="mu-premium-info-topbar">
+    <button type="button" class="mu-premium-info-back" data-exact-close-layer aria-label="Back to ${c.name}">‹</button>
+    <span class="mu-premium-info-brand">MEMORIES <b>UNLOCKED</b></span>
+    <button type="button" class="mu-premium-info-save" data-exact-save-trip aria-label="Save ${c.name}">♡</button>
+   </div>
+   <div class="mu-premium-info-title">
+    <small>DISCOVER · ${c.name.toUpperCase()}</small>
+    <h1>${data.title}</h1>
+    <p>●&nbsp; ${c.location}</p>
+   </div>
+   <div class="mu-premium-info-stamp">${stampIcon(c.id)}<b>${c.badge||c.name.toUpperCase()}</b><small>${infoKeyLabel(key)}</small></div>
+  </header>
+
+  <main class="mu-premium-info-body">
+   <section class="mu-premium-info-intro">
+    <div class="mu-premium-info-rule"><span></span><b>${data.kicker}</b><span></span></div>
+    <p>${data.intro}</p>
+   </section>
+
+   <section class="mu-premium-info-mini-grid">
+    <div><small>BEST FOR</small><strong>${c.snapshot.best}</strong></div>
+    <div><small>IDEAL STAY</small><strong>${c.snapshot.stay}</strong></div>
+    <div><small>VIBE</small><strong>${c.snapshot.vibe}</strong></div>
+   </section>
+
+   <section class="mu-premium-info-points">
+    ${data.items.map((x,i)=>`<article><b>0${i+1}</b><div><small>${['START HERE','MAKE TIME FOR','MEMORY WORTH MAKING','EXTRA TOUCH'][i]||'GOOD TO KNOW'}</small><p>${x}</p></div></article>`).join('')}
+   </section>
+
+   <aside class="mu-premium-info-memory">
+    <span class="mu-premium-info-memory-icon">✦</span>
+    <div><small>MEMORY PROMPT</small><p>${infoPrompt(c,key)}</p></div>
+   </aside>
+
+   <button type="button" class="mu-premium-info-gallery" data-info-gallery>
+    <span class="mu-premium-info-gallery-thumb" style="--info-thumb:url('${gallery[1]?.src||hero}')"></span>
+    <span><small>PHOTO STORY</small><strong>See ${c.name} through ${gallery.length||5} moments</strong></span>
+    <b>›</b>
+   </button>
+
+   <section class="mu-premium-info-note">
+    <small>GOOD TO KNOW</small>
+    <p>${c.snapshot.tip}</p>
+   </section>
+
+   <div class="mu-premium-info-actions">
+    <button type="button" data-exact-close-layer>Back to ${c.name}</button>
+    <button type="button" class="primary" data-exact-save-trip>Save to bucket list</button>
+   </div>
+  </main>
  </section>`;
- modal.append(layer);requestAnimationFrame(()=>layer.classList.add('open'));
+ modal.append(layer);
 }
 
 let galleryIndex=0;
@@ -285,7 +352,8 @@ document.addEventListener('click',e=>{
  const prev=e.target.closest('[data-gallery-prev]');if(prev){moveGallery(-1);return}
  const next=e.target.closest('[data-gallery-next]');if(next){moveGallery(1);return}
  const dot=e.target.closest('[data-gallery-dot]');if(dot){galleryIndex=Number(dot.dataset.galleryDot)||0;renderGallery();return}
- if(e.target.closest('[data-exact-save-trip]')){saveCurrent();clearOverlay();return}
+ if(e.target.closest('[data-exact-save-trip]')){saveCurrent();return}
+ if(e.target.closest('[data-info-gallery]')){clearOverlay();galleryLayer(0);return}
 
  const dest=e.target.closest('[data-exact-dest]');if(dest){switchDestination(dest.dataset.exactDest,true);return}
  const hit=e.target.closest('[data-exact-action]');if(!hit)return;
@@ -299,6 +367,6 @@ document.addEventListener('click',e=>{
  if(a==='add'){closeExact();addMemory?.();return}
  if(a==='navmemories'){closeExact();showView?.('home');setTimeout(()=>document.querySelector('.mu-mm-memories')?.scrollIntoView({behavior:'smooth',block:'start'}),100);return}
  if(a==='friends'){closeExact();showView?.('follow');return}
- const section=CONFIG[currentId]?.sections?.[a];if(section){infoLayer(section);return}
+ const section=CONFIG[currentId]?.sections?.[a];if(section){infoLayer(section,a);return}
 });
 })();
