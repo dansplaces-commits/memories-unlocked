@@ -406,3 +406,25 @@ test('champagne Discover uses fine tuned cinematic photo sets',()=>{
   assert.match(css,/--dyn-hero-pos/);
   assert.match(css,/2026-09-24 cinematic photography finish/);
 });
+
+
+test('Discover information pages use locked premium full-screen standard',()=>{
+  const js=source('discover-exact.js');
+  const css=source('discover-exact.css');
+  assert.match(js,/function infoHero\(c,key\)/);
+  assert.match(js,/function infoPrompt\(c,key\)/);
+  assert.match(js,/function infoLayer\(data,key='why'\)/);
+  assert.match(js,/mu-premium-info-page/);
+  assert.match(js,/mu-premium-info-mini-grid/);
+  assert.match(js,/mu-premium-info-points/);
+  assert.match(js,/MEMORY PROMPT/);
+  assert.match(js,/data-info-gallery/);
+  assert.match(js,/Save to bucket list/);
+  assert.match(js,/infoLayer\(section,a\)/);
+  assert.match(css,/2026-09-28 locked premium information pages/);
+  assert.match(css,/\.mu-premium-info-hero\{/);
+  assert.match(css,/\.mu-premium-info-mini-grid\{/);
+  assert.match(css,/\.mu-premium-info-points article\{/);
+  assert.match(css,/\.mu-premium-info-memory\{/);
+  assert.match(css,/\.mu-premium-info-gallery\{/);
+});
