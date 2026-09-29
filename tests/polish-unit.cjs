@@ -434,11 +434,11 @@ test('Discover uses approved landmark badges and wow destination heroes',()=>{
   const js=source('discover-exact.js');
   const css=source('discover-exact.css');
   assert.match(js,/const BADGES=\{/);
-  assert.match(js,/mu-badge-rome-sourcefinal\.png/);
-  assert.match(js,/mu-badge-bahamas-sourcefinal\.png/);
-  assert.match(js,/mu-badge-miami-sourcefinal\.png/);
-  assert.match(js,/mu-badge-london-sourcefinal\.png/);
-  assert.match(js,/mu-badge-paris-sourcefinal\.png/);
+  assert.match(js,/mu-badge-rome-fulloutline\.png/);
+  assert.match(js,/mu-badge-bahamas-fulloutline\.png/);
+  assert.match(js,/mu-badge-miami-fulloutline\.png/);
+  assert.match(js,/mu-badge-london-fulloutline\.png/);
+  assert.match(js,/mu-badge-paris-fulloutline\.png/);
   assert.match(js,/mu-rome-hero-v3/);
   assert.match(js,/mu-bahamas-hero-v4/);
   assert.match(js,/mu-miami-hero-v4/);
@@ -455,9 +455,9 @@ test('Discover uses approved landmark badges and wow destination heroes',()=>{
 test('Discover crops use clean badges and full-width tablet framing',()=>{
   const js=source('discover-exact.js');
   const css=source('discover-exact.css');
-  assert.match(js,/mu-badge-bahamas-sourcefinal\.png/);
-  assert.match(js,/mu-badge-london-sourcefinal\.png/);
-  assert.match(js,/mu-badge-miami-sourcefinal\.png/);
+  assert.match(js,/mu-badge-bahamas-fulloutline\.png/);
+  assert.match(js,/mu-badge-london-fulloutline\.png/);
+  assert.match(js,/mu-badge-miami-fulloutline\.png/);
   assert.match(js,/heroPos:'center 56%'/);
   assert.match(css,/2026-09-29 crop correction pass/);
   assert.match(css,/@media\(max-width:1100px\)/);
@@ -497,21 +497,32 @@ test('Discover uses final curated category-specific image sets',()=>{
 
 test('final landmark badges keep complete padded outlines',()=>{
   const js=source('discover-exact.js');
-  assert.match(js,/mu-badge-las-vegas-sourcefinal\.png/);
-  assert.match(js,/mu-badge-rome-sourcefinal\.png/);
-  assert.match(js,/mu-badge-bahamas-sourcefinal\.png/);
-  assert.match(js,/mu-badge-miami-sourcefinal\.png/);
-  assert.match(js,/mu-badge-london-sourcefinal\.png/);
-  assert.match(js,/mu-badge-paris-sourcefinal\.png/);
+  assert.match(js,/mu-badge-las-vegas-fulloutline\.png/);
+  assert.match(js,/mu-badge-rome-fulloutline\.png/);
+  assert.match(js,/mu-badge-bahamas-fulloutline\.png/);
+  assert.match(js,/mu-badge-miami-fulloutline\.png/);
+  assert.match(js,/mu-badge-london-fulloutline\.png/);
+  assert.match(js,/mu-badge-paris-fulloutline\.png/);
 });
 
 
 test('source-clean landmark badges preserve full original outlines',()=>{
   const js=source('discover-exact.js');
-  assert.match(js,/mu-badge-las-vegas-sourcefinal\.png/);
-  assert.match(js,/mu-badge-rome-sourcefinal\.png/);
-  assert.match(js,/mu-badge-bahamas-sourcefinal\.png/);
-  assert.match(js,/mu-badge-miami-sourcefinal\.png/);
-  assert.match(js,/mu-badge-london-sourcefinal\.png/);
-  assert.match(js,/mu-badge-paris-sourcefinal\.png/);
+  assert.match(js,/mu-badge-las-vegas-fulloutline\.png/);
+  assert.match(js,/mu-badge-rome-fulloutline\.png/);
+  assert.match(js,/mu-badge-bahamas-fulloutline\.png/);
+  assert.match(js,/mu-badge-miami-fulloutline\.png/);
+  assert.match(js,/mu-badge-london-fulloutline\.png/);
+  assert.match(js,/mu-badge-paris-fulloutline\.png/);
+});
+
+
+test('full-outline landmark badges are wired for every destination',()=>{
+  const js=source('discover-exact.js');
+  assert.match(js,/mu-badge-las-vegas-fulloutline\.png/);
+  assert.match(js,/mu-badge-rome-fulloutline\.png/);
+  assert.match(js,/mu-badge-bahamas-fulloutline\.png/);
+  assert.match(js,/mu-badge-miami-fulloutline\.png/);
+  assert.match(js,/mu-badge-london-fulloutline\.png/);
+  assert.match(js,/mu-badge-paris-fulloutline\.png/);
 });
