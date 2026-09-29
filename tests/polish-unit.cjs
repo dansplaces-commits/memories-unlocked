@@ -458,7 +458,7 @@ test('Discover crops use clean badges and full-width tablet framing',()=>{
   assert.match(js,/mu-badge-bahamas-clean\.png/);
   assert.match(js,/mu-badge-london-clean\.png/);
   assert.match(js,/mu-badge-miami-clean\.png/);
-  assert.match(js,/heroPos:'center 61%'/);
+  assert.match(js,/heroPos:'center 63%'/);
   assert.match(css,/2026-09-29 crop correction pass/);
   assert.match(css,/@media\(max-width:1100px\)/);
   assert.match(css,/\.mu-exact-discover-frame\{width:100%!important;max-width:none!important\}/);
