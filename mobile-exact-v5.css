@@ -1,0 +1,93 @@
+/* Memories Unlocked — final mobile reference-match polish v5. */
+@media(max-width:700px){
+  :root{--mu5-paper:#f7f0e4;--mu5-card:#fffaf2;--mu5-navy:#0f3158;--mu5-gold:#e4ad30;--mu5-ink:#153654;--mu5-line:#e6dac4}
+  html,body{background:linear-gradient(180deg,#fbf7ef 0%,#f6eee1 100%)!important}
+  body.mu-mobile-master{padding-bottom:62px!important}
+  .app{padding-left:6px!important;padding-right:6px!important;padding-bottom:68px!important}
+
+  /* Header proportions from approved mockup. */
+  .brand-header.mu-master-mobile-header{height:46px!important;min-height:46px!important;margin:0 -6px 4px!important;padding:0 7px!important;grid-template-columns:28px 1fr 28px!important;background:rgba(250,246,237,.98)!important}
+  .mu-master-mobile-header .logo{font-size:12px!important;line-height:.92!important;gap:3px!important}
+  .mu-master-mobile-header .brand-lock{width:18px!important;height:22px!important}
+  .mu-mm-menu,.mu-mm-profile{width:26px!important;height:26px!important}
+  .mu-mm-menu span{width:14px!important;height:1.4px!important}
+
+  /* Hero pair: compact, image-led and visually separated. */
+  .mu-mm-hero-cards{gap:4px!important;margin:2px 0 6px!important}
+  .mu-mm-discover,.mu-mm-latest{border-radius:12px!important;box-shadow:0 4px 12px rgba(15,49,88,.065)!important}
+  .mu-mm-discover{min-height:52px!important;padding:6px 28% 6px 8px!important;grid-template-columns:30px 1fr 15px!important;gap:6px!important}
+  .mu-mm-latest{min-height:44px!important;padding:5px 8px!important;grid-template-columns:31px 1fr 15px!important;gap:6px!important;background:#fffaf3!important}
+  .mu-mm-round-icon,.mu-mm-latest-thumb{width:30px!important;height:30px!important}
+  .mu-mm-discover small,.mu-mm-latest small{font-size:5.8px!important;letter-spacing:1.05px!important;margin-bottom:1px!important}
+  .mu-mm-discover strong,.mu-mm-latest strong{font-size:11.7px!important;line-height:1!important}
+  .mu-mm-discover em,.mu-mm-latest em{font-size:6px!important;line-height:1.04!important;margin-top:1px!important}
+
+  /* Section heading and handwritten note. */
+  .mu-mm-start{margin-bottom:5px!important}
+  .mu-mm-section-head{margin:0 1px 4px!important;align-items:flex-start!important}
+  .mu-mm-section-head h2{font-size:14.2px!important;line-height:1!important}
+  .mu-mm-section-head p{font-size:6.4px!important;margin-top:1px!important}
+  .mu-mm-section-head>span{font-size:6.4px!important;line-height:1.05!important;max-width:68px!important;color:#9f7424!important;transform:rotate(-4deg)}
+
+  /* Four-across illustrated cards exactly as the approved composition. */
+  .mu-mm-action-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:3px!important}
+  .mu-mm-action{min-height:108px!important;border-radius:8px!important;padding:0!important;overflow:hidden!important;background:#fffaf2!important;border:1px solid rgba(159,117,40,.14)!important;box-shadow:0 2px 7px rgba(15,49,88,.025)!important}
+  .mu-mm-action-art{height:69px!important;inset:0 0 auto 0!important;border-radius:7px 7px 0 0!important;background-color:#f1e4cd!important;background-position:center!important}
+  .mu-mm-action-copy{left:5px!important;right:4px!important;bottom:5px!important}
+  .mu-mm-action-copy strong{font-size:9.2px!important;line-height:.96!important;letter-spacing:-.08px!important}
+  .mu-mm-action-copy small{font-size:5.25px!important;line-height:1.04!important;margin-top:2px!important}
+
+  /* Quick tools: small, calm and graphic. */
+  .mu-mm-tools{margin:0 0 6px!important;padding:5px 4px 4px!important;border-radius:9px!important;background:rgba(255,250,242,.95)!important;border-color:rgba(159,117,40,.10)!important}
+  .mu-mm-tools-head{padding:0 2px 3px!important}
+  .mu-mm-tools-head h3{font-size:8.8px!important}
+  .mu-mm-tools-head span{font-size:5.5px!important;color:#9d762d!important;font-style:italic!important}
+  .mu-mm-tools-row{gap:0!important}
+  .mu-mm-tools-row i{width:26px!important;height:26px!important;margin-bottom:2px!important;background:#f5e8cb!important;color:#12395f!important}
+  .mu-mm-tools-row i.capture{background:#12395f!important;color:#ebbc47!important}
+  .mu-mm-tools-row i svg{width:15px!important;height:15px!important}
+  .mu-mm-tools-row strong{font-size:5.8px!important}
+  .mu-mm-tools-row small{font-size:4.45px!important;line-height:1!important;margin-top:1px!important;color:#8a8f96!important}
+
+  /* Journey row: always two postcard cards; real data first, dream prompt second when needed. */
+  .mu-mm-list{margin-bottom:5px!important}
+  .mu-mm-list-head{margin:0 1px 3px!important}
+  .mu-mm-list-head h2{font-size:12.5px!important;line-height:1!important}
+  .mu-mm-list-head button{font-size:5.6px!important;color:#9e741f!important}
+  .mu-mm-journeys{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px!important}
+  .mu-mm-journey-card{border-radius:7px!important;overflow:hidden!important;background:#fffaf2!important;box-shadow:0 3px 8px rgba(15,49,88,.04)!important}
+  .mu-mm-cover{height:48px!important}
+  .mu-mm-cover i{left:4px!important;bottom:3px!important;padding:2px 4px!important;font-size:4.2px!important}
+  .mu-mm-journey-meta{padding:4px 5px 5px!important}
+  .mu-mm-journey-meta small{font-size:4.45px!important;line-height:1!important}
+  .mu-mm-journey-meta strong{font-size:7.9px!important;line-height:1.02!important;margin:1px 0!important}
+  .mu-mm-journey-meta span{font-size:4.7px!important;line-height:1!important}
+
+  /* Recent memory strip: three equal photo cards like the reference. */
+  .mu-mm-memory-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:4px!important}
+  .mu-mm-memory-card,.mu-mm-memory-prompt{border-radius:7px!important;overflow:hidden!important;background:#fffaf2!important;box-shadow:0 2px 7px rgba(15,49,88,.03)!important}
+  .mu-mm-memory-photo,.mu-mm-memory-prompt .mu-mm-memory-photo{height:42px!important}
+  .mu-mm-memory-card>strong,.mu-mm-memory-prompt strong{font-size:6.2px!important;margin-top:3px!important;line-height:1!important}
+  .mu-mm-memory-card>small,.mu-mm-memory-prompt small{font-size:4.4px!important;line-height:1!important}
+  .mu-mm-memory-card>em{font-size:4px!important;margin-top:1px!important}
+
+  /* Slim rounded app nav. */
+  .mu-mm-bottom-nav{left:6px!important;right:6px!important;bottom:max(3px,env(safe-area-inset-bottom))!important;height:46px!important;border-radius:15px!important;grid-template-columns:1fr 1fr 42px 1fr 1fr!important;padding:2px 5px!important;background:#0f3158!important;box-shadow:0 7px 24px rgba(4,23,45,.22)!important}
+  .mu-mm-bottom-nav button{height:36px!important}
+  .mu-mm-bottom-nav button span{width:16px!important;height:16px!important}
+  .mu-mm-bottom-nav button span svg{width:16px!important;height:16px!important}
+  .mu-mm-bottom-nav button b{font-size:4.9px!important}
+  .mu-mm-bottom-nav .mu-mm-plus{width:34px!important;height:34px!important;font-size:21px!important;background:#e5ad2f!important;color:#12395f!important}
+
+  /* Empty-state prompt cards should preserve composition without pretending they are saved data. */
+  .mu-mm-dream-card{position:relative!important}
+  .mu-mm-dream-card:after{content:'DREAM';position:absolute;right:5px;top:5px;font:700 4.5px/1 Arial,sans-serif;letter-spacing:.8px;color:#fff;background:rgba(15,49,88,.78);padding:2px 4px;border-radius:999px}
+  .mu-mm-memory-prompt{min-height:63px!important}
+
+  /* Linked screens carry the same paper/navy/gold visual language. */
+  .view>h1{font-family:Georgia,'Times New Roman',serif!important;color:#153654!important}
+  .modal .sheet,.modal .install-panel,.modal .appearance-panel{background:#fffaf2!important;border-color:#e6dac4!important}
+  .modal .sheet h2,.modal .appearance-panel h2{font-family:Georgia,'Times New Roman',serif!important;color:#153654!important}
+  .modal .save{background:#10365f!important;color:#fff!important;border-radius:10px!important}
+  .modal .secondary{border-color:#d8bb7b!important;background:#fbf3e4!important;color:#153654!important}
+}

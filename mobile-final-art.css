@@ -1,0 +1,42 @@
+/* Memories Unlocked — final deterministic mobile lower-card artwork. */
+@media(max-width:700px){
+  .mu-mobile-master-home .mu-mm-journeys > .mu-mm-journey-card:nth-child(1) .mu-mm-cover{
+    background-image:url('/assets/mobile-ref-journeys.jpg?v=20260917final1')!important;
+    background-size:200% 100%!important;
+    background-position:0% 50%!important;
+    background-repeat:no-repeat!important;
+    background-color:#eadfc9!important;
+  }
+  .mu-mobile-master-home .mu-mm-journeys > .mu-mm-journey-card:nth-child(2) .mu-mm-cover{
+    background-image:url('/assets/mobile-ref-journeys.jpg?v=20260917final1')!important;
+    background-size:200% 100%!important;
+    background-position:100% 50%!important;
+    background-repeat:no-repeat!important;
+    background-color:#eadfc9!important;
+  }
+  .mu-mobile-master-home .mu-mm-memory-grid > :nth-child(1) .mu-mm-memory-photo{
+    background-image:url('/assets/mobile-ref-memories.jpg?v=20260917final1')!important;
+    background-size:300% 100%!important;
+    background-position:0% 50%!important;
+    background-repeat:no-repeat!important;
+    background-color:#ece2d1!important;
+  }
+  .mu-mobile-master-home .mu-mm-memory-grid > :nth-child(2) .mu-mm-memory-photo{
+    background-image:url('/assets/mobile-ref-memories.jpg?v=20260917final1')!important;
+    background-size:300% 100%!important;
+    background-position:50% 50%!important;
+    background-repeat:no-repeat!important;
+    background-color:#ece2d1!important;
+  }
+  .mu-mobile-master-home .mu-mm-memory-grid > :nth-child(3) .mu-mm-memory-photo{
+    background-image:url('/assets/mobile-ref-memories.jpg?v=20260917final1')!important;
+    background-size:300% 100%!important;
+    background-position:100% 50%!important;
+    background-repeat:no-repeat!important;
+    background-color:#ece2d1!important;
+  }
+  .mu-mobile-master-home .mu-mm-cover .mu-mm-fallback-art,
+  .mu-mobile-master-home .mu-mm-memory-photo .mu-mm-fallback-art{display:none!important;}
+  .mu-mobile-master-home .mu-mm-cover::before,
+  .mu-mobile-master-home .mu-mm-memory-photo::before{display:none!important;content:none!important;}
+}

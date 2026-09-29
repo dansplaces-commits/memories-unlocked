@@ -1,0 +1,44 @@
+/* Memories Unlocked — slimmer browser-app side taskbar */
+@media (min-width:1180px){
+  html[data-dock="left"],html[data-dock="right"]{--side-dock-width:80px!important}
+  html[data-dock="left"] .app{margin-left:80px!important;width:calc(100% - 80px)!important}
+  html[data-dock="right"] .app{margin-right:80px!important;width:calc(100% - 80px)!important;margin-left:0!important}
+  html[data-dock="left"] .nav,html[data-dock="right"] .nav{
+    width:80px!important;
+    max-width:80px!important;
+    padding:14px 6px!important;
+    gap:5px!important;
+  }
+  html[data-dock="left"] .nav:before,html[data-dock="right"] .nav:before{
+    padding:58px 0 11px!important;
+    background-size:48px 48px!important;
+    font-size:11px!important;
+    letter-spacing:1.2px!important;
+    margin-bottom:7px!important;
+  }
+  html[data-dock="left"] .nav button,html[data-dock="right"] .nav button{
+    min-height:52px!important;
+    max-height:52px!important;
+    flex:0 0 52px!important;
+    padding:6px 3px!important;
+    gap:3px!important;
+    border-radius:13px!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+  }
+  html[data-dock="left"] .nav button svg,html[data-dock="right"] .nav button svg{
+    width:19px!important;
+    height:19px!important;
+  }
+  html[data-dock="left"] .nav button span,html[data-dock="right"] .nav button span{
+    font-size:8.5px!important;
+    line-height:1!important;
+    text-align:center!important;
+    white-space:nowrap!important;
+  }
+  html[data-dock="left"] .nav .account-nav-trigger,html[data-dock="right"] .nav .account-nav-trigger{
+    min-height:52px!important;
+    max-height:52px!important;
+    flex-basis:52px!important;
+  }
+}

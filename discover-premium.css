@@ -1,0 +1,65 @@
+/* Memories Unlocked — premium Discover isolated screen */
+.mu-premium-discover-modal{z-index:9000!important;padding:0!important;align-items:stretch!important;background:#071d33!important}
+.mu-premium-discover-modal .sheet{width:100%!important;max-width:930px!important;height:100dvh!important;max-height:100dvh!important;margin:0 auto!important;padding:0!important;border:0!important;border-radius:0!important;overflow-y:auto!important;overflow-x:hidden!important;background:#fff8eb!important;box-shadow:none!important;-webkit-overflow-scrolling:touch!important}
+.mu-premium-discover-modal .sheet:before,.mu-premium-discover-modal>.sheet>.close{display:none!important;content:none!important}
+#muPremiumDiscoverRoot{min-height:100%;background:#fff8eb}
+.mu-pd-screen{--navy:#062f55;--navy2:#0a3c67;--gold:#e3ad35;--cream:#fff8eb;color:#0a3157;background:#fff8eb;min-height:100dvh}
+.mu-pd-topbar{height:82px;padding:0 24px;display:grid;grid-template-columns:72px 1fr 120px;align-items:center;background:#fff9ee;border-bottom:1px solid #eadcc2;position:sticky;top:0;z-index:20}
+.mu-pd-back{width:43px;height:43px;border-radius:50%;border:1px solid #e1c994;background:#fffdf8;color:#0a3157;font:400 34px/1 Georgia,serif;display:grid;place-items:center;cursor:pointer}
+.mu-pd-brand{justify-self:center;display:flex;align-items:center;gap:9px;color:#0a3157;font:700 25px/1 Georgia,serif;white-space:nowrap}.mu-pd-brand b{color:#b77b1c;font:800 12px/1 Arial,sans-serif;letter-spacing:2.4px;text-transform:uppercase}.mu-pd-lock{width:36px;height:36px;border:3px solid #d9a334;border-radius:10px;display:grid;place-items:center;color:#d9a334;font-size:18px;box-shadow:0 4px 9px rgba(132,86,8,.14)}
+.mu-pd-topline{justify-self:end;color:#6f8295;font:800 8px/1.35 Arial,sans-serif;letter-spacing:1.5px;text-align:right}
+.mu-pd-hero{height:560px;position:relative;background-image:var(--pd-hero,linear-gradient(135deg,#102f54,#8f5032));background-size:cover;background-position:center;overflow:hidden}
+.mu-pd-hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(2,26,48,.78) 0%,rgba(2,26,48,.36) 43%,rgba(2,26,48,.05) 72%),linear-gradient(180deg,rgba(4,22,40,.08),rgba(4,22,40,.34) 78%,rgba(4,22,40,.70))}
+.mu-pd-hero-copy{position:absolute;left:40px;top:48px;z-index:3;color:#fff}.mu-pd-kicker{display:block;color:#f3c359;font:800 12px/1 Arial,sans-serif;letter-spacing:4px}.mu-pd-hero-copy h1{margin:14px 0 6px!important;color:#fff!important;font:700 72px/.9 Georgia,serif!important;letter-spacing:-2px;text-shadow:0 4px 18px rgba(0,0,0,.30)}.mu-pd-hero-copy p{margin:0;color:#fff;font:700 18px/1 Arial,sans-serif}.mu-pd-hero-copy em{display:block;margin-top:24px;color:#f4c969;font:600 23px/1.25 "Segoe Print","Bradley Hand",cursive;transform:rotate(-6deg);text-shadow:0 2px 10px rgba(0,0,0,.28)}
+.mu-pd-count{position:absolute;right:25px;top:24px;z-index:4;padding:11px 19px;border-radius:999px;background:rgba(8,37,66,.80);border:1px solid rgba(255,255,255,.35);color:#fff;font:800 12px Arial,sans-serif}
+.mu-pd-vegas-badge{position:absolute;left:30px;bottom:24px;z-index:5;width:185px;height:142px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.32))}.mu-pd-vegas-badge svg{width:100%;height:100%;overflow:visible}.sign-shield{fill:#fff9eb;stroke:#d7a338;stroke-width:5}.sign-inner{fill:none;stroke:#0b3158;stroke-width:3}.sign-star{fill:#ee7834;stroke:#f0c450;stroke-width:2}.sign-pole{stroke:#0b3158;stroke-width:3}.sign-dots circle{fill:#fff;stroke:#d6a338;stroke-width:2}.sign-welcome{font:800 6px Arial,sans-serif;letter-spacing:1.3px;text-anchor:middle;fill:#1b4a72}.sign-fabulous{font:italic 700 13px Georgia,serif;text-anchor:middle;fill:#2e6f98}.sign-vegas{font:900 19px Arial,sans-serif;text-anchor:middle;fill:#d83c31}.sign-nevada{font:800 7px Arial,sans-serif;letter-spacing:3px;text-anchor:middle;fill:#1e486c}
+.mu-pd-actions{position:absolute;right:26px;bottom:30px;z-index:5;display:flex;gap:12px}.mu-pd-actions button{width:72px;height:72px;border-radius:50%;border:2px solid #e9bc51;background:rgba(6,47,85,.92);color:#fff;display:grid;place-items:center;align-content:center;gap:2px}.mu-pd-actions span{font-size:26px;color:#f3c65e}.mu-pd-actions small{font:700 10px Arial,sans-serif}.mu-pd-actions button.saved{background:#f5d270;color:#082f55}.mu-pd-actions button.saved span,.mu-pd-actions button.saved small{color:#082f55}
+.mu-pd-facts{position:relative;z-index:8;margin:-1px 16px 0;transform:translateY(-1px);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:#07345c;color:#fff;border:1px solid #315878;border-radius:0 0 20px 20px;box-shadow:0 9px 24px rgba(5,35,62,.16);overflow:hidden}.mu-pd-facts>div{min-height:118px;padding:18px 15px;display:grid;grid-template-columns:28px 1fr;grid-template-rows:auto auto;align-content:center;column-gap:10px;border-right:1px solid rgba(255,255,255,.22)}.mu-pd-facts>div:last-child{border-right:0}.mu-pd-facts span{grid-row:1/3;color:#f1bb45;font-size:23px}.mu-pd-facts small{font:600 9px/1.3 Arial,sans-serif;color:#d8e2eb}.mu-pd-facts strong{margin-top:5px;font:700 15px/1.18 Georgia,serif;color:#fff}
+.mu-pd-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:22px 18px 18px}.mu-pd-editorial-card{position:relative;min-height:248px;border:0;border-radius:20px;overflow:hidden;background-image:var(--pd-card-img,linear-gradient(135deg,#1a4a73,#8a6543));background-size:cover;background-position:center;box-shadow:0 7px 18px rgba(8,43,75,.12);text-align:left;color:#fff}.mu-pd-card-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,24,43,.03) 30%,rgba(4,31,55,.92) 76%)}.mu-pd-card-icon{position:absolute;left:16px;bottom:91px;width:45px;height:45px;border-radius:50%;display:grid;place-items:center;background:#fff9ec;color:#b9801e;font-size:22px;border:2px solid #e3b34d;z-index:2}.mu-pd-card-copy{position:absolute;left:18px;right:64px;bottom:17px;z-index:2}.mu-pd-card-copy strong{display:block;font:700 25px/.95 Georgia,serif}.mu-pd-card-copy small{display:block;margin-top:7px;color:#f0f4f7;font:500 11px/1.35 Arial,sans-serif}.mu-pd-card-arrow{position:absolute;right:16px;bottom:19px;z-index:2;width:43px;height:43px;border-radius:50%;display:grid;place-items:center;border:2px solid #efc45e;background:#07355e;font:400 32px/1 Georgia,serif}
+.mu-pd-next{padding:10px 18px 26px}.mu-pd-next-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:13px}.mu-pd-next-head h2{margin:0;color:#0a3157!important;font:700 36px/1 Georgia,serif!important}.mu-pd-next-head button{border:0;background:transparent;color:#45617a;font:800 8px Arial,sans-serif;letter-spacing:1.2px}.mu-pd-next-track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 10px;-webkit-overflow-scrolling:touch}.mu-pd-next-card{position:relative;flex:0 0 165px;height:205px;border:0;border-radius:17px;overflow:hidden;scroll-snap-align:start;background-image:var(--pd-dest-img,linear-gradient(135deg,#174a75,#b4803d));background-size:cover;background-position:center;box-shadow:0 7px 18px rgba(8,43,75,.12);text-align:left}.mu-pd-next-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,31,55,.02) 42%,rgba(4,31,55,.88) 100%)}.mu-pd-next-copy{position:absolute;left:12px;right:10px;bottom:10px;z-index:2;color:#fff}.mu-pd-next-copy strong,.mu-pd-next-copy small{display:block}.mu-pd-next-copy strong{font:700 18px/1 Georgia,serif}.mu-pd-next-copy small{margin-top:4px;font:500 10px Arial,sans-serif}.mu-pd-dest-badge{position:absolute;right:8px;top:8px;z-index:3;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#fff8eb;border:2px solid #e1af44;box-shadow:0 5px 13px rgba(4,29,54,.20);transform:rotate(5deg)}.mu-pd-dest-badge b{max-width:48px;color:#0b3158;font:800 7px/1.05 Arial,sans-serif;letter-spacing:.7px;text-align:center;overflow:hidden}
+.mu-pd-bottom-pad{height:95px}
+@media(max-width:700px){
+ .mu-premium-discover-modal .sheet{padding-bottom:calc(88px + env(safe-area-inset-bottom))!important}
+ .mu-pd-topbar{height:64px;padding:env(safe-area-inset-top) 12px 0;box-sizing:content-box;grid-template-columns:52px 1fr 76px}.mu-pd-back{width:36px;height:36px;font-size:29px}.mu-pd-brand{font-size:18px;gap:6px}.mu-pd-brand b{font-size:8px;letter-spacing:1.6px}.mu-pd-lock{width:27px;height:27px;border-width:2px;font-size:14px}.mu-pd-topline{font-size:5.7px;letter-spacing:1px}
+ .mu-pd-hero{height:310px;background-position:center}.mu-pd-hero-copy{left:20px;top:28px}.mu-pd-kicker{font-size:9px;letter-spacing:3px}.mu-pd-hero-copy h1{font-size:54px!important;margin-top:10px!important}.mu-pd-hero-copy p{font-size:14px}.mu-pd-hero-copy em{font-size:15px;margin-top:16px}.mu-pd-count{right:14px;top:15px;padding:8px 13px;font-size:10px}
+ .mu-pd-vegas-badge{left:14px;bottom:14px;width:104px;height:82px}.mu-pd-actions{right:14px;bottom:21px;gap:8px}.mu-pd-actions button{width:54px;height:54px}.mu-pd-actions span{font-size:20px}.mu-pd-actions small{font-size:8px}
+ .mu-pd-facts{margin:0 9px;border-radius:0 0 17px 17px}.mu-pd-facts>div{min-height:86px;padding:11px 7px;grid-template-columns:18px 1fr;column-gap:5px}.mu-pd-facts span{font-size:15px}.mu-pd-facts small{font-size:5.8px}.mu-pd-facts strong{font-size:8.6px;line-height:1.2}
+ .mu-pd-grid{gap:9px;padding:16px 9px 13px}.mu-pd-editorial-card{min-height:180px;border-radius:16px}.mu-pd-card-icon{left:10px;bottom:67px;width:34px;height:34px;font-size:16px}.mu-pd-card-copy{left:11px;right:45px;bottom:10px}.mu-pd-card-copy strong{font-size:17px}.mu-pd-card-copy small{font-size:8.5px;margin-top:4px}.mu-pd-card-arrow{right:9px;bottom:11px;width:32px;height:32px;font-size:22px}
+ .mu-pd-next{padding:9px 10px 17px}.mu-pd-next-head h2{font-size:28px!important}.mu-pd-next-head button{font-size:6.5px}.mu-pd-next-card{flex-basis:128px;height:163px}.mu-pd-dest-badge{width:43px;height:43px}.mu-pd-dest-badge b{max-width:35px;font-size:5.6px}.mu-pd-next-copy strong{font-size:15px}.mu-pd-next-copy small{font-size:8px}
+ .mu-pd-bottom-pad{height:100px}
+}
+@media(max-width:390px){.mu-pd-hero{height:300px}.mu-pd-hero-copy h1{font-size:49px!important}.mu-pd-editorial-card{min-height:150px}.mu-pd-next-card{flex-basis:118px;height:142px}}
+
+
+/* 2026-09-24 icon precision pass */
+.mu-pd-vegas-badge svg{overflow:visible}
+.pd-sign-outer{fill:#f9f0cf;stroke:#d6a13a;stroke-width:5;stroke-linejoin:round}
+.pd-sign-mid{fill:#fffaf0;stroke:#0a3157;stroke-width:4;stroke-linejoin:round}
+.pd-sign-inner{fill:#fffdf7;stroke:#e7b34b;stroke-width:1.8;stroke-linejoin:round}
+.pd-sign-star{fill:#f47732;stroke:#f4c85f;stroke-width:2.5;stroke-linejoin:round}
+.pd-sign-post{fill:none;stroke:#0a3157;stroke-width:3.5}
+.pd-sign-bulbs circle{fill:#fff;stroke:#d74a38;stroke-width:2}
+.pd-sign-letters text{fill:#d53f31;font:900 6.3px/1 Arial,sans-serif;text-anchor:middle;dominant-baseline:middle}
+.pd-sign-to{fill:#17486e;font:900 5.5px Arial,sans-serif;text-anchor:middle;letter-spacing:1px}
+.pd-sign-fabulous{fill:#2f6e96;font:italic 700 13px Georgia,serif;text-anchor:middle}
+.pd-sign-vegas{fill:#d83e32;font:900 19px Arial,sans-serif;text-anchor:middle;letter-spacing:-.5px}
+.pd-sign-nevada{fill:#163f64;font:800 6.5px Arial,sans-serif;text-anchor:middle;letter-spacing:3px}
+.pd-sign-palms{fill:none;stroke:#d59f32;stroke-width:2;stroke-linecap:round}
+.pd-sign-sparks{fill:#e0aa3e}
+.mu-pd-actions button{border-width:1.5px!important;box-shadow:0 4px 14px rgba(3,23,42,.20),inset 0 0 0 1px rgba(255,255,255,.06)!important}
+.mu-pd-actions button span{width:22px;height:22px!important;display:grid!important;place-items:center!important;color:#efc45e!important}
+.mu-pd-actions button span svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mu-pd-actions button small{margin-top:3px!important;font-weight:700!important;letter-spacing:.05px!important}
+.mu-pd-actions button.saved{background:#f4cf68!important}
+.mu-pd-actions button.saved span,.mu-pd-actions button.saved small{color:#082f55!important}
+.mu-pd-card-icon{border-width:1.5px!important;box-shadow:0 3px 9px rgba(5,34,61,.14)!important}
+.mu-pd-card-icon svg{width:20px;height:20px;fill:none;stroke:#b77d20;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mu-pd-card-arrow{border-width:1.5px!important}
+@media(max-width:700px){
+ .mu-pd-actions button{width:48px!important;height:48px!important}
+ .mu-pd-actions button span,.mu-pd-actions button span svg{width:18px!important;height:18px!important}
+ .mu-pd-actions button small{font-size:7.5px!important}
+ .mu-pd-card-icon{width:31px!important;height:31px!important}
+ .mu-pd-card-icon svg{width:17px!important;height:17px!important}
+ .mu-pd-vegas-badge{width:101px!important;height:80px!important}
+}
