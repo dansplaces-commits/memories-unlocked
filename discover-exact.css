@@ -242,3 +242,9 @@ html.mu-exact-discover-open .mu-mm-bottom-nav{visibility:hidden!important;pointe
   .mu-premium-info-stamp.mu-landmark-badge{right:3.5%!important;bottom:17px!important}
   .mu-premium-info-stamp.mu-landmark-badge img{width:90px;max-height:82px}
 }
+
+
+/* 2026-09-29 crop correction pass */
+@media(max-width:1100px){
+  .mu-exact-discover-frame{width:100%!important;max-width:none!important}
+}
