@@ -428,3 +428,25 @@ test('Discover information pages use locked premium full-screen standard',()=>{
   assert.match(css,/\.mu-premium-info-memory\{/);
   assert.match(css,/\.mu-premium-info-gallery\{/);
 });
+
+
+test('Discover uses approved landmark badges and wow destination heroes',()=>{
+  const js=source('discover-exact.js');
+  const css=source('discover-exact.css');
+  assert.match(js,/const BADGES=\{/);
+  assert.match(js,/mu-badge-rome\.png/);
+  assert.match(js,/mu-badge-bahamas\.png/);
+  assert.match(js,/mu-badge-miami\.png/);
+  assert.match(js,/mu-badge-london\.png/);
+  assert.match(js,/mu-badge-paris\.png/);
+  assert.match(js,/mu-hero-rome-wow/);
+  assert.match(js,/mu-hero-bahamas-wow/);
+  assert.match(js,/mu-hero-miami-wow/);
+  assert.match(js,/mu-hero-london-wow/);
+  assert.match(js,/mu-hero-paris-wow/);
+  assert.match(js,/mu-landmark-badge/);
+  assert.match(js,/return c\?\.hero/);
+  assert.match(css,/2026-09-29 approved landmark badges \+ wow heroes/);
+  assert.match(css,/\.mu-dyn-stamp\.mu-landmark-badge img/);
+  assert.match(css,/\.mu-premium-info-stamp\.mu-landmark-badge img/);
+});
