@@ -235,7 +235,7 @@ html.mu-exact-discover-open .mu-mm-bottom-nav{visibility:hidden!important;pointe
   display:block;width:132px;height:auto;max-height:120px;object-fit:contain;object-position:center;
 }
 .mu-dyn-hero{background-position:var(--dyn-hero-pos,center)!important}
-.mu-premium-info-hero{background-position:var(--dyn-hero-pos,center)!important}
+.mu-premium-info-hero{background-position:var(--info-hero-pos,center)!important}
 @media(max-width:700px){
   .mu-dyn-stamp.mu-landmark-badge{left:4.2%!important;bottom:4.8%!important}
   .mu-dyn-stamp.mu-landmark-badge img{width:92px;max-height:82px}
