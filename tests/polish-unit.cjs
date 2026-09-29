@@ -434,11 +434,11 @@ test('Discover uses approved landmark badges and wow destination heroes',()=>{
   const js=source('discover-exact.js');
   const css=source('discover-exact.css');
   assert.match(js,/const BADGES=\{/);
-  assert.match(js,/mu-badge-rome\.png/);
-  assert.match(js,/mu-badge-bahamas\.png/);
-  assert.match(js,/mu-badge-miami\.png/);
-  assert.match(js,/mu-badge-london\.png/);
-  assert.match(js,/mu-badge-paris\.png/);
+  assert.match(js,/mu-badge-rome-clean\.png/);
+  assert.match(js,/mu-badge-bahamas-clean\.png/);
+  assert.match(js,/mu-badge-miami-clean\.png/);
+  assert.match(js,/mu-badge-london-clean\.png/);
+  assert.match(js,/mu-badge-paris-clean\.png/);
   assert.match(js,/mu-hero-rome-wow/);
   assert.match(js,/mu-hero-bahamas-wow/);
   assert.match(js,/mu-hero-miami-wow/);
