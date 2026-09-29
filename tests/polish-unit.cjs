@@ -476,3 +476,20 @@ test('all Discover destinations use locked hero crops and full-width framing',()
   assert.match(css,/max-width:1280px/);
   assert.match(css,/2026-09-29 all-destination crop lock/);
 });
+
+
+test('Discover uses final curated category-specific image sets',()=>{
+  const js=source('discover-exact.js');
+  const css=source('discover-exact.css');
+  for (const slug of [
+    'mu-rome-hero-v3','mu-rome-local-v3',
+    'mu-bahamas-hero-v4','mu-bahamas-local-v4',
+    'mu-miami-hero-v4','mu-miami-local-v4',
+    'mu-london-hero-v4','mu-london-local-v4',
+    'mu-paris-hero-v4','mu-paris-local-v4'
+  ]) assert.match(js,new RegExp(slug));
+  assert.match(js,/\^https\?:\/\/i\.test\(file\)\?file:C\(file\)/);
+  assert.match(css,/2026-09-29 final smart Discover image lock/);
+  assert.match(css,/width:112px/);
+  assert.match(css,/width:78px/);
+});
