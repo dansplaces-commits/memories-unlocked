@@ -8,3 +8,64 @@
 @media(max-width:700px){.dash-discover-place{display:none}.home-discover-place{display:block}.app-discover-chip{top:52px;right:62px;max-width:48%;min-height:40px}.app-discover-chip small{display:none}.app-discover-chip strong{font-size:10px;max-width:120px}.discover-chip-arrow{display:none}.app-discover-chip{grid-template-columns:28px minmax(0,1fr)}.discover-chip-icon{width:28px;height:28px;font-size:14px}}
 @media(max-width:390px){.app-discover-chip{right:58px;max-width:46%}.app-discover-chip strong{max-width:92px}}
 @media(prefers-reduced-motion:reduce){.dash-discover-button,.app-discover-chip{transition:none!important}}
+
+/* 2026-09-29 premium discover chip fit */
+@media(min-width:1180px){
+  .app-discover-chip{
+    width:clamp(420px,38vw,560px)!important;
+    max-width:calc(100vw - 220px)!important;
+    min-height:70px!important;
+    padding:10px 14px 10px 11px!important;
+    grid-template-columns:44px minmax(0,1fr) 28px!important;
+    gap:11px!important;
+    border-radius:20px!important;
+    border:1px solid rgba(232,188,91,.48)!important;
+    background:linear-gradient(135deg,rgba(10,43,77,.98),rgba(14,55,94,.97))!important;
+    box-shadow:0 14px 34px rgba(9,34,64,.18),inset 0 1px 0 rgba(255,255,255,.06)!important;
+    overflow:visible!important;
+  }
+  .app-discover-chip>span:nth-child(2){
+    min-width:0!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+    overflow:hidden!important;
+  }
+  .discover-chip-icon{
+    width:42px!important;height:42px!important;
+    font-size:18px!important;
+    border:1px solid rgba(255,255,255,.18)!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 4px 12px rgba(0,0,0,.12)!important;
+  }
+  .app-discover-chip small{
+    display:block!important;
+    margin:0 0 3px!important;
+    font-size:8px!important;
+    line-height:1!important;
+    letter-spacing:1.5px!important;
+    white-space:nowrap!important;
+  }
+  .app-discover-chip strong{
+    display:-webkit-box!important;
+    -webkit-box-orient:vertical!important;
+    -webkit-line-clamp:2!important;
+    white-space:normal!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    font:700 14px/1.18 'Playfair Display',Georgia,serif!important;
+    color:#fff!important;
+    overflow-wrap:anywhere!important;
+    max-width:none!important;
+  }
+  .discover-chip-arrow{
+    width:26px!important;height:26px!important;
+    display:grid!important;place-items:center!important;
+    border-radius:50%!important;
+    background:rgba(239,198,90,.10)!important;
+    color:#efc65a!important;
+    font-size:17px!important;
+  }
+}
+@media(min-width:1180px) and (max-width:1360px){
+  .app-discover-chip{width:clamp(380px,42vw,500px)!important;max-width:calc(100vw - 180px)!important}
+}
