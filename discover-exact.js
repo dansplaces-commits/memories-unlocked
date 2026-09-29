@@ -7,12 +7,12 @@ const HEADER_MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memo
 const NAV_MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memories-unlocked-discover-nav-clean.png?v=1790276097';
 const C=(file,width=1600)=>`https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=${width}`;
 const BADGES={
- vegas:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-las-vegas.png?v=1790696738',
- rome:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-rome.png?v=1790696746',
- bahamas:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-bahamas.png?v=1790696753',
- miami:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-miami.png?v=1790696760',
- london:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-london.png?v=1790696767',
- paris:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-paris.png?v=1790696774'
+ vegas:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-las-vegas-clean.png?v=1790698160',
+ rome:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-rome-clean.png?v=1790698170',
+ bahamas:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-bahamas-clean.png?v=1790698178',
+ miami:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-miami-clean.png?v=1790698186',
+ london:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-london-clean.png?v=1790698195',
+ paris:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-paris-clean.png?v=1790698203'
 };
 
 const VEGAS_GALLERY=[
@@ -48,7 +48,7 @@ const CONFIG={
   }
  },
  bahamas:{
-  id:'bahamas',name:'Bahamas',location:'Caribbean',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-hero-bahamas-wow_6faed6dd-f4bf-4531-a6bd-ddffce921b18.jpg?v=1790696985',heroPos:'center 48%',count:'1 / 5',badge:'BAHAMAS',tagline:['Turquoise waters.','Island stories.','Your next chapter.'],
+  id:'bahamas',name:'Bahamas',location:'Caribbean',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-hero-bahamas-wow_6faed6dd-f4bf-4531-a6bd-ddffce921b18.jpg?v=1790696985',heroPos:'center 61%',count:'1 / 5',badge:'BAHAMAS',tagline:['Turquoise waters.','Island stories.','Your next chapter.'],
   images:{why:C('BHA Nassau, Paradise Island, Cove Beach 001.jpg',1800),spots:C('The Bahamas (iss069e033721).jpg',1800),memories:C('Swimming Pigs.jpg',1800),local:C('Straw Market Nassau Bahamas 2024.jpg',1800)},
   gallery:[['Spiaggia Exuma.JPG','Exuma beach'],['BHA Nassau, Paradise Island, Cove Beach 001.jpg','Paradise Island'],['The Bahamas (iss069e033721).jpg','The Exumas from above'],['Swimming Pigs.jpg','Swimming pigs'],['Straw Market Nassau Bahamas 2024.jpg','Nassau Straw Market']],
   facts:[['✈','Best time to visit','Dec – Apr'],['☀','Climate','Warm & sunny · All year'],['◉','Iconic status','Island Paradise'],['●','Location','Bahamas, Caribbean']],
