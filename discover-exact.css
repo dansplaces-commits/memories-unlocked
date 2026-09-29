@@ -270,3 +270,46 @@ html.mu-exact-discover-open .mu-mm-bottom-nav{visibility:hidden!important;pointe
   .mu-dyn-stamp.mu-landmark-badge{left:4.8%!important;bottom:5.2%!important}
   .mu-premium-info-stamp.mu-landmark-badge{right:4%!important;bottom:18px!important}
 }
+
+
+/* 2026-09-29 Las Vegas badge scale lock */
+.mu-dyn-stamp.mu-landmark-badge{
+  width:27%!important;
+  height:auto!important;
+  max-width:none!important;
+  min-width:0!important;
+  left:3.8%!important;
+  bottom:3.6%!important;
+}
+.mu-dyn-stamp.mu-landmark-badge img{
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  max-height:none!important;
+  object-fit:contain!important;
+}
+.mu-premium-info-stamp.mu-landmark-badge{
+  width:24%!important;
+  height:auto!important;
+  max-width:190px!important;
+  min-width:120px!important;
+}
+.mu-premium-info-stamp.mu-landmark-badge img{
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  max-height:none!important;
+  object-fit:contain!important;
+}
+@media(max-width:700px){
+  .mu-dyn-stamp.mu-landmark-badge{
+    width:27%!important;
+    left:3.8%!important;
+    bottom:3.8%!important;
+  }
+  .mu-premium-info-stamp.mu-landmark-badge{
+    width:24%!important;
+    min-width:0!important;
+    max-width:none!important;
+  }
+}
