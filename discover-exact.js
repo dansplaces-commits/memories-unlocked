@@ -7,12 +7,12 @@ const HEADER_MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memo
 const NAV_MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memories-unlocked-discover-nav-clean.png?v=1790276097';
 const C=(file,width=1600)=>`https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=${width}`;
 const BADGES={
- vegas:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-las-vegas-fulloutline.png?v=1790703514',
- rome:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-rome-fulloutline.png?v=1790703523',
- bahamas:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-bahamas-fulloutline.png?v=1790703531',
- miami:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-miami-fulloutline.png?v=1790703541',
- london:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-london-fulloutline.png?v=1790703549',
- paris:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-paris-fulloutline.png?v=1790703557'
+ vegas:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-las-vegas-uniform.png?v=1790704199',
+ rome:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-rome-uniform.png?v=1790704206',
+ bahamas:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-bahamas-uniform.png?v=1790704212',
+ miami:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-miami-uniform.png?v=1790704219',
+ london:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-london-uniform.png?v=1790704260',
+ paris:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-paris-uniform.png?v=1790704267'
 };
 
 const VEGAS_GALLERY=[
