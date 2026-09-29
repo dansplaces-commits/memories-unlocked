@@ -216,3 +216,29 @@ html.mu-exact-discover-open .mu-mm-bottom-nav{visibility:hidden!important;pointe
  .mu-premium-info-note{padding:12px 13px}.mu-premium-info-note small{font-size:5.7px}.mu-premium-info-note p{font-size:9.5px}
  .mu-premium-info-actions button{min-height:44px;font-size:6.8px}
 }
+
+
+/* 2026-09-29 approved landmark badges + wow heroes */
+.mu-dyn-stamp.mu-landmark-badge,
+.mu-premium-info-stamp.mu-landmark-badge{
+  width:auto!important;height:auto!important;min-width:0!important;min-height:0!important;
+  padding:0!important;border:0!important;outline:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;filter:drop-shadow(0 8px 14px rgba(2,22,40,.30))!important;
+  display:block!important;transform:none!important;overflow:visible!important;
+}
+.mu-dyn-stamp.mu-landmark-badge:before,
+.mu-premium-info-stamp.mu-landmark-badge:before{display:none!important}
+.mu-dyn-stamp.mu-landmark-badge img{
+  display:block;width:138px;height:auto;max-height:122px;object-fit:contain;object-position:left bottom;
+}
+.mu-premium-info-stamp.mu-landmark-badge img{
+  display:block;width:132px;height:auto;max-height:120px;object-fit:contain;object-position:center;
+}
+.mu-dyn-hero{background-position:var(--dyn-hero-pos,center)!important}
+.mu-premium-info-hero{background-position:var(--dyn-hero-pos,center)!important}
+@media(max-width:700px){
+  .mu-dyn-stamp.mu-landmark-badge{left:4.2%!important;bottom:4.8%!important}
+  .mu-dyn-stamp.mu-landmark-badge img{width:92px;max-height:82px}
+  .mu-premium-info-stamp.mu-landmark-badge{right:3.5%!important;bottom:17px!important}
+  .mu-premium-info-stamp.mu-landmark-badge img{width:90px;max-height:82px}
+}
