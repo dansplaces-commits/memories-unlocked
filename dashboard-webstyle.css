@@ -425,3 +425,86 @@
 @media (max-width:1179px){
   .desktop-dashboard{display:none!important}
 }
+
+
+/* 2026-09-29 premium floating Discover tool */
+@media(min-width:1180px){
+  #appDiscoverChip.app-discover-chip{
+    width:clamp(430px,39vw,570px)!important;
+    max-width:calc(100vw - 220px)!important;
+    min-height:72px!important;
+    padding:10px 14px 10px 11px!important;
+    display:grid!important;
+    grid-template-columns:44px minmax(0,1fr) 30px!important;
+    align-items:center!important;
+    gap:11px!important;
+    border:1px solid rgba(232,188,91,.52)!important;
+    border-radius:21px!important;
+    background:linear-gradient(135deg,rgba(9,42,75,.985),rgba(16,58,97,.975))!important;
+    box-shadow:0 15px 36px rgba(8,32,60,.20),inset 0 1px 0 rgba(255,255,255,.07)!important;
+    color:#fff!important;
+    overflow:visible!important;
+  }
+  #appDiscoverChip.app-discover-chip>span:nth-child(2){
+    min-width:0!important;
+    overflow:hidden!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+  }
+  #appDiscoverChip .discover-chip-icon{
+    width:42px!important;height:42px!important;
+    display:grid!important;place-items:center!important;
+    border-radius:50%!important;
+    background:linear-gradient(145deg,#f2c55d,#dfa523)!important;
+    border:1px solid rgba(255,255,255,.24)!important;
+    color:#0b3158!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.42),0 5px 13px rgba(0,0,0,.14)!important;
+  }
+  #appDiscoverChip small{
+    margin:0 0 4px!important;
+    color:#efc65a!important;
+    font:800 8px/1 Arial,sans-serif!important;
+    letter-spacing:1.6px!important;
+    white-space:nowrap!important;
+  }
+  #appDiscoverChip strong{
+    display:-webkit-box!important;
+    -webkit-box-orient:vertical!important;
+    -webkit-line-clamp:2!important;
+    white-space:normal!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    overflow-wrap:anywhere!important;
+    max-width:none!important;
+    color:#fff!important;
+    font:700 14px/1.18 Georgia,'Times New Roman',serif!important;
+  }
+  #appDiscoverChip .discover-chip-arrow{
+    width:28px!important;height:28px!important;
+    display:grid!important;place-items:center!important;
+    border-radius:50%!important;
+    background:rgba(239,198,90,.10)!important;
+    color:#efc65a!important;
+    font-size:18px!important;
+  }
+  #appDiscoverChip.mu-widget-draggable:before,
+  #appPlaceChip.mu-widget-draggable:before{
+    display:none!important;
+    content:none!important;
+  }
+  #appDiscoverChip.mu-widget-draggable:after,
+  #appPlaceChip.mu-widget-draggable:after{
+    content:'⋮'!important;
+    left:auto!important;
+    right:-16px!important;
+    top:50%!important;
+    bottom:auto!important;
+    transform:translateY(-50%)!important;
+    width:11px!important;
+    font:800 18px/1 Arial,sans-serif!important;
+    letter-spacing:0!important;
+    color:#a98a50!important;
+    opacity:.36!important;
+  }
+}
