@@ -7,12 +7,12 @@ const HEADER_MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memo
 const NAV_MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memories-unlocked-discover-nav-clean.png?v=1790276097';
 const C=(file,width=1600)=>`https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=${width}`;
 const BADGES={
- vegas:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-las-vegas-clean.png?v=1790698160',
- rome:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-rome-clean.png?v=1790698170',
- bahamas:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-bahamas-clean.png?v=1790698178',
- miami:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-miami-clean.png?v=1790698186',
- london:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-london-clean.png?v=1790698195',
- paris:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-paris-clean.png?v=1790698203'
+ vegas:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-las-vegas-final.png?v=1790702105',
+ rome:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-rome-final.png?v=1790702112',
+ bahamas:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-bahamas-final.png?v=1790702119',
+ miami:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-miami-final.png?v=1790702126',
+ london:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-london-final.png?v=1790702133',
+ paris:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-paris-final.png?v=1790702140'
 };
 
 const VEGAS_GALLERY=[
