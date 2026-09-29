@@ -26,3 +26,26 @@
 @media(max-width:1179px){#appPlaceChip.mu-widget-draggable:after,#appDiscoverChip.mu-widget-draggable:after,#appPlaceChip.mu-widget-draggable:before,#appDiscoverChip.mu-widget-draggable:before{display:none}}
 @media(max-width:700px){.mu-tool-grid,.mu-legacy-controls{grid-template-columns:1fr}.mu-footsteps-display{grid-template-columns:1fr 1fr}.mu-footsteps-stat:last-child{grid-column:1/-1}.mu-footsteps-actions{flex-direction:column}.mu-legacy-stage{min-height:280px}}
 @media(prefers-reduced-motion:reduce){.mu-legacy-stage.playing .mu-legacy-collage img{animation:none!important}.dash-master-benefits.mu-tools-ready>div{transition:none!important}}
+
+
+/* 2026-09-29 premium draggable widget finish */
+#appPlaceChip.mu-widget-draggable:before,
+#appDiscoverChip.mu-widget-draggable:before{
+  display:none!important;
+  content:none!important;
+}
+#appPlaceChip.mu-widget-draggable:after,
+#appDiscoverChip.mu-widget-draggable:after{
+  content:'⋮'!important;
+  left:auto!important;
+  right:-17px!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  width:12px!important;
+  font:800 18px/1 Arial,sans-serif!important;
+  letter-spacing:0!important;
+  color:#a88a51!important;
+  opacity:.42!important;
+}
+#appPlaceChip.mu-widget-dragging:after,
+#appDiscoverChip.mu-widget-dragging:after{opacity:.72!important}
