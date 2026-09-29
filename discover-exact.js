@@ -254,7 +254,7 @@ function infoLayer(data,key='why'){
  const hero=infoHero(c,key),gallery=currentGallery();
  const layer=document.createElement('div');layer.className='mu-exact-layer mu-exact-info-layer mu-premium-info-layer open';
  layer.innerHTML=`<section class="mu-premium-info-page">
-  <header class="mu-premium-info-hero" style="--info-hero:url('${hero}')">
+  <header class="mu-premium-info-hero" style="--info-hero:url('${hero}');--info-hero-pos:${c.heroPos||'center'}">
    <span class="mu-premium-info-hero-shade"></span>
    <div class="mu-premium-info-topbar">
     <button type="button" class="mu-premium-info-back" data-exact-close-layer aria-label="Back to ${c.name}">‹</button>
