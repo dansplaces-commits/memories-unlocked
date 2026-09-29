@@ -434,11 +434,11 @@ test('Discover uses approved landmark badges and wow destination heroes',()=>{
   const js=source('discover-exact.js');
   const css=source('discover-exact.css');
   assert.match(js,/const BADGES=\{/);
-  assert.match(js,/mu-badge-rome-clean\.png/);
-  assert.match(js,/mu-badge-bahamas-clean\.png/);
-  assert.match(js,/mu-badge-miami-clean\.png/);
-  assert.match(js,/mu-badge-london-clean\.png/);
-  assert.match(js,/mu-badge-paris-clean\.png/);
+  assert.match(js,/mu-badge-rome-final\.png/);
+  assert.match(js,/mu-badge-bahamas-final\.png/);
+  assert.match(js,/mu-badge-miami-final\.png/);
+  assert.match(js,/mu-badge-london-final\.png/);
+  assert.match(js,/mu-badge-paris-final\.png/);
   assert.match(js,/mu-rome-hero-v3/);
   assert.match(js,/mu-bahamas-hero-v4/);
   assert.match(js,/mu-miami-hero-v4/);
@@ -455,9 +455,9 @@ test('Discover uses approved landmark badges and wow destination heroes',()=>{
 test('Discover crops use clean badges and full-width tablet framing',()=>{
   const js=source('discover-exact.js');
   const css=source('discover-exact.css');
-  assert.match(js,/mu-badge-bahamas-clean\.png/);
-  assert.match(js,/mu-badge-london-clean\.png/);
-  assert.match(js,/mu-badge-miami-clean\.png/);
+  assert.match(js,/mu-badge-bahamas-final\.png/);
+  assert.match(js,/mu-badge-london-final\.png/);
+  assert.match(js,/mu-badge-miami-final\.png/);
   assert.match(js,/heroPos:'center 56%'/);
   assert.match(css,/2026-09-29 crop correction pass/);
   assert.match(css,/@media\(max-width:1100px\)/);
@@ -492,4 +492,15 @@ test('Discover uses final curated category-specific image sets',()=>{
   assert.match(css,/2026-09-29 final smart Discover image lock/);
   assert.match(css,/width:112px/);
   assert.match(css,/width:78px/);
+});
+
+
+test('final landmark badges keep complete padded outlines',()=>{
+  const js=source('discover-exact.js');
+  assert.match(js,/mu-badge-las-vegas-final\.png/);
+  assert.match(js,/mu-badge-rome-final\.png/);
+  assert.match(js,/mu-badge-bahamas-final\.png/);
+  assert.match(js,/mu-badge-miami-final\.png/);
+  assert.match(js,/mu-badge-london-final\.png/);
+  assert.match(js,/mu-badge-paris-final\.png/);
 });
