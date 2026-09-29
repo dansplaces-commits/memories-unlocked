@@ -6,6 +6,14 @@ const MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memories-un
 const HEADER_MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memories-unlocked-discover-header-master.png?v=1790276193';
 const NAV_MASTER='https://cdn.shopify.com/s/files/1/1072/1938/6698/files/memories-unlocked-discover-nav-clean.png?v=1790276097';
 const C=(file,width=1600)=>`https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=${width}`;
+const BADGES={
+ vegas:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-las-vegas.png?v=1790696738',
+ rome:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-rome.png?v=1790696746',
+ bahamas:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-bahamas.png?v=1790696753',
+ miami:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-miami.png?v=1790696760',
+ london:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-london.png?v=1790696767',
+ paris:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-badge-paris.png?v=1790696774'
+};
 
 const VEGAS_GALLERY=[
  {src:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Front_of_the_Bellagio_at_night.jpg?width=1400',title:'Bellagio after dark',copy:'Las Vegas comes alive after sunset — lights, water and the Strip in full glow.'},
@@ -27,7 +35,7 @@ const CONFIG={
   }
  },
  rome:{
-  id:'rome',name:'Rome',location:'Italy',hero:C('Colosseum at sunset-Rome.JPG',2000),heroPos:'center 48%',count:'1 / 5',badge:'ROME',tagline:['Ancient places.','Timeless stories.','Your next chapter.'],
+  id:'rome',name:'Rome',location:'Italy',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-hero-rome-wow_bae7cc20-c7df-4590-b698-afdbae614fe4.jpg?v=1790696970',heroPos:'center 44%',count:'1 / 5',badge:'ROME',tagline:['Ancient places.','Timeless stories.','Your next chapter.'],
   images:{why:C("Saint Peter's Basilica at sunset 2021-10.jpg",1800),spots:C('Rome - Trevi fountain at night (5188892083).jpg',1800),memories:C("Rome St.Peter's Basilica at dusk.jpg",1800),local:C('Night life at Trastevere, Rome - 3381.jpg',1800)},
   gallery:[['Colosseum at sunset-Rome.JPG','Colosseum at sunset'],["Saint Peter's Basilica at sunset 2021-10.jpg",'St Peter’s at sunset'],['Rome - Trevi fountain at night (5188892083).jpg','Trevi Fountain after dark'],["Rome St.Peter's Basilica at dusk.jpg",'Rome at dusk'],['Night life at Trastevere, Rome - 3381.jpg','Trastevere after dark']],
   facts:[['✈','Best time to visit','Apr – Jun · Sep – Oct'],['☀','Climate','Warm summers · Mild winters'],['◉','Iconic status','Historic & Cultural'],['●','Location','Rome, Italy']],
@@ -40,7 +48,7 @@ const CONFIG={
   }
  },
  bahamas:{
-  id:'bahamas',name:'Bahamas',location:'Caribbean',hero:C('Spiaggia Exuma.JPG',2000),heroPos:'center 54%',count:'1 / 5',badge:'BAHAMAS',tagline:['Turquoise waters.','Island stories.','Your next chapter.'],
+  id:'bahamas',name:'Bahamas',location:'Caribbean',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-hero-bahamas-wow_6faed6dd-f4bf-4531-a6bd-ddffce921b18.jpg?v=1790696985',heroPos:'center 48%',count:'1 / 5',badge:'BAHAMAS',tagline:['Turquoise waters.','Island stories.','Your next chapter.'],
   images:{why:C('BHA Nassau, Paradise Island, Cove Beach 001.jpg',1800),spots:C('The Bahamas (iss069e033721).jpg',1800),memories:C('Swimming Pigs.jpg',1800),local:C('Straw Market Nassau Bahamas 2024.jpg',1800)},
   gallery:[['Spiaggia Exuma.JPG','Exuma beach'],['BHA Nassau, Paradise Island, Cove Beach 001.jpg','Paradise Island'],['The Bahamas (iss069e033721).jpg','The Exumas from above'],['Swimming Pigs.jpg','Swimming pigs'],['Straw Market Nassau Bahamas 2024.jpg','Nassau Straw Market']],
   facts:[['✈','Best time to visit','Dec – Apr'],['☀','Climate','Warm & sunny · All year'],['◉','Iconic status','Island Paradise'],['●','Location','Bahamas, Caribbean']],
@@ -53,7 +61,7 @@ const CONFIG={
   }
  },
  miami:{
-  id:'miami',name:'Miami',location:'Florida, USA',hero:C('Ocean Drive at Night (2).jpg',2000),heroPos:'center 48%',count:'1 / 5',badge:'MIAMI',tagline:['Sunshine days.','Vibrant nights.','Your next chapter.'],
+  id:'miami',name:'Miami',location:'Florida, USA',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-hero-miami-wow_cac59414-3317-4bb9-b753-5437b3b34f4a.jpg?v=1790696991',heroPos:'center 48%',count:'1 / 5',badge:'MIAMI',tagline:['Sunshine days.','Vibrant nights.','Your next chapter.'],
   images:{why:C('Ocean drive south beach miami night.JPG',1800),spots:C('South Beach from air.jpg',1800),memories:C('Ocean Drive NB past 7th Street Miami Beach at night.jpeg',1800),local:C('April 7, 2015 - Little Havana, Miami, Florida - Welcome.jpg',1800)},
   gallery:[['Ocean Drive at Night (2).jpg','Ocean Drive after dark'],['South Beach from air.jpg','South Beach from above'],['Ocean Drive NB past 7th Street Miami Beach at night.jpeg','Neon Ocean Drive'],['April 7, 2015 - Little Havana, Miami, Florida - Welcome.jpg','Little Havana'],['South beach miami at night.JPG','South Beach at night']],
   facts:[['✈','Best time to visit','Nov – Apr'],['☀','Climate','Hot & sunny · Year-round'],['◉','Iconic status','Vibrant City'],['●','Location','Florida, USA']],
@@ -66,7 +74,7 @@ const CONFIG={
   }
  },
  london:{
-  id:'london',name:'London',location:'UK',hero:C('Palace of Westminster at dusk from Westminster Bridge.jpg',2000),heroPos:'center 52%',count:'1 / 5',badge:'LONDON',tagline:['Iconic landmarks.','Incredible stories.','Your next chapter.'],
+  id:'london',name:'London',location:'UK',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-hero-london-wow.jpg?v=1790697005',heroPos:'center 48%',count:'1 / 5',badge:'LONDON',tagline:['Iconic landmarks.','Incredible stories.','Your next chapter.'],
   images:{why:C('Tower Bridge golden hour.jpg',1800),spots:C('London Eye and the River Thames at night.jpg',1800),memories:C('London Eye at Sunset.jpg',1800),local:C('London - Borough Market.jpg',1800)},
   gallery:[['Palace of Westminster at dusk from Westminster Bridge.jpg','Westminster at dusk'],['Tower Bridge golden hour.jpg','Tower Bridge at golden hour'],['London Eye and the River Thames at night.jpg','London Eye at night'],['London Eye at Sunset.jpg','London Eye at sunset'],['London - Borough Market.jpg','Borough Market']],
   facts:[['✈','Best time to visit','Apr – Jun · Sep – Oct'],['☀','Climate','Mild summers · Cool winters'],['◉','Iconic status','World Famous'],['●','Location','London, UK']],
@@ -79,7 +87,7 @@ const CONFIG={
   }
  },
  paris:{
-  id:'paris',name:'Paris',location:'France',hero:C('Paris Montmartre view of the Eiffel Tower at sunset 2026-01-03-1.jpg',2000),heroPos:'center 48%',count:'1 / 5',badge:'PARIS',tagline:['Romance. Culture.','Iconic sights.','Your next chapter.'],
+  id:'paris',name:'Paris',location:'France',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-hero-paris-wow.jpg?v=1790697012',heroPos:'center 46%',count:'1 / 5',badge:'PARIS',tagline:['Romance. Culture.','Iconic sights.','Your next chapter.'],
   images:{why:C('Montmartre at night, Paris 27 April 2018.jpg',1800),spots:C('Cathédrale Notre-Dame at Sunset.jpg',1800),memories:C('Paris at dusk (22439395442).jpg',1800),local:C('Café in Paris at dusk 04 2016 France 5557.jpg',1800)},
   gallery:[['Paris Montmartre view of the Eiffel Tower at sunset 2026-01-03-1.jpg','Eiffel Tower at sunset'],['Montmartre at night, Paris 27 April 2018.jpg','Montmartre after dark'],['Cathédrale Notre-Dame at Sunset.jpg','Notre-Dame at sunset'],['Paris at dusk (22439395442).jpg','Paris at dusk'],['Café in Paris at dusk 04 2016 France 5557.jpg','Paris café at dusk']],
   facts:[['✈','Best time to visit','Apr – Jun · Sep – Oct'],['☀','Climate','Warm summers · Cool winters'],['◉','Iconic status','Cultural Icon'],['●','Location','Paris, France']],
@@ -185,7 +193,7 @@ function dynamicMarkup(c){
     <span class="mu-dyn-hero-shade"></span>
     <div class="mu-dyn-title"><small>DISCOVER</small><h1>${c.name}</h1><p>●&nbsp; ${c.location}</p><em>${c.tagline.join('<br>')}</em></div>
     <span class="mu-dyn-count">${c.count}</span>
-    <span class="mu-dyn-stamp">${stampIcon(c.id)}<b>${c.badge}</b><small>${c.location}</small></span>
+    <span class="mu-dyn-stamp mu-landmark-badge"><img src="${BADGES[c.id]}" alt="${c.name} landmark badge"></span>
     <button type="button" class="mu-dyn-gallery-hit" data-exact-action="gallery" aria-label="Open ${c.name} photo gallery"></button>
     <div class="mu-dyn-actions"><button type="button" data-exact-action="save"><span>♡</span><small>Save</small></button><button type="button" data-exact-action="share"><span>↗</span><small>Share</small></button></div>
    </section>
@@ -226,9 +234,7 @@ function open(){
 }
 
 function infoHero(c,key){
- if(c.images?.[key])return c.images[key];
- const vegasMap={why:0,spots:1,memories:3,local:2};
- return c.id==='vegas'?(VEGAS_GALLERY[vegasMap[key]??0]?.src||c.hero):c.hero;
+ return c?.hero || (c?.id==='vegas'?VEGAS_GALLERY[0]?.src:'');
 }
 function infoPrompt(c,key){
  const prompts={
@@ -260,7 +266,7 @@ function infoLayer(data,key='why'){
     <h1>${data.title}</h1>
     <p>●&nbsp; ${c.location}</p>
    </div>
-   <div class="mu-premium-info-stamp">${stampIcon(c.id)}<b>${c.badge||c.name.toUpperCase()}</b><small>${infoKeyLabel(key)}</small></div>
+   <div class="mu-premium-info-stamp mu-landmark-badge"><img src="${BADGES[c.id]}" alt="${c.name} landmark badge"></div>
   </header>
 
   <main class="mu-premium-info-body">
