@@ -463,3 +463,16 @@ test('Discover crops use clean badges and full-width tablet framing',()=>{
   assert.match(css,/@media\(max-width:1100px\)/);
   assert.match(css,/\.mu-exact-discover-frame\{width:100%!important;max-width:none!important\}/);
 });
+
+
+test('all Discover destinations use locked hero crops and full-width framing',()=>{
+  const js=source('discover-exact.js');
+  const css=source('discover-exact.css');
+  assert.match(js,/id:'rome'.*heroPos:'center 56%'/s);
+  assert.match(js,/id:'bahamas'.*heroPos:'center 63%'/s);
+  assert.match(js,/id:'miami'.*heroPos:'center 55%'/s);
+  assert.match(js,/id:'london'.*heroPos:'center 54%'/s);
+  assert.match(js,/id:'paris'.*heroPos:'center 52%'/s);
+  assert.match(css,/max-width:1280px/);
+  assert.match(css,/2026-09-29 all-destination crop lock/);
+});
