@@ -1,0 +1,95 @@
+/* Memories Unlocked — 2026-10-01 website-first Explore vibrancy pass.
+   This layer intentionally sits after the locked Discover styles. */
+
+.mu-dest-photo.has-curated-image,
+.mu-vegas-next-photo.has-curated-image{
+  position:relative;
+  isolation:isolate;
+  background-image:none!important;
+  background-color:#0b365f!important;
+  background-position:var(--dest-pos,center)!important;
+}
+.mu-dest-photo.has-curated-image::before,
+.mu-vegas-next-photo.has-curated-image::before{
+  content:"";
+  position:absolute;
+  inset:-3%;
+  z-index:0;
+  pointer-events:none;
+  background-image:var(--curated-image)!important;
+  background-size:cover!important;
+  background-position:var(--dest-pos,center)!important;
+  background-repeat:no-repeat!important;
+  filter:saturate(1.16) contrast(1.06) brightness(1.035);
+  transform:scale(1.035);
+  transition:transform .5s ease,filter .5s ease;
+}
+.mu-dest-photo.has-curated-image:hover::before,
+.mu-vegas-next-photo.has-curated-image:hover::before{
+  transform:scale(1.07);
+  filter:saturate(1.2) contrast(1.07) brightness(1.045);
+}
+.mu-dest-photo.has-curated-image .mu-dest-photo-shade{
+  z-index:1!important;
+  background:
+    linear-gradient(180deg,rgba(3,22,40,.02) 22%,rgba(3,22,40,.08) 55%,rgba(3,22,40,.38) 100%)!important;
+}
+.mu-dest-photo.has-curated-image .mu-dest-badge,
+.mu-dest-photo.has-curated-image .mu-dest-arrow,
+.mu-vegas-next-photo.has-curated-image .mu-dest-badge,
+.mu-vegas-next-photo.has-curated-image .mu-vegas-next-arrow{
+  z-index:3!important;
+}
+
+/* First-view Explore hero: bright, cinematic, aspirational. */
+.mu-discover-hero.has-curated-image{
+  position:relative;
+  isolation:isolate;
+  background:#0b365f!important;
+  overflow:hidden!important;
+}
+.mu-discover-hero.has-curated-image::before{
+  content:"";
+  position:absolute;
+  inset:-3%;
+  z-index:0;
+  pointer-events:none;
+  background-image:var(--curated-image)!important;
+  background-size:cover!important;
+  background-position:var(--dest-pos,center)!important;
+  background-repeat:no-repeat!important;
+  filter:saturate(1.14) contrast(1.05) brightness(1.03);
+  transform:scale(1.035);
+}
+.mu-discover-hero.has-curated-image .mu-discover-hero-shade{
+  z-index:1!important;
+  background:
+    linear-gradient(90deg,rgba(4,28,53,.88) 0%,rgba(4,28,53,.67) 45%,rgba(4,28,53,.20) 78%,rgba(4,28,53,.06) 100%),
+    linear-gradient(180deg,rgba(4,28,53,.02),rgba(4,28,53,.16))!important;
+}
+.mu-discover-hero.has-curated-image>div,
+.mu-discover-hero.has-curated-image .mu-discover-orbit,
+.mu-discover-hero.has-curated-image .mu-discover-hero-note{
+  z-index:2!important;
+}
+.mu-dest-card{
+  box-shadow:0 10px 26px rgba(7,43,78,.11)!important;
+}
+.mu-dest-card:hover{
+  transform:translateY(-2px)!important;
+  box-shadow:0 14px 32px rgba(7,43,78,.15)!important;
+}
+@media(max-width:700px){
+  .mu-dest-photo.has-curated-image::before,
+  .mu-vegas-next-photo.has-curated-image::before{
+    filter:saturate(1.13) contrast(1.05) brightness(1.035);
+  }
+  .mu-discover-hero.has-curated-image::before{
+    filter:saturate(1.12) contrast(1.045) brightness(1.035);
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .mu-dest-photo.has-curated-image::before,
+  .mu-vegas-next-photo.has-curated-image::before,
+  .mu-dest-card{transition:none!important}
+}
