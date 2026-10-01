@@ -80,3 +80,42 @@ document.addEventListener('click',e=>{
  const filter=e.target.closest('[data-bucket-filter]');if(filter){const host=filter.closest('.mu-discover-hub'),set=saved(),cards=host?.querySelectorAll('[data-dest-card]')||[];const active=filter.dataset.active==='1';cards.forEach(c=>c.hidden=!active&&!set.has(c.dataset.destCard));filter.dataset.active=active?'0':'1';filter.textContent=active?'Show saved places':'Show all destinations';}
 });
 })();
+
+/* 2026-10-01 website-first Explore imagery lock.
+   Keep the demo destinations aspirational and stable instead of relying on whichever
+   Wikipedia thumbnail happens to be returned. New York and Venice use CC0 Commons
+   photography; the other hero assets are the approved project-owned destination art. */
+(function(){
+  const curated={
+    'las-vegas':{src:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Front_of_the_Bellagio_at_night.jpg?width=1600',pos:'center 48%'},
+    'rome':{src:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-rome-hero-v3.jpg?v=1790700519',pos:'center 50%'},
+    'bahamas':{src:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-bahamas-hero-v4.jpg?v=1790700636',pos:'center 56%'},
+    'miami':{src:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-miami-hero-v4.jpg?v=1790700670',pos:'center 51%'},
+    'london':{src:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-london-hero-v4.jpg?v=1790700704',pos:'center 48%'},
+    'paris':{src:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-paris-hero-v4.jpg?v=1790700740',pos:'center 50%'},
+    'new-york':{src:'https://commons.wikimedia.org/wiki/Special:FilePath/High-rise%20buildings%20of%20Manhattan%20during%20sunset.jpg?width=1600',pos:'center 42%'},
+    'venice':{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Sunset%20on%20the%20Grand%20Canal%20(48020437936).jpg?width=1600',pos:'center 48%'}
+  };
+  function apply(){
+    const hub=document.querySelector('.mu-discover-hub');
+    if(!hub)return;
+    const hero=hub.querySelector('.mu-discover-hero');
+    if(hero){
+      hero.style.setProperty('--curated-image',`url("${curated.bahamas.src}")`);
+      hero.style.setProperty('--dest-pos','center 48%');
+      hero.classList.add('has-curated-image');
+    }
+    hub.querySelectorAll('[data-dest-card]').forEach(card=>{
+      const item=curated[card.dataset.destCard]; if(!item)return;
+      card.querySelectorAll('.mu-dest-photo,.mu-vegas-next-photo').forEach(photo=>{
+        photo.style.setProperty('--curated-image',`url("${item.src}")`);
+        photo.style.setProperty('--dest-pos',item.pos);
+        photo.classList.add('has-curated-image');
+      });
+    });
+  }
+  const observer=new MutationObserver(()=>apply());
+  observer.observe(document.documentElement,{childList:true,subtree:true});
+  document.addEventListener('click',()=>setTimeout(apply,0),true);
+  window.muApplyCuratedDiscoverImagery=apply;
+})();
