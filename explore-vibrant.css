@@ -93,3 +93,49 @@
   .mu-vegas-next-photo.has-curated-image::before,
   .mu-dest-card{transition:none!important}
 }
+
+
+/* Destination first-view heroes: match the energetic Explore cards. */
+.mu-dyn-hero{
+  isolation:isolate!important;
+  background-image:none!important;
+  background-color:#0b365f!important;
+}
+.mu-dyn-hero::before{
+  content:""!important;
+  position:absolute!important;
+  inset:-2%!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  background-image:var(--dyn-hero)!important;
+  background-size:cover!important;
+  background-position:var(--dyn-hero-pos,center)!important;
+  background-repeat:no-repeat!important;
+  filter:saturate(1.13) contrast(1.055) brightness(1.025)!important;
+  transform:scale(1.025)!important;
+}
+.mu-dyn-hero-shade{z-index:1!important}
+.mu-dyn-gallery-hit{z-index:2!important}
+.mu-dyn-title,.mu-dyn-stamp,.mu-dyn-actions{z-index:3!important}
+.mu-dyn-count{display:none!important}
+
+.mu-premium-info-hero{
+  isolation:isolate!important;
+  background-image:none!important;
+  background-color:#0b365f!important;
+}
+.mu-premium-info-hero::before{
+  content:"";
+  position:absolute;
+  inset:-2%;
+  z-index:0;
+  pointer-events:none;
+  background-image:var(--info-hero)!important;
+  background-size:cover!important;
+  background-position:var(--info-hero-pos,center)!important;
+  background-repeat:no-repeat!important;
+  filter:saturate(1.12) contrast(1.05) brightness(1.025);
+  transform:scale(1.02);
+}
+.mu-premium-info-hero-shade{z-index:1!important}
+.mu-premium-info-hero>*:not(.mu-premium-info-hero-shade){position:relative;z-index:2}
