@@ -25,7 +25,23 @@ const VEGAS_GALLERY=[
 
 const CONFIG={
  vegas:{
-  id:'vegas',name:'Las Vegas',location:'Nevada, USA',hero:VEGAS_GALLERY[0].src,count:'1 / 5',exact:true,
+  id:'vegas',name:'Las Vegas',location:'Nevada, USA',
+  hero:VEGAS_GALLERY[0].src,heroPos:'center 48%',tileHero:VEGAS_GALLERY[0].src,
+  count:'1 / 5',exact:false,badge:'LAS VEGAS',tagline:['Bright lights.','Big stories.','Your next chapter.'],
+  images:{
+   why:'https://commons.wikimedia.org/wiki/Special:FilePath/Bellagio%20Fountains%20at%20night.jpg',
+   spots:'https://commons.wikimedia.org/wiki/Special:FilePath/LasVegasRedRockCanyon.jpg',
+   memories:'https://commons.wikimedia.org/wiki/Special:FilePath/The%20Fremont%20Street%20Experience.jpg',
+   local:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Bellagio_Las_Vegas_Nacht.JPG?width=1400'
+  },
+  gallery:[
+   [VEGAS_GALLERY[0].src,'Las Vegas at sunset'],
+   ['https://commons.wikimedia.org/wiki/Special:FilePath/Bellagio%20Fountains%20at%20night.jpg','Bellagio after dark'],
+   ['https://commons.wikimedia.org/wiki/Special:FilePath/LasVegasRedRockCanyon.jpg','Red Rock Canyon'],
+   ['https://commons.wikimedia.org/wiki/Special:FilePath/The%20Fremont%20Street%20Experience.jpg','Fremont Street'],
+   ['https://commons.wikimedia.org/wiki/Special:Redirect/file/Las_Vegas_at_Night.JPG?width=1400','Las Vegas lights']
+  ],
+  facts:[['✈','Best time to visit','Mar – May · Sep – Nov'],['☀','Climate','Hot summers · Mild winters'],['◉','Iconic status','World Famous'],['●','Location','Nevada, USA']],
   snapshot:{best:'Shows · Food · Nightlife',stay:'3–5 days',vibe:'Iconic · Vibrant · Indulgent',tip:'The Strip is longer than it looks — plan by area, not just by hotel.'},
   sections:{
    why:{kicker:'WHY VISIT?',title:'Why Las Vegas?',intro:'Las Vegas is built around memorable moments — bold architecture, spectacle, food, entertainment and desert scenery all in one place.',items:['See the Strip transformed after dark.','Choose from world-famous shows, attractions and immersive experiences.','Mix city nights with desert landscapes and unforgettable day trips.']},
@@ -35,7 +51,7 @@ const CONFIG={
   }
  },
  rome:{
-  id:'rome',name:'Rome',location:'Italy',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-rome-hero-v3.jpg?v=1790700519',heroPos:'center 50%',count:'1 / 5',badge:'ROME',tagline:['Ancient places.','Timeless stories.','Your next chapter.'],
+  id:'rome',name:'Rome',location:'Italy',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-rome-hero-v3.jpg?v=1790700519',heroPos:'center 50%',tileHero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-rome-memories-v3.jpg?v=1790700539',count:'1 / 5',badge:'ROME',tagline:['Ancient places.','Timeless stories.','Your next chapter.'],
   images:{why:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-rome-why-v3.jpg?v=1790700526',spots:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-rome-spots-v3.jpg?v=1790700532',memories:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-rome-memories-v3.jpg?v=1790700539',local:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-rome-local-v3.jpg?v=1790700546'},
   gallery:[['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-rome-hero-v3.jpg?v=1790700519','Colosseum at sunset'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-rome-why-v3.jpg?v=1790700526','Piazza life at golden hour'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-rome-spots-v3.jpg?v=1790700532','Trevi Fountain'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-rome-memories-v3.jpg?v=1790700539','Rome streets at sunset'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-rome-local-v3.jpg?v=1790700546','Dining in Rome']],
   facts:[['✈','Best time to visit','Apr – Jun · Sep – Oct'],['☀','Climate','Warm summers · Mild winters'],['◉','Iconic status','Historic & Cultural'],['●','Location','Rome, Italy']],
@@ -48,7 +64,7 @@ const CONFIG={
   }
  },
  bahamas:{
-  id:'bahamas',name:'Bahamas',location:'Caribbean',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-bahamas-hero-v4.jpg?v=1790700636',heroPos:'center 56%',count:'1 / 5',badge:'BAHAMAS',tagline:['Turquoise waters.','Island stories.','Your next chapter.'],
+  id:'bahamas',name:'Bahamas',location:'Caribbean',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-bahamas-hero-v4.jpg?v=1790700636',heroPos:'center 56%',tileHero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-bahamas-why-v4.jpg?v=1790700643',count:'1 / 5',badge:'BAHAMAS',tagline:['Turquoise waters.','Island stories.','Your next chapter.'],
   images:{why:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-bahamas-why-v4.jpg?v=1790700643',spots:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-bahamas-spots-v4.jpg?v=1790700650',memories:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-bahamas-memories-v4.jpg?v=1790700656',local:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-bahamas-local-v4.jpg?v=1790700663'},
   gallery:[['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-bahamas-hero-v4.jpg?v=1790700636','Turquoise Bahamas'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-bahamas-why-v4.jpg?v=1790700643','Island paradise'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-bahamas-spots-v4.jpg?v=1790700650','Nassau waterfront'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-bahamas-memories-v4.jpg?v=1790700656','Beach-day memories'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-bahamas-local-v4.jpg?v=1790700663','Food and cocktails by the sea']],
   facts:[['✈','Best time to visit','Dec – Apr'],['☀','Climate','Warm & sunny · All year'],['◉','Iconic status','Island Paradise'],['●','Location','Bahamas, Caribbean']],
@@ -61,7 +77,7 @@ const CONFIG={
   }
  },
  miami:{
-  id:'miami',name:'Miami',location:'Florida, USA',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-miami-hero-v4.jpg?v=1790700670',heroPos:'center 51%',count:'1 / 5',badge:'MIAMI',tagline:['Sunshine days.','Vibrant nights.','Your next chapter.'],
+  id:'miami',name:'Miami',location:'Florida, USA',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-miami-hero-v4.jpg?v=1790700670',heroPos:'center 51%',tileHero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-miami-why-v4.jpg?v=1790700677',count:'1 / 5',badge:'MIAMI',tagline:['Sunshine days.','Vibrant nights.','Your next chapter.'],
   images:{why:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-miami-why-v4.jpg?v=1790700677',spots:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-miami-spots-v4.jpg?v=1790700684',memories:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-miami-memories-v4.jpg?v=1790700691',local:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-miami-local-v4.jpg?v=1790700698'},
   gallery:[['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-miami-hero-v4.jpg?v=1790700670','Miami Art Deco sunset'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-miami-why-v4.jpg?v=1790700677','Ocean Drive colour'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-miami-spots-v4.jpg?v=1790700684','Art Deco after dark'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-miami-memories-v4.jpg?v=1790700691','Miami dusk'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-miami-local-v4.jpg?v=1790700698','Cuban food and local nightlife']],
   facts:[['✈','Best time to visit','Nov – Apr'],['☀','Climate','Hot & sunny · Year-round'],['◉','Iconic status','Vibrant City'],['●','Location','Florida, USA']],
@@ -74,7 +90,7 @@ const CONFIG={
   }
  },
  london:{
-  id:'london',name:'London',location:'UK',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-london-hero-v4.jpg?v=1790700704',heroPos:'center 48%',count:'1 / 5',badge:'LONDON',tagline:['Iconic landmarks.','Incredible stories.','Your next chapter.'],
+  id:'london',name:'London',location:'UK',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-london-hero-v4.jpg?v=1790700704',heroPos:'center 48%',tileHero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-london-memories-v4.jpg?v=1790700724',count:'1 / 5',badge:'LONDON',tagline:['Iconic landmarks.','Incredible stories.','Your next chapter.'],
   images:{why:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-london-why-v4.jpg?v=1790700711',spots:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-london-spots-v4.jpg?v=1790700718',memories:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-london-memories-v4.jpg?v=1790700724',local:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-london-local-v4.jpg?v=1790700732'},
   gallery:[['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-london-hero-v4.jpg?v=1790700704','Westminster at sunset'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-london-why-v4.jpg?v=1790700711','London skyline'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-london-spots-v4.jpg?v=1790700718','Tower Bridge'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-london-memories-v4.jpg?v=1790700724','London Eye at sunset'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-london-local-v4.jpg?v=1790700732','Borough Market food']],
   facts:[['✈','Best time to visit','Apr – Jun · Sep – Oct'],['☀','Climate','Mild summers · Cool winters'],['◉','Iconic status','World Famous'],['●','Location','London, UK']],
@@ -87,7 +103,7 @@ const CONFIG={
   }
  },
  paris:{
-  id:'paris',name:'Paris',location:'France',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-paris-hero-v4.jpg?v=1790700740',heroPos:'center 50%',count:'1 / 5',badge:'PARIS',tagline:['Romance. Culture.','Iconic sights.','Your next chapter.'],
+  id:'paris',name:'Paris',location:'France',hero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-paris-hero-v4.jpg?v=1790700740',heroPos:'center 50%',tileHero:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-paris-why-v4.jpg?v=1790700746',count:'1 / 5',badge:'PARIS',tagline:['Romance. Culture.','Iconic sights.','Your next chapter.'],
   images:{why:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-paris-why-v4.jpg?v=1790700746',spots:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-paris-spots-v4.jpg?v=1790700797',memories:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-paris-memories-v4.jpg?v=1790700803',local:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-paris-local-v4.jpg?v=1790700811'},
   gallery:[['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-paris-hero-v4.jpg?v=1790700740','Paris at sunset'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-paris-why-v4.jpg?v=1790700746','Eiffel Tower glow'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-paris-spots-v4.jpg?v=1790700797','The Seine at dusk'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-paris-memories-v4.jpg?v=1790700803','Paris memory at golden hour'],['https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-paris-local-v4.jpg?v=1790700811','Parisian café life']],
   facts:[['✈','Best time to visit','Apr – Jun · Sep – Oct'],['☀','Climate','Warm summers · Cool winters'],['◉','Iconic status','Cultural Icon'],['●','Location','Paris, France']],
@@ -179,7 +195,7 @@ function dynamicCard(key,c){
 function nextCards(current){
  return ORDER.filter(id=>id!==current).slice(0,5).map(id=>{
   const d=CONFIG[id];
-  return `<button type="button" class="mu-dyn-next-card" data-exact-dest="${id}" style="--dyn-next-image:url('${d.hero||MASTER}')">
+  return `<button type="button" class="mu-dyn-next-card" data-exact-dest="${id}" style="--dyn-next-image:url('${d.tileHero||d.hero||MASTER}')">
     <span class="mu-dyn-next-badge">${d.badge||'LAS VEGAS'}</span><span class="mu-dyn-next-shade"></span>
     <span class="mu-dyn-next-copy"><strong>${d.name}</strong><small>${d.location}</small></span>
    </button>`;
@@ -312,9 +328,10 @@ function infoLayer(data,key='why'){
 
 let galleryIndex=0;
 function currentGallery(){
- if(currentId==='vegas')return VEGAS_GALLERY;
  const c=CONFIG[currentId];
- return (c?.gallery||[]).map(([file,title])=>({src:/^https?:/i.test(file)?file:C(file),title,copy:`${title} — one of the places that gives ${c.name} its character.`}));
+ const source=(c?.gallery||[]);
+ if(source.length)return source.map(([file,title])=>({src:/^https?:/i.test(file)?file:C(file),title,copy:`${title} — one of the places that gives ${c.name} its character.`}));
+ return currentId==='vegas'?VEGAS_GALLERY:[];
 }
 function galleryLayer(index=0){
  const gallery=currentGallery();if(!gallery.length)return;
