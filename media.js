@@ -52,7 +52,7 @@ function muRenderMediaSlot(kind,id){
   muMediaSignedUrl(path).then(url=>{
     if(!slot.isConnected||record[muMediaField(kind)]!==expected)return;
     if(!url)throw new Error('No signed photo URL was returned.');
-    slot.innerHTML=`<img class="story-photo-image" src="${esc(url)}" alt="${esc(record.title||muMediaLabel(kind))}"><div class="story-photo-shade"></div><div class="story-photo-caption"><span>${kind==='journey'?'JOURNEY COVER':'MEMORY PHOTO'}</span><strong>${esc(record.title||'Your story')}</strong><small>${record.location?'📍 '+esc(record.location):'Memories Unlocked'}</small></div><div class="story-photo-actions"><button type="button" data-media-action="choose" data-media-kind="${kind}" data-media-id="${esc(id)}">Replace</button><button type="button" data-media-action="remove" data-media-kind="${kind}" data-media-id="${esc(id)}">Remove</button></div>`;
+    slot.innerHTML=`<img class="story-photo-image" src="${esc(url)}" alt="${esc(record.title||muMediaLabel(kind))}"><div class="story-photo-shade"></div><div class="story-photo-caption"><span>${kind==='journey'?'JOURNEY COVER':'MEMORY PHOTO'}</span><strong>${esc(record.title||'Your story')}</strong><small>${record.location?'📍 '+esc(record.location):'Memories Unlocked'}</small></div><div class="story-photo-actions">${kind==='memory'?`<button type="button" data-media-action="studio" data-media-id="${esc(id)}">AI Photo Studio</button>`:''}<button type="button" data-media-action="choose" data-media-kind="${kind}" data-media-id="${esc(id)}">Replace</button><button type="button" data-media-action="remove" data-media-kind="${kind}" data-media-id="${esc(id)}">Remove</button></div>`;
   }).catch(error=>{
     console.warn('Photo display:',error.message);
     if(slot.isConnected)slot.innerHTML=`${muMediaEmptyMarkup(kind,record)}<p class="media-error">The saved photo could not be displayed just now.</p>`;
@@ -74,19 +74,21 @@ function muOpenPhotoPicker(kind,id){
   const record=muMediaRecord(kind,id);
   if(!record)return;
   if(!muMediaAvailable(record)){toast('Connect this story to your cloud before adding photographs.');return;}
-  const modal=mountDialog('mediaPickerModal',`<button class="close" type="button" onclick="closeModal('mediaPickerModal')">×</button><span class="eyebrow">ADD TO YOUR STORY</span><h2>${record[muMediaField(kind)]?'Replace':'Add'} ${kind==='journey'?'journey cover':'memory photo'}</h2><p class="small">Choose one clear image. JPEG, PNG or WebP · maximum 25 MB.</p><label class="media-file-label" for="mediaPhotoFile"><span>Choose a photo</span><small>From this device</small></label><input id="mediaPhotoFile" class="media-file-input" type="file" accept="image/jpeg,image/png,image/webp"><div id="mediaPreview" class="media-preview"><div>▧</div><span>Your preview will appear here.</span></div><p id="mediaPickerMessage" class="small"></p><button id="mediaSaveButton" class="save" type="button" disabled>Save photo</button>`,'media-picker');
+  const modal=mountDialog('mediaPickerModal',`<button class="close" type="button" onclick="closeModal('mediaPickerModal')">×</button><span class="eyebrow">ADD TO YOUR STORY</span><h2>${record[muMediaField(kind)]?'Replace':'Add'} ${kind==='journey'?'journey cover':'memory photo'}</h2><p class="small">Choose one clear image. JPEG, PNG or WebP · maximum 25 MB.</p><label class="media-file-label" for="mediaPhotoFile"><span>Choose a photo</span><small>From this device</small></label><input id="mediaPhotoFile" class="media-file-input" type="file" accept="image/jpeg,image/png,image/webp"><div id="mediaPreview" class="media-preview"><div>▧</div><span>Your preview will appear here.</span></div>${kind==='memory'?'<button id="mediaStudioButton" class="secondary photo-studio-entry" type="button" disabled>AI Photo Studio</button>':''}<p id="mediaPickerMessage" class="small"></p><button id="mediaSaveButton" class="save" type="button" disabled>Save photo</button>`,'media-picker');
   const input=modal.querySelector('#mediaPhotoFile'),preview=modal.querySelector('#mediaPreview'),message=modal.querySelector('#mediaPickerMessage'),saveButton=modal.querySelector('#mediaSaveButton');
   let selected=null,previewUrl='';
+  const studioButton=modal.querySelector('#mediaStudioButton');
+  studioButton?.addEventListener('click',()=>{if(selected)window.muPhotoStudio?.open(id,selected);});
   const clearPreviewUrl=()=>{if(previewUrl){URL.revokeObjectURL(previewUrl);previewUrl='';}};
   input.addEventListener('change',()=>{
-    clearPreviewUrl();selected=input.files?.[0]||null;saveButton.disabled=true;message.textContent='';
+    clearPreviewUrl();selected=input.files?.[0]||null;saveButton.disabled=true;if(studioButton)studioButton.disabled=true;message.textContent='';
     if(!selected){preview.innerHTML='<div>▧</div><span>Your preview will appear here.</span>';return;}
     if(!MU_MEDIA_TYPES.has(selected.type)){selected=null;message.textContent='Please choose a JPEG, PNG or WebP image.';return;}
     if(selected.size>MU_MEDIA_MAX_BYTES){selected=null;message.textContent='That image is larger than 25 MB. Choose a smaller copy.';return;}
     try{
       previewUrl=URL.createObjectURL(selected);
       preview.innerHTML=`<img src="${esc(previewUrl)}" alt="Preview of selected photo"><span>${esc(selected.name)}</span>`;
-      saveButton.disabled=false;
+      saveButton.disabled=false;if(studioButton)studioButton.disabled=false;
     }catch{
       selected=null;message.textContent='This image could not be previewed. Try another file.';
     }
@@ -173,6 +175,7 @@ function muInstallMediaLayer(){
   document.addEventListener('click',event=>{
     const button=event.target.closest('[data-media-action]');if(!button)return;
     const {mediaAction,mediaKind,mediaId}=button.dataset;
+    if(mediaAction==='studio')window.muPhotoStudio?.open(mediaId);
     if(mediaAction==='choose')muOpenPhotoPicker(mediaKind,mediaId);
     if(mediaAction==='remove')muConfirmRemove(mediaKind,mediaId);
     if(mediaAction==='confirm-remove')muRemovePhoto(mediaKind,mediaId);
