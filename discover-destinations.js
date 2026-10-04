@@ -81,20 +81,24 @@ document.addEventListener('click',e=>{
 });
 })();
 
-/* 2026-10-01 website-first Explore imagery lock.
+/* Memories Unlocked 2.0 — real-photo hero lock, 2026-10-04.
+   Eight destination heroes are fixed to the approved real-photo selection.
+   Source/licence details are recorded in docs/version-2-image-credits.md.
+
+   2026-10-01 website-first Explore imagery lock.
    Keep the demo destinations aspirational and stable instead of relying on whichever
    Wikipedia thumbnail happens to be returned. New York and Venice use CC0 Commons
    photography; the other hero assets are the approved project-owned destination art. */
 (function(){
   const curated={
-    'las-vegas':{src:'https://commons.wikimedia.org/wiki/Special:Redirect/file/Front_of_the_Bellagio_at_night.jpg?width=1600',pos:'center 48%'},
-    'rome':{src:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-rome-hero-v3.jpg?v=1790700519',pos:'center 50%'},
-    'bahamas':{src:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-bahamas-hero-v4.jpg?v=1790700636',pos:'center 56%'},
-    'miami':{src:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-miami-hero-v4.jpg?v=1790700670',pos:'center 51%'},
-    'london':{src:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-london-hero-v4.jpg?v=1790700704',pos:'center 48%'},
-    'paris':{src:'https://cdn.shopify.com/s/files/1/1072/1938/6698/files/mu-paris-hero-v4.jpg?v=1790700740',pos:'center 50%'},
-    'new-york':{src:'https://commons.wikimedia.org/wiki/Special:FilePath/High-rise%20buildings%20of%20Manhattan%20during%20sunset.jpg?width=1600',pos:'center 42%'},
-    'venice':{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Sunset%20on%20the%20Grand%20Canal%20(48020437936).jpg?width=1600',pos:'center 48%'}
+    'las-vegas':{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Front%20of%20the%20Bellagio%20at%20night.jpg?width=2200',pos:'center 49%'},
+    'rome':{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Colosseum%20at%20sunset-Rome.JPG?width=2200',pos:'center 52%'},
+    'bahamas':{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Great%20Exuma%20Island%20%26%20Hog%20Cay%20%26%20Green%20Turtle%20Cay%20(Bahamas).jpg?width=2200',pos:'center 52%'},
+    'miami':{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Ocean%20Drive%20-%20Miami%20Beach.jpg?width=2200',pos:'center 48%'},
+    'london':{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Palace%20of%20Westminster%20at%20sunset%202026-09-05.jpg?width=2200',pos:'center 54%'},
+    'paris':{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Eiffel%20Tower%20sunset%2C%20Paris%20(9249818803).jpg?width=2200',pos:'center 50%'},
+    'new-york':{src:'https://commons.wikimedia.org/wiki/Special:FilePath/High-rise%20buildings%20of%20Manhattan%20during%20sunset.jpg?width=2200',pos:'center 44%'},
+    'venice':{src:'https://commons.wikimedia.org/wiki/Special:FilePath/Santa-Maria-della-Salute-20050526-033.jpg?width=2200',pos:'center 50%'}
   };
   function apply(){
     const hub=document.querySelector('.mu-discover-hub');
