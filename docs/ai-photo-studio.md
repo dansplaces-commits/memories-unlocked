@@ -5,8 +5,10 @@ photo picker after selecting a file. It uses the existing `muMediaAvailable`
 account check and `muMediaSignedUrl`; drafts use a temporary object URL. Closing
 the studio or changing accounts clears its preview. No provider request is made.
 
-The four stable choices are `enhance`, `restore`, `colour`, and `crop`. Further
-choices can be added to the registry without changing the media picker.
+The Version 2 user choices are `Original`, `Enhance`, `Reimagine`, and `Restore`.
+`Original` is not an AI operation and never leaves the client. The server adapter
+will expose stable AI operations for `enhance`, `reimagine`, and `restore` without
+changing the ordinary media picker.
 
 `window.muPhotoStudio.service` deliberately reports `available: false` and rejects
 `createVersion`. Do not switch this on with a client flag or call `muUploadPhoto`
