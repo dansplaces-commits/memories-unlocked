@@ -1,0 +1,91 @@
+/* Memories Unlocked — real photography comparison layer, 2026-10-04.
+   EXPERIMENT ONLY. Image treatment only: do not alter application behaviour or approved layout. */
+
+html.mu-real-photo-review{
+  --mu-real-overlay:linear-gradient(180deg,rgba(4,25,45,.06),rgba(4,25,45,.34));
+}
+
+/* Desktop hero: preserve the approved split composition, swap only the artwork field. */
+@media(min-width:1180px){
+  html.mu-real-photo-review .dash-master-art{
+    background-image:
+      linear-gradient(90deg,rgba(251,246,237,.34) 0%,rgba(9,42,73,.02) 24%,rgba(9,42,73,.06) 100%),
+      var(--mu-real-home-hero)!important;
+    background-size:cover!important;
+    background-position:center!important;
+    background-color:#d9c9b0!important;
+  }
+  html.mu-real-photo-review .dash-master-art:before{
+    content:""!important;
+    display:block!important;
+    position:absolute!important;
+    inset:0!important;
+    z-index:1!important;
+    pointer-events:none!important;
+    background:linear-gradient(180deg,rgba(4,25,45,.02) 0%,rgba(4,25,45,.06) 55%,rgba(4,25,45,.22) 100%)!important;
+  }
+  html.mu-real-photo-review .dash-art-sky-mask,
+  html.mu-real-photo-review .dash-art-heart-cover{display:none!important}
+  html.mu-real-photo-review .dash-art-script{
+    color:#fff!important;
+    text-shadow:0 2px 14px rgba(4,25,45,.72),0 1px 2px rgba(4,25,45,.5)!important;
+  }
+
+  /* The five approved steps remain fully clickable; photography simply fills the empty panels. */
+  html.mu-real-photo-review .dash-how-card{
+    overflow:hidden!important;
+    isolation:isolate!important;
+    color:#fff!important;
+    background-image:
+      linear-gradient(180deg,rgba(5,29,52,.12) 0%,rgba(5,29,52,.32) 52%,rgba(5,29,52,.78) 100%),
+      var(--mu-real-step-photo)!important;
+    background-size:cover!important;
+    background-position:center!important;
+    box-shadow:0 10px 22px rgba(9,42,73,.11)!important;
+    text-shadow:0 1px 4px rgba(0,0,0,.45);
+  }
+  html.mu-real-photo-review .dash-how-card:after{
+    content:""!important;display:block!important;position:absolute!important;inset:0!important;z-index:-1!important;
+    background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(8,35,59,.08))!important;
+  }
+  html.mu-real-photo-review .dash-how-card small{color:rgba(255,255,255,.92)!important}
+  html.mu-real-photo-review .dash-how-card i{
+    z-index:3!important;
+    background:#e2ac42!important;color:#0a2b4a!important;
+    text-shadow:none!important;
+    box-shadow:0 5px 12px rgba(9,42,73,.16)!important;
+  }
+  html.mu-real-photo-review .dash-how-icon{filter:drop-shadow(0 2px 4px rgba(0,0,0,.28))}
+}
+
+/* Explore: keep the locked layout and vibrant grading, but make the source photography explicit. */
+html.mu-real-photo-review .mu-dest-photo.has-curated-image::before,
+html.mu-real-photo-review .mu-vegas-next-photo.has-curated-image::before,
+html.mu-real-photo-review .mu-discover-hero.has-curated-image::before,
+html.mu-real-photo-review .mu-dyn-hero::before,
+html.mu-real-photo-review .mu-premium-info-hero::before{
+  filter:saturate(1.08) contrast(1.04) brightness(1.015)!important;
+}
+
+/* On mobile the current structure is retained; the hero gains the same real-photo mood. */
+@media(max-width:1179px){
+  html.mu-real-photo-review #home .home-hero{
+    position:relative;
+    overflow:hidden;
+    border-radius:22px;
+    padding:24px 20px;
+    background-image:
+      linear-gradient(90deg,rgba(8,38,66,.88),rgba(8,38,66,.35)),
+      var(--mu-real-home-hero)!important;
+    background-size:cover!important;
+    background-position:center!important;
+    box-shadow:0 12px 28px rgba(9,42,73,.10);
+  }
+  html.mu-real-photo-review #home .home-hero h1,
+  html.mu-real-photo-review #home .home-hero .welcome,
+  html.mu-real-photo-review #home .home-hero .intro,
+  html.mu-real-photo-review #home .home-hero .small{color:#fff!important;text-shadow:0 1px 5px rgba(0,0,0,.36)}
+}
+@media(prefers-reduced-motion:reduce){
+  html.mu-real-photo-review .dash-how-card{transition:none!important}
+}
