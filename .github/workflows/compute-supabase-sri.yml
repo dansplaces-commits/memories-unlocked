@@ -1,0 +1,25 @@
+name: Compute Supabase CDN Integrity
+
+on:
+  push:
+    branches:
+      - release/v2-launch-candidate-2026-10-09
+    paths:
+      - ".github/workflows/compute-supabase-sri.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Compute pinned browser bundle SRI
+        run: |
+          set -euo pipefail
+          url="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.min.js"
+          curl --fail --silent --show-error --location "$url" --output /tmp/supabase.min.js
+          printf 'SUPABASE_SRI=sha384-'
+          openssl dgst -sha384 -binary /tmp/supabase.min.js | openssl base64 -A
+          printf '\n'
+          wc -c /tmp/supabase.min.js
