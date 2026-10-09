@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - polish/app-2026-09-16
+      - release/v2-launch-candidate-2026-10-09
     paths:
       - ".github/workflows/android-rc.yml"
       - "package.json"
@@ -29,17 +30,15 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout release branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Use Node 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22"
-          cache: npm
-          cache-dependency-path: package.json
 
       - name: Use Java 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4.9.1
         with:
           distribution: temurin
           java-version: "21"
@@ -47,8 +46,18 @@ jobs:
       - name: Install JavaScript dependencies
         run: npm install --no-audit --no-fund
 
+      - name: Check launch-critical JavaScript syntax
+        run: |
+          node --check app.js
+          node --check account.js
+          node --check media.js
+          node --check interactive-tools.js
+          node --check photo-studio.js
+          node --check supabase-config.js
+          node --check sw.js
+
       - name: Run JavaScript regression tests
-        run: node --test tests/polish-unit.cjs
+        run: node --test tests/polish-unit.cjs tests/photo-studio-unit.cjs
 
       - name: Generate Android project
         run: npm run cap:add:android
@@ -99,7 +108,7 @@ jobs:
           "$APKSIGNER" verify --verbose --print-certs android/app/build/outputs/apk/debug/memories-unlocked-install.apk
 
       - name: Upload Android RC test bundle
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: memories-unlocked-android-rc-debug
           path: |
