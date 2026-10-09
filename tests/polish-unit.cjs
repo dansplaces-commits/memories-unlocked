@@ -375,11 +375,11 @@ test('Discover destination cards switch the whole screen and remember the chosen
 test('all Discover destinations use curated card imagery and five-image galleries',()=>{
   const js=source('discover-exact.js');
   const css=source('discover-exact.css');
-  assert.match(js,/mu-rome-hero-v3/);
-  assert.match(js,/mu-bahamas-hero-v4/);
-  assert.match(js,/mu-miami-hero-v4/);
-  assert.match(js,/mu-london-hero-v4/);
-  assert.match(js,/mu-paris-hero-v4/);
+  assert.match(js,/Colosseum%20at%20sunset-Rome\.JPG\?width=2200/);
+  assert.match(js,/Great%20Exuma%20Island%20%26%20Hog%20Cay%20%26%20Green%20Turtle%20Cay%20\(Bahamas\)\.jpg\?width=2200/);
+  assert.match(js,/Ocean%20Drive%20-%20Miami%20Beach\.jpg\?width=2200/);
+  assert.match(js,/Palace%20of%20Westminster%20at%20sunset%202026-09-05\.jpg\?width=2200/);
+  assert.match(js,/Eiffel%20Tower%20sunset%2C%20Paris%20\(9249818803\)\.jpg\?width=2200/);
   assert.match(js,/images:\{why:/);
   assert.match(js,/gallery:\[\[/);
   assert.match(js,/count:'1 \/ 5'/);
@@ -396,12 +396,12 @@ test('all Discover destinations use curated card imagery and five-image gallerie
 test('champagne Discover uses fine tuned cinematic photo sets',()=>{
   const js=source('discover-exact.js');
   const css=source('discover-exact.css');
-  assert.match(js,/mu-london-hero-v4/);
+  assert.match(js,/Palace%20of%20Westminster%20at%20sunset%202026-09-05\.jpg\?width=2200/);
   assert.match(js,/mu-london-spots-v4/);
   assert.match(js,/mu-rome-spots-v3/);
   assert.match(js,/mu-bahamas-memories-v4/);
   assert.match(js,/mu-miami-memories-v4/);
-  assert.match(js,/mu-paris-hero-v4/);
+  assert.match(js,/Eiffel%20Tower%20sunset%2C%20Paris%20\(9249818803\)\.jpg\?width=2200/);
   assert.match(js,/heroPos:/);
   assert.match(css,/--dyn-hero-pos/);
   assert.match(css,/2026-09-24 cinematic photography finish/);
@@ -439,11 +439,11 @@ test('Discover uses approved landmark badges and wow destination heroes',()=>{
   assert.match(js,/mu-badge-miami-vegassize\.png/);
   assert.match(js,/mu-badge-london-vegassize\.png/);
   assert.match(js,/mu-badge-paris-vegassize\.png/);
-  assert.match(js,/mu-rome-hero-v3/);
-  assert.match(js,/mu-bahamas-hero-v4/);
-  assert.match(js,/mu-miami-hero-v4/);
-  assert.match(js,/mu-london-hero-v4/);
-  assert.match(js,/mu-paris-hero-v4/);
+  assert.match(js,/Colosseum%20at%20sunset-Rome\.JPG\?width=2200/);
+  assert.match(js,/Great%20Exuma%20Island%20%26%20Hog%20Cay%20%26%20Green%20Turtle%20Cay%20\(Bahamas\)\.jpg\?width=2200/);
+  assert.match(js,/Ocean%20Drive%20-%20Miami%20Beach\.jpg\?width=2200/);
+  assert.match(js,/Palace%20of%20Westminster%20at%20sunset%202026-09-05\.jpg\?width=2200/);
+  assert.match(js,/Eiffel%20Tower%20sunset%2C%20Paris%20\(9249818803\)\.jpg\?width=2200/);
   assert.match(js,/mu-landmark-badge/);
   assert.match(js,/return c\?\.hero/);
   assert.match(css,/2026-09-29 approved landmark badges \+ wow heroes/);
@@ -482,11 +482,11 @@ test('Discover uses final curated category-specific image sets',()=>{
   const js=source('discover-exact.js');
   const css=source('discover-exact.css');
   for (const slug of [
-    'mu-rome-hero-v3','mu-rome-local-v3',
-    'mu-bahamas-hero-v4','mu-bahamas-local-v4',
-    'mu-miami-hero-v4','mu-miami-local-v4',
-    'mu-london-hero-v4','mu-london-local-v4',
-    'mu-paris-hero-v4','mu-paris-local-v4'
+    'Colosseum%20at%20sunset-Rome\\.JPG\\?width=2200','mu-rome-local-v3',
+    'Great%20Exuma%20Island%20%26%20Hog%20Cay%20%26%20Green%20Turtle%20Cay%20\\(Bahamas\\)\\.jpg\\?width=2200','mu-bahamas-local-v4',
+    'Ocean%20Drive%20-%20Miami%20Beach\\.jpg\\?width=2200','mu-miami-local-v4',
+    'Palace%20of%20Westminster%20at%20sunset%202026-09-05\\.jpg\\?width=2200','mu-london-local-v4',
+    'Eiffel%20Tower%20sunset%2C%20Paris%20\\(9249818803\\)\\.jpg\\?width=2200','mu-paris-local-v4'
   ]) assert.match(js,new RegExp(slug));
   assert.match(js,/test\(file\)\?file:C\(file\)/);
   assert.match(css,/2026-09-29 final smart Discover image lock/);
