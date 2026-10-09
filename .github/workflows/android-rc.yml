@@ -52,6 +52,13 @@ jobs:
       - name: Audit dependency vulnerabilities
         run: npm audit --audit-level=high
 
+      - name: Reject private prototype copy
+        run: |
+          if grep -Rni --include='*.html' --include='*.js' "WELCOME BACK, DAN" .; then
+            echo "Private prototype copy remains in the release bundle."
+            exit 1
+          fi
+
       - name: Check launch-critical JavaScript syntax
         run: |
           node --check app.js
