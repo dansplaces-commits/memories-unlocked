@@ -120,14 +120,8 @@ Deno.serve(async (req: Request) => {
     // Revoke refresh sessions before deleting the Auth user. Supabase access JWTs
     // remain cryptographically valid until exp, so the registered-account RLS/storage
     // gate must also verify that auth.uid() still exists in auth.users.
-    const logoutResponse = await fetch(`${url}/auth/v1/logout?scope=global`, {
-      method: "POST",
-      headers: {
-        Authorization: authHeader,
-        apikey: publishableKey,
-      },
-    });
-    if (!logoutResponse.ok && logoutResponse.status !== 401) {
+    const { error: signOutError } = await admin.auth.admin.signOut(token, "global");
+    if (signOutError) {
       throw new Error("Account sessions could not be revoked before deletion.");
     }
 
