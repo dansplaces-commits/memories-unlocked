@@ -22,6 +22,10 @@ on:
       - "icons/**"
       - "vendor/**"
 
+concurrency:
+  group: android-rc-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
