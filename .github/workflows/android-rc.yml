@@ -11,6 +11,7 @@ on:
     paths:
       - ".github/workflows/android-rc.yml"
       - "package.json"
+      - "package-lock.json"
       - "capacitor.config.json"
       - "scripts/**"
       - "tests/**"
