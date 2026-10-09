@@ -1,0 +1,36 @@
+/* Memories Unlocked — Place Intelligence scroll safety. */
+.place-intel-modal{
+  overflow-y:auto!important;
+  overscroll-behavior:contain;
+  padding:clamp(10px,2vh,24px);
+  box-sizing:border-box;
+}
+.place-intel-modal .sheet{
+  max-height:calc(100dvh - 32px)!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  scrollbar-gutter:stable;
+}
+.place-intel-modal #placeIntelBody{
+  min-height:0;
+}
+.place-intel-modal .place-intel-tabs{
+  position:sticky;
+  top:0;
+  z-index:12;
+}
+.place-intel-modal .close{
+  z-index:20;
+}
+@media(max-width:700px){
+  .place-intel-modal{padding:6px!important;align-items:flex-start!important}
+  .place-intel-modal .sheet{
+    max-height:calc(100dvh - 12px)!important;
+    width:100%!important;
+    margin:0!important;
+  }
+}

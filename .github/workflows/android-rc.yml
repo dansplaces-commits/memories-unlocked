@@ -1,0 +1,146 @@
+name: Android RC Debug Build
+
+# RC trigger 2026-09-18
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - polish/app-2026-09-16
+      - release/v2-launch-candidate-2026-10-09
+    paths:
+      - ".github/workflows/android-rc.yml"
+      - "package.json"
+      - "package-lock.json"
+      - "capacitor.config.json"
+      - "scripts/**"
+      - "tests/**"
+      - "*.html"
+      - "*.css"
+      - "*.js"
+      - "assets/**"
+      - "icons/**"
+      - "vendor/**"
+
+concurrency:
+  group: android-rc-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  android-debug:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout release branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Use Node 22
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Use Java 21
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Install JavaScript dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Audit dependency vulnerabilities
+        run: npm audit --audit-level=high
+
+      - name: Reject private prototype copy
+        run: |
+          if grep -Rni --include='*.html' --include='*.js' "WELCOME BACK, DAN" .; then
+            echo "Private prototype copy remains in the release bundle."
+            exit 1
+          fi
+
+      - name: Verify pinned browser dependencies
+        run: |
+          set -euo pipefail
+          if grep -Rni --include='*.html' 'supabase-js@2"' .; then
+            echo "An unpinned Supabase major-version CDN reference remains."
+            exit 1
+          fi
+          count="$(grep -Rho --include='*.html' 'sha384-JBR+x8blGwjDRO63aHCGiZMD4VNiTR4ZUGA+N6ZKLf3zNt1fK8IBpcgPaMrxqWBp' . | wc -l)"
+          test "$count" -eq 3
+
+      - name: Check launch-critical JavaScript syntax
+        run: |
+          node --check app.js
+          node --check account.js
+          node --check media.js
+          node --check interactive-tools.js
+          node --check photo-studio.js
+          node --check supabase-config.js
+          node --check sw.js
+
+      - name: Run JavaScript regression tests
+        run: node --test tests/polish-unit.cjs tests/photo-studio-unit.cjs
+
+      - name: Generate Android project
+        run: npm run cap:add:android
+
+      - name: Confirm Android API target
+        run: |
+          grep -R "targetSdk" android/variables.gradle android/app/build.gradle* || true
+          grep -R "compileSdk" android/variables.gradle android/app/build.gradle* || true
+
+      - name: Create stable Android test signing key
+        run: |
+          mkdir -p "$HOME/.android"
+          keytool -genkeypair -v \
+            -keystore "$HOME/.android/debug.keystore" \
+            -storepass android \
+            -alias androiddebugkey \
+            -keypass android \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US"
+          keytool -list -v -keystore "$HOME/.android/debug.keystore" -storepass android -alias androiddebugkey | grep -E "SHA256:|Valid from:"
+
+      - name: Build debug APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --stacktrace
+
+      - name: Re-sign APK for broad device compatibility
+        run: |
+          APKSIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort -V | tail -1)
+          cp android/app/build/outputs/apk/debug/app-debug.apk android/app/build/outputs/apk/debug/app-debug-original.apk
+          "$APKSIGNER" sign \
+            --ks "$HOME/.android/debug.keystore" \
+            --ks-pass pass:android \
+            --key-pass pass:android \
+            --ks-key-alias androiddebugkey \
+            --v1-signing-enabled true \
+            --v2-signing-enabled true \
+            --v3-signing-enabled true \
+            --out android/app/build/outputs/apk/debug/memories-unlocked-install.apk \
+            android/app/build/outputs/apk/debug/app-debug-original.apk
+
+      - name: Verify final install APK
+        run: |
+          APKSIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort -V | tail -1)
+          "$APKSIGNER" verify --verbose --print-certs android/app/build/outputs/apk/debug/memories-unlocked-install.apk
+
+      - name: Upload Android RC test bundle
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: memories-unlocked-android-rc-debug
+          path: |
+            android/app/build/outputs/apk/debug/memories-unlocked-install.apk
+            icons/icon-1024.png
+            package-lock.json
+          if-no-files-found: error
+          retention-days: 14
