@@ -1,0 +1,131 @@
+# Memories Unlocked V2 — Launch Readiness
+
+**Date:** 9 October 2026  
+**Branch:** `release/v2-launch-candidate-2026-10-09`  
+**Release posture:** private launch candidate only; do not promote to public production without explicit approval.
+
+## Locked product direction
+
+- Version 2 is the launch direction.
+- Version 1 remains protected.
+- Preserve the premium real-photo experience and emotional legacy concept.
+- AI Photo Studio remains optional and provider processing stays disabled until its authenticated server-side backend, spend limits and acceptance tests are complete.
+- Do not add new feature scope before the launch gates below are green.
+
+## Confirmed on this launch candidate
+
+- Final account-sync migration/history carried into the V2 branch.
+- Vercel preview builds are READY.
+- Conservative response headers added: nosniff, strict-origin referrer policy, same-origin framing, camera/microphone disabled and geolocation limited to self.
+- Personal memory photos now preserve the full image with `object-fit: contain`; cache references were bumped.
+- Share no longer sends a private-account journey URL to another person. It exports the selected journey and memories as readable story text via native share, clipboard or .txt download.
+- Leave a Legacy now has a focused multi-line legacy-note editor. The working note is stored on-device and does not overwrite the original journey story.
+- Modified JavaScript files pass syntax checks; `vercel.json` parses as valid JSON.
+
+## Live backend verification completed
+
+Supabase project `fdjzelcqilupxibqsqep` is ACTIVE_HEALTHY in `eu-west-1`.
+
+- RLS is enabled on journeys, memories, memory_unlocks and storage objects.
+- Current owner policies use `auth.uid()` ownership checks.
+- Journey/memory ownership foreign keys cascade from `auth.users`.
+- Media bucket `memory-media` is private.
+- Bucket limit: 25 MB.
+- Allowed media: JPEG, PNG, WebP.
+- `delete-account` Edge Function is ACTIVE with JWT verification enabled.
+- Database migration `review_account_details` is applied.
+- Negative RLS review previously confirmed unrelated synthetic users cannot read another account's records.
+
+## Public-launch blockers
+
+### P0 — Auth / cloud abuse boundary
+
+The current app automatically creates a Supabase anonymous identity and anonymous users hold the `authenticated` database role. Existing policies therefore permit owner-scoped anonymous cloud data.
+
+Observed current data:
+- 1 anonymous-owned journey.
+- 0 anonymous-owned memories.
+- 1 anonymous-owned media object.
+- Remaining current cloud journey/memory/media data belongs to a registered account.
+
+Before public launch, choose and verify one safe model:
+
+1. **Recommended:** local-only use before registration; registered users only get cloud/database/media access.
+2. Keep anonymous cloud accounts, but add explicit anti-abuse controls, CAPTCHA/rate limits and a documented storage-cost model.
+
+Do not apply a restrictive anonymous-user migration until the existing anonymous journey/media object has been reviewed so no real memory is stranded.
+
+### P0 — Deletion/session semantics
+
+Supabase documents that deleting an Auth user does not immediately invalidate already-issued access JWTs. The current delete function removes owned media first and deletes the Auth user, while the client clears its local session afterwards.
+
+Before launch:
+- revoke affected refresh sessions as part of deletion;
+- confirm acceptable JWT expiry; and
+- verify a deleted account cannot create new media or access protected data with a previously issued token during the remaining access-token lifetime.
+
+### P0 — Real acceptance testing
+
+Still required with real authenticated sessions:
+- existing-account sign-in;
+- password recovery;
+- direct account switching;
+- two-account isolation;
+- clean-device restore;
+- create journey;
+- add/edit memory;
+- live photo upload/view/replace/remove;
+- full-photo reader check;
+- map and Story Key;
+- Share story export;
+- Leave a Legacy note save/tribute;
+- delete account and confirm data/media removal;
+- physical Android phone;
+- iPhone/iOS acceptance or TestFlight device.
+
+### P1 — Auth hardening
+
+Supabase security advisor currently warns:
+- leaked-password protection is disabled;
+- policies permit Supabase anonymous-auth identities because they use the authenticated role.
+
+Enable leaked-password protection before public account creation is opened.
+
+### P1 — Native release reproducibility
+
+`package.json` pins direct dependency versions, but the repository currently has no npm/pnpm/yarn/bun lockfile. Generate and commit a reviewed lockfile before signed Android/iOS release builds so transitive dependencies do not drift.
+
+### P1 — Store/public release work
+
+- Build signed Android and iOS candidates.
+- Verify native permissions/network behaviour.
+- Capture final screenshots from signed builds.
+- Complete Play Data Safety.
+- Complete Apple App Privacy and age rating.
+- Verify production privacy, support and account-deletion URLs.
+- Create a dedicated review/test account; do not give store reviewers the main personal account.
+
+### P1 — Browser validation
+
+The current Vercel connection reports successful builds but automated access to the protected preview is denied by deployment protection. A fresh browser pass remains required before sign-off.
+
+## Payments
+
+The current launch candidate has no production checkout/subscription flow.
+
+Safest first release: free/private initial launch.  
+If the first public release must be paid, payment implementation, webhook verification, entitlement checks, refund/cancellation behaviour and billing/privacy disclosures become P0 launch gates.
+
+## Explicitly deferred until after core launch
+
+- Booking.com / hotel or car-hire integrations.
+- Family sharing.
+- New map concepts beyond the approved launch experience.
+- Additional languages.
+- Live AI image generation.
+- Exportable Legacy video.
+- Other new discovery/product features.
+
+## Launch approval rule
+
+Do not call Memories Unlocked public-launch ready until every P0 item is verified and no unresolved security/privacy blocker remains. Production promotion requires explicit owner approval.
