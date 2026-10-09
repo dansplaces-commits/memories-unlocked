@@ -20,6 +20,10 @@
 - Personal memory photos now preserve the full image with `object-fit: contain`; cache references were bumped.
 - Share no longer sends a private-account journey URL to another person. It exports the selected journey and memories as readable story text via native share, clipboard or .txt download.
 - Leave a Legacy now has a focused multi-line legacy-note editor. The working note is stored on-device and does not overwrite the original journey story.
+- Anonymous users now remain device-local for new journeys/photos in the launch candidate; registered accounts keep cloud sync.
+- When the same anonymous identity becomes a registered account, pending device journeys/memories are backed up and promoted to cloud before reload.
+- A restrictive registered-account cloud/storage gate has been transaction-tested and saved under `supabase/review/registered-account-cloud-gate.sql`; it is not live yet.
+- Hardened `delete-account` source now revokes refresh sessions before deleting the Auth user and relies on the registered-account gate to deny stale access JWTs once the user row is gone; this source is not live yet.
 - Modified JavaScript files pass syntax checks; `vercel.json` parses as valid JSON.
 
 ## Live backend verification completed
@@ -40,29 +44,28 @@ Supabase project `fdjzelcqilupxibqsqep` is ACTIVE_HEALTHY in `eu-west-1`.
 
 ### P0 — Auth / cloud abuse boundary
 
-The current app automatically creates a Supabase anonymous identity and anonymous users hold the `authenticated` database role. Existing policies therefore permit owner-scoped anonymous cloud data.
+The launch candidate now implements the recommended model: local-only use before registration, with cloud/database/media access reserved for registered accounts. The matching restrictive backend policy has passed a rolled-back live-schema test:
+- registered identity: gate allowed; 4 owned journeys visible;
+- anonymous identity: gate denied; 0 journeys visible.
 
-Observed current data:
-- 1 anonymous-owned journey.
-- 0 anonymous-owned memories.
+Observed existing live data still includes:
+- 1 anonymous-owned journey;
+- 0 anonymous-owned memories;
 - 1 anonymous-owned media object.
-- Remaining current cloud journey/memory/media data belongs to a registered account.
 
-Before public launch, choose and verify one safe model:
-
-1. **Recommended:** local-only use before registration; registered users only get cloud/database/media access.
-2. Keep anonymous cloud accounts, but add explicit anti-abuse controls, CAPTCHA/rate limits and a documented storage-cost model.
-
-Do not apply a restrictive anonymous-user migration until the existing anonymous journey/media object has been reviewed so no real memory is stranded.
+The backend gate is therefore **prepared but not applied**. Before applying it, review that anonymous journey/media object and then run the real account-conversion acceptance flow so no real memory is stranded.
 
 ### P0 — Deletion/session semantics
 
-Supabase documents that deleting an Auth user does not immediately invalidate already-issued access JWTs. The current delete function removes owned media first and deletes the Auth user, while the client clears its local session afterwards.
+Supabase documents that deleting an Auth user does not immediately invalidate already-issued access JWTs. The launch candidate now contains hardened Edge Function source that:
+- verifies a registered user;
+- removes owned media;
+- revokes refresh sessions globally;
+- deletes the Auth user.
 
-Before launch:
-- revoke affected refresh sessions as part of deletion;
-- confirm acceptable JWT expiry; and
-- verify a deleted account cannot create new media or access protected data with a previously issued token during the remaining access-token lifetime.
+The prepared registered-account gate also checks that `auth.uid()` still exists in `auth.users`, so a stale access JWT should fail cloud/storage authorization after deletion.
+
+Still required before launch: deploy these two backend changes together and verify account deletion with a real authenticated session, including an attempted post-deletion request using the pre-deletion token.
 
 ### P0 — Real acceptance testing
 
