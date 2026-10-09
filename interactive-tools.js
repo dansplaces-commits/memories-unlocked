@@ -2,6 +2,7 @@
 (function(){
 const WIDGET_KEY='mu_widget_positions_v1';
 const FOOT_KEY='mu_footsteps_session_v1';
+const LEGACY_NOTE_PREFIX='mu_legacy_note_v1:';
 let muFootWatch=null,muFootTimer=null,muFootState={running:false,startedAt:0,elapsed:0,meters:0,last:null};
 let muCapturedFile=null;
 
@@ -116,6 +117,9 @@ function muOpenFootsteps(){
 }
 
 /* ---------- Legacy Studio ---------- */
+function muLegacyNoteKey(id){return LEGACY_NOTE_PREFIX+String(id||'');}
+function muReadLegacyNote(id,fallback=''){try{const saved=localStorage.getItem(muLegacyNoteKey(id));return saved===null?fallback:saved;}catch{return fallback;}}
+function muWriteLegacyNote(id,value){try{localStorage.setItem(muLegacyNoteKey(id),String(value||''));return true;}catch{return false;}}
 function muJourneyMemoriesAll(id){return (typeof memories!=='undefined'?memories:[]).filter(m=>String(m.journeyId)===String(id));}
 async function muLegacyPhotoUrls(j){
   const paths=[];if(j.coverPhotoPath)paths.push(j.coverPhotoPath);muJourneyMemoriesAll(j.id).forEach(m=>{if(m.photoPath)paths.push(m.photoPath);});
@@ -128,8 +132,18 @@ async function muRenderLegacyPreview(modal){
 }
 function muOpenLegacyStudio(){
   const js=typeof journeys!=='undefined'?journeys:[];if(!js.length){window.toast?.('Create a journey first, then Legacy Studio can build a tribute from it.');return;}
-  const modal=mountDialog('muLegacyStudioModal',`<button class="close" type="button" onclick="closeModal('muLegacyStudioModal')">×</button><span class="mu-tool-kicker">LEGACY STUDIO · V1</span><h2>Turn a journey into a tribute</h2><p class="mu-tool-note">Legacy Studio uses the photos already attached to the selected journey and its memories. This first version creates an animated in-app collage; exportable video can come next.</p><div class="mu-legacy-controls"><div><label>Journey</label><select id="muLegacyJourney">${js.map(j=>`<option value="${muToolEscape(j.id)}">${muToolEscape(j.title)}${j.archived?' · Legacy':''}</option>`).join('')}</select></div><div><label>Tribute message</label><input id="muLegacyMessage" value="A journey worth remembering."></div></div><div id="muLegacyStage" class="mu-legacy-stage"></div><div class="mu-footsteps-actions"><button id="muLegacyBuild" class="save" type="button">Build tribute</button><button id="muLegacyPlay" class="secondary" type="button">Play animation</button><button id="muLegacyCopy" class="secondary" type="button">Copy tribute</button></div>`,'mu-legacy-studio');
-  const build=()=>muRenderLegacyPreview(modal);modal.querySelector('#muLegacyBuild').addEventListener('click',build);modal.querySelector('#muLegacyJourney').addEventListener('change',build);modal.querySelector('#muLegacyPlay').addEventListener('click',()=>{const stage=modal.querySelector('#muLegacyStage');stage.classList.toggle('playing');modal.querySelector('#muLegacyPlay').textContent=stage.classList.contains('playing')?'Pause animation':'Play animation';});modal.querySelector('#muLegacyCopy').addEventListener('click',async()=>{const j=findJourney(modal.querySelector('#muLegacyJourney').value);if(!j)return;const text=`${j.title} — ${modal.querySelector('#muLegacyMessage').value.trim()||'A journey worth remembering.'}`;try{await navigator.clipboard.writeText(text);window.toast?.('Legacy tribute text copied.');}catch{window.toast?.('Copying was not available just now.');}});build();
+  const first=js[0],firstNote=muReadLegacyNote(first.id,first.story||'A journey worth remembering.');
+  const modal=mountDialog('muLegacyStudioModal',`<button class="close" type="button" onclick="closeModal('muLegacyStudioModal')">×</button><span class="mu-tool-kicker">LEAVE A LEGACY</span><h2>Write what you want them to remember</h2><p class="mu-tool-note">Choose a journey, write a personal legacy note, then build a private tribute from the photos already saved with it. Your note is saved on this device for now and does not change the original journey story.</p><div class="mu-legacy-controls"><div><label>Journey</label><select id="muLegacyJourney">${js.map(j=>`<option value="${muToolEscape(j.id)}">${muToolEscape(j.title)}${j.archived?' · Legacy':''}</option>`).join('')}</select></div><div><label>Legacy note</label><textarea id="muLegacyMessage" maxlength="2000" placeholder="What would you want someone you love to remember about this journey?">${muToolEscape(firstNote)}</textarea><small class="mu-tool-note">Private working note · saved on this device.</small></div></div><div id="muLegacyStage" class="mu-legacy-stage"></div><div class="mu-footsteps-actions"><button id="muLegacySave" class="save" type="button">Save legacy note</button><button id="muLegacyBuild" class="secondary" type="button">Build tribute</button><button id="muLegacyPlay" class="secondary" type="button">Play animation</button><button id="muLegacyCopy" class="secondary" type="button">Copy tribute</button></div>`,'mu-legacy-studio');
+  const selected=()=>findJourney(modal.querySelector('#muLegacyJourney').value);
+  const loadNote=()=>{const j=selected();if(!j)return;modal.querySelector('#muLegacyMessage').value=muReadLegacyNote(j.id,j.story||'A journey worth remembering.');};
+  const saveNote=()=>{const j=selected();if(!j)return;const value=modal.querySelector('#muLegacyMessage').value.trim();if(muWriteLegacyNote(j.id,value))window.toast?.('Legacy note saved on this device.');else window.toast?.('This device could not save the legacy note.');};
+  const build=()=>muRenderLegacyPreview(modal);
+  modal.querySelector('#muLegacySave').addEventListener('click',()=>{saveNote();build();});
+  modal.querySelector('#muLegacyBuild').addEventListener('click',build);
+  modal.querySelector('#muLegacyJourney').addEventListener('change',()=>{loadNote();build();});
+  modal.querySelector('#muLegacyPlay').addEventListener('click',()=>{const stage=modal.querySelector('#muLegacyStage');stage.classList.toggle('playing');modal.querySelector('#muLegacyPlay').textContent=stage.classList.contains('playing')?'Pause animation':'Play animation';});
+  modal.querySelector('#muLegacyCopy').addEventListener('click',async()=>{const j=selected();if(!j)return;const text=`${j.title}\n\n${modal.querySelector('#muLegacyMessage').value.trim()||'A journey worth remembering.'}\n\n— Memories Unlocked · Leave a trail worth following.`;try{await navigator.clipboard.writeText(text);window.toast?.('Legacy tribute text copied.');}catch{window.toast?.('Copying was not available just now.');}});
+  build();
 }
 
 function muRunTool(name){if(name==='discover')muOpenDiscoverTool();if(name==='capture')muOpenCapture();if(name==='footsteps')muOpenFootsteps();if(name==='account')window.openAccount?.();if(name==='legacy')muOpenLegacyStudio();}
