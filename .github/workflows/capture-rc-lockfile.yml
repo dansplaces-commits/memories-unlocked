@@ -1,0 +1,42 @@
+name: Capture RC Lockfile
+
+on:
+  push:
+    branches:
+      - release/v2-launch-candidate-2026-10-09
+    paths:
+      - ".github/workflows/capture-rc-lockfile.yml"
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  capture-lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout launch branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Download successful RC evidence
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: memories-unlocked-android-rc-debug
+          path: /tmp/mu-rc
+          github-token: ${{ github.token }}
+          run-id: 37950365005
+
+      - name: Commit exact generated lockfile
+        run: |
+          set -euo pipefail
+          test -f /tmp/mu-rc/package-lock.json
+          cp /tmp/mu-rc/package-lock.json package-lock.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          if git diff --cached --quiet; then
+            echo "Lockfile already matches the successful RC."
+            exit 0
+          fi
+          git commit -m "Lock native release dependencies [skip ci]"
+          git push
