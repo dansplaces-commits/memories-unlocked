@@ -1,0 +1,77 @@
+name: Capture Approved Native Assets
+
+on:
+  push:
+    branches:
+      - release/v2-launch-candidate-2026-10-09
+    paths:
+      - ".github/workflows/capture-native-assets.yml"
+
+jobs:
+  generate:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout launch branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Use Node 22
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install exact locked dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Generate approved Android resources
+        run: npm run cap:add:android
+
+      - name: Generate approved iOS resources
+        run: npm run cap:add:ios
+
+      - name: Package generated native resources
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: memories-unlocked-approved-native-assets
+          path: |
+            android/app/src/main/res
+            ios/App/App/Assets.xcassets
+            icons/icon-1024.png
+          if-no-files-found: error
+          retention-days: 2
+
+  commit:
+    needs: generate
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout launch branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Download generated native resources
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: memories-unlocked-approved-native-assets
+          path: /tmp/mu-native-assets
+
+      - name: Commit approved native asset snapshot
+        run: |
+          set -euo pipefail
+          rm -rf native-assets
+          mkdir -p native-assets
+          cp -R /tmp/mu-native-assets/android/app/src/main/res native-assets/android-res
+          cp -R /tmp/mu-native-assets/ios/App/App/Assets.xcassets native-assets/ios-assets.xcassets
+          cp /tmp/mu-native-assets/icons/icon-1024.png icons/icon-1024.png
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f native-assets icons/icon-1024.png
+          if git diff --cached --quiet; then
+            echo "Approved native assets already match."
+            exit 0
+          fi
+          git commit -m "Snapshot approved native release assets [skip ci]"
+          git push
