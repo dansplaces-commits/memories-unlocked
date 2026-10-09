@@ -63,6 +63,16 @@ jobs:
             exit 1
           fi
 
+      - name: Verify pinned browser dependencies
+        run: |
+          set -euo pipefail
+          if grep -Rni --include='*.html' 'supabase-js@2"' .; then
+            echo "An unpinned Supabase major-version CDN reference remains."
+            exit 1
+          fi
+          count="$(grep -Rho --include='*.html' 'sha384-JBR+x8blGwjDRO63aHCGiZMD4VNiTR4ZUGA+N6ZKLf3zNt1fK8IBpcgPaMrxqWBp' . | wc -l)"
+          test "$count" -eq 3
+
       - name: Check launch-critical JavaScript syntax
         run: |
           node --check app.js
