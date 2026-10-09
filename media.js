@@ -31,7 +31,7 @@ function muMediaSignedUrl(path){
     return url;
   });
 }
-function muMediaAvailable(record){return Boolean(window.muSupabase&&cloudUser&&record?.cloud&&String(record.ownerId||cloudUser.id)===String(cloudUser.id));}
+function muMediaAvailable(record){return Boolean(window.muSupabase&&cloudUser&&!cloudUser.is_anonymous&&record?.cloud&&String(record.ownerId||cloudUser.id)===String(cloudUser.id));}
 function muMediaEmptyMarkup(kind,record){
   const location=record?.location?`<small>📍 ${esc(record.location)}</small>`:'';
   const ready=muMediaAvailable(record);
