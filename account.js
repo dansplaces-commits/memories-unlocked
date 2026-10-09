@@ -37,6 +37,8 @@ window.accountReloadCloud=async function(){
   try{
     const user=await state();if(!user||user.is_anonymous)throw new Error('Sign in to your account first.');
     if(typeof cloudUser!=='undefined')cloudUser=user;
+    const previousScope=typeof storageScope==='function'?storageScope():'';
+    if(previousScope===`anonymous:${user.id}`&&typeof syncLocalRecordsToRegisteredAccount==='function')await withTimeout(syncLocalRecordsToRegisteredAccount(),20000,'Your device memories took too long to connect to the account.');
     if(typeof switchToAccountScope==='function')switchToAccountScope(user.id);
     if(typeof loadCloudData!=='function')throw new Error('The cloud loader is not ready. Refresh once and try again.');
     await withTimeout(loadCloudData(),18000,'Cloud stories took too long to load.');
