@@ -1,61 +1,39 @@
-import { access, mkdir } from "node:fs/promises";
-import { execFileSync } from "node:child_process";
-import sharp from "sharp";
+import { access, cp, mkdir } from "node:fs/promises";
 
-const source = "icons/icon-512.png";
-const generatedDir = "assets";
-const generatedIcon = "assets/icon.png";
+const approvedAndroid = "native-assets/android-res";
+const approvedIOS = "native-assets/ios-assets.xcassets";
 const storeIcon = "icons/icon-1024.png";
-const splash = "assets/splash.png";
-const background = "#fbf7ef";
 
 async function exists(path) {
   try { await access(path); return true; } catch { return false; }
 }
 
-if (!(await exists(source))) {
-  throw new Error("Approved source icon not found: " + source);
+if (!(await exists(storeIcon))) {
+  throw new Error("Approved 1024px store icon snapshot is missing: " + storeIcon);
 }
 
-await mkdir(generatedDir, { recursive: true });
+let installed = 0;
 
-await sharp(source)
-  .resize(1024, 1024, { fit: "fill", kernel: sharp.kernel.lanczos3 })
-  .png()
-  .toFile(generatedIcon);
-
-await sharp(generatedIcon).toFile(storeIcon);
-
-const logo = await sharp(generatedIcon)
-  .resize(620, 620, { fit: "contain" })
-  .png()
-  .toBuffer();
-
-await sharp({
-  create: { width: 2732, height: 2732, channels: 4, background }
-})
-  .composite([{ input: logo, gravity: "centre" }])
-  .png()
-  .toFile(splash);
-
-const npx = process.platform === "win32" ? "npx.cmd" : "npx";
-const common = [
-  "@capacitor/assets",
-  "generate",
-  "--assetPath", "assets",
-  "--iconBackgroundColor", background,
-  "--iconBackgroundColorDark", "#10244a",
-  "--splashBackgroundColor", background,
-  "--splashBackgroundColorDark", "#10244a"
-];
-
-const platforms = [];
-if (await exists("android")) platforms.push("--android");
-if (await exists("ios/App")) platforms.push("--ios");
-
-for (const platform of platforms) {
-  execFileSync(npx, [...common, platform], { stdio: "inherit" });
+if (await exists("android/app/src/main/res")) {
+  if (!(await exists(approvedAndroid))) {
+    throw new Error("Approved Android native asset snapshot is missing.");
+  }
+  await mkdir("android/app/src/main/res", { recursive: true });
+  await cp(approvedAndroid, "android/app/src/main/res", { recursive: true, force: true });
+  console.log("Approved Android icon and splash resources installed.");
+  installed += 1;
 }
 
-console.log("Approved icon prepared at", storeIcon);
-console.log(platforms.length ? "Native icon/splash resources generated." : "No native platform exists yet; source assets prepared only.");
+if (await exists("ios/App/App/Assets.xcassets")) {
+  if (!(await exists(approvedIOS))) {
+    throw new Error("Approved iOS native asset snapshot is missing.");
+  }
+  await mkdir("ios/App/App/Assets.xcassets", { recursive: true });
+  await cp(approvedIOS, "ios/App/App/Assets.xcassets", { recursive: true, force: true });
+  console.log("Approved iOS icon and splash resources installed.");
+  installed += 1;
+}
+
+if (!installed) {
+  console.log("No native platform exists yet; approved asset snapshots are ready for the next cap:add run.");
+}
