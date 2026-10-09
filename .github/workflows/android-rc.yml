@@ -114,5 +114,6 @@ jobs:
           path: |
             android/app/build/outputs/apk/debug/memories-unlocked-install.apk
             icons/icon-1024.png
+            package-lock.json
           if-no-files-found: error
           retention-days: 14
