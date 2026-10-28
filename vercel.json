@@ -1,4 +1,15 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "https://memories-unlocked-v2-private-review.dansplaces.chatgpt.site/app"
+    },
+    {
+      "source": "/:path*",
+      "destination": "https://memories-unlocked-v2-private-review.dansplaces.chatgpt.site/:path*"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -22,6 +33,10 @@
         {
           "key": "X-Permitted-Cross-Domain-Policies",
           "value": "none"
+        },
+        {
+          "key": "x-vercel-enable-rewrite-caching",
+          "value": "0"
         }
       ]
     }
