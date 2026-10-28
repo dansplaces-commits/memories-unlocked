@@ -1,44 +1,29 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/",
-      "destination": "https://memories-unlocked-v2-private-review.dansplaces.chatgpt.site/app"
+      "src": "/",
+      "dest": "https://memories-unlocked-v2-private-review.dansplaces.chatgpt.site/app",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "X-Frame-Options": "SAMEORIGIN",
+        "Permissions-Policy": "camera=(), microphone=(), geolocation=(self)",
+        "X-Permitted-Cross-Domain-Policies": "none",
+        "Cache-Control": "no-store"
+      }
     },
     {
-      "source": "/:path*",
-      "destination": "https://memories-unlocked-v2-private-review.dansplaces.chatgpt.site/:path*"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "SAMEORIGIN"
-        },
-        {
-          "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=(self)"
-        },
-        {
-          "key": "X-Permitted-Cross-Domain-Policies",
-          "value": "none"
-        },
-        {
-          "key": "x-vercel-enable-rewrite-caching",
-          "value": "0"
-        }
-      ]
+      "src": "/(.*)",
+      "dest": "https://memories-unlocked-v2-private-review.dansplaces.chatgpt.site/$1",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "X-Frame-Options": "SAMEORIGIN",
+        "Permissions-Policy": "camera=(), microphone=(), geolocation=(self)",
+        "X-Permitted-Cross-Domain-Policies": "none",
+        "Cache-Control": "no-store"
+      }
     }
   ]
 }
