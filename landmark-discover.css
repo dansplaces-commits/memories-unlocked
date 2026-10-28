@@ -1,0 +1,13 @@
+/* Memories Unlocked — interactive landmark Discover polish. */
+.mu-landmark-card{appearance:none;-webkit-appearance:none;width:100%;text-align:left;color:inherit;font:inherit;cursor:pointer}
+.mu-landmark-card:focus-visible{outline:3px solid rgba(223,165,36,.45);outline-offset:3px}
+.mu-landmark-card::after{content:'Discover →';position:absolute;left:13px;right:auto;bottom:9px;color:#a67625;font:700 7.5px/1 'DM Sans',Arial,sans-serif;letter-spacing:1.2px;text-transform:uppercase;opacity:0;transform:translateY(3px);transition:.18s ease}
+.mu-landmark-card:hover::after,.mu-landmark-card:focus-visible::after{opacity:.8;transform:none}
+.mu-landmark-card>div:last-of-type{padding-bottom:10px}
+.landmark-discover-modal .place-hero>div{max-width:690px}
+.landmark-start-journey{margin-top:16px;border:0;border-radius:999px;padding:11px 17px;background:#e2aa38;color:#0b2d4b;font:700 12px/1 'DM Sans',Arial,sans-serif;cursor:pointer;box-shadow:0 7px 18px rgba(16,45,85,.12)}
+.landmark-start-journey:hover{transform:translateY(-1px)}
+.landmark-discover-modal .place-suggestion{grid-template-columns:1fr!important}
+.landmark-discover-modal .place-suggestion button{display:none!important}
+@media(max-width:1179px){.mu-landmark-card::after{opacity:.68;transform:none}.landmark-start-journey{padding:12px 17px}}
+@media(prefers-reduced-motion:reduce){.mu-landmark-card::after,.landmark-start-journey{transition:none!important}}

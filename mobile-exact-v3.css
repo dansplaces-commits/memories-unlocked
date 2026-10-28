@@ -1,0 +1,105 @@
+/* Memories Unlocked — mobile exact-match refinement v3. The approved reference is the visual acceptance standard. */
+@media(max-width:700px){
+  /* Make the phone composition read like the approved product mockup, not a scaled website. */
+  body.mu-mobile-master{padding-bottom:58px!important;}
+  .app{padding:0 7px 62px!important;}
+
+  /* Header: smaller, calmer, more product-like. */
+  .brand-header.mu-master-mobile-header{height:46px!important;min-height:46px!important;margin:0 -7px 4px!important;padding:0 8px!important;grid-template-columns:30px 1fr 30px!important;}
+  .mu-master-mobile-header .logo{font-size:13px!important;gap:3px!important;letter-spacing:-.1px!important;}
+  .mu-master-mobile-header .brand-lock{width:19px!important;height:23px!important;}
+  .mu-mm-menu,.mu-mm-profile{width:28px!important;height:28px!important;}
+  .mu-mm-profile svg{display:none!important;}
+  .mu-mm-profile:before{content:"";width:24px;height:24px;border-radius:50%;display:block;border:1px solid rgba(16,47,85,.18);background:radial-gradient(circle at 72% 30%,#f2c866 0 7%,transparent 8%),linear-gradient(150deg,#a7c6ca 0 41%,#446f77 42% 56%,#c5a264 57% 68%,#234e66 69% 100%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.65);}
+
+  /* Hero cards: same visual hierarchy as the reference, much less vertical weight. */
+  .mu-mm-hero-cards{gap:4px!important;margin:2px 0 6px!important;}
+  .mu-mm-discover,.mu-mm-latest{border-radius:12px!important;grid-template-columns:30px 1fr 16px!important;gap:7px!important;padding:6px 8px!important;}
+  .mu-mm-discover{min-height:49px!important;}
+  .mu-mm-latest{min-height:45px!important;}
+  .mu-mm-round-icon,.mu-mm-latest-thumb{width:30px!important;height:30px!important;font-size:15px!important;}
+  .mu-mm-discover small,.mu-mm-latest small{font-size:5.8px!important;letter-spacing:1.05px!important;margin-bottom:1px!important;}
+  .mu-mm-discover strong,.mu-mm-latest strong{font-size:12px!important;line-height:1!important;}
+  .mu-mm-discover em,.mu-mm-latest em{font-size:6.4px!important;margin-top:1px!important;}
+  .mu-mm-discover>b,.mu-mm-latest>b{font-size:14px!important;}
+  .mu-mm-discover:before{content:"";position:absolute;right:27px;bottom:0;width:74px;height:42px;opacity:.15;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 65'%3E%3Cg fill='none' stroke='%23f3d27d' stroke-width='3'%3E%3Cpath d='M8 57h104M17 57V25h86v32M26 57V33h16v24M52 57V33h16v24M78 57V33h16v24M22 25c8-17 68-17 76 0'/%3E%3C/g%3E%3C/svg%3E");}
+
+  /* Section heading. */
+  .mu-mm-start{margin-bottom:6px!important;}
+  .mu-mm-section-head{margin:0 1px 4px!important;}
+  .mu-mm-section-head h2{font-size:14.5px!important;}
+  .mu-mm-section-head p{font-size:6.8px!important;margin-top:1px!important;}
+  .mu-mm-section-head>span{font-size:6.7px!important;max-width:70px!important;}
+
+  /* Four rich illustrated cards in one compact row. */
+  .mu-mm-action-grid{gap:3px!important;}
+  .mu-mm-action{min-height:103px!important;border-radius:9px!important;padding:4px!important;}
+  .mu-mm-action-art{inset:-3px 0 35px!important;}
+  .mu-mm-action-copy{left:5px!important;right:4px!important;bottom:5px!important;}
+  .mu-mm-action-copy strong{font-size:9.2px!important;line-height:.95!important;letter-spacing:-.1px!important;}
+  .mu-mm-action-copy small{font-size:5.45px!important;line-height:1.04!important;margin-top:2px!important;}
+  .mu-mm-action.follow .mu-mm-action-art:after{top:2px!important;font-size:12px!important;line-height:1.3!important;letter-spacing:2px!important;}
+  .mu-mm-action.journey{background:linear-gradient(150deg,#f3e4c6 0%,#fbf3e2 64%,#fffaf1 100%)!important;}
+  .mu-mm-action.memory{background:linear-gradient(150deg,#f6ecdd 0%,#fffaf1 100%)!important;}
+  .mu-mm-action.map{background:linear-gradient(150deg,#e8efdf 0%,#f6f0df 100%)!important;}
+  .mu-mm-action.follow{background:linear-gradient(150deg,#eadcc5 0%,#faf1e2 100%)!important;}
+
+  /* Quick Tools: elegant icon strip rather than large web controls. */
+  .mu-mm-tools{margin:0 0 6px!important;padding:5px 4px 4px!important;border-radius:10px!important;}
+  .mu-mm-tools-head{padding:0 2px 3px!important;}
+  .mu-mm-tools-head h3{font-size:9px!important;}
+  .mu-mm-tools-head span{font-size:5.8px!important;}
+  .mu-mm-tools-row i{width:26px!important;height:26px!important;margin-bottom:2px!important;font-size:0!important;letter-spacing:0!important;}
+  .mu-mm-tools-row i svg{width:16px;height:16px;display:block;}
+  .mu-mm-tools-row i.capture svg{width:15px;height:15px;}
+  .mu-mm-tools-row strong{font-size:6px!important;}
+  .mu-mm-tools-row small{font-size:4.8px!important;line-height:1!important;}
+
+  /* Section titles now match the density of the mockup. */
+  .mu-mm-list{margin-bottom:6px!important;}
+  .mu-mm-list-head{margin:0 1px 3px!important;}
+  .mu-mm-list-head h2{font-size:12.5px!important;}
+  .mu-mm-list-head button{font-size:5.8px!important;}
+
+  /* Journey postcards. */
+  .mu-mm-journeys{gap:4px!important;}
+  .mu-mm-journey-card{border-radius:8px!important;position:relative!important;}
+  .mu-mm-cover{height:49px!important;background:linear-gradient(135deg,#c9b589 0%,#eee1c4 48%,#b4c7bd 100%)!important;}
+  .mu-mm-cover:before{content:"";position:absolute;right:5px;top:5px;width:31px;height:20px;border:1px solid rgba(133,91,26,.45);transform:rotate(-7deg);z-index:1;background:rgba(255,247,225,.28);box-shadow:inset 0 0 0 2px rgba(255,255,255,.24);}
+  .mu-mm-cover:after{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(8,35,60,.30))!important;}
+  .mu-mm-cover-art{opacity:.54!important;}
+  .mu-mm-cover i{font-size:4.6px!important;bottom:3px!important;left:4px!important;}
+  .mu-mm-journey-meta{padding:4px 5px 5px!important;}
+  .mu-mm-journey-meta small{font-size:4.7px!important;}
+  .mu-mm-journey-meta strong{font-size:8.4px!important;margin:1px 0!important;}
+  .mu-mm-journey-meta span{font-size:5.1px!important;}
+
+  /* Recent memories: true photo-strip proportions. */
+  .mu-mm-memory-grid{gap:3px!important;}
+  .mu-mm-memory-card{border-radius:7px!important;padding-bottom:4px!important;}
+  .mu-mm-memory-photo{height:43px!important;}
+  .mu-mm-memory-card>strong{font-size:6.8px!important;margin-top:3px!important;}
+  .mu-mm-memory-card>small{font-size:4.8px!important;}
+  .mu-mm-memory-card>em{font-size:4.3px!important;}
+
+  /* Bottom nav: reference-like, compact, with proper vector icons supplied by v3 JS. */
+  .mu-mm-bottom-nav{height:48px!important;grid-template-columns:1fr 1fr 44px 1fr 1fr!important;padding:2px 6px calc(1px + env(safe-area-inset-bottom))!important;}
+  .mu-mm-bottom-nav button{height:38px!important;}
+  .mu-mm-bottom-nav button span{font-size:0!important;width:17px;height:17px;display:grid;place-items:center;}
+  .mu-mm-bottom-nav button span svg{width:17px;height:17px;display:block;}
+  .mu-mm-bottom-nav button b{font-size:5.2px!important;}
+  .mu-mm-bottom-nav .mu-mm-plus{width:36px!important;height:36px!important;font-size:22px!important;}
+
+  /* Linked screens should carry the same compact premium rhythm. */
+  .view>.welcome{font-size:6px!important;}
+  .view>h1{font-size:20px!important;margin-bottom:6px!important;}
+  .journey-detail-hero,.memory-detail-hero{min-height:170px!important;}
+  .journey-detail-hero h2,.memory-detail-hero h2{font-size:26px!important;}
+  .journey-detail .detail-content,.memory-detail .detail-content{padding:14px 11px 18px!important;}
+}
+
+@media(max-width:360px){
+  .mu-mm-action{min-height:98px!important;}
+  .mu-mm-action-copy strong{font-size:8.6px!important;}
+  .mu-mm-action-copy small{font-size:5.1px!important;}
+}

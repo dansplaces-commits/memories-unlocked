@@ -1,0 +1,20 @@
+/* Scoped studio styles; existing homepage, cards and Explore styles are untouched. */
+.photo-studio .sheet{max-width:860px;background:#fbf7ef;color:#153654}
+.photo-studio h2{margin-bottom:10px}
+.studio-comparison{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0}
+.studio-comparison figure{margin:0;min-width:0}
+.studio-comparison figcaption{font-size:12px;font-weight:700;margin-bottom:8px}
+.studio-original,.studio-after{height:240px;background:#e8efeb;border:1px solid #c7d6d2;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;font-size:14px;line-height:1.6}
+.studio-original img{width:100%;height:100%;object-fit:contain}
+.studio-after{padding:24px;background:#f2eee5}
+.studio-options{border:0;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.studio-options legend{font-weight:700;margin-bottom:12px}
+.studio-options label{margin:0;display:flex;align-items:center;gap:10px;padding:13px;border:1px solid #c8c2b4;border-radius:9px;cursor:pointer;font-size:14px}
+.studio-options label:has(input:checked){border-color:#af802b;background:#f5e8c9}
+.studio-options input{width:18px;height:18px;margin:0;accent-color:#a77625}
+.studio-description{min-height:46px;font-size:14px;line-height:1.6}
+.studio-status{padding:15px;border-radius:9px;background:#e4efec;font-size:14px;line-height:1.6}
+.photo-studio button:disabled{cursor:not-allowed;opacity:.6}
+.photo-studio .action-row{margin-top:22px;flex-wrap:wrap}
+.photo-studio-entry{margin:12px 0}
+@media(max-width:600px){.studio-comparison{gap:8px}.studio-original,.studio-after{height:175px}.studio-after{padding:12px;font-size:12px}.studio-options{grid-template-columns:1fr}.photo-studio .action-row{display:grid;grid-template-columns:1fr}.story-photo-actions{flex-wrap:wrap}}

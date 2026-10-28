@@ -1,0 +1,84 @@
+/* Memories Unlocked — permanent lower-card artwork v8. CSS-only so redraws cannot remove it. */
+@media(max-width:700px){
+  /* Journey cover artwork: always visible beneath labels unless a real photo is present. */
+  .mu-mobile-master-home .mu-mm-journey-card:not(.mu-mm-dream-card) .mu-mm-cover:not(.has-photo){
+    position:relative!important;
+    overflow:hidden!important;
+    background:#eadfc9!important;
+  }
+  .mu-mobile-master-home .mu-mm-journey-card:not(.mu-mm-dream-card) .mu-mm-cover:not(.has-photo)::before{
+    content:""!important;
+    display:block!important;
+    position:absolute!important;
+    inset:0!important;
+    z-index:0!important;
+    background-image:url('/assets/mobile-ref-journeys.jpg?v=20260917v8')!important;
+    background-size:200% 100%!important;
+    background-position:0% center!important;
+    background-repeat:no-repeat!important;
+    opacity:1!important;
+  }
+  .mu-mobile-master-home .mu-mm-dream-card .mu-mm-cover{
+    position:relative!important;
+    overflow:hidden!important;
+    background:#eadfc9!important;
+  }
+  .mu-mobile-master-home .mu-mm-dream-card .mu-mm-cover::before{
+    content:""!important;
+    display:block!important;
+    position:absolute!important;
+    inset:0!important;
+    z-index:0!important;
+    background-image:url('/assets/mobile-ref-journeys.jpg?v=20260917v8')!important;
+    background-size:200% 100%!important;
+    background-position:100% center!important;
+    background-repeat:no-repeat!important;
+    opacity:1!important;
+  }
+  .mu-mobile-master-home .mu-mm-cover > i,
+  .mu-mobile-master-home .mu-mm-dream-card::after{
+    position:absolute!important;
+    z-index:3!important;
+  }
+  .mu-mobile-master-home .mu-mm-cover:not(.has-photo) .mu-mm-cover-art{display:none!important;}
+  .mu-mobile-master-home .mu-mm-cover:not(.has-photo)::after{
+    content:""!important;
+    display:block!important;
+    position:absolute!important;
+    inset:0!important;
+    z-index:1!important;
+    background:linear-gradient(180deg,transparent 58%,rgba(8,31,57,.18))!important;
+    pointer-events:none!important;
+  }
+
+  /* Recent Memory prompts: use the three approved photo panels permanently. */
+  .mu-mobile-master-home .mu-mm-memory-prompt .mu-mm-memory-photo{
+    position:relative!important;
+    overflow:hidden!important;
+    background:#ece2d1!important;
+  }
+  .mu-mobile-master-home .mu-mm-memory-prompt .mu-mm-memory-photo::before{
+    content:""!important;
+    display:block!important;
+    position:absolute!important;
+    inset:0!important;
+    z-index:0!important;
+    background-image:url('/assets/mobile-ref-memories.jpg?v=20260917v8')!important;
+    background-size:300% 100%!important;
+    background-repeat:no-repeat!important;
+    opacity:1!important;
+    transform:none!important;
+    width:auto!important;
+    height:auto!important;
+    border:0!important;
+  }
+  .mu-mobile-master-home .mu-mm-memory-prompt:nth-child(1) .mu-mm-memory-photo::before{background-position:0% center!important;}
+  .mu-mobile-master-home .mu-mm-memory-prompt:nth-child(2) .mu-mm-memory-photo::before{background-position:50% center!important;}
+  .mu-mobile-master-home .mu-mm-memory-prompt:nth-child(3) .mu-mm-memory-photo::before{background-position:100% center!important;}
+  .mu-mobile-master-home .mu-mm-memory-prompt .mu-mm-memory-photo::after{content:none!important;display:none!important;}
+
+  /* Keep the lower cards closer to the approved reference once imagery is visible. */
+  .mu-mobile-master-home .mu-mm-cover{height:52px!important;}
+  .mu-mobile-master-home .mu-mm-memory-prompt .mu-mm-memory-photo{height:48px!important;}
+  .mu-mobile-master-home .mu-mm-memory-prompt{min-height:70px!important;}
+}

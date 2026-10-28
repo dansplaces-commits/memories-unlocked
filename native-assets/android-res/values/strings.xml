@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Memories Unlocked</string>
+    <string name="title_activity_main">Memories Unlocked</string>
+    <string name="package_name">com.dansplaces.memoriesunlocked</string>
+    <string name="custom_url_scheme">com.dansplaces.memoriesunlocked</string>
+</resources>

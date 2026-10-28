@@ -1,0 +1,11 @@
+node_modules/
+www/
+android/.gradle/
+android/app/build/
+android/build/
+ios/App/Pods/
+ios/App/DerivedData/
+.DS_Store
+assets/icon.png
+assets/splash.png
+icons/icon-1024.png

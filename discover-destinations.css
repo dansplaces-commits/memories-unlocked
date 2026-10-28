@@ -1,0 +1,89 @@
+/* Memories Unlocked — curated Discover / bucket-list hub. */
+.mu-discover-hub-modal{z-index:13000!important}
+.mu-discover-hub-modal .sheet{max-width:980px!important;padding:0!important;background:#fff8eb!important;overflow-x:hidden!important}
+.mu-discover-hub-modal .close{z-index:30!important}
+.mu-discover-hub{--navy:#082f55;--gold:#d9a536;--cream:#fff8eb;color:#0a2f55;background:#fff8eb;min-height:100%}
+.mu-discover-hero{min-height:210px;padding:42px 46px 32px;background:linear-gradient(115deg,rgba(7,43,78,.98),rgba(14,63,101,.88)),radial-gradient(circle at 83% 30%,#d9a536 0 7%,transparent 7.5%);display:flex;align-items:center;gap:24px;color:#fff;position:relative;overflow:hidden}
+.mu-discover-hero:after{content:"";position:absolute;right:-80px;top:-105px;width:300px;height:300px;border:1px solid rgba(255,255,255,.15);border-radius:50%;box-shadow:0 0 0 38px rgba(255,255,255,.025),0 0 0 78px rgba(255,255,255,.018)}
+.mu-discover-orbit{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#f5d478,#d69a23);color:#092f54;font-size:34px;flex:0 0 70px;box-shadow:0 10px 24px rgba(0,0,0,.15)}
+.mu-discover-hero small,.mu-discover-title-row span,.mu-bucket-strip small{display:block;font:800 9px/1 Arial,sans-serif;letter-spacing:2px;color:#efc762}
+.mu-discover-hero h2{margin:5px 0 7px!important;color:#fff!important;font:700 38px/1 Georgia,serif!important;max-width:680px}.mu-discover-hero p{margin:0;color:#dfe9f1;font:500 13px/1.5 Arial,sans-serif;max-width:660px}
+.mu-discover-title-row{display:flex;align-items:end;justify-content:space-between;gap:18px;padding:28px 28px 17px}.mu-discover-title-row h3{margin:5px 0 0;color:#0a2f55;font:700 29px/1 Georgia,serif}.mu-discover-title-row em{font:600 14px/1.2 "Segoe Print","Bradley Hand",cursive;color:#b27b1e;transform:rotate(-4deg);text-align:right}
+.mu-dest-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;padding:0 28px 28px}
+.mu-dest-card{background:#fffdf7;border:1px solid #e9d9bd;border-radius:18px;overflow:hidden;box-shadow:0 8px 20px rgba(14,48,81,.07)}
+.mu-dest-photo{width:100%;height:168px;border:0;padding:0;position:relative;display:block;overflow:hidden;background:linear-gradient(135deg,#0d426d,#dca848);cursor:pointer;background-image:var(--dest-image,linear-gradient(135deg,#0d426d,#dca848));background-size:cover;background-position:center}
+.mu-dest-city .mu-dest-photo:not(.has-image){background:linear-gradient(135deg,#0c365e,#704d7d)}.mu-dest-sea .mu-dest-photo:not(.has-image){background:linear-gradient(135deg,#0c7190,#75d5d0)}.mu-dest-heritage .mu-dest-photo:not(.has-image){background:linear-gradient(135deg,#a7663e,#e4ba73)}
+.mu-dest-photo-shade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(6,31,56,.38))}
+.mu-dest-badge{position:absolute;display:grid;place-items:center;z-index:3;filter:drop-shadow(0 4px 8px rgba(3,26,49,.32));pointer-events:none}.mu-dest-badge-card{right:8px;top:8px;width:58px;height:58px;border-radius:50%;background:rgba(255,248,235,.94);border:2px solid #e1ad3c;box-shadow:inset 0 0 0 2px rgba(8,47,85,.13)}
+.mu-dest-badge svg{width:43px;height:36px;overflow:visible;fill:none;stroke:#0a355d;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}.mu-dest-badge-las-vegas svg{stroke:#bd3a2f}.mu-dest-badge svg text{font:900 8px Arial,sans-serif;text-anchor:middle;fill:#c43d2f;stroke:none}.mu-dest-badge b{display:none}
+.mu-dest-arrow{position:absolute;right:8px;bottom:8px;z-index:4;width:31px;height:31px;border-radius:50%;display:grid;place-items:center;background:#082f55;color:#fff;border:2px solid #f2cf72;font:700 14px Arial,sans-serif}
+.mu-dest-copy{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 11px 11px}.mu-dest-copy>div{min-width:0}.mu-dest-copy small,.mu-dest-copy strong,.mu-dest-copy span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mu-dest-copy small{font:800 7px/1 Arial,sans-serif;letter-spacing:1px;color:#b27c23}.mu-dest-copy strong{margin-top:3px;font:700 17px/1 Georgia,serif;color:#092f55}.mu-dest-copy span{margin-top:3px;font:500 9px/1 Arial,sans-serif;color:#718090}.mu-dest-heart{border:0;background:transparent;color:#0c365f;font-size:24px;line-height:1;padding:5px;cursor:pointer}.mu-dest-heart.saved{color:#c89425}
+.mu-bucket-strip{margin:0 28px 34px;padding:20px 22px;border-radius:20px;background:linear-gradient(135deg,#0a3157,#123f68);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:20px}.mu-bucket-strip h3{margin:4px 0 5px;font:700 22px/1 Georgia,serif;color:#fff}.mu-bucket-strip p{margin:0;max-width:640px;color:#dce5ed;font-size:11px;line-height:1.5}.mu-bucket-strip button{flex:0 0 auto;border:1px solid #e5bc5b;background:#fff8eb;color:#0a3157;border-radius:999px;padding:10px 14px;font:800 9px Arial,sans-serif}
+@media(max-width:700px){
+ .mu-discover-hub-modal{padding:0!important;align-items:stretch!important}
+ .mu-discover-hub-modal .sheet{width:100%!important;max-width:none!important;height:100dvh!important;max-height:100dvh!important;margin:0!important;border-radius:0!important;overflow-y:auto!important;padding-bottom:calc(92px + env(safe-area-inset-bottom))!important}
+ .mu-discover-hub-modal>.sheet>.close{position:fixed!important;right:14px!important;top:calc(12px + env(safe-area-inset-top))!important;width:44px!important;height:44px!important;border-radius:50%!important;background:#fff3d8!important;color:#0a3157!important;z-index:14000!important}
+ .mu-discover-hero{min-height:185px;padding:calc(30px + env(safe-area-inset-top)) 68px 26px 18px;gap:14px}.mu-discover-orbit{width:54px;height:54px;flex-basis:54px;font-size:25px}.mu-discover-hero small{font-size:8px}.mu-discover-hero h2{font-size:27px!important}.mu-discover-hero p{font-size:11px}
+ .mu-discover-title-row{padding:22px 15px 14px}.mu-discover-title-row h3{font-size:25px}.mu-discover-title-row em{font-size:11px}
+ .mu-dest-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 12px 22px}
+ .mu-dest-photo{height:145px}.mu-dest-badge-card{width:49px;height:49px;right:6px;top:6px}.mu-dest-badge svg{width:37px;height:31px}.mu-dest-copy{padding:9px}.mu-dest-copy strong{font-size:15px}.mu-dest-heart{font-size:21px}
+ .mu-bucket-strip{margin:0 12px 22px;padding:17px;align-items:flex-start;flex-direction:column}.mu-bucket-strip h3{font-size:20px}.mu-bucket-strip button{width:100%}
+}
+@media(max-width:390px){.mu-dest-photo{height:132px}.mu-discover-hero h2{font-size:25px!important}.mu-dest-badge-card{width:46px;height:46px}.mu-dest-badge svg{width:34px;height:29px}}
+
+
+/* 2026-09-24 premium Discover cosmetic lock */
+.mu-discover-hub-modal{z-index:9000!important;background:rgba(5,24,44,.86)!important}
+.mu-discover-hub-modal .sheet{border:0!important;box-shadow:0 24px 70px rgba(3,24,45,.30)!important}
+.mu-discover-hub-modal .sheet:before{display:none!important;content:none!important}
+.mu-discover-topbar{height:68px;padding:0 24px;display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:12px;background:#fff9ee;border-bottom:1px solid #eadcc3;position:sticky;top:0;z-index:20}
+.mu-discover-back{width:36px;height:36px;border-radius:50%;border:1px solid #e0c996;background:#fffdf8;color:#0a3157;font:400 30px/1 Georgia,serif;display:grid;place-items:center;cursor:pointer}
+.mu-discover-brand{display:flex;align-items:center;justify-content:center;gap:8px;color:#0a3157;font:700 17px/1 Georgia,serif;letter-spacing:.1px}.mu-discover-brand b{color:#b77c1e;text-transform:uppercase;letter-spacing:2px;font-size:11px}.mu-discover-lock{width:26px;height:26px;border:2px solid #d7a53b;border-radius:9px;display:grid;place-items:center;color:#d7a53b;font-size:13px;transform:rotate(-4deg)}
+.mu-discover-topnote{font:800 7px/1 Arial,sans-serif;letter-spacing:1.6px;color:#a87927;white-space:nowrap}
+.mu-discover-hero{min-height:236px!important;margin:0!important;padding:44px 44px 34px!important;background-image:
+ linear-gradient(90deg,rgba(6,34,64,.92) 0%,rgba(7,43,78,.76) 48%,rgba(7,43,78,.18) 100%),
+ var(--dest-image,linear-gradient(135deg,#0b365f,#a77438))!important;background-size:cover!important;background-position:center!important;display:flex!important;align-items:flex-end!important;gap:18px!important}
+.mu-discover-hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,27,51,.04),rgba(4,27,51,.26));pointer-events:none;z-index:0}
+.mu-discover-hero>div,.mu-discover-orbit,.mu-discover-hero-note{position:relative;z-index:2}
+.mu-discover-hub-modal .mu-discover-hero h2{margin:4px 0 6px!important;color:#fff!important;text-shadow:0 2px 16px rgba(2,20,38,.35)!important;font:700 48px/.94 Georgia,serif!important;letter-spacing:-1.2px!important}
+.mu-discover-hub-modal .mu-discover-hero p{margin:0!important;color:#f6f8fa!important;text-shadow:0 2px 12px rgba(2,20,38,.38)!important;font:500 14px/1.45 Arial,sans-serif!important;max-width:620px!important}
+.mu-discover-hub-modal .mu-discover-hero small{color:#f0c55e!important;text-shadow:0 2px 10px rgba(0,0,0,.28)!important}
+.mu-discover-orbit{width:58px!important;height:58px!important;flex:0 0 58px!important;font-size:27px!important;background:linear-gradient(145deg,#f6d472,#d79c26)!important;border:2px solid rgba(255,255,255,.55)!important;box-shadow:0 8px 22px rgba(2,22,41,.25)!important}
+.mu-discover-hero-note{position:absolute!important;right:24px!important;bottom:18px!important;font:600 12px/1.25 "Segoe Print","Bradley Hand",cursive!important;color:#f4d075!important;transform:rotate(-4deg)!important;text-shadow:0 2px 10px rgba(0,0,0,.30)!important}
+.mu-discover-title-row{padding:24px 24px 15px!important;align-items:flex-end!important}.mu-discover-title-row h3{font-size:30px!important;letter-spacing:-.45px!important}.mu-discover-title-row em{font-size:12px!important;line-height:1.15!important}
+.mu-dest-grid{gap:14px!important;padding:0 24px 28px!important}
+.mu-dest-card{border-radius:19px!important;border:1px solid #e5d3b3!important;background:#fffdf7!important;box-shadow:0 7px 20px rgba(12,46,78,.09)!important;transition:transform .16s ease,box-shadow .16s ease!important}.mu-dest-card:active{transform:scale(.985)!important}
+.mu-dest-photo{height:176px!important;background-position:center!important}.mu-dest-photo:after{content:"";position:absolute;inset:0;box-shadow:inset 0 -70px 55px -55px rgba(4,29,54,.32);pointer-events:none}
+.mu-dest-photo-shade{background:linear-gradient(180deg,rgba(4,28,52,.02) 38%,rgba(4,28,52,.18) 100%)!important}
+.mu-dest-badge-card{right:9px!important;top:9px!important;width:46px!important;height:46px!important;border-radius:50%!important;background:rgba(255,249,237,.96)!important;border:2px solid #e2b24d!important;box-shadow:0 5px 13px rgba(4,29,54,.18),inset 0 0 0 2px rgba(11,48,83,.12)!important;transform:rotate(3deg)!important}
+.mu-dest-badge-art{display:grid;place-items:center;transform:translateY(-2px)}
+.mu-dest-badge svg{width:30px!important;height:27px!important;stroke-width:2.15!important}
+.mu-dest-badge b{display:block!important;position:absolute;left:3px;right:3px;bottom:3px;background:#0a3157;color:#fff9ee;border-radius:999px;padding:2px 2px 1px;font:800 4.9px/1 Arial,sans-serif;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-transform:uppercase}
+.mu-dest-badge-las-vegas{border-radius:12px!important;transform:rotate(-3deg)!important}.mu-dest-badge-las-vegas b{display:none!important}.mu-dest-badge-las-vegas svg{width:35px!important;height:31px!important}
+.mu-dest-arrow{width:30px!important;height:30px!important;right:9px!important;bottom:9px!important;border-width:2px!important;background:rgba(7,43,78,.94)!important;box-shadow:0 4px 10px rgba(4,28,52,.22)!important}
+.mu-dest-copy{padding:10px 11px 12px!important;min-height:61px!important}.mu-dest-copy small{font-size:6.6px!important;letter-spacing:1.15px!important;color:#b17b1f!important}.mu-dest-copy strong{font-size:18px!important;letter-spacing:-.2px!important}.mu-dest-copy span{font-size:9px!important;color:#73808c!important}.mu-dest-heart{font-size:22px!important;padding:4px!important}
+.mu-bucket-strip{margin:0 24px 30px!important;border:1px solid rgba(225,178,77,.26)!important;box-shadow:0 9px 24px rgba(7,43,78,.10)!important}
+@media(max-width:700px){
+ .mu-discover-hub-modal{z-index:9000!important}
+ .mu-discover-hub-modal .sheet{border-radius:0!important}
+ .mu-discover-hub-modal>.sheet>.close{display:none!important}
+ .mu-discover-topbar{height:60px!important;padding:env(safe-area-inset-top) 14px 0!important;box-sizing:content-box!important;grid-template-columns:38px 1fr 52px!important}
+ .mu-discover-back{width:34px!important;height:34px!important;font-size:27px!important}.mu-discover-brand{font-size:15px!important;gap:6px!important}.mu-discover-brand b{font-size:9px!important;letter-spacing:1.6px!important}.mu-discover-lock{width:23px!important;height:23px!important;border-radius:8px!important}.mu-discover-topnote{font-size:5.7px!important;letter-spacing:1px!important}
+ .mu-discover-hero{min-height:205px!important;padding:28px 16px 22px!important;align-items:flex-end!important;gap:12px!important;background-position:center 38%!important}
+ .mu-discover-hub-modal .mu-discover-hero h2{font-size:39px!important;line-height:.94!important;margin:2px 0 4px!important;color:#fff!important}
+ .mu-discover-hub-modal .mu-discover-hero p{font-size:11.5px!important;line-height:1.38!important;max-width:310px!important;color:#fff!important}
+ .mu-discover-orbit{width:48px!important;height:48px!important;flex-basis:48px!important;font-size:22px!important}
+ .mu-discover-hero-note{right:14px!important;bottom:13px!important;font-size:8.5px!important}
+ .mu-discover-title-row{padding:20px 14px 12px!important}.mu-discover-title-row h3{font-size:26px!important;line-height:.98!important;max-width:245px!important}.mu-discover-title-row em{font-size:10px!important;max-width:88px!important}
+ .mu-dest-grid{gap:10px!important;padding:0 12px 20px!important}
+ .mu-dest-photo{height:150px!important}
+ .mu-dest-badge-card{width:40px!important;height:40px!important;right:7px!important;top:7px!important;border-width:1.5px!important}.mu-dest-badge svg{width:26px!important;height:23px!important}.mu-dest-badge b{font-size:4.2px!important;bottom:2px!important}.mu-dest-badge-las-vegas svg{width:30px!important;height:27px!important}
+ .mu-dest-copy{padding:8px 9px 10px!important;min-height:58px!important}.mu-dest-copy strong{font-size:16px!important}.mu-dest-copy span{font-size:8.4px!important}.mu-dest-heart{font-size:20px!important}
+ .mu-dest-arrow{width:28px!important;height:28px!important;right:7px!important;bottom:7px!important;font-size:12px!important}
+ .mu-bucket-strip{margin:0 12px 18px!important;padding:16px!important}
+}
+@media(max-width:390px){
+ .mu-discover-hero{min-height:190px!important}.mu-discover-hub-modal .mu-discover-hero h2{font-size:36px!important}
+ .mu-dest-photo{height:137px!important}.mu-dest-badge-card{width:38px!important;height:38px!important}.mu-dest-badge svg{width:24px!important;height:21px!important}
+ .mu-dest-copy strong{font-size:15px!important}.mu-discover-title-row h3{font-size:24px!important}
+}

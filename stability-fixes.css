@@ -1,0 +1,7 @@
+/* Memories Unlocked — QA stability presentation fixes. */
+#accountModal .account-sheet{position:relative}
+#accountModal .account-sheet>.close{position:absolute!important;top:14px!important;right:14px!important;z-index:40!important;width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;border-radius:50%!important;display:grid!important;place-items:center!important;cursor:pointer!important;touch-action:manipulation}
+#accountModal.open{overscroll-behavior:contain}
+.archive-launcher-prominent{display:inline-flex!important;align-items:center;justify-content:center;gap:8px;padding:11px 16px!important;border-color:#d9bf82!important;background:#fff9e8!important;color:#102d55!important;font-weight:800!important}
+.archive-launcher-prominent:before{content:'↳';font-size:15px;color:#a2771e}
+@media(max-width:700px){#accountModal .account-sheet>.close{top:10px!important;right:10px!important}.archive-launcher-prominent{width:100%!important}}

@@ -1,0 +1,38 @@
+/* Memories Unlocked — website-style desktop application toolbar. */
+@media(min-width:1180px){
+  :root{--mu-toolbar-h:64px}
+  body{padding-top:var(--mu-toolbar-h)!important}
+  .brand-header{display:none!important}
+  .nav{display:none!important}
+  .mu-app-toolbar{position:fixed;z-index:8800;left:0;right:0;top:0;height:var(--mu-toolbar-h);display:grid;grid-template-columns:minmax(230px,1fr) auto minmax(230px,1fr);align-items:center;gap:24px;padding:0 clamp(24px,3vw,54px);box-sizing:border-box;background:linear-gradient(180deg,#092a49 0%,#082641 100%);border-bottom:1px solid rgba(238,184,70,.26);box-shadow:0 9px 28px rgba(7,24,43,.16);color:#fff}
+  .mu-toolbar-brand{appearance:none;border:0;background:none;padding:0;display:flex;align-items:center;justify-self:start;gap:10px;color:#fff;cursor:pointer;text-align:left;font:inherit}
+  .mu-toolbar-lock{position:relative;width:31px;height:36px;display:grid;place-items:center;flex:0 0 31px;color:#e8ad39}
+  .mu-toolbar-lock svg{width:30px;height:35px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+  .mu-toolbar-lock .mu-keyhole{fill:#092a49;stroke:none}
+  .mu-toolbar-wordmark{display:flex;flex-direction:column;font-family:Georgia,'Times New Roman',serif;font-size:13px;line-height:.92;letter-spacing:.15px}
+  .mu-toolbar-wordmark strong{font-weight:700;color:#f3bc4c}
+  .mu-toolbar-wordmark span{font-weight:600;color:#fff}
+  .mu-toolbar-nav{display:flex;align-items:center;justify-content:center;gap:7px}
+  .mu-toolbar-nav button,.mu-toolbar-actions button{appearance:none;border:0;background:transparent;color:#dce6ef;cursor:pointer;font:700 11px/1 'Segoe UI',Arial,sans-serif;letter-spacing:.15px;border-radius:999px;transition:background .16s ease,color .16s ease,transform .16s ease,border-color .16s ease}
+  .mu-toolbar-nav button{padding:11px 14px;position:relative}
+  .mu-toolbar-nav button:hover,.mu-toolbar-nav button:focus-visible{background:rgba(255,255,255,.08);color:#fff;outline:none}
+  .mu-toolbar-nav button[aria-current='page']{color:#f4c35a;background:rgba(235,177,56,.08)}
+  .mu-toolbar-nav button[aria-current='page']:after{content:'';position:absolute;left:15px;right:15px;bottom:5px;height:2px;border-radius:2px;background:#e8ad39}
+  .mu-toolbar-actions{display:flex;align-items:center;justify-self:end;gap:8px}
+  .mu-toolbar-actions button{padding:10px 14px;border:1px solid rgba(255,255,255,.18)}
+  .mu-toolbar-actions .mu-toolbar-account{border-color:rgba(230,174,57,.54);color:#fff}
+  .mu-toolbar-actions .mu-toolbar-personalise{background:#e8ad39;border-color:#e8ad39;color:#092a49}
+  .mu-toolbar-actions button:hover,.mu-toolbar-actions button:focus-visible{transform:translateY(-1px);outline:none;box-shadow:0 6px 16px rgba(0,0,0,.12)}
+  body.has-modal .mu-app-toolbar{pointer-events:none;filter:saturate(.7);opacity:.82}
+  /* The master home starts immediately below the new toolbar. */
+  .desktop-dashboard{min-height:calc(100vh - var(--mu-toolbar-h))}
+  html[data-dock='left'] .app,html[data-dock='right'] .app{margin-left:0!important;margin-right:0!important;padding-left:0!important;padding-right:0!important}
+  html[data-dock='top'] .app{padding-top:0!important}
+}
+@media(min-width:1180px) and (max-width:1360px){
+  .mu-app-toolbar{grid-template-columns:200px auto 200px;padding-left:24px;padding-right:24px;gap:12px}
+  .mu-toolbar-nav{gap:2px}.mu-toolbar-nav button{padding-left:10px;padding-right:10px;font-size:10px}
+  .mu-toolbar-actions button{padding:9px 10px;font-size:10px}.mu-toolbar-wordmark{font-size:12px}
+}
+@media(max-width:1179px){.mu-app-toolbar{display:none!important}}
+@media(prefers-reduced-motion:reduce){.mu-toolbar-nav button,.mu-toolbar-actions button{transition:none!important}}

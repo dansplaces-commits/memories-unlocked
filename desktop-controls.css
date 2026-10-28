@@ -1,0 +1,48 @@
+/* Restore desktop utility controls when the navigation dock is on the side. */
+@media(min-width:1180px){
+html[data-dock="left"] .brand-header,
+html[data-dock="right"] .brand-header{
+  display:flex!important;
+  position:fixed!important;
+  top:18px!important;
+  right:24px!important;
+  width:auto!important;
+  margin:0!important;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  z-index:240!important;
+  pointer-events:none;
+}
+html[data-dock="left"] .brand-header .logo,
+html[data-dock="right"] .brand-header .logo{display:none!important}
+html[data-dock="left"] .brand-header .header-actions,
+html[data-dock="right"] .brand-header .header-actions{
+  display:flex!important;
+  align-items:center;
+  gap:8px;
+  pointer-events:auto;
+}
+html[data-dock="left"] .brand-header .appearance-trigger,
+html[data-dock="right"] .brand-header .appearance-trigger{
+  display:grid!important;
+  place-items:center;
+  width:46px!important;
+  height:46px!important;
+  margin:0!important;
+  border:1px solid #dccfb5!important;
+  border-radius:50%!important;
+  background:rgba(255,250,240,.96)!important;
+  color:#8b6725!important;
+  box-shadow:0 8px 24px rgba(16,36,74,.08)!important;
+  cursor:pointer;
+}
+/* Account already lives in the side toolbar, so avoid a duplicate profile button. */
+html[data-dock="left"] .brand-header .account-trigger,
+html[data-dock="right"] .brand-header .account-trigger{display:none!important}
+html[data-dock="left"] .brand-header [data-install-app][hidden],
+html[data-dock="right"] .brand-header [data-install-app][hidden]{display:none!important}
+html[data-dock="left"] .brand-header [data-install-app]:not([hidden]),
+html[data-dock="right"] .brand-header [data-install-app]:not([hidden]){display:grid!important}
+}

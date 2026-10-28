@@ -1,0 +1,23 @@
+/* Memories Unlocked — DOM-backed fallback artwork v9. */
+@import url('mobile-final-art.css?v=20260917final1');
+@media(max-width:700px){
+  .mu-mobile-master-home .mu-mm-cover,
+  .mu-mobile-master-home .mu-mm-memory-photo{position:relative!important;overflow:hidden!important;}
+  .mu-mobile-master-home .mu-mm-cover::before,
+  .mu-mobile-master-home .mu-mm-memory-photo::before{display:none!important;content:none!important;}
+  .mu-mobile-master-home .mu-mm-fallback-art{position:absolute!important;top:0!important;height:100%!important;max-width:none!important;display:block!important;z-index:0!important;pointer-events:none!important;user-select:none!important;}
+  .mu-mobile-master-home .mu-mm-cover .mu-mm-fallback-art{width:200%!important;}
+  .mu-mobile-master-home .mu-mm-cover .mu-mm-fallback-art.is-left{left:0!important;}
+  .mu-mobile-master-home .mu-mm-cover .mu-mm-fallback-art.is-right{left:-100%!important;}
+  .mu-mobile-master-home .mu-mm-memory-photo .mu-mm-fallback-art{width:300%!important;}
+  .mu-mobile-master-home .mu-mm-memory-photo .mu-mm-fallback-art.is-one{left:0!important;}
+  .mu-mobile-master-home .mu-mm-memory-photo .mu-mm-fallback-art.is-two{left:-100%!important;}
+  .mu-mobile-master-home .mu-mm-memory-photo .mu-mm-fallback-art.is-three{left:-200%!important;}
+  .mu-mobile-master-home .has-photo>.mu-mm-fallback-art{display:none!important;}
+  .mu-mobile-master-home .mu-mm-cover>i,
+  .mu-mobile-master-home .mu-mm-memory-card>strong,
+  .mu-mobile-master-home .mu-mm-memory-card>small,
+  .mu-mobile-master-home .mu-mm-memory-card>em{position:relative!important;z-index:2!important;}
+  .mu-mobile-master-home .mu-mm-cover{height:54px!important;background:#eadfc9!important;}
+  .mu-mobile-master-home .mu-mm-memory-photo{height:49px!important;background:#ece2d1!important;}
+}
