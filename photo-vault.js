@@ -368,6 +368,6 @@ async function importSelected(files,captured){
  status(`${saved}`+' photo'+(saved===1?'':'s')+' safely saved'+(duplicates?', '+duplicates+' duplicate'+(duplicates===1?'':'s')+' skipped':'')+(fail?', '+fail+' could not be imported (JPG/PNG/WebP, max 8 MB)':''),Boolean(fail));
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDialog();});
-function ready(){makeUi();}
+function ready(){makeUi();if(getClient()?.auth?.onAuthStateChange){getClient().auth.onAuthStateChange((event)=>{if(['SIGNED_IN','SIGNED_OUT','USER_UPDATED'].includes(event))setTimeout(()=>{if($('photoVault')?.classList.contains('active'))refresh();},150);});}}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready,{once:true});else ready();
 })();
