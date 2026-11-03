@@ -15,8 +15,8 @@ const timeLabel=row=>{
   if(row.taken_local){const p=String(row.taken_local).replace('T',' ').slice(0,16);const m=p.match(/^(\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d)/);if(m)return `${m[3]}/${m[2]}/${m[1]} · ${m[4]}:${m[5]}`;}
   return row.taken_at?new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(row.taken_at)):'Date unavailable';
 };
-const getPrefs=()=>{try{return JSON.parse(localStorage.getItem('mu-vault-prefs:'+user?.id)||'{}');}catch{return {};}};
-const savePrefs=()=>{if(!user)return;try{localStorage.setItem('mu-vault-prefs:'+user.id,JSON.stringify({location:$('vaultLocation')?.checked||false,lookup:$('vaultLookup')?.checked||false,trip:$('vaultTrip')?.value||''}));}catch{}};
+const getPrefs=()=>{try{return JSON.parse(localStorage.getItem('mu_vault_prefs:'+user?.id)||'{}');}catch{return {};}};
+const savePrefs=()=>{if(!user)return;try{localStorage.setItem('mu_vault_prefs:'+user.id,JSON.stringify({location:$('vaultLocation')?.checked||false,lookup:$('vaultLookup')?.checked||false,trip:$('vaultTrip')?.value||''}));}catch{}};
 function status(message,error=false){const x=$('vaultStatus');if(x){x.textContent=message;x.classList.toggle('error',error);}}
 function makeUi(){
  if($('photoVault'))return;
@@ -111,12 +111,12 @@ async function refresh(){
  try{
   const who=await authenticate();
   if(!who){
-   user=null;items=[];chosenGroup='';$('vaultWorking').hidden=true;$('vaultAuth').hidden=false;
+   user=null;items=[];chosenGroup='';previewCache.clear();reverseCache.clear();$('vaultWorking').hidden=true;$('vaultAuth').hidden=false;
    $('vaultAuth').innerHTML='<h2>Keep your photos safely with you</h2><p>Sign in or create a free Memories Unlocked account to store private photos and access them on your devices.</p><button class="mu-vault-primary" type="button" id="vaultAccount">Open Account</button>';
    $('vaultAccount').onclick=()=>typeof openAccount==='function'?openAccount():status('Account screen is unavailable.',true);
    return;
   }
-  if(user?.id!==who.id){items=[];chosenGroup='';user=who;const prefs=getPrefs();$('vaultConsent').checked=false;$('vaultLocation').checked=Boolean(prefs.location);$('vaultLookup').checked=Boolean(prefs.lookup);$('vaultTrip').value=prefs.trip||'';}
+  if(user?.id!==who.id){items=[];chosenGroup='';previewCache.clear();reverseCache.clear();user=who;const prefs=getPrefs();$('vaultConsent').checked=false;$('vaultLocation').checked=Boolean(prefs.location);$('vaultLookup').checked=Boolean(prefs.lookup);$('vaultTrip').value=prefs.trip||'';}
   $('vaultAuth').hidden=true;$('vaultWorking').hidden=false;
   const {data,error}=await getClient().from(TABLE).select('id,owner_id,file_path,file_name,mime_type,size_bytes,taken_at,taken_local,date_source,latitude,longitude,folder_label,trip_label,fingerprint,source,linked_memory_id').eq('owner_id',user.id).order('created_at',{ascending:false}).limit(100);
   if(error)throw error;
@@ -328,6 +328,7 @@ async function importSelected(files,captured){
  $('vaultImport').disabled=true;$('vaultCapture').disabled=true;
  const withLocation=$('vaultLocation').checked,withLookup=withLocation&&$('vaultLookup').checked;
  const trip=$('vaultTrip').value.trim().slice(0,75);
+ if(captured&&withLocation)status('Checking location permission for this photograph…');
  const current=captured&&withLocation?await currentPosition():null;
  let saved=0,duplicates=0,fail=0;
  const allowed=Math.max(0,MAX_FILES-items.length);
