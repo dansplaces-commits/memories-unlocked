@@ -108,7 +108,10 @@ async function muUploadPhoto(kind,id,file,button,message){
     const update=await muSupabase.from(table).update({[column]:newPath}).eq('id',id).eq('owner_id',userId).select('id').single();
     if(update.error){await muSupabase.storage.from(MU_MEDIA_BUCKET).remove([newPath]);throw update.error;}
     record[field]=newPath;save();muMediaUrls.delete(oldPath);muMediaUrls.delete(newPath);muMediaSchemaReady=true;
-    if(oldPath&&oldPath!==newPath)muSupabase.storage.from(MU_MEDIA_BUCKET).remove([oldPath]).catch(()=>{});
+    if(oldPath&&oldPath!==newPath){
+      if(oldPath.includes('/vault/'))muSupabase.from('photo_vault_items').update({linked_memory_id:null}).eq('owner_id',userId).eq('file_path',oldPath).eq('linked_memory_id',id).then(({error})=>{if(error)console.warn('Vault unlink:',error.message);});
+      else muSupabase.storage.from(MU_MEDIA_BUCKET).remove([oldPath]).catch(()=>{});
+    }
     closeModal('mediaPickerModal');render();
     if(muOpenMediaContext?.kind===kind&&String(muOpenMediaContext.id)===String(id))muRenderMediaSlot(kind,id);
     muHydrateJourneyCards();toast(kind==='journey'?'Journey cover saved securely.':'Memory photo saved securely.');
@@ -136,8 +139,9 @@ async function muRemovePhoto(kind,id){
     record[field]='';save();muMediaUrls.delete(path);closeModal('mediaRemoveModal');render();
     if(muOpenMediaContext?.kind===kind&&String(muOpenMediaContext.id)===String(id))muRenderMediaSlot(kind,id);
     muHydrateJourneyCards();
-    muSupabase.storage.from(MU_MEDIA_BUCKET).remove([path]).catch(()=>{});
-    toast('Photo removed. Your story is unchanged.');
+    if(path.includes('/vault/'))muSupabase.from('photo_vault_items').update({linked_memory_id:null}).eq('owner_id',userId).eq('file_path',path).eq('linked_memory_id',id).then(({error})=>{if(error)console.warn('Vault unlink:',error.message);});
+    else muSupabase.storage.from(MU_MEDIA_BUCKET).remove([path]).catch(()=>{});
+    toast(path.includes('/vault/')?'Photo removed from this memory. Its private Photo Vault copy is safe.':'Photo removed. Your story is unchanged.');
   }catch(error){console.warn('Photo remove:',error.message);toast('The photo could not be removed just now. Nothing else was changed.');if(button){button.disabled=false;button.textContent='Remove photo';}}
 }
 async function muRefreshMediaMetadata(){
