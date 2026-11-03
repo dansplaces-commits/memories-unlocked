@@ -25,7 +25,7 @@ function makeUi(){
  page.innerHTML=`
  <button class="back" type="button" onclick="showView('home')">← Home</button>
  <div class="mu-vault-head"><div><div class="mu-vault-kicker">MEMORIES UNLOCKED · PRIVATE COLLECTION</div><h1>Travel Photo Vault</h1><p>Capture the moment. We'll help you organise the story.</p></div><span class="mu-vault-head-icon" aria-hidden="true">▧</span></div>
- <div class="mu-vault-privacy"><strong>🔒 Your photos stay private.</strong> Your selected photos are uploaded only after you agree. This website cannot read your camera roll automatically or keep tracking your location in the background.</div>
+ <div class="mu-vault-privacy"><strong>🔒 Your photos stay private.</strong> Your selected photos are uploaded only after you agree. This website cannot read your camera roll automatically or keep tracking your location in the background. <a href="/privacy.html" target="_blank" rel="noopener">Read our privacy policy</a>.</div>
  <div id="vaultAuth" class="mu-vault-auth" hidden></div>
  <div id="vaultWorking">
   <section class="mu-vault-import">
