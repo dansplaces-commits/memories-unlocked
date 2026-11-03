@@ -12,7 +12,7 @@ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const $=id=>document.getElementById(id);
 const getClient=()=>window.muSupabase;
 const timeLabel=row=>{
-  if(row.taken_local){const p=String(row.taken_local).replace('T',' ').slice(0,16);const m=p.match(/^(\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d)/);if(m)return ${m[3]}/${m[2]}/${m[1]} · ${m[4]}:${m[5]};}
+  if(row.taken_local){const p=String(row.taken_local).replace('T',' ').slice(0,16);const m=p.match(/^(\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d)/);if(m)return `${m[3]}/${m[2]}/${m[1]} · ${m[4]}:${m[5]}`;}
   return row.taken_at?new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(row.taken_at)):'Date unavailable';
 };
 const getPrefs=()=>{try{return JSON.parse(localStorage.getItem('mu-vault-prefs:'+user?.id)||'{}');}catch{return {};}};
@@ -71,6 +71,7 @@ function makeUi(){
  [400,1000,2000].forEach(ms=>setTimeout(addToolbar,ms));
 }
 function onClick(event){
+ if(event.target.closest('[data-vault-close]')){closeDialog();return;}
  const button=event.target.closest('button');if(!button)return;
  if(button.matches('[data-vault-open]')){event.preventDefault();open();return;}
  if(button.id==='vaultImport'){if(checkConsent())$('vaultFiles').click();return;}
@@ -126,7 +127,7 @@ async function refresh(){
 }
 function groupKey(item){return (item.trip_label||'My travels')+'|'+(item.folder_label||'Unsorted');}
 function renderCollection(){
- $('vaultCount').textContent=${items.length} / ${MAX_FILES} photos;
+ $('vaultCount').textContent=`${items.length} / ${MAX_FILES} photos`;
  const groups=new Map();
  for(const item of items){const key=groupKey(item);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(item);}
  const sorted=[...groups.entries()].sort((a,b)=>b[1].length-a[1].length);
@@ -277,7 +278,7 @@ function exifInfo(buffer){
      const ex=ifd(u32(root.get(0x8769)+8));
      const raw=ascii(ex.get(0x9003))||ascii(ex.get(0x9004));
      const m=raw.match(/^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d):(\d\d)/);
-     if(m)out.localDate=${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]};
+     if(m)out.localDate=`${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}`;
     }
     if(root.has(0x8825)){
      const gps=ifd(u32(root.get(0x8825)+8));
@@ -364,7 +365,7 @@ async function importSelected(files,captured){
  }
  busy=false;$('vaultImport').disabled=false;$('vaultCapture').disabled=false;
  await refresh();
- status(${saved}+' photo'+(saved===1?'':'s')+' safely saved'+(duplicates?', '+duplicates+' duplicate'+(duplicates===1?'':'s')+' skipped':'')+(fail?', '+fail+' could not be imported (JPG/PNG/WebP, max 8 MB)':''),Boolean(fail));
+ status(`${saved}`+' photo'+(saved===1?'':'s')+' safely saved'+(duplicates?', '+duplicates+' duplicate'+(duplicates===1?'':'s')+' skipped':'')+(fail?', '+fail+' could not be imported (JPG/PNG/WebP, max 8 MB)':''),Boolean(fail));
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDialog();});
 function ready(){makeUi();}
