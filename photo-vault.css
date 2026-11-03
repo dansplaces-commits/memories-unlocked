@@ -1,0 +1,97 @@
+/* Travel Photo Vault — isolated Memories Unlocked styling. */
+.mu-vault-page{color:#17354a;padding-bottom:70px}
+.mu-vault-page [hidden],.mu-vault-dialog[hidden]{display:none!important}
+.mu-vault-head{position:relative;display:flex;align-items:center;justify-content:space-between;gap:18px;margin:16px 0 20px;padding:36px clamp(20px,4vw,46px);overflow:hidden;border:1px solid rgba(182,144,70,.46);border-radius:23px;background:linear-gradient(115deg,#112e48 0%,#183e58 64%,#276374 100%);color:#fff;box-shadow:0 16px 38px rgba(6,28,44,.16)}
+.mu-vault-head:before{content:"";pointer-events:none;position:absolute;top:-105px;right:-20px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(245,203,127,.24),transparent 70%)}
+.mu-vault-head h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(32px,4vw,52px);font-weight:500;letter-spacing:-1.4px;line-height:1.1;margin:9px 0 12px}
+.mu-vault-head p{color:#e8e8df;margin:0;font-size:15px}
+.mu-vault-head-icon{font-size:80px;font-family:Georgia,serif;line-height:1;color:#ddbc75;opacity:.82}
+.mu-vault-kicker{font:700 11px/1.5 system-ui,-apple-system,sans-serif;letter-spacing:.19em;text-transform:uppercase;color:#bc8c3b}
+.mu-vault-head .mu-vault-kicker{color:#e0bf81}
+.mu-vault-privacy{margin:0 0 20px;padding:16px 21px;border-radius:14px;background:#fbf7ec;border:1px solid #e4d9c3;color:#5c5547;font-size:13px;line-height:1.6}
+.mu-vault-privacy strong{color:#203b51}
+.mu-vault-import,.mu-vault-collection,.mu-vault-auth{background:#fffdf8;border:1px solid #eadfcc;border-radius:20px;padding:clamp(18px,3vw,29px);box-shadow:0 7px 22px rgba(32,53,64,.045)}
+.mu-vault-import{margin-bottom:24px}
+.mu-vault-import-head,.mu-vault-section-head,.mu-vault-gallery-heading{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.mu-vault-import h2,.mu-vault-collection h2,.mu-vault-auth h2{font-family:Georgia,serif;color:#153852;font-weight:500;font-size:27px;margin:0 0 14px}
+.mu-vault-import-head h2,.mu-vault-section-head h2{margin-bottom:12px}
+.mu-vault-count{font:600 12px system-ui,sans-serif;border:1px solid #e9d9bc;background:#f8f0df;border-radius:99px;padding:7px 10px;color:#6d552e;white-space:nowrap}
+.mu-vault-check{display:flex!important;align-items:flex-start;gap:11px;margin:12px 0;cursor:pointer;color:#3f4e50;font:400 13.5px/1.55 system-ui,-apple-system,sans-serif}
+.mu-vault-check input{width:18px!important;height:18px!important;flex:0 0 18px;accent-color:#b38b3f;margin:2px 0 0!important;cursor:pointer}
+.mu-vault-check-sub{margin-left:27px;color:#636764}
+.mu-vault-input-label{display:block;margin:23px 0 7px;color:#173852;font-weight:600;font-size:13px}
+.mu-vault-page input#vaultTrip,.mu-vault-link-card select{display:block;width:100%;max-width:450px;min-height:42px;border-radius:11px;border:1px solid #d8d1c2;background:#fff;color:#173852;padding:10px 13px;font:400 14px system-ui,sans-serif}
+.mu-vault-import-actions{display:flex;flex-wrap:wrap;gap:11px;margin:18px 0 9px}
+.mu-vault-primary,.mu-vault-outline{appearance:none;cursor:pointer;border-radius:99px;padding:13px 22px;font:700 13px system-ui,sans-serif;min-height:44px;transition:transform .15s ease,background .15s ease}
+.mu-vault-primary{color:#182c38!important;border:1px solid #d6ab58;background:linear-gradient(120deg,#e1c078,#f2d99d)}
+.mu-vault-outline{color:#163952!important;border:1px solid #d4bd94;background:#fff}
+.mu-vault-primary:hover,.mu-vault-outline:hover{transform:translateY(-1px)}
+.mu-vault-primary:disabled,.mu-vault-outline:disabled{opacity:.55;cursor:wait;transform:none}
+.mu-vault-note{font:400 12px/1.5 system-ui,sans-serif;color:#647074;margin:11px 0}
+.mu-vault-status{min-height:22px;font:600 13px/1.5 system-ui,sans-serif;color:#256958;margin:10px 0 0}
+.mu-vault-status.error{color:#a64d40}
+.mu-vault-auth p{color:#5b666d;line-height:1.6}
+.mu-vault-collection{min-height:210px}
+.mu-vault-section-head{margin-bottom:20px}
+.mu-vault-refresh{cursor:pointer;appearance:none;border:1px solid #d9ccb7;border-radius:20px;padding:9px 13px;color:#436074;background:#fff;font:700 12px system-ui,sans-serif;white-space:nowrap}
+.mu-vault-refresh:hover{background:#f3eadc}
+.mu-vault-folders{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:13px}
+.mu-vault-folder{appearance:none;display:flex;flex-direction:column;align-items:flex-start;gap:5px;text-align:left;min-height:188px;padding:14px;border:1px solid #e1d9c8;border-radius:15px;background:#faf7f0;color:#31536a;cursor:pointer;transition:transform .16s ease,box-shadow .16s ease}
+.mu-vault-folder:hover{transform:translateY(-2px);box-shadow:0 7px 18px rgba(19,47,58,.12)}
+.mu-vault-folder.active{border-color:#bd9350;box-shadow:0 0 0 2px #dec595;background:#fffaf0}
+.mu-vault-folder-art{display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:8px;font:54px/1 Georgia,serif;color:#c39f64}
+.mu-vault-folder-art small{font:600 11px system-ui,sans-serif;color:#62757e}
+.mu-vault-folder strong{font:600 16px/1.2 Georgia,serif;color:#1f3d53}
+.mu-vault-folder>span:not(.mu-vault-folder-art){font:400 12px/1.4 system-ui,sans-serif;color:#70818b}
+.mu-vault-folder>small{font:400 11px system-ui,sans-serif;color:#9a8260;margin-top:auto}
+.mu-vault-empty{grid-column:1/-1;text-align:center;padding:30px 16px;background:linear-gradient(#fbf8f0,#fffdf7);border:1px dashed #dccaad;border-radius:15px}
+.mu-vault-empty>span{font-size:42px;color:#d2a45c}
+.mu-vault-empty h3{font:500 24px Georgia,serif;margin:5px 0 7px;color:#25485e}
+.mu-vault-empty p{max-width:460px;margin:0 auto;color:#67747d;font-size:13px;line-height:1.6}
+.mu-vault-gallery{margin-top:22px}
+.mu-vault-gallery-heading{align-items:flex-start;margin-bottom:17px;padding-top:20px;border-top:1px solid #eadfc9}
+.mu-vault-gallery-heading h3{font:500 26px Georgia,serif;margin:0 0 6px;color:#1a405a}
+.mu-vault-gallery-heading p{font:400 12px/1.6 system-ui,sans-serif;color:#718089;margin:0}
+.mu-vault-photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.mu-vault-photo{overflow:hidden;background:#fff;border:1px solid #e5ded1;border-radius:15px;box-shadow:0 5px 15px rgba(25,44,57,.04)}
+.mu-vault-photo-open{display:block;width:100%;padding:9px;cursor:zoom-in;border:0;background:#faf6ee}
+.mu-vault-image{display:grid;place-items:center;width:100%;aspect-ratio:4/3;color:#7d8888;font:400 12px system-ui,sans-serif;background:#e7e9e7;border:1px solid #e5dfd3;border-radius:9px;overflow:hidden}
+.mu-vault-image img{width:100%;height:100%;object-fit:cover}
+.mu-vault-photo-info{display:flex;flex-direction:column;gap:5px;padding:10px 11px 7px}
+.mu-vault-photo-info strong{font:600 13px system-ui,sans-serif;color:#25455c;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;max-width:100%}
+.mu-vault-photo-info span{font:400 11px system-ui,sans-serif;color:#6d7780}
+.mu-vault-photo-actions{display:flex;gap:6px;padding:8px 10px 12px}
+.mu-vault-photo-actions button{flex:1;padding:8px 5px;border:1px solid #e6d7bf;background:#fffdf8;border-radius:8px;cursor:pointer;color:#506275;font:600 11px system-ui,sans-serif}
+.mu-vault-photo-actions button:disabled{opacity:.58;cursor:not-allowed}
+.mu-vault-dialog{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:15px}
+.mu-vault-dialog-scrim{position:absolute;inset:0;background:rgba(7,23,36,.78)}
+.mu-vault-dialog-card,.mu-vault-link-card{position:relative;max-height:90vh;overflow:auto;z-index:1;width:min(94vw,720px);border-radius:16px;background:#fffcf5;padding:20px;box-shadow:0 20px 80px rgba(0,0,0,.28)}
+.mu-vault-dialog-card{text-align:center}
+.mu-vault-dialog-card img{max-width:100%;max-height:65vh;object-fit:contain;display:block;margin:0 auto 12px;border-radius:7px}
+.mu-vault-dialog-card h3,.mu-vault-link-card h2{font:500 25px Georgia,serif;color:#1f425b;margin:5px 0 9px}
+.mu-vault-dialog-card p,.mu-vault-link-card p{font:400 13px/1.5 system-ui,sans-serif;color:#637177;margin:8px 0}
+.mu-vault-dialog-x{position:absolute;top:8px;right:9px;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;border:1px solid #d9cbb4;color:#32516a;background:#fff;cursor:pointer;font-size:25px;z-index:2}
+.mu-vault-link-card{width:min(94vw,500px);padding:30px}
+.mu-vault-link-card label{display:block;font:600 13px system-ui,sans-serif;margin:20px 0 8px}
+.mu-vault-link-card select{max-width:none;margin:0 0 18px}
+.mu-vault-shortcut{background:linear-gradient(145deg,#235263,#244d61)!important;color:#f5e6c3!important}
+@media(max-width:700px){
+ .mu-vault-page{padding:8px 14px 115px!important;margin:0!important}
+ .mu-vault-head{padding:28px 21px;margin-top:6px;border-radius:17px}
+ .mu-vault-head h1{font-size:33px}
+ .mu-vault-head-icon{font-size:48px}
+ .mu-vault-privacy{padding:13px}
+ .mu-vault-import,.mu-vault-collection{padding:17px;border-radius:14px}
+ .mu-vault-check{font-size:12px}
+ .mu-vault-check-sub{margin-left:18px}
+ .mu-vault-import-actions button{flex:1}
+ .mu-vault-folder{min-height:162px}
+ .mu-vault-folders{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .mu-vault-photo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .mu-vault-photo-info{padding:8px}
+ .mu-vault-photo-actions{flex-direction:column}
+ .mu-vault-photo-actions button{min-height:32px}
+ .mu-vault-gallery-heading{flex-wrap:wrap}
+ .mu-vault-section-head{align-items:flex-start}
+}
+@media(prefers-reduced-motion:reduce){.mu-vault-page *{transition:none!important}}
