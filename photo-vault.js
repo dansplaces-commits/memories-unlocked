@@ -64,7 +64,7 @@ function makeUi(){
  const addToolbar=()=>{
   const nav=document.querySelector('.mu-toolbar-nav');
   if(nav&&!nav.querySelector('[data-mu-toolbar-view="photoVault"]')){
-   const b=document.createElement('button');b.type='button';b.dataset.muToolbarView='photoVault';b.textContent='Photo Vault';nav.appendChild(b);
+   const b=document.createElement('button');b.type='button';b.dataset.vaultOpen='1';b.textContent='Photo Vault';nav.appendChild(b);
   }
  };
  addToolbar();
