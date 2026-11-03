@@ -31,10 +31,10 @@ alter table public.photo_vault_items enable row level security;
 create policy vault_select_own on public.photo_vault_items for select to authenticated
  using (owner_id = (select auth.uid()) and coalesce((select (auth.jwt()->>'is_anonymous')::boolean),false) is false);
 create policy vault_insert_own on public.photo_vault_items for insert to authenticated
- with check (owner_id = (select auth.uid()) and coalesce((select (auth.jwt()->>'is_anonymous')::boolean),false) is false);
+ with check (owner_id = (select auth.uid()) and coalesce((select (auth.jwt()->>'is_anonymous')::boolean),false) is false and (linked_memory_id is null or exists (select 1 from public.memories m where m.id = linked_memory_id and m.owner_id = (select auth.uid()))));
 create policy vault_update_own on public.photo_vault_items for update to authenticated
  using (owner_id = (select auth.uid()) and coalesce((select (auth.jwt()->>'is_anonymous')::boolean),false) is false)
- with check (owner_id = (select auth.uid()) and coalesce((select (auth.jwt()->>'is_anonymous')::boolean),false) is false);
+ with check (owner_id = (select auth.uid()) and coalesce((select (auth.jwt()->>'is_anonymous')::boolean),false) is false and (linked_memory_id is null or exists (select 1 from public.memories m where m.id = linked_memory_id and m.owner_id = (select auth.uid()))));
 create policy vault_delete_own on public.photo_vault_items for delete to authenticated
  using (owner_id = (select auth.uid()) and coalesce((select (auth.jwt()->>'is_anonymous')::boolean),false) is false);
 grant select,insert,update,delete on public.photo_vault_items to authenticated;
